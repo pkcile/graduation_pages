@@ -1,19 +1,4 @@
-# page-view
-
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 毕业设计
+### 毕业设计周期
+##### 1.提前选题---2021-09-18
+##### 2.正式选题---2021-10-04
