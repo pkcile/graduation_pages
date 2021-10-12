@@ -1,23 +1,23 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-09-29 17:04:56
+ * @LastEditTime: 2021-10-02 09:11:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
 -->
 <template>
-    <div id="home">
+    <div class="home">
         <!-- 头部 -->
         <header id="header" style="box-sizing: border-box; text-align: center;line-height: 50px;background: #F7F7F7;font-weight: 500;font-size: 17px;margin-bottom: 15px;">
           默认标题 
         </header>
         <!-- 内容区域 -->
-        <main id="main">
+        <main class="main">
           <router-view />
         </main>
         <!-- 导航 -->
-        <van-tabbar v-model="active" id="footer">
+        <van-tabbar v-model="active" class="footer">
             <van-tabbar-item badge="3" to="/home/main">
                 <span>自定义</span>
                 <template #icon="props">
@@ -49,17 +49,17 @@ export default {
 
 <style scoped lang="scss">
 
-#home {
+.home {
   width: 100%;
   height: 100%;
 
-  #header {
+  .header {
     height: 50px;
     width: 100%;
     // background: #bfa;
   }
 
-  #main {
+  .main {
     height: calc(100% - 120px);
     width: 100%;
     // background: purple;

@@ -1,15 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-09-27 16:58:40
+ * @LastEditTime: 2021-10-11 11:48:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
  */
 // vue.config.js
 //less文件的路径
-// const path = require('path');
-// const myTheme = path.resolve(__dirname, "./src/assets/less/vantChange.less");
+const path = require('path');
+const myTheme = path.resolve(__dirname, "./src/assets/less/vantChange.less");
 
 // module.exports = {
 //     css: {
@@ -25,6 +25,7 @@
 
 // // vue.config.js
 module.exports = {
+  productionSourceMap: true,     //关闭sourcemap
   css: {
     loaderOptions: {
       less: {

@@ -1,122 +1,169 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-01 20:25:50
+ * @LastEditTime: 2021-10-12 22:49:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
 -->
 
 <template>
-  <div id="main">
+  <div class="home-main">
     <!-- 表单 -->
     <ul class="mine-form-display" style="">
       <li>
-        <span >坐标定位</span>
-        <span >定位精度</span>
+        <span>坐标定位</span>
+        <span>定位精度</span>
       </li>
       <li>
-        <span >坐标定位</span>
-        <span >定位精度</span>
+        <span>坐标定位</span>
+        <span>定位精度</span>
       </li>
       <li>
-        <span >坐标定位</span>
-        <span >定位精度</span>
+        <span>坐标定位</span>
+        <span>定位精度</span>
       </li>
-      <li style="background: #EFEFF3;"><span>备注</span></li>
-      <textarea name="" id="" cols="30" rows="2" placeholder="请详细描述你的问题和意见..."></textarea>
+      <li style="background: #efeff3"><span>备注</span></li>
+      <textarea
+        name=""
+        id=""
+        cols="30"
+        rows="2"
+        placeholder="请详细描述你的问题和意见..."
+      ></textarea>
     </ul>
     <!-- 按钮 -->
-    <div class="mine-button-block" >获取定位</div>
-    <div class="mine-button-block mine-button-red" v-on:click="changeSendPartControl">查看</div>
+    <div class="mine-button-block" v-on:click="getCurrentLocation">
+      获取定位
+    </div>
+    <div
+      class="mine-button-block mine-button-red"
+      v-on:click="changeSendPartControl"
+    >
+      查看
+    </div>
     <!-- 弹窗 -->
-    <div class="send-part" v-bind:class="{ 'send-part-control': sendPart.control}">
+    <div
+      class="send-part"
+      v-bind:class="{ 'send-part-control': sendPart.control }"
+    >
       <div class="send-title">
         标题
         <div class="send-control" v-on:click="changeSendPartControl"></div>
       </div>
       <div class="send-main" id="viewDiv"></div>
-      <div class="send-footer">发送</div>
+      <div class="send-footer" @click="analyseAndSend">发送</div>
     </div>
   </div>
 </template>
 
 <script>
-import Map from "@arcgis/core/Map";
-import MapView from "@arcgis/core/views/MapView"
-import esriConfig from "@arcgis/core/config";
-import SceneView from "@arcgis/core/views/SceneView";
-import "@arcgis/core/assets/esri/themes/dark/main.css";
+import Graphic from "@arcgis/core/Graphic";
 
-// import containerMap from "./layer/containerMap.vue"
+import "@/assets/css/mapEsri.css";
+import initArcGIS from "@/map/arcgis/init.js";
+import GeolocationShow from "@/map/arcgis/GeolocationShow.js";
+import AnalysePosition from "@/map/arcgis/AnalysePosition.js";
+
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+
 
 export default {
   name: "test001",
   data() {
     return {
       sendPart: {
-        control: true
-      }
-    }
+        control: true,
+      },
+      getCurrentLocationData: {
+        control: false,
+        nth: 0,
+        max: 5,
+        locationItem: null,
+      },
+      esriMap: {
+        containerId: "viewDiv",
+        // 地图入口
+        view: null,
+        map: null,
+        defaultConfig: {
+          initPointXY: [116.02685261188525, 28.683314800285213],
+          initZoomLevel: 15,
+        },
+      },
+    };
   },
   mounted() {
-    this.init();
+    const arcgis = new initArcGIS(
+      this.esriMap.containerId,
+      this.esriMap.defaultConfig
+    );
+    this.esriMap.map = arcgis.map;
+    this.esriMap.view = arcgis.view;
   },
   methods: {
-    init() {
-      esriConfig.assetsPath = "./assets";
-      esriConfig.apiKey =
-        "AAPK9f8ffc86d8b94d76970cc3e66114c088IE_II48hxUZk64y07bZp1q4SlfifjhZ1c2qit_pI76j4nLKUYnOvz4ABf999H4D6s";
-
-      const map = new Map({
-        basemap: "hybrid",
-      });
-
-      const view = new MapView({
-        container: "viewDiv",
-        map: map,
-        center: [116.02977984012539, 28.680380674844685],
-		    zoom: 15
-      });
-    },
-    init2() {
-      esriConfig.apiKey =
-        "AAPK9f8ffc86d8b94d76970cc3e66114c088IE_II48hxUZk64y07bZp1q4SlfifjhZ1c2qit_pI76j4nLKUYnOvz4ABf999H4D6s";
-      const map = new Map({
-        basemap: "arcgis-topographic", //Basemap layer service
-        ground: "world-elevation" //Elevation service
-      })
- 
-      const view = new SceneView({
-        container: "viewDiv",
-        map: map,
-        camera: {
-          position: {
-            x: -118.808, //Longitude
-            y: 33.961, //Latitude
-            z: 2000 //Meters
-          },
-          tilt: 75
-        }
-      })
-    },
-    changeSendPartControl () {
+    // 弹窗显示控制
+    changeSendPartControl() {
       this.sendPart.control = !this.sendPart.control;
-      // alert(666);
-    }
-  },
-  components: {
-    // containerMap
-  },
-  computed: {
+    },
+    // 获取当前位置
+    getCurrentLocation() {
+      // 控件配置
+      let { _this, control, nth, max, getCurrentLocationJudge } = {
+        _this: this,
+        control: this.getCurrentLocationData.control,
+        nth: this.getCurrentLocationData.nth,
+        max: this.getCurrentLocationData.max,
+        getCurrentLocationJudge: 0,
+      };
+      const view = this.esriMap.view;
 
-  }
+      // 状态判断
+      if (control == false || (control == true && nth <= max)) {
+        getCurrentLocationJudge = 1;
+      }
+
+      // 进行定位
+      if (getCurrentLocationJudge) {
+        // 修改状态
+        _this.getCurrentLocationData.control = true;
+        _this.getCurrentLocationData.nth++;
+        console.log(view);
+        // 获取定位信息
+        new GeolocationShow(view).then(function (data) {
+          _this.getCurrentLocationData.locationItem = data;
+        });
+      } else {
+        console.log("请稍后再试试");
+      }
+    },
+    // 分析结果、发送数据
+    analyseAndSend() {
+      const view = this.esriMap.view;
+      const map = this.esriMap.map;
+      const locationCoords = this.getCurrentLocationData?.locationItem?.geometry?.coordinates;
+      const queryParamConfig = {
+        bufferDistance: "500",
+        whereParamField: "Name",
+        whereParamValue: "'惟义楼'" 
+      };
+
+      if (1) {
+        new AnalysePosition(map, view, locationCoords, queryParamConfig);
+        // AnalysePosition(map, view, locationCoords, queryParamConfig)();
+     }
+    },
+  },
+  components: {},
+  computed: {},
 };
 </script>
 
-<style scoped lang="scss">
-#main {
-  overflow: hidden;
+<style lang="scss" scoped>
+.home-main {
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
 }
 // 弹出组件样式
 .send-part {
@@ -125,7 +172,7 @@ export default {
   height: calc(100% - 70px);
   left: 0%;
   top: 0%;
-  background: #F1F1F4;
+  background: #f1f1f4;
   z-index: 0;
   .send-title {
     width: 100%;
@@ -155,7 +202,6 @@ export default {
     line-height: 56px;
     box-sizing: border-box;
     text-align: center;
-
   }
 }
 
@@ -167,15 +213,15 @@ export default {
 .mine-form-display {
   background: #fff;
   li {
-    display: flex; 
-    padding: 11px 15px; 
+    display: flex;
+    padding: 11px 15px;
     height: 50px;
-    box-sizing: border-box; 
-    flex-direction: row; 
-    flex-wrap: nowrap; 
-    justify-content: flex-start; 
-    align-items: center; 
-    border-bottom: 1px solid #EFEFF3;
+    box-sizing: border-box;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid #efeff3;
   }
   li > span:nth-child(1) {
     flex: 0 0 100px;
@@ -195,7 +241,7 @@ export default {
   display: inline-block;
   line-height: 40px;
   padding: 8px;
-  background: #017AFF;
+  background: #017aff;
   color: white;
   text-align: center;
   border-radius: 5px;
@@ -207,7 +253,7 @@ export default {
   display: block;
   line-height: 40px;
   padding: 8px;
-  background: #017AFF;
+  background: #017aff;
   color: white;
   text-align: center;
   border-radius: 5px;
@@ -216,6 +262,6 @@ export default {
 }
 
 .mine-button-red {
-  background: #DD524D;
+  background: #dd524d;
 }
 </style>
