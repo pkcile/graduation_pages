@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-10-11 11:48:32
+ * @LastEditTime: 2021-10-13 10:28:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
@@ -11,34 +11,18 @@
 const path = require('path');
 const myTheme = path.resolve(__dirname, "./src/assets/less/vantChange.less");
 
-// module.exports = {
-//     css: {
-//         loaderOptions: {
-//             less: {
-//                 modifyVars: {
-//                     hack: `true; @import "${myTheme}";`
-//                 }
-//             },
-//         }
-//     },
-// }
-
-// // vue.config.js
 module.exports = {
-  productionSourceMap: true,     //关闭sourcemap
+  productionSourceMap: true,     // 打开方便调试
   css: {
     loaderOptions: {
       less: {
-        // 若 less-loader 版本小于 6.0，请移除 lessOptions 这一级，直接配置选项。
-        // lessOptions: {
           modifyVars: {
             // 直接覆盖变量
-            'tabbar-height': '70px',
-            'border-color': '#eee',
+            // 'tabbar-height': '70px',
+            // 'border-color': '#eee',
             // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-            // hack: `true; @import "your-less-file-path.less";`,
-          },
-        // },
+            hack: `true; @import "${myTheme}";`,
+          }
       },
     },
   },
