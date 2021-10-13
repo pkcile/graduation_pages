@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-09-29 16:10:03
+ * @LastEditTime: 2021-10-13 10:38:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\App.vue
@@ -14,7 +14,6 @@
 
 <script>
 import "@/assets/css/reset.css";
-// import '@arcgis/core/assets/esri/themes/dark/main.css'
 
 export default {
   

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-09-29 10:54:17
+ * @LastEditTime: 2021-10-13 10:36:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -41,27 +41,8 @@ const routes = [
       {
         path: 'mine',
         component: vueComponent.about
-      },
-      {
-        path: 'maptest',
-        component: vueComponent.maptest
       }
     ]
-  },
-  {
-    path: '/map',
-    name: 'map',
-    component: vueComponent.map
-  },
-  {
-    path: '/maptest',
-    name: 'maptest',
-    component: vueComponent.maptest
-  },
-  {
-    path: '/maptest2',
-    name: 'maptest2',
-    component: vueComponent.maptest2
   }
 ]
 
