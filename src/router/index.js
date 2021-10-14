@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-13 11:10:54
+ * @LastEditTime: 2021-10-14 19:49:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -15,6 +15,7 @@ const vueComponent = {
   about: () => import('@/views/About.vue'),
   main: () => import('@/components/main/main.vue'),
   mine: () => import('@/components/mine/mine.vue'),
+  social: () => import("@/components/social/social.vue")
   // home: () => import('@')
 };
 
@@ -35,7 +36,7 @@ const routes = [
       },
       {
         path: 'social',
-        component: vueComponent.about
+        component: vueComponent.social
       },
       {
         path: 'mine',
