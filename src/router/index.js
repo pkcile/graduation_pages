@@ -1,22 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-13 10:36:10
+ * @LastEditTime: 2021-10-13 11:10:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
  */
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const vueComponent = {
   about: () => import('@/views/About.vue'),
-  map: () => import('@/views/Map.vue'),
   main: () => import('@/components/main/main.vue'),
-  maptest: () => import('@/components/main/maptest.vue'),
-  maptest2: () => import('@/components/main/maptest2.vue')
+  mine: () => import('@/components/mine/mine.vue'),
+  // home: () => import('@')
 };
 
 const routes = [
@@ -40,15 +39,15 @@ const routes = [
       },
       {
         path: 'mine',
-        component: vueComponent.about
+        component: vueComponent.mine
       }
     ]
   }
-]
+];
 
 const router = new VueRouter({
   routes,
   mode: 'hash'
-})
+});
 
-export default router
+export default router;

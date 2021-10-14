@@ -29,3 +29,5 @@ production__/
 
 yarn.lock
 package-lock.json
+
+/public

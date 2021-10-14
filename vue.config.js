@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-10-13 10:28:50
+ * @LastEditTime: 2021-10-13 17:17:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
@@ -9,7 +9,7 @@
 // vue.config.js
 //less文件的路径
 const path = require('path');
-const myTheme = path.resolve(__dirname, "./src/assets/less/vantChange.less");
+const myTheme = path.resolve(__dirname, "./src/assets/style/reset/vantChange.less");
 
 module.exports = {
   productionSourceMap: true,     // 打开方便调试

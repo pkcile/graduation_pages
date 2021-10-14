@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-13 10:39:39
+ * @LastEditTime: 2021-10-13 18:30:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -58,11 +58,11 @@
 </template>
 
 <script>
-import "@/assets/css/mapEsri.css";
+
 import initArcGIS from "@/map/arcgis/init.js";
 import GeolocationShow from "@/map/arcgis/GeolocationShow.js";
 import AnalysePosition from "@/map/arcgis/AnalysePosition.js";
-
+import "@arcgis/core/assets/esri/themes/dark/main.css";
 
 export default {
   name: "test001",
