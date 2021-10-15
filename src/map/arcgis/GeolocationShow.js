@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 12:00:43
- * @LastEditTime: 2021-10-15 13:47:58
+ * @LastEditTime: 2021-10-15 17:01:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/map/arcgis/GeolocationShow.js
@@ -11,6 +11,7 @@ import Graphic from "@arcgis/core/Graphic";
 function GeolocationShow(view) {
   return new Promise(function(resolve) {
     navigator.geolocation.getCurrentPosition(function(data) {
+      console.log(data);
       // 定义点位geojson格式
       const locationItem = {
         type: "Feature",

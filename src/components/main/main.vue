@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-15 14:50:33
+ * @LastEditTime: 2021-10-16 00:56:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -11,21 +11,25 @@
   <div class="home-main">
     <!-- 表单 -->
     <ul class="mine-form-display" style="">
-      <li>
+      <!-- <li>
         <span>坐标定位</span>
-        <span>112.11E, 12.33N</span>
-      </li>
+        <span>
+          {{ parseFloat(formData.get.locationItem.geometry.coordinates[0]).toFixed(2) }},
+          {{ parseFloat(formData.get.locationItem.geometry.coordinates[1]).toFixed(2) }}
+        </span
+        >
+      </li> -->
       <li>
         <span>开始时间</span>
-        <span>2021-10-15 14:23</span>
+        <span>{{ formData.login.task_starttime }}</span>
       </li>
       <li>
         <span>结束时间</span>
-        <span>2021-10-15 16:23</span>
+        <span>{{ formData.login.task_endtime }}</span>
       </li>
       <li>
         <span>打卡地点</span>
-        <span>1#</span>
+        <span>{{ formData.login.task_placename }}</span>
       </li>
       <li style="background: #efeff3"><span>备注</span></li>
       <textarea
@@ -34,17 +38,13 @@
         cols="30"
         rows="2"
         placeholder="请详细描述你的问题和意见..."
+        v-model="formData.get.comment"
       ></textarea>
     </ul>
     <!-- 按钮 -->
+    <!-- <div class="mine-button-white-whole" v-on:click="changeSendPartControl001"> 查看 </div> -->
     <div class="mine-button-block bottom-fix" v-on:click="getCurrentLocation">
       获取定位
-    </div>
-    <div
-      class="mine-button-block mine-button-red"
-      v-on:click="changeSendPartControl"
-    >
-      查看
     </div>
     <!-- 弹窗 -->
     <div
@@ -68,6 +68,7 @@ import AnalysePosition from "@/map/arcgis/AnalysePosition.js";
 import "@arcgis/core/assets/esri/themes/dark/main.css";
 
 import login from "@/api/login/login.js";
+import "@/assets/style/common/mobile-form.scss"
 
 export default {
   name: "test001",
@@ -76,24 +77,42 @@ export default {
       formData: {
         // 1.登陆获取信息
         login: {
-          role: "学生",
-          name: "王朋坤",
-          username: "pkcile",
-          task_radius: "300",
-          task_starttime: "2021-07-14 11:19:00",
-          task_endtime: "2021-07-09 11:19:00",
-          task_placename: "1#",
+          role: "guest",
+          name: "guest",
+          username: "guest",
+          task_radius: "未获取",
+          task_starttime: "未获取",
+          task_endtime: "未获取",
+          task_placename: "未获取",
           task_id: "40",
         },
         // 2.用户提交信息
         get: {
-          locationItem: null,
-          comment: null
+          locationItem: {
+            type: "Feature",
+            properties: {
+              title: "浏览器定位信息",
+              collect_time: "2021-06-02 15:47",
+              place_name: null,
+              location_accuracy: null,
+              location_timestamp: null,
+              location_status: null,
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [116.317967, 35.116952],
+            },
+          },
+          comment: "",
+          sendDatabase: {
+            user_username: null,
+            task_id: null,
+            comment: null,
+            datenow: "2021-10-15 10:12"
+          }
         },
         // 3.控件控制信息
-        control: {
-          
-        }
+        control: {},
       },
       sendPart: {
         control: true,
@@ -152,11 +171,11 @@ export default {
       if (control == false || (control == true && nth <= max)) {
         getCurrentLocationJudge = 1;
       }
-
+      
       if (getCurrentLocationJudge) {
         _this.getCurrentLocationData.control = true;
         _this.getCurrentLocationData.nth++;
-
+        // console.log(GeolocationShow);
         // 1.获取定位信息
         new GeolocationShow(view).then(function (data) {
           _this.getCurrentLocationData.locationItem = data;
@@ -168,16 +187,29 @@ export default {
             whereParamValue: "'惟义楼'",
           };
 
-          if (1) {
+          if (locationCoords) {
             _this.$toast({
               message: "位置获取成功",
-              position: "bottom",
+              position: "bottom",                                                                                                                                                                                                                                                                                                                     
+              a
             });
             // 2.分析结果、发送数据
-            new AnalysePosition(map, view, locationCoords, queryParamConfig);
+            new AnalysePosition(map, view, locationCoords, queryParamConfig)
+              .then(function(analysePositionResult) {
+                // 3.进入结果页面
+                _this.sendPart.control = !_this.sendPart.control;
+                return analysePositionResult;
+              })
+              .then(function(data) {
+                console.log(data);
+              })
+
+            
+            // 4.分析签到结果：根据时间戳、位置分析结果
           }
         });
-      } else {
+      } 
+      else {
         console.log("请稍后再试试");
       }
     },
@@ -200,7 +232,9 @@ export default {
     },
   },
   components: {},
-  computed: {},
+  computed: {
+    // 控制经纬度的小数点位数
+  },
 };
 </script>
 
@@ -260,59 +294,5 @@ export default {
   display: none;
 }
 
-// 表单样式
-.mine-form-display {
-  background: #fff;
-  li {
-    display: flex;
-    padding: 11px 15px;
-    height: 50px;
-    box-sizing: border-box;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    border-bottom: 1px solid #efeff3;
-  }
-  li > span:nth-child(1) {
-    flex: 0 0 100px;
-  }
-  li > span:nth-child(2) {
-    flex: 2 1 200px;
-  }
-  textarea {
-    border-width: 0;
-    width: 100%;
-    padding: 10px;
-  }
-}
 
-// 按钮样式
-.mine-button-style {
-  display: inline-block;
-  line-height: 40px;
-  padding: 8px;
-  background: #017aff;
-  color: white;
-  text-align: center;
-  border-radius: 5px;
-  width: 100px;
-  margin: 5px auto;
-}
-
-.mine-button-block {
-  display: block;
-  line-height: 40px;
-  padding: 8px;
-  background: #017aff;
-  color: white;
-  text-align: center;
-  border-radius: 5px;
-  width: calc(100% - 25px);
-  margin: 8px auto;
-}
-
-.mine-button-red {
-  background: #dd524d;
-}
 </style>

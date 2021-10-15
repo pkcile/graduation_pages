@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-02 11:38:25
- * @LastEditTime: 2021-10-13 18:06:05
+ * @LastEditTime: 2021-10-15 15:52:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/map/arcgis/init.js
@@ -24,7 +24,8 @@ export default function initArcGIS(containerId, defaultConfig) {
 
   // 地图显示
   const map = new Map({
-    basemap: "hybrid"
+    // basemap: "hybrid",
+    basemap: "gray-vector"
   });
 
   const view = new MapView({
