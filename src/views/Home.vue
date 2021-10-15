@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-02 09:11:31
+ * @LastEditTime: 2021-10-15 13:02:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -39,8 +39,8 @@ export default {
         return {
           active: 0,
           icon: {
-              active: 'https://img01.yzcdn.cn/vant/user-active.png',
-              inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png',
+            active: 'https://img01.yzcdn.cn/vant/user-active.png',
+            inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png',
           },
         };
     },

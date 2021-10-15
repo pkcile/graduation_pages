@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 19:56:41
- * @LastEditTime: 2021-10-14 23:40:01
+ * @LastEditTime: 2021-10-15 10:37:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/api/request.js
@@ -35,7 +35,7 @@ import axios from 'axios'
 const baseURL = '/';
 
 // 创建axios实例
-const ajax = axios.create({
+const request = axios.create({
   baseURL,
   timeout: 50000,
 });
@@ -103,4 +103,4 @@ const ajax = axios.create({
 //     console.log('server', error.message);
 //   }
 // });
-export default ajax;
+export default request;

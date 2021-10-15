@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 12:00:43
- * @LastEditTime: 2021-10-11 16:37:19
+ * @LastEditTime: 2021-10-15 13:47:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/map/arcgis/GeolocationShow.js
@@ -69,7 +69,7 @@ function GeolocationShow(view) {
       view.goTo(
         {
           target: pointGraphic,
-          zoom: 18,
+          zoom: 16,
         },
         {
           duration: 1000,
