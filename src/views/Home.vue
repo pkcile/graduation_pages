@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-15 13:02:16
+ * @LastEditTime: 2021-10-16 14:08:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -19,13 +19,13 @@
         <!-- 导航 -->
         <van-tabbar v-model="active" class="footer">
             <van-tabbar-item badge="3" to="/home/main">
-                <span>自定义</span>
+                <span>签到</span>
                 <template #icon="props">
                 <img :src="props.active ? icon.active : icon.inactive" />
                 </template>
             </van-tabbar-item>
-            <van-tabbar-item icon="search" to="/home/social">标签</van-tabbar-item>
-            <van-tabbar-item icon="setting-o" to="/home/mine">标签</van-tabbar-item>
+            <van-tabbar-item icon="search" to="/home/social">动态</van-tabbar-item>
+            <van-tabbar-item icon="setting-o" to="/home/mine">我的</van-tabbar-item>
             <!-- 
               '/' : 根路由
             -->

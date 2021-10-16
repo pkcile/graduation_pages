@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-16 00:56:01
+ * @LastEditTime: 2021-10-16 14:26:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -68,6 +68,7 @@ import AnalysePosition from "@/map/arcgis/AnalysePosition.js";
 import "@arcgis/core/assets/esri/themes/dark/main.css";
 
 import login from "@/api/login/login.js";
+import submit from "@/api/submit/submit.js";
 import "@/assets/style/common/mobile-form.scss"
 
 export default {
@@ -156,7 +157,7 @@ export default {
     },
     // 获取位置、分析位置
     getCurrentLocation() {
-      // 控件配置
+      // 控件显示配置
       let { _this, control, nth, max, getCurrentLocationJudge } = {
         _this: this,
         control: this.getCurrentLocationData.control,
@@ -167,7 +168,7 @@ export default {
       const view = this.esriMap.view;
       const map = this.esriMap.map;
 
-      // 状态判断
+      // 控件显示状态判断
       if (control == false || (control == true && nth <= max)) {
         getCurrentLocationJudge = 1;
       }
@@ -175,7 +176,6 @@ export default {
       if (getCurrentLocationJudge) {
         _this.getCurrentLocationData.control = true;
         _this.getCurrentLocationData.nth++;
-        // console.log(GeolocationShow);
         // 1.获取定位信息
         new GeolocationShow(view).then(function (data) {
           _this.getCurrentLocationData.locationItem = data;
@@ -188,24 +188,25 @@ export default {
           };
 
           if (locationCoords) {
+            _this.sendPart.control = !_this.sendPart.control;
             _this.$toast({
               message: "位置获取成功",
-              position: "bottom",                                                                                                                                                                                                                                                                                                                     
-              a
+              position: "bottom"                                                                                                                                                                                                                                                                                                               
             });
             // 2.分析结果、发送数据
             new AnalysePosition(map, view, locationCoords, queryParamConfig)
               .then(function(analysePositionResult) {
-                // 3.进入结果页面
-                _this.sendPart.control = !_this.sendPart.control;
                 return analysePositionResult;
               })
               .then(function(data) {
+                // 4.位置签到结果分析
                 console.log(data);
+                // /submit?username=pkcile&task_id=20&comment=评论内容&datenow=2021-07-05 08:42:29&task_status=2
+                // 提交按钮
+                submit().then(function(returnData) {
+                  console.log(returnData);
+                });
               })
-
-            
-            // 4.分析签到结果：根据时间戳、位置分析结果
           }
         });
       } 
