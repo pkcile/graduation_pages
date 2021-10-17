@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 12:00:43
- * @LastEditTime: 2021-10-15 17:01:51
+ * @LastEditTime: 2021-10-17 10:56:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/map/arcgis/GeolocationShow.js
  */
-import Graphic from "@arcgis/core/Graphic";
+// import Graphic from "@arcgis/core/Graphic";
 
 function GeolocationShow(view) {
   return new Promise(function(resolve) {

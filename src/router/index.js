@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-14 19:49:53
+ * @LastEditTime: 2021-10-17 08:29:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -43,6 +43,11 @@ const routes = [
         component: vueComponent.mine
       }
     ]
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: () => import('@/components/map/mapRequire.vue')
   }
 ];
 

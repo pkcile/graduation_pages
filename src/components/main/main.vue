@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-16 14:26:06
+ * @LastEditTime: 2021-10-17 11:19:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -42,7 +42,6 @@
       ></textarea>
     </ul>
     <!-- 按钮 -->
-    <!-- <div class="mine-button-white-whole" v-on:click="changeSendPartControl001"> 查看 </div> -->
     <div class="mine-button-block bottom-fix" v-on:click="getCurrentLocation">
       获取定位
     </div>
@@ -62,14 +61,18 @@
 </template>
 
 <script>
-import initArcGIS from "@/map/arcgis/init.js";
-import GeolocationShow from "@/map/arcgis/GeolocationShow.js";
-import AnalysePosition from "@/map/arcgis/AnalysePosition.js";
-import "@arcgis/core/assets/esri/themes/dark/main.css";
+// import initArcGIS from "@/map/arcgis/init.js";
+// import GeolocationShow from "@/map/arcgis/GeolocationShow.js";
+// import AnalysePosition from "@/map/arcgis/AnalysePosition.js";
+// import "@arcgis/core/assets/esri/themes/dark/main.css";
 
-import login from "@/api/login/login.js";
-import submit from "@/api/submit/submit.js";
-import "@/assets/style/common/mobile-form.scss"
+// import login from "@/api/login/login.js";
+// import submit from "@/api/submit/submit.js";
+
+
+import "@/assets/style/common/mobile-form.scss";
+import { loadModules } from "esri-loader";
+import "@/assets/style/mapEsri.css";
 
 export default {
   name: "test001",
@@ -109,8 +112,8 @@ export default {
             user_username: null,
             task_id: null,
             comment: null,
-            datenow: "2021-10-15 10:12"
-          }
+            datenow: "2021-10-15 10:12",
+          },
         },
         // 3.控件控制信息
         control: {},
@@ -137,99 +140,110 @@ export default {
     };
   },
   mounted() {
-    const arcgis = new initArcGIS(
-      this.esriMap.containerId,
-      this.esriMap.defaultConfig
-    );
-    this.esriMap.map = arcgis.map;
-    this.esriMap.view = arcgis.view;
-
-    // 信息初始化
-    this.$store.dispatch("login", {
-      login,
-      params: { username: "pkcile", password: "1234" },
-    });
+     this.sendPart.control = false;
+      loadModules(["esri/Map", "esri/views/MapView"])
+        .then(([Map, MapView]) => {
+          const map = new Map({
+            basemap: "hybrid"
+          });
+          const view = new MapView({
+            map: map,
+            container: "viewDiv",
+          });
+        })
+        .catch((err) => {
+        console.error(err);
+      });
+    // arcgis js api
+    // const arcgis = new initArcGIS(
+    //   this.esriMap.containerId,
+    //   this.esriMap.defaultConfig
+    // );
+    // this.esriMap.map = arcgis.map;
+    // this.esriMap.view = arcgis.view;
+    // // 信息初始化
+    // this.$store.dispatch("login", {
+    //   login,
+    //   params: { username: "pkcile", password: "1234" },
+    // });
   },
   methods: {
     // 弹窗显示控制
     changeSendPartControl() {
       this.sendPart.control = !this.sendPart.control;
     },
-    // 获取位置、分析位置
+
+    // // 获取位置、分析位置
     getCurrentLocation() {
-      // 控件显示配置
-      let { _this, control, nth, max, getCurrentLocationJudge } = {
-        _this: this,
-        control: this.getCurrentLocationData.control,
-        nth: this.getCurrentLocationData.nth,
-        max: this.getCurrentLocationData.max,
-        getCurrentLocationJudge: 0,
-      };
-      const view = this.esriMap.view;
-      const map = this.esriMap.map;
-
-      // 控件显示状态判断
-      if (control == false || (control == true && nth <= max)) {
-        getCurrentLocationJudge = 1;
-      }
-      
-      if (getCurrentLocationJudge) {
-        _this.getCurrentLocationData.control = true;
-        _this.getCurrentLocationData.nth++;
-        // 1.获取定位信息
-        new GeolocationShow(view).then(function (data) {
-          _this.getCurrentLocationData.locationItem = data;
-          const locationCoords =
-            _this.getCurrentLocationData?.locationItem?.geometry?.coordinates;
-          const queryParamConfig = {
-            bufferDistance: "500",
-            whereParamField: "Name",
-            whereParamValue: "'惟义楼'",
-          };
-
-          if (locationCoords) {
-            _this.sendPart.control = !_this.sendPart.control;
-            _this.$toast({
-              message: "位置获取成功",
-              position: "bottom"                                                                                                                                                                                                                                                                                                               
-            });
-            // 2.分析结果、发送数据
-            new AnalysePosition(map, view, locationCoords, queryParamConfig)
-              .then(function(analysePositionResult) {
-                return analysePositionResult;
-              })
-              .then(function(data) {
-                // 4.位置签到结果分析
-                console.log(data);
-                // /submit?username=pkcile&task_id=20&comment=评论内容&datenow=2021-07-05 08:42:29&task_status=2
-                // 提交按钮
-                submit().then(function(returnData) {
-                  console.log(returnData);
-                });
-              })
-          }
-        });
-      } 
-      else {
-        console.log("请稍后再试试");
-      }
+      //   // 控件显示配置
+      //   let { _this, control, nth, max, getCurrentLocationJudge } = {
+      //     _this: this,
+      //     control: this.getCurrentLocationData.control,
+      //     nth: this.getCurrentLocationData.nth,
+      //     max: this.getCurrentLocationData.max,
+      //     getCurrentLocationJudge: 0,
+      //   };
+      //   const view = this.esriMap.view;
+      //   const map = this.esriMap.map;
+      //   // 控件显示状态判断
+      //   if (control == false || (control == true && nth <= max)) {
+      //     getCurrentLocationJudge = 1;
+      //   }
+      //   if (getCurrentLocationJudge) {
+      //     _this.getCurrentLocationData.control = true;
+      //     _this.getCurrentLocationData.nth++;
+      //     // 1.获取定位信息
+      //     new GeolocationShow(view).then(function (data) {
+      //       _this.getCurrentLocationData.locationItem = data;
+      //       const locationCoords =
+      //         _this.getCurrentLocationData?.locationItem?.geometry?.coordinates;
+      //       const queryParamConfig = {
+      //         bufferDistance: "500",
+      //         whereParamField: "Name",
+      //         whereParamValue: "'惟义楼'",
+      //       };
+      //       if (locationCoords) {
+      //         _this.sendPart.control = !_this.sendPart.control;
+      //         _this.$toast({
+      //           message: "位置获取成功",
+      //           position: "bottom"
+      //         });
+      //         // 2.分析结果、发送数据
+      //         new AnalysePosition(map, view, locationCoords, queryParamConfig)
+      //           .then(function(analysePositionResult) {
+      //             return analysePositionResult;
+      //           })
+      //           .then(function(data) {
+      //             // 4.位置签到结果分析
+      //             console.log(data);
+      //             // /submit?username=pkcile&task_id=20&comment=评论内容&datenow=2021-07-05 08:42:29&task_status=2
+      //             // 提交按钮
+      //             submit().then(function(returnData) {
+      //               console.log(returnData);
+      //             });
+      //           })
+      //       }
+      //     });
+      //   }
+      //   else {
+      //     console.log("请稍后再试试");
+      //   }
     },
-    // 分析结果、发送数据
+    // // 分析结果、发送数据
     analyseAndSend() {
-      const view = this.esriMap.view;
-      const map = this.esriMap.map;
-      const locationCoords =
-        this.getCurrentLocationData?.locationItem?.geometry?.coordinates;
-      const queryParamConfig = {
-        bufferDistance: "500",
-        whereParamField: "Name",
-        whereParamValue: "'惟义楼'",
-      };
-
-      if (1) {
-        new AnalysePosition(map, view, locationCoords, queryParamConfig);
-        // AnalysePosition(map, view, locationCoords, queryParamConfig)();
-      }
+      //   const view = this.esriMap.view;
+      //   const map = this.esriMap.map;
+      //   const locationCoords =
+      //     this.getCurrentLocationData?.locationItem?.geometry?.coordinates;
+      //   const queryParamConfig = {
+      //     bufferDistance: "500",
+      //     whereParamField: "Name",
+      //     whereParamValue: "'惟义楼'",
+      //   };
+      //   if (1) {
+      //     new AnalysePosition(map, view, locationCoords, queryParamConfig);
+      //     // AnalysePosition(map, view, locationCoords, queryParamConfig)();
+      //   }
     },
   },
   components: {},
@@ -280,7 +294,6 @@ export default {
   .send-main {
     width: 100%;
     height: calc(100% - 100px);
-    // background: #bfa;
   }
   .send-footer {
     width: 100%;
@@ -294,6 +307,4 @@ export default {
 .send-part-control {
   display: none;
 }
-
-
 </style>

@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 17:08:29
- * @LastEditTime: 2021-10-15 20:38:25
+ * @LastEditTime: 2021-10-17 10:55:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/map/arcgis/AnalysePosition.js
  */
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import Graphic from "@arcgis/core/Graphic";
+// import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+// import Graphic from "@arcgis/core/Graphic";
 
 function AnalysePosition(map, view, locationCoords, queryParamConfig) {
   return new Promise(function(resolve) {
