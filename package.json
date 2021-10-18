@@ -7,9 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@turf/turf": "^6.5.0",
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
-    "esri-loader": "^3.3.0",
+    "leaflet": "^1.7.1",
     "vant": "^2.12.29",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
