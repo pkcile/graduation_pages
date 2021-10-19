@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-16 14:08:42
+ * @LastEditTime: 2021-10-19 16:26:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -9,7 +9,7 @@
 <template>
     <div class="home">
         <!-- 头部 -->
-        <header id="header" style="box-sizing: border-box; text-align: center;line-height: 50px;background: #F7F7F7;font-weight: 500;font-size: 17px;margin-bottom: 15px;">
+        <header id="header" style="box-sizing: border-box; text-align: center;line-height: 50px;background: #F7F7F7;font-weight: 500;font-size: 17px;">
           默认标题 
         </header>
         <!-- 内容区域 -->

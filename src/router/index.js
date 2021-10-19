@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-18 17:44:24
+ * @LastEditTime: 2021-10-19 20:37:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -12,20 +12,29 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const vueComponent = {
+  home: () => import('@/views/Home.vue'),
   main: () => import('@/components/main/main.vue'),
   mine: () => import('@/components/mine/mine.vue'),
-  social: () => import("@/components/social/social.vue")
+  social: () => import("@/components/social/social.vue"),
+  homeMap: () => import("@/components/main/map.vue"),
+  
+  map: () => import("@/views/Map.vue"),
+  leafletMap: () => import("@/components/map/leafletMap.vue")
 };
 
 const routes = [
   {
     path: '/home',
     name: 'home',
-    component: () => import('@/views/Home.vue'),
+    component: vueComponent.home,
     children: [
       {
         path: 'main',
         component: vueComponent.main
+      },
+      {
+        path: 'map',
+        component: vueComponent.homeMap
       },
       {
         path: 'social',
@@ -34,18 +43,27 @@ const routes = [
       {
         path: 'mine',
         component: vueComponent.mine
+      },
+      {
+        path: "leaflet",
+        component: vueComponent.leafletMap
       }
     ]
   },
   {
     path: '/map',
     name: 'map',
-    component: () => import('@/components/map/mapRequire.vue')
-  },
-  {
-    path: '/turfjs',
-    name: 'turfjs',
-    component: () => import('@/components/map/turfjs.vue')
+    component: vueComponent.map,
+    children: [
+      {
+        path: "leaflet",
+        component: vueComponent.leafletMap
+      },
+      {
+        path: 'main',
+        component: vueComponent.main
+      }
+    ]
   }
 ];
 

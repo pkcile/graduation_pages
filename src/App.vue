@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-13 17:17:57
+ * @LastEditTime: 2021-10-19 20:10:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\App.vue
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import "@/assets/style/reset/reset.css";
 
 export default {
   
