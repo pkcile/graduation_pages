@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 23:19:36
- * @LastEditTime: 2021-10-19 20:38:49
+ * @LastEditTime: 2021-10-19 21:15:41
  * @LastEditors: Please set LastEditors
  e set LastEditors
  * @Description: In User Settings Edit
@@ -40,8 +40,11 @@ export default {
         }
       ).addTo(map);
 
+      const pointArray = [];
       L.DomEvent.on(map, "click", function (ev) {
-        // console.log(ev);
+        
+        pointArray.push([ev.latlng.lng, ev.latlng.lat]);
+        console.log(JSON.stringify(pointArray));
         // L.DomEvent.stopPropagation(ev);
       });
       console.log(L);

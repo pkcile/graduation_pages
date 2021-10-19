@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-10-17 11:10:53
+ * @LastEditTime: 2021-10-19 21:17:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
@@ -11,7 +11,7 @@ const path = require('path');
 const myTheme = path.resolve(__dirname, "./src/assets/style/reset/vantChange.less");
 
 module.exports = {
-  productionSourceMap: false, 
+  productionSourceMap: true, 
   css: {
     loaderOptions: {
       less: {
