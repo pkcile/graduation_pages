@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-19 16:26:46
+ * @LastEditTime: 2021-10-21 21:36:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -44,6 +45,12 @@ export default {
           },
         };
     },
+    mounted() {
+      axios.get("/api/position/login").then((data) => {
+        console.log(data);
+      })
+    }
+    
 }
 </script>
 

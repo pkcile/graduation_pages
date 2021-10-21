@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-21 14:31:40
+ * @LastEditTime: 2021-10-21 23:02:41
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -26,7 +26,7 @@ const state = {
       },
       sendDatabase: {
         task_id: 20,
-        comment: "评论内容",
+        comment: "",
         datenow: "2021-10-15 10:12",
         username: "pkcile",
         task_status: 2

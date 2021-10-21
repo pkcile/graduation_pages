@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-21 20:00:57
+ * @LastEditTime: 2021-10-21 23:03:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -55,6 +55,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.state.Login.get.sendDatabase.comment);
     const _this = this;
     // console.log(this.$store.state.Login.get.locationItem.positionPoint);
     const map = L.map("viewDiv", {

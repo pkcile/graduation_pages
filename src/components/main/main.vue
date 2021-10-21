@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-21 19:42:51
+ * @LastEditTime: 2021-10-21 23:02:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -30,7 +30,7 @@
         cols="30"
         rows="2"
         placeholder="请详细描述你的问题和意见..."
-        v-model="formData.get.comment"
+        v-model="$store.state.Login.get.sendDatabase.comment"
       ></textarea>
     </ul>
     <!-- 按钮 -->
