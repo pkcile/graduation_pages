@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-10-19 21:17:26
+ * @LastEditTime: 2021-10-20 11:43:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
@@ -33,6 +33,7 @@ module.exports = {
             changeOrigin: true,  //是否跨域
         }
         // /api/position/login/username/
+        // '/'
     }
 }
 };

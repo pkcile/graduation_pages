@@ -1,27 +1,42 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-14 23:01:53
+ * @LastEditTime: 2021-10-21 14:31:40
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
  */
 
 const state = {
-  token: sessionStorage.getItem('token') || '',
-  // token: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsIlVzZXJJZCI6IjEiLCJzY29wZSI6WyJhbGwiXSwiVXNlclJlYWxOYW1lIjoi6LaF57qn566h55CG5ZGYIiwiZXhwIjoyNDczMzM3MDk0LCJqdGkiOiJhYjViZjEwZi0wNGI2LTQxOTEtOGM2YS00NDVlZGFjNDZkNjIiLCJjbGllbnRfaWQiOiJ1c2VyLXNlcnZpY2UifQ.Az0IySwZZZ7U-UFx3xvaY3L1GjHPp6Gh0WIqabjNvmuxIsMD0YalpbA3coGhOVdpkD_Bw8xvjBs_eh_g_K4KB3W8EPtMULpSEFEzCsy8s0QLrG4m8006p7u4jXvyeyROqk6PSJvIsWTVHCsHIFjfnQiuj4xYs38UkC3C_rFneUZ1GJ8_Xtdvohak-Cv9qsGS59sgS8YqwDye8w37o0dSsiHdzyOuTF8mtIy_mT2v-5FYDbOIr98-nGSy5cXb2LF31TRjoNHhPlXfjboEv-lqP8dGvsK06SH60F_lquxwlY68fDOZgNJEb41uCZNQbIRr8lDNHUpZcZqX7Le4MxOwgg",
-  refresh_token: sessionStorage.getItem('refreshToken') || '',
-  userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {}, //登录用户基本信息
-  menuTree: JSON.parse(sessionStorage.getItem('menuTree')) || [], //菜单目录树
-  roleList: JSON.parse(sessionStorage.getItem('roleList')) || [], //用户的角色列表
-  title:"",//顶部nav-bar的title
-  tabShow:true,//底部tab的显示
-  glryCurrentDay: '',//日历选取的日期，针对管理人员端
-  glryAllRankTitle: '',//管理人员端， 全部排行榜顶部nav-bar的title
-  glryAllRankType: '',//管理人员端， 全部排行榜类别
+    // 1.登陆获取信息
+    login: {
+      "role": JSON.parse(sessionStorage.getItem('userInfo')) || "学生",
+      "name": "王朋坤",
+      "username": "pkcile",
+      "task_radius": "300",
+      "task_starttime": "2021-07-09 11:19:00",
+      "task_endtime": "2021-07-14 11:19:00",
+      "task_placename": "",
+      "task_id": "40"
+    },
+    // 2.用户提交信息
+    get: {
+      locationItem: {
+        positionPoint: null
+      },
+      sendDatabase: {
+        task_id: 20,
+        comment: "评论内容",
+        datenow: "2021-10-15 10:12",
+        username: "pkcile",
+        task_status: 2
+      },
+    }
 };
 
-const getters = {};
+const getters = {
+  
+};
 
 const mutations = {
   setToken(state, token) {
