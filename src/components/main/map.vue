@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-21 17:01:44
+ * @LastEditTime: 2021-10-21 20:00:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -107,7 +107,7 @@ export default {
       L.geoJSON(positionFilterResult).addTo(map);
     }
     else {
-      axios.get("/school-building.geojson").then(function(initPositionData) {
+      axios.get("./school-building.geojson").then(function(initPositionData) {
         const nameFilterResult = initPositionData.data.features.filter((item, index, array) => (item?.properties?.Name === _this?.formData?.login["task_placename"]) || _this?.formData?.login["task_placename"] == "");
         const positionFilterResult = nameFilterResult.filter((item, index, array) => {
           let result = turf.intersect(item, positionBufferPolygon) ? true : false;
