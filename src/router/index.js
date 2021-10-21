@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-20 18:06:51
+ * @LastEditTime: 2021-10-21 19:45:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -69,6 +69,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  // base:'/dist',
   mode: 'hash'
 });
 
