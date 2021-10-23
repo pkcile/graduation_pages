@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-21 21:36:38
+ * @LastEditTime: 2021-10-23 20:03:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -35,6 +35,7 @@
 
 <script>
 import axios from 'axios';
+console.log(process.env.VUE_APP_POSITION_PATH);
 export default {
     data() {
         return {
@@ -46,7 +47,8 @@ export default {
         };
     },
     mounted() {
-      axios.get("/api/position/login").then((data) => {
+      console.log(process.env);
+      axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/login`).then((data) => {
         console.log(data);
       })
     }
@@ -63,13 +65,11 @@ export default {
   .header {
     height: 50px;
     width: 100%;
-    // background: #bfa;
   }
 
   .main {
     height: calc(100% - 120px);
     width: 100%;
-    // background: purple;
   }
 }
 

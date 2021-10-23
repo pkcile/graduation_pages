@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-21 23:02:41
+ * @LastEditTime: 2021-10-22 16:45:16
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -16,13 +16,14 @@ const state = {
       "task_radius": "300",
       "task_starttime": "2021-07-09 11:19:00",
       "task_endtime": "2021-07-14 11:19:00",
-      "task_placename": "",
-      "task_id": "40"
+      "task_placename": "1#",
+      "task_id": "40",
+      "positionData": false
     },
     // 2.用户提交信息
     get: {
       locationItem: {
-        positionPoint: null
+        positionPoint: {latitude: null, longitude: null}
       },
       sendDatabase: {
         task_id: 20,
