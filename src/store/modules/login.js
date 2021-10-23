@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-22 16:45:16
+ * @LastEditTime: 2021-10-23 23:55:55
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -23,7 +23,7 @@ const state = {
     // 2.用户提交信息
     get: {
       locationItem: {
-        positionPoint: {latitude: null, longitude: null}
+        positionPoint: {latitude: 28.68687471077349, longitude: 116.02624654769897}
       },
       sendDatabase: {
         task_id: 20,

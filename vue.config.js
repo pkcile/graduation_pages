@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-10-23 16:20:44
+ * @LastEditTime: 2021-10-23 23:42:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
@@ -16,7 +16,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 
 module.exports = {
-  productionSourceMap: false,
+  productionSourceMap: true,
   publicPath: "./",
   outputDir: "dist",
   assetsDir: "./static",
@@ -71,8 +71,6 @@ module.exports = {
         "//unpkg.com/@turf/turf"
       ]
     };
-
-    // 如果使用多页面打包，使用vue inspect --plugins查看html是否在结果数组中
     config.plugin("html").tap(args => {
       // html中添加cdn
       args[0].cdn = cdn;
