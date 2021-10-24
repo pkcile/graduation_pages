@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-22 16:19:40
+ * @LastEditTime: 2021-10-24 16:22:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: "home",
@@ -54,6 +55,17 @@ export default {
     //   login,
     //   params: { username: "pkcile", password: "1234" },
     // });
+
+  axios
+    .get("./school-building.geojson")
+    .then(function (initPosition) {
+      window.localStorage.removeItem("initPositionData");
+      window.localStorage.setItem(
+        "initPositionData",
+        JSON.stringify(initPosition?.data)
+      );
+    
+  })
   },
   methods: {
     // 获取位置

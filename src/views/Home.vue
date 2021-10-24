@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-23 20:03:43
+ * @LastEditTime: 2021-10-24 16:20:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -48,9 +48,9 @@ export default {
     },
     mounted() {
       console.log(process.env);
-      axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/login`).then((data) => {
-        console.log(data);
-      })
+      // axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/login`).then((data) => {
+      //   console.log(data);
+      // })
     }
     
 }

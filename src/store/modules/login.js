@@ -1,11 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-23 23:55:55
+ * @LastEditTime: 2021-10-24 11:26:44
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
  */
+import * as turf from "@turf/turf"
 
 const state = {
     // 1.登陆获取信息
@@ -13,9 +14,9 @@ const state = {
       "role": JSON.parse(sessionStorage.getItem('userInfo')) || "学生",
       "name": "王朋坤",
       "username": "pkcile",
-      "task_radius": "300",
+      "task_radius": "1",
       "task_starttime": "2021-07-09 11:19:00",
-      "task_endtime": "2021-07-14 11:19:00",
+      "task_endtime": "2021-11-14 11:19:00",
       "task_placename": "1#",
       "task_id": "40",
       "positionData": false
@@ -36,7 +37,11 @@ const state = {
 };
 
 const getters = {
-  
+  positionPointGeoJSON: state => {
+    return () => {
+     return turf.point([state?.get?.locationItem?.positionPoint?.longitude, state?.get?.locationItem?.positionPoint?.latitude])
+    }
+  }
 };
 
 const mutations = {

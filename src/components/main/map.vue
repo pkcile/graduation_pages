@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-23 23:56:43
+ * @LastEditTime: 2021-10-24 17:03:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -15,7 +15,7 @@
       <div class="send-control" @click="goToHomeMain"></div>
     </div>
     <div class="send-main" id="viewDiv"></div>
-    <div class="send-footer" @click="moveMap">发送</div>
+    <div class="send-footer" @click="getSendData" v-bind:class="{ sendStatus: leaflet.send }">发送</div>
   </div>
 </template>
 
@@ -29,25 +29,107 @@ export default {
     return {
       leaflet: {
         map: null,
+        send: false
       },
     };
   },
   mounted() {
-    // console.log(L);
-    // console.log(turf);
-    // console.log(axios);
-    // console.log(this?.$store?.state?.Login?.login?.task_radius);
     // turf：点、距离、属性条件设置
-    const { task_placename, task_radius, positionPoint } = {
+    const {
+      task_placename,
+      task_radius,
+      task_starttime,
+      task_endtime,
+      positionPoint,
+      _this,
+    } = {
       task_placename: this?.$store?.state?.Login?.login?.task_placename,
       task_radius: this?.$store?.state?.Login?.login?.task_radius,
-      positionPoint:
-        this?.$store?.state?.Login?.get?.locationItem?.positionPoint,
+      task_starttime: this?.$store?.state?.Login?.login?.task_starttime,
+      task_endtime: this?.$store?.state?.Login?.login?.task_endtime,
+      positionPoint: this?.$store?.getters["Login/positionPointGeoJSON"](),
+      _this: this,
     };
 
+    // 1.位置分析
+    new Promise(analysePosition)
+      // 2.时间判断
+      .then(function (data) {
+        return new Promise(function (resolve) {
+          //  -2 -1 0 1 2
+          const dateNow = Date.now();
+          const dateMin = Date.parse(`${task_starttime}`);  // 修改Date.parse方法
+          const dateMax = Date.parse(`${task_endtime}`);
+          // 未打卡标识
+          let dateMark = 0;
+          // 位置标识
+          let positionMark = data?.positionFilterResult?.length;
+
+          if (dateNow < dateMin) {
+            // 提前标识
+            dateMark = 2;
+          } else if (dateNow > dateMax) {
+            // 迟到标识
+            dateMark = -1;
+          } else if (dateNow >= dateMin && dateNow <= dateMax) {
+            // 正常标识
+            dateMark = 1;
+          }
+
+          // 提示
+          if (positionMark) {
+            switch (dateMark) {
+              case -1:
+                _this.$toast({
+                  message: "迟到了",
+                  position: "bottom",
+                });
+                break;
+              case 0:
+                _this.$toast({
+                  message: "未",
+                  position: "bottom",
+                });
+                break;
+              case 1:
+                _this.$toast({
+                  message: "定位成功",
+                  position: "bottom",
+                });
+                break;
+              case 2:
+                _this.$toast({
+                  message: "来早了",
+                  position: "bottom",
+                });
+                break;
+            }
+          } 
+          else {
+            dateMax = -2;
+            _this.$toast({
+              message: "位置偏离",
+              position: "bottom",
+            });
+          }
+
+          // 更新
+          const date = new Date();
+				  const datenow = date.getFullYear() + "-" + (date.getMonth() + 1) + "-"+(date.getDate()) + " "
+						+ (date.getHours() ) + ":" + (date.getMinutes() + 1) + ":" + (date.getSeconds() + 1);   
+          _this.$store.state.Login.get.sendDatabase.datenow = datenow;
+          _this.$store.state.Login.get.sendDatabase.task_status = dateMark;
+          console.log( _this.$store.state.Login.get.sendDatabase);
+          resolve(data);
+        });
+      })
+      // 3.结果展示
+      .then(showMap);
+
+    // 位置分析
     function analysePosition(resolve) {
       const positionBufferPolygon = turf.buffer(
-        turf.point([positionPoint.longitude, positionPoint.latitude]),
+        positionPoint,
         task_radius * 1e-3,
         { units: "kilometers" }
       );
@@ -65,7 +147,7 @@ export default {
             const initPositionData = JSON.parse(
               window.localStorage.getItem("initPositionData")
             );
-            const nameFilterResult = initPositionData.data.features.filter(
+            const nameFilterResult = initPositionData.features.filter(
               (item, index, array) =>
                 item?.properties?.Name === task_placename ||
                 task_placename == ""
@@ -84,7 +166,7 @@ export default {
         const initPositionData = JSON.parse(
           window.localStorage.getItem("initPositionData")
         );
-        const nameFilterResult = initPositionData.data.features.filter(
+        const nameFilterResult = initPositionData.features.filter(
           (item, index, array) =>
             item?.properties?.Name === task_placename || task_placename == ""
         );
@@ -99,64 +181,86 @@ export default {
         resolve({ positionBufferPolygon, positionFilterResult });
       }
     }
-
-    new Promise(analysePosition).then(function(data) {
-      console.log(data);
-    })
-
-
-    // 地图显示
-    const map = L.map("viewDiv", {
-      zoomControl: true,
-      attributionControl: true
-    });
-    this.leaflet.map = map;
-    L.tileLayer(
-      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
+    // 时间判断
+    function analyseTime(resolve) {}
+    // 结果显示
+    function showMap(data) {
+      // 地图显示
+      const map = L.map("viewDiv", {
+        zoomControl: true,
+        attributionControl: true,
+      });
+      _this.leaflet.map = map; // 存在this指向的问题
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
-        attribution: 'Mapbox'
-      }
-    ).addTo(map);
-    map.setView({
-      lat: positionPoint?.geometry?.coordinates[1] || 28.682975759198253,
-      lon: positionPoint?.geometry?.coordinates[0] || 116.026260653,
-    }, 16);
-    // L.geoJSON(positionBufferPolygon).addTo(map);
-    // L.geoJSON(positionPoint).addTo(map);
+        attribution: "Mapbox",
+      }).addTo(map);
+      map.setView(
+        {
+          lat: positionPoint?.geometry?.coordinates[1] || 28.682975759198253,
+          lon: positionPoint?.geometry?.coordinates[0] || 116.026260653,
+        },
+        18
+      );
 
-    // if (
-    //   !positionPoint?.geometry?.coordinates[0] ||
-    //   !positionPoint?.geometry?.coordinates[1]
-    // ) {
-    //   return;
-    // }
+      L.geoJSON(data.positionBufferPolygon).addTo(_this.leaflet.map);
+      L.geoJSON(data.positionFilterResult).addTo(_this.leaflet.map);
 
-    // _this.$toast({
-    //   message: "位置判断成功",
-    //   position: "bottom",
-    // });
+      L.geoJSON(positionPoint).addTo(map);
+    }
 
-    // L.geoJSON(positionFilterResult).addTo(map);
-    // 时间判断、位置判断
   },
   computed: {},
   methods: {
     goToHomeMain() {
       this.$router.push("main");
     },
-    moveMap() {
-      const map = this.leaflet.map;
-      console.log(map);
-      map.setView(L.latLng(28.682975759198253, 116.026260653), 18, {
+    getSendData() {
+      const {
+        positionPoint,
+        _this,
+        map,
+        sendDatabase
+      } = {
+        positionPoint: this?.$store?.state?.Login?.get?.locationItem?.positionPoint,
+        _this: this,
+        map: this.leaflet.map,
+        sendDatabase: this?.$store?.state?.Login?.get?.sendDatabase
+      };
+
+      map.setView(L.latLng(positionPoint.latitude, positionPoint.longitude), 17, {
         duration: 2,
-        // easeLinearity: 1
+      });
+
+      console.log(sendDatabase);
+      // 数据发送
+      axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/submit`, {params: sendDatabase}).then(function(returnData) {
+        console.log(returnData.data.status);
+        if(returnData.data.status === "ok") {
+          _this.$toast({
+            message: "提交成功",
+            position: "bottom",
+          });
+          //  console.log("提交成功");
+        }
+        else if(returnData.data.status === "false"){
+          _this.$toast({
+            message: "提交失败",
+            position: "bottom",
+          });
+        }
+        _this.leaflet.send = true;
       });
     },
+    
   },
 };
 </script>
 
 
 <style lang="scss">
+.sendStatus {
+  background: rgba(0, 0, 255, 0.527);
+  color: white;
+}
 </style>
