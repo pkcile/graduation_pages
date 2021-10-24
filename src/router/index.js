@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-21 19:45:02
+ * @LastEditTime: 2021-10-24 23:05:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -13,13 +13,14 @@ Vue.use(VueRouter);
 
 const vueComponent = {
   home: () => import('@/views/Home.vue'),
+  map: () => import("@/views/Map.vue"),
+  user: () => import("@/views/User.vue"),
   main: () => import('@/components/main/main.vue'),
   mine: () => import('@/components/mine/mine.vue'),
   social: () => import("@/components/social/social.vue"),
   homeMap: () => import("@/components/main/map.vue"),
-  
-  map: () => import("@/views/Map.vue"),
-  leafletMap: () => import("@/components/map/leafletMap.vue")
+  leafletMap: () => import("@/components/map/leafletMap.vue"),
+  login: () => import("@/components/login/login.vue")
 };
 
 const routes = [
@@ -47,6 +48,10 @@ const routes = [
       {
         path: "leaflet",
         component: vueComponent.leafletMap
+      },
+      {
+        path: '/login',
+        component: vueComponent.login
       }
     ]
   },
@@ -62,6 +67,17 @@ const routes = [
       {
         path: 'main',
         component: vueComponent.main
+      }
+    ]
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: vueComponent.user,
+    children: [
+      {
+        path: 'login',
+        component: vueComponent.login
       }
     ]
   }
