@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-24 11:26:44
+ * @LastEditTime: 2021-10-25 18:23:30
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -11,10 +11,10 @@ import * as turf from "@turf/turf"
 const state = {
     // 1.登陆获取信息
     login: {
-      "role": JSON.parse(sessionStorage.getItem('userInfo')) || "学生",
+      "role": "学生",
       "name": "王朋坤",
       "username": "pkcile",
-      "task_radius": "1",
+      "task_radius": "100",
       "task_starttime": "2021-07-09 11:19:00",
       "task_endtime": "2021-11-14 11:19:00",
       "task_placename": "1#",
@@ -45,51 +45,28 @@ const getters = {
 };
 
 const mutations = {
+  
   setToken(state, token) {
       state.token = token;
   },
-  setRefreshToken(state, refreshToken) {
-      state.refresh_token = refreshToken;
-  },
-  setUserInfo(state, userInfo) {
-      state.userInfo = userInfo;
-  },
-  setXzqhTree(state, treeData) {
-      state.xzqhTree = treeData;
-  },
-  
-  //设置用户功能树
-  setUserMenu(state, menuTree) {
-      state.menuTree = menuTree;
-  },
-
-  setRoleList(state, list) {
-      state.roleList = list;
+  loginIn(state, param) {
+    console.log(param)
+    param._this.$toast("兄弟可以啊");
   }
 };
 
 const actions = {
   // 登录保存touken
-  setTokenAct(context, token) {
-      let t = token;
-      sessionStorage.setItem('token', t);
-      context.commit('setToken', t);
-  },
-  setUserInfoAct(context, userInfo) {
+  loginIn(context, userInfo) {
       sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
       context.commit('setUserInfo', userInfo);
   },
   // 退出登录
-  logoutAct(context) {
+  loginOut(context) {
       sessionStorage.clear();
       context.commit('setToken', '');
       context.commit('setRefreshToken', '');
       context.commit('setUserInfo', {});
-  },
-  //用户功能树
-  setUserMenuAct(context, menuTree) {
-      sessionStorage.setItem('menuTree', JSON.stringify(menuTree));
-      context.commit('setUserMenu', menuTree);
   }
 };
 

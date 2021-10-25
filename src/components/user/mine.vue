@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-13 10:51:39
- * @LastEditTime: 2021-10-15 16:17:39
+ * @LastEditTime: 2021-10-25 17:04:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/mine/mine.vue
@@ -35,13 +35,20 @@
       </li>
     </ul>
     <!-- 用户功能设置 -->
-    <div class="mine-button-block mine-button-white">退出登录</div>
+    <div class="mine-button-block mine-button-white" @click="loginOut">退出登录</div>
   </div>
 </template>
 
 <script>
 import "@/assets/style/common/mobile-form.scss"
 export default {
+  methods: {
+    loginOut() {
+      // 1.清除信息
+      // 2.跳转
+      this.$router.push("/user/login");
+    }
+  }
   
 }
 </script>

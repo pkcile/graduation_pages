@@ -1,14 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-24 17:03:10
+ * @LastEditTime: 2021-10-25 16:25:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
 -->
 
 <template>
-  <!-- 弹窗 -->
   <div class="mine-send-part">
     <div class="send-title">
       位置显示

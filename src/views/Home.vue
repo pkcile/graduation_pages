@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-24 16:20:04
+ * @LastEditTime: 2021-10-25 15:27:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -69,6 +69,11 @@ export default {
 
   .main {
     height: calc(100% - 120px);
+    width: 100%;
+  }
+
+  .footer {
+    height: 70px;
     width: 100%;
   }
 }

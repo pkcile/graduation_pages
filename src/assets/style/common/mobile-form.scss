@@ -1,4 +1,4 @@
-// 表单样式-个人信息
+/*  表单样式-个人信息 */
 .mine-form-user-information {
   /* box-sizing: border-box;
   width: 100%; */
@@ -35,12 +35,12 @@
   
   & > div:nth-of-type(2) {
     flex: 0 0 40px;
-    // background: #f00;
+    /* background: #f00; */
     margin: 0 auto;
   }
 }
 
-// 表单样式-信息1
+/* 表单样式-信息1 */
 .mine-form-display {
   background: #fff;
   li {
@@ -68,7 +68,7 @@
   }
 }
 
-// 表单样式-信息2
+/* 表单样式-信息2 */
 .mine-form-display-infor {
   background: #fff;
   margin: 10px 5px;
@@ -84,13 +84,13 @@
     border-bottom: 1px solid #efeff3;
     & > span {
       display: flex;
-      // justify-content: flex-start;
+      /* justify-content: flex-start; */
       align-items: center;
       height: 100%;
     }
     & > span:nth-child(1) {
       flex: 0 0 100px;
-      // background: #bfa;
+      /* background: #bfa; */
     }
     & > span:nth-child(2) {
       flex: 2 0 200px;
@@ -104,7 +104,7 @@
 
 }
 
-// 按钮组件
+/*  按钮组件 */
 .mine-button-style {
   display: inline-block;
   line-height: 40px;
@@ -147,7 +147,7 @@
   padding: 7px;
   text-align: center;
   border-radius: 5px;
-  // width: calc(100% - 25px);
+  /*  width: calc(100% - 25px); */
   width: 100%;
   margin: 5px auto 5px;
   border-top: 1px solid #EFEFF3;
@@ -187,3 +187,43 @@
 // .mine-button-red {
 //   background: #dd524d;
 // }
+
+/* 输入框 */
+.mine-input-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  line-height: 40px;
+  background: #fff;
+  label {
+    flex: 0 0 80px;
+    display: flex;
+    justify-content: center;
+  }
+  input {
+    flex: 1 1 80px;
+    display: flex;
+    /* justify-content: center; */
+  }
+}
+/* 灰线 */
+.mine-input-line {
+  width: 100%;
+  background: #e3e3e5;
+  height: 1px;
+}
+/* 居中链接 */
+.mine-link-center {
+  margin-top: 25px;
+  text-align: center;
+  & > span:nth-of-type(1),  & > span:nth-of-type(3) {
+    margin: 0 13px; color: #007aff
+  }
+  & > span:nth-of-type(2) {
+    font-weight: 100; 
+    color: #c0bbc0
+  }
+}

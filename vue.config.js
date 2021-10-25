@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-10-24 17:58:25
+ * @LastEditTime: 2021-10-25 15:43:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
@@ -16,7 +16,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 
 module.exports = {
-  productionSourceMap: process.env.NODE_ENV == "development" ? true: false,
+  productionSourceMap: process.env.NODE_ENV == "development" ? true: true,
   publicPath: "./",
   outputDir: "dist",
   assetsDir: "./static",
@@ -42,39 +42,39 @@ module.exports = {
       },
     },
   },
-  configureWebpack: config => {
-    config.externals = {
-      vue: "Vue",
-      "vue-router": "VueRouter",
-      vuex: "Vuex",
-      axios: "axios",
-      "@turf/turf": "turf",
-      "leaflet": "L" 
-    };
-  },
-  chainWebpack: (config) => {
-    if (process.env.NODE_ENV === "production") {
-      config
-        .plugin('webpack-bundle-analyzer')
-        .use(BundleAnalyzerPlugin)
-    }
-    const cdn = {
-      css: [
-        "//unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-      ],
-      js: [
-        "//unpkg.com/vue@2.6.10/dist/vue.min.js", 
-        "//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js",
-        "//unpkg.com/vuex@3.1.1/dist/vuex.min.js",
-        "//unpkg.com/axios@0.19.0/dist/axios.min.js",
-        "//unpkg.com/leaflet@1.7.1/dist/leaflet.js",
-        "//unpkg.com/@turf/turf"
-      ]
-    };
-    config.plugin("html").tap(args => {
-      // html中添加cdn
-      args[0].cdn = cdn;
-      return args;
-    });
-  }
+  // configureWebpack: config => {
+    // config.externals = {
+    //   vue: "Vue",
+    //   "vue-router": "VueRouter",
+    //   vuex: "Vuex",
+    //   axios: "axios",
+    //   "@turf/turf": "turf",
+    //   "leaflet": "L" 
+    // };
+  // },
+  // chainWebpack: (config) => {
+    // if (process.env.NODE_ENV === "production") {
+    //   config
+    //     .plugin('webpack-bundle-analyzer')
+    //     .use(BundleAnalyzerPlugin)
+    // }
+    // const cdn = {
+    //   css: [
+    //     "//unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    //   ],
+    //   js: [
+    //     "//unpkg.com/vue@2.6.10/dist/vue.min.js", 
+    //     "//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js",
+    //     "//unpkg.com/vuex@3.1.1/dist/vuex.min.js",
+    //     "//unpkg.com/axios@0.19.0/dist/axios.min.js",
+    //     "//unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+    //     "//unpkg.com/@turf/turf"
+    //   ]
+    // };
+    // config.plugin("html").tap(args => {
+    //   // html中添加cdn
+    //   args[0].cdn = cdn;
+    //   return args;
+    // });
+  // }
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-24 23:05:57
+ * @LastEditTime: 2021-10-25 17:02:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -15,12 +15,12 @@ const vueComponent = {
   home: () => import('@/views/Home.vue'),
   map: () => import("@/views/Map.vue"),
   user: () => import("@/views/User.vue"),
-  main: () => import('@/components/main/main.vue'),
-  mine: () => import('@/components/mine/mine.vue'),
-  social: () => import("@/components/social/social.vue"),
-  homeMap: () => import("@/components/main/map.vue"),
-  leafletMap: () => import("@/components/map/leafletMap.vue"),
-  login: () => import("@/components/login/login.vue")
+  userLogin: () => import("@/components/user/login.vue"),
+  homeUserMine: () => import('@/components/user/mine.vue'),
+  homeSocialMain: () => import("@/components/social/social.vue"),
+  homeMap: () => import("@/components/map/positionAnalyseShow.vue"),
+  homeMain: () => import('@/components/main/main.vue'),
+
 };
 
 const routes = [
@@ -31,7 +31,7 @@ const routes = [
     children: [
       {
         path: 'main',
-        component: vueComponent.main
+        component: vueComponent.homeMain
       },
       {
         path: 'map',
@@ -39,19 +39,11 @@ const routes = [
       },
       {
         path: 'social',
-        component: vueComponent.social
+        component: vueComponent.homeSocialMain
       },
       {
         path: 'mine',
-        component: vueComponent.mine
-      },
-      {
-        path: "leaflet",
-        component: vueComponent.leafletMap
-      },
-      {
-        path: '/login',
-        component: vueComponent.login
+        component: vueComponent.homeUserMine
       }
     ]
   },
@@ -61,12 +53,8 @@ const routes = [
     component: vueComponent.map,
     children: [
       {
-        path: "leaflet",
-        component: vueComponent.leafletMap
-      },
-      {
         path: 'main',
-        component: vueComponent.main
+        // component: vueComponent.main
       }
     ]
   },
@@ -77,7 +65,7 @@ const routes = [
     children: [
       {
         path: 'login',
-        component: vueComponent.login
+        component: vueComponent.userLogin
       }
     ]
   }
@@ -85,7 +73,6 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  // base:'/dist',
   mode: 'hash'
 });
 
