@@ -1,26 +1,27 @@
 <!--
  * @Author: your name
- * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2021-10-25 22:08:06
+ * @Date: 2021-10-25 23:08:53
+ * @LastEditTime: 2021-10-25 23:21:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: /graduation-project-master/src/components/login/login.vue
+ * @FilePath: /graduation-project-master/src/components/user/register.vue
 -->
-
 
 <template>
   <div class="login">
     <!-- 头部 -->
     <van-nav-bar
       class="header"
-      title="登陆页面"
+      title="注册页面"
+      left-arrow
+      @click-left="goBack"
     />
     <!-- 内容区域 -->
     <main class="main">
       <div style="padding-top: 15px">
         <form>
           <div class="mine-input-row">
-            <label>账号</label>
+            <label>昵称</label>
             <input
               type="text"
               placeholder="请输入昵称"
@@ -36,13 +37,17 @@
               v-model="login.password"
             />
           </div>
-          <div class="mine-button-block" style="margin-top: 18px;" @click="loginIn">登陆</div>
+          <div class="mine-input-line"></div>
+          <div class="mine-input-row">
+            <label>学号</label>
+            <input
+              type="text"
+              placeholder="请输入学号"
+              v-model="login.password"
+            />
+          </div>
+          <div class="mine-button-block" style="margin-top: 18px;" @click="userRegister">注册</div>
         </form>
-        <div class="mine-link-center">
-          <span>注册账号</span>
-          <span>|</span>
-          <span>忘记密码</span>
-        </div>
       </div>
     </main>
     <!-- 导航 -->
@@ -62,19 +67,11 @@ export default {
     };
   },
   methods: {
-    loginIn() {
-      const _this = this;
-    
-      if(this.login.username && this.login.password) {
-        _this.$store.dispatch("Login/loginIn", {login: _this.login, Router: _this.$router, Toast: _this.$toast});
-      }
-      else {
-        _this.$toast("请完整输入账户密码信息");
-        // 如果都为空
-        if(!_this.login.username && !_this.login.password) {
-          _this.$toast("你是否尝试匿名登陆");
-        } 
-      }
+    userRegister() {
+
+    },
+    goBack() {
+      this.$router.push("/user/login");
     }
   },
   created() {
@@ -104,4 +101,5 @@ export default {
   }
 }
 </style>
+
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-25 17:02:04
+ * @LastEditTime: 2021-10-25 23:16:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -16,6 +16,7 @@ const vueComponent = {
   map: () => import("@/views/Map.vue"),
   user: () => import("@/views/User.vue"),
   userLogin: () => import("@/components/user/login.vue"),
+  userRegister: () => import("@/components/user/register.vue"),
   homeUserMine: () => import('@/components/user/mine.vue'),
   homeSocialMain: () => import("@/components/social/social.vue"),
   homeMap: () => import("@/components/map/positionAnalyseShow.vue"),
@@ -66,6 +67,10 @@ const routes = [
       {
         path: 'login',
         component: vueComponent.userLogin
+      },
+      {
+        path: 'register',
+        component: vueComponent.userRegister
       }
     ]
   }

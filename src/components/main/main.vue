@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-24 16:22:33
+ * @LastEditTime: 2021-10-25 22:25:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -51,21 +51,17 @@ export default {
   },
   mounted() {
     // // 信息初始化
-    // this.$store.dispatch("login", {
-    //   login,
-    //   params: { username: "pkcile", password: "1234" },
-    // });
 
-  axios
-    .get("./school-building.geojson")
-    .then(function (initPosition) {
-      window.localStorage.removeItem("initPositionData");
-      window.localStorage.setItem(
-        "initPositionData",
-        JSON.stringify(initPosition?.data)
-      );
-    
-  })
+
+  // axios
+  //   .get("./school-building.geojson")
+  //   .then(function (initPosition) {
+  //     window.localStorage.removeItem("initPositionData");
+  //     window.localStorage.setItem(
+  //       "initPositionData",
+  //       JSON.stringify(initPosition?.data)
+  //     );
+  // })
   },
   methods: {
     // 获取位置
