@@ -1,13 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-26 10:09:47
+ * @LastEditTime: 2021-10-26 18:56:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
  */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '../store/modules/Login'
 
 Vue.use(VueRouter);
 
@@ -71,6 +72,7 @@ const routes = [
     children: [
       {
         path: 'login',
+        name: 'Login',
         component: vueComponent.userLogin
       },
       {
@@ -86,4 +88,11 @@ const router = new VueRouter({
   mode: 'hash'
 });
 
+router.beforeEach((to, from, next) => {
+  console.log(store);
+  if (to.name !== 'Login' && !window.sessionStorage.getItem("loginData")) next({ name: 'Login' })
+  else {
+    next()
+  }
+})
 export default router;

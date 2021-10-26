@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-25 22:50:18
+ * @LastEditTime: 2021-10-26 18:55:09
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -88,7 +88,8 @@ const actions = {
           // 录入数据
           context.commit("loginIn", {loginPerson: loginData.login[0]});
           context.dispatch("loginStorage");
-          Router.push("/home/mine");
+          window.sessionStorage.setItem("loginData", JSON.stringify(loginData.login[0]));
+          // Router.push("/home/mine");
         } else {
           Toast("登陆失败");
         }
