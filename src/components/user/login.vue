@@ -1,20 +1,16 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2021-10-25 22:08:06
+ * @LastEditTime: 2021-10-26 08:08:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/login/login.vue
 -->
 
-
 <template>
   <div class="login">
     <!-- 头部 -->
-    <van-nav-bar
-      class="header"
-      title="登陆页面"
-    />
+    <van-nav-bar class="header" title="登陆页面" />
     <!-- 内容区域 -->
     <main class="main">
       <div style="padding-top: 15px">
@@ -36,12 +32,18 @@
               v-model="login.password"
             />
           </div>
-          <div class="mine-button-block" style="margin-top: 18px;" @click="loginIn">登陆</div>
+          <div
+            class="mine-button-block"
+            style="margin-top: 18px"
+            @click="loginIn"
+          >
+            登陆
+          </div>
         </form>
         <div class="mine-link-center">
-          <span>注册账号</span>
+          <span @click="registerAccount">注册账号</span>
           <span>|</span>
-          <span>忘记密码</span>
+          <span @click="forgetAccount">忘记密码</span>
         </div>
       </div>
     </main>
@@ -51,35 +53,41 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
   data() {
     return {
       login: {
         username: null,
-        password: null
-      }
+        password: null,
+      },
     };
   },
   methods: {
     loginIn() {
       const _this = this;
-    
-      if(this.login.username && this.login.password) {
-        _this.$store.dispatch("Login/loginIn", {login: _this.login, Router: _this.$router, Toast: _this.$toast});
-      }
-      else {
+      if (this.login.username && this.login.password) {
+        _this.$store.dispatch("Login/loginIn", {
+          login: _this.login,
+          Router: _this.$router,
+          Toast: _this.$toast,
+        });
+      } else {
         _this.$toast("请完整输入账户密码信息");
         // 如果都为空
-        if(!_this.login.username && !_this.login.password) {
+        if (!_this.login.username && !_this.login.password) {
           _this.$toast("你是否尝试匿名登陆");
-        } 
+        }
       }
-    }
+    },
+    registerAccount() {
+      this.$router.push("/user/register");
+    },
+    forgetAccount() {
+      this.$toast("不要忘记密码，找不回来了 :)");
+    },
   },
-  created() {
-
-  }
+  created() {},
 };
 </script>
 

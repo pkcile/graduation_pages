@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2021-10-25 23:21:47
+ * @LastEditTime: 2021-10-26 07:56:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue

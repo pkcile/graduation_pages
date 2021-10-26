@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-25 23:16:41
+ * @LastEditTime: 2021-10-26 10:09:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -20,7 +20,8 @@ const vueComponent = {
   homeUserMine: () => import('@/components/user/mine.vue'),
   homeSocialMain: () => import("@/components/social/social.vue"),
   homeMap: () => import("@/components/map/positionAnalyseShow.vue"),
-  homeMain: () => import('@/components/main/main.vue'),
+  homeClock: () => import('@/components/main/clock.vue'),
+  homeAdminPublish: () => import("@/components/admin/publishForm.vue")
 
 };
 
@@ -32,7 +33,7 @@ const routes = [
     children: [
       {
         path: 'main',
-        component: vueComponent.homeMain
+        component: vueComponent.homeClock
       },
       {
         path: 'map',
@@ -45,6 +46,10 @@ const routes = [
       {
         path: 'mine',
         component: vueComponent.homeUserMine
+      },
+      {
+        path: 'admin',
+        component: vueComponent.homeAdminPublish
       }
     ]
   },
@@ -55,7 +60,7 @@ const routes = [
     children: [
       {
         path: 'main',
-        // component: vueComponent.main
+        // component: vueComponent.homeClock
       }
     ]
   },
