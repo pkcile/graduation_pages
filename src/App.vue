@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-19 20:10:27
+ * @LastEditTime: 2021-10-26 17:01:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\App.vue
@@ -25,6 +25,7 @@ body, html {
   margin: 0;
   padding: 0;
   background: #EFEFF3;
+  // background: #F7F8FA;
 }
 
 #app {

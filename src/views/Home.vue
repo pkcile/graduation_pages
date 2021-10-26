@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-25 15:27:48
+ * @LastEditTime: 2021-10-26 13:24:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -24,7 +24,7 @@
                 <img :src="props.active ? icon.active : icon.inactive" />
                 </template>
             </van-tabbar-item>
-            <van-tabbar-item icon="search" to="/home/social">动态</van-tabbar-item>
+            <van-tabbar-item icon="search" to="/home/social">更多</van-tabbar-item>
             <van-tabbar-item icon="setting-o" to="/home/mine">我的</van-tabbar-item>
             <!-- 
               '/' : 根路由
