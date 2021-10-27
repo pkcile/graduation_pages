@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-25 16:25:52
+ * @LastEditTime: 2021-10-27 14:12:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -14,7 +14,13 @@
       <div class="send-control" @click="goToHomeMain"></div>
     </div>
     <div class="send-main" id="viewDiv"></div>
-    <div class="send-footer" @click="getSendData" v-bind:class="{ sendStatus: leaflet.send }">发送</div>
+    <div
+      class="send-footer"
+      @click="getSendData"
+      v-bind:class="{ sendStatus: leaflet.send }"
+    >
+      发送
+    </div>
   </div>
 </template>
 
@@ -28,7 +34,7 @@ export default {
     return {
       leaflet: {
         map: null,
-        send: false
+        send: false,
       },
     };
   },
@@ -42,11 +48,11 @@ export default {
       positionPoint,
       _this,
     } = {
-      task_placename: this?.$store?.state?.Login?.login?.task_placename,
-      task_radius: this?.$store?.state?.Login?.login?.task_radius,
-      task_starttime: this?.$store?.state?.Login?.login?.task_starttime,
-      task_endtime: this?.$store?.state?.Login?.login?.task_endtime,
-      positionPoint: this?.$store?.getters["Login/positionPointGeoJSON"](),
+      task_placename: this?.$store?.state?.User?.login?.task_placename,
+      task_radius: this?.$store?.state?.User?.login?.task_radius,
+      task_starttime: this?.$store?.state?.User?.login?.task_starttime,
+      task_endtime: this?.$store?.state?.User?.login?.task_endtime,
+      positionPoint: this?.$store?.getters["User/positionPointGeoJSON"](),
       _this: this,
     };
 
@@ -57,7 +63,7 @@ export default {
         return new Promise(function (resolve) {
           //  -2 -1 0 1 2
           const dateNow = Date.now();
-          const dateMin = Date.parse(`${task_starttime}`);  // 修改Date.parse方法
+          const dateMin = Date.parse(`${task_starttime}`); // 修改Date.parse方法
           const dateMax = Date.parse(`${task_endtime}`);
           // 未打卡标识
           let dateMark = 0;
@@ -103,8 +109,7 @@ export default {
                 });
                 break;
             }
-          } 
-          else {
+          } else {
             dateMax = -2;
             _this.$toast({
               message: "位置偏离",
@@ -114,11 +119,21 @@ export default {
 
           // 更新
           const date = new Date();
-				  const datenow = date.getFullYear() + "-" + (date.getMonth() + 1) + "-"+(date.getDate()) + " "
-						+ (date.getHours() ) + ":" + (date.getMinutes() + 1) + ":" + (date.getSeconds() + 1);   
-          _this.$store.state.Login.get.sendDatabase.datenow = datenow;
-          _this.$store.state.Login.get.sendDatabase.task_status = dateMark;
-          console.log( _this.$store.state.Login.get.sendDatabase);
+          const datenow =
+            date.getFullYear() +
+            "-" +
+            (date.getMonth() + 1) +
+            "-" +
+            date.getDate() +
+            " " +
+            date.getHours() +
+            ":" +
+            (date.getMinutes() + 1) +
+            ":" +
+            (date.getSeconds() + 1);
+          _this.$store.state.User.get.sendDatabase.datenow = datenow;
+          _this.$store.state.User.get.sendDatabase.task_status = dateMark;
+          console.log(_this.$store.state.User.get.sendDatabase);
           resolve(data);
         });
       })
@@ -205,9 +220,24 @@ export default {
       L.geoJSON(data.positionBufferPolygon).addTo(_this.leaflet.map);
       L.geoJSON(data.positionFilterResult).addTo(_this.leaflet.map);
 
-      L.geoJSON(positionPoint).addTo(map);
+      L.geoJSON(positionPoint, {
+        pointToLayer: function (feature, latlng) {
+          const geojsonMarkerOptions = {
+            radius: 8,
+            fillColor: "#ff7800",
+            color: "#fff",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8,
+          };
+          return L.circleMarker(latlng, geojsonMarkerOptions);
+        },
+        onEachFeature: function (feature, layer) {
+          console.log(layer);
+          layer.bindPopup("定位获取的位置").openPopup();
+        },
+      }).addTo(map);
     }
-
   },
   computed: {},
   methods: {
@@ -215,43 +245,45 @@ export default {
       this.$router.push("main");
     },
     getSendData() {
-      const {
-        positionPoint,
-        _this,
-        map,
-        sendDatabase
-      } = {
-        positionPoint: this?.$store?.state?.Login?.get?.locationItem?.positionPoint,
+      const { positionPoint, _this, map, sendDatabase } = {
+        positionPoint:
+          this?.$store?.state?.User?.get?.locationItem?.positionPoint,
         _this: this,
         map: this.leaflet.map,
-        sendDatabase: this?.$store?.state?.Login?.get?.sendDatabase
+        sendDatabase: this?.$store?.state?.User?.get?.sendDatabase,
       };
 
-      map.setView(L.latLng(positionPoint.latitude, positionPoint.longitude), 17, {
-        duration: 2,
-      });
+      map.setView(
+        L.latLng(positionPoint.latitude, positionPoint.longitude),
+        17,
+        {
+          duration: 2,
+        }
+      );
 
       console.log(sendDatabase);
       // 数据发送
-      axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/submit`, {params: sendDatabase}).then(function(returnData) {
-        console.log(returnData.data.status);
-        if(returnData.data.status === "ok") {
-          _this.$toast({
-            message: "提交成功",
-            position: "bottom",
-          });
-          //  console.log("提交成功");
-        }
-        else if(returnData.data.status === "false"){
-          _this.$toast({
-            message: "提交失败",
-            position: "bottom",
-          });
-        }
-        _this.leaflet.send = true;
-      });
+      axios
+        .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/submit`, {
+          params: sendDatabase,
+        })
+        .then(function (returnData) {
+          console.log(returnData.data.status);
+          if (returnData.data.status === "ok") {
+            _this.$toast({
+              message: "提交成功",
+              position: "bottom",
+            });
+            //  console.log("提交成功");
+          } else if (returnData.data.status === "false") {
+            _this.$toast({
+              message: "提交失败",
+              position: "bottom",
+            });
+          }
+          _this.leaflet.send = true;
+        });
     },
-    
   },
 };
 </script>

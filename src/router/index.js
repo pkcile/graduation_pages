@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-27 09:34:07
+ * @LastEditTime: 2021-10-27 10:50:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
  */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from '../store/modules/Login'
+// import store from '../store/modules/User'
 
 Vue.use(VueRouter);
 
@@ -90,7 +90,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to.name);
+  // console.log(to.name);
   if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("loginData")) {
     if(window.sessionStorage.getItem("registerMark") == "1") {
       console.log("register");
@@ -102,7 +102,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   else {
-    console.log("next");
+    // console.log("next");
     next()
   }
 })

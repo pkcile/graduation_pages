@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-13 10:51:39
- * @LastEditTime: 2021-10-25 22:48:08
+ * @LastEditTime: 2021-10-27 11:01:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/mine/mine.vue
@@ -13,7 +13,7 @@
     <div class="mine-form-user-information">
       <img src="@/assets/img/user/1.jpg" alt="" />
       <div class="user-main">
-        <div>{{ $store.state.Login.login.name }}</div>
+        <div>{{ $store.state.User.login.name }}</div>
         <div>{{ "201824803050" }}</div>
       </div>
       <div class="user-jump"></div>

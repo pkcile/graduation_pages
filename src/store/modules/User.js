@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-26 18:55:09
+ * @LastEditTime: 2021-10-27 13:28:06
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -80,6 +80,7 @@ const actions = {
     axios
       .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/login`, {
         params: login,
+        timeout: 1000, 
       })
       .then((returnData) => {
         const loginData = returnData.data;
@@ -89,11 +90,14 @@ const actions = {
           context.commit("loginIn", {loginPerson: loginData.login[0]});
           context.dispatch("loginStorage");
           window.sessionStorage.setItem("loginData", JSON.stringify(loginData.login[0]));
-          // Router.push("/home/mine");
+          Router.push("/home/mine");
         } else {
           Toast("登陆失败");
         }
-      });
+      })
+      .catch(function (error) {
+        Toast("网络问题");
+      })
   },
   // 登陆数据持久化
   loginStorage(context, params) {

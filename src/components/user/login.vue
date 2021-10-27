@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2021-10-27 09:32:28
+ * @LastEditTime: 2021-10-27 10:54:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/login/login.vue
@@ -58,8 +58,8 @@ export default {
   data() {
     return {
       login: {
-        username: null,
-        password: null,
+        username: null || "pkcile",
+        password: null || "1234",
       },
     };
   },
@@ -67,8 +67,8 @@ export default {
     loginIn() {
       const _this = this;
       if (this.login.username && this.login.password) {
-        _this.$store.dispatch("Login/loginIn", {
-          login: _this.login,
+        _this.$store.dispatch("User/loginIn", {
+          login: _this.login ,
           Router: _this.$router,
           Toast: _this.$toast,
         });

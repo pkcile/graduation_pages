@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2021-10-26 07:56:41
+ * @LastEditTime: 2021-10-27 11:05:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue
@@ -30,19 +30,19 @@
           </div>
           <div class="mine-input-line"></div>
           <div class="mine-input-row">
-            <label>密码</label>
-            <input
-              type="text"
-              placeholder="请输入密码"
-              v-model="login.password"
-            />
-          </div>
-          <div class="mine-input-line"></div>
-          <div class="mine-input-row">
             <label>学号</label>
             <input
               type="text"
               placeholder="请输入学号"
+              v-model="login.nth"
+            />
+          </div>
+          <div class="mine-input-line"></div>
+          <div class="mine-input-row">
+            <label>密码</label>
+            <input
+              type="text"
+              placeholder="请输入密码"
               v-model="login.password"
             />
           </div>
@@ -56,19 +56,27 @@
 </template>
 
 <script>
-import axios from "axios"
 export default {
   data() {
     return {
       login: {
         username: null,
-        password: null
+        password: "1234",
+        nth: null
       }
     };
   },
   methods: {
     userRegister() {
-
+      const _this = this;
+      if(this.login.username && this.login.nth) {
+        if(!_this.login.password) {
+          _this.login.password = "1234";
+        }
+      }
+      else {
+        this.$toast("请输入完整昵称和学号");
+      }
     },
     goBack() {
       this.$router.push("/user/login");

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 21:50:35
- * @LastEditTime: 2021-10-25 18:21:57
+ * @LastEditTime: 2021-10-27 10:53:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/store/index.js
@@ -11,7 +11,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-import Login from './modules/Login';
+import User from './modules/User';
 export default new Vuex.Store({
   state: {
     count: 0
@@ -32,6 +32,6 @@ export default new Vuex.Store({
 
   },
   modules: {
-    Login
+    User
   }
 })
