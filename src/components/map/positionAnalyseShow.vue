@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-27 14:12:13
+ * @LastEditTime: 2021-10-27 18:17:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -56,6 +56,12 @@ export default {
       _this: this,
     };
 
+    // 0.提前判断是否获取数据成功
+    if (!(task_radius && task_starttime && task_endtime && positionPoint)) {
+      _this.$toast("无打卡任务无需判断");
+      showMap();
+      return;
+    }
     // 1.位置分析
     new Promise(analysePosition)
       // 2.时间判断
@@ -142,6 +148,7 @@ export default {
 
     // 位置分析
     function analysePosition(resolve) {
+      console.log(positionPoint);
       const positionBufferPolygon = turf.buffer(
         positionPoint,
         task_radius * 1e-3,
@@ -216,27 +223,47 @@ export default {
         },
         18
       );
-
-      L.geoJSON(data.positionBufferPolygon).addTo(_this.leaflet.map);
-      L.geoJSON(data.positionFilterResult).addTo(_this.leaflet.map);
-
-      L.geoJSON(positionPoint, {
-        pointToLayer: function (feature, latlng) {
-          const geojsonMarkerOptions = {
-            radius: 8,
-            fillColor: "#ff7800",
-            color: "#fff",
-            weight: 1,
+      if (
+        data?.positionBufferPolygon &&
+        data?.positionFilterResult &&
+        positionPoint
+      ) {
+        // L.geoJSON(JSON.parse(window.localStorage.getItem("initPositionData"))).addTo(_this.leaflet.map);
+        L.geoJSON(data.positionBufferPolygon, {
+          style: {
+            // "color": "#D55154",
+            color: "#00f",
+            weight: 5,
+            opacity: 0.5,
+            fillColor: "#fff",
+          },
+        }).addTo(_this.leaflet.map);
+        L.geoJSON(data.positionFilterResult, {
+          style: {
+            color: "#f00",
+            weight: 3,
             opacity: 1,
-            fillOpacity: 0.8,
-          };
-          return L.circleMarker(latlng, geojsonMarkerOptions);
-        },
-        onEachFeature: function (feature, layer) {
-          console.log(layer);
-          layer.bindPopup("定位获取的位置").openPopup();
-        },
-      }).addTo(map);
+            fillColor: "#fff",
+          },
+        }).addTo(_this.leaflet.map);
+
+        L.geoJSON(positionPoint, {
+          pointToLayer: function (feature, latlng) {
+            const geojsonMarkerOptions = {
+              radius: 8,
+              fillColor: "#ff7800",
+              color: "#fff",
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 0.8,
+            };
+            return L.circleMarker(latlng, geojsonMarkerOptions);
+          },
+          onEachFeature: function (feature, layer) {
+            layer.bindPopup("定位获取的位置").openPopup();
+          },
+        }).addTo(map);
+      }
     }
   },
   computed: {},
@@ -267,17 +294,25 @@ export default {
         .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/submit`, {
           params: sendDatabase,
         })
+        .catch(
+          function() {
+          _this.$toast({
+              message: "网络出现了点问题",
+              position: "bottom",
+            });
+          }
+        )
         .then(function (returnData) {
           console.log(returnData.data.status);
           if (returnData.data.status === "ok") {
             _this.$toast({
-              message: "提交成功",
+              message: "打卡结果提交成功",
               position: "bottom",
             });
             //  console.log("提交成功");
           } else if (returnData.data.status === "false") {
             _this.$toast({
-              message: "提交失败",
+              message: "请重新获取定位后再提交",
               position: "bottom",
             });
           }

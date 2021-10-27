@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2021-10-27 11:05:17
+ * @LastEditTime: 2021-10-27 16:27:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue
 -->
 
 <template>
-  <div class="login">
+  <div class="register">
     <!-- 头部 -->
     <van-nav-bar
       class="header"
@@ -25,17 +25,13 @@
             <input
               type="text"
               placeholder="请输入昵称"
-              v-model="login.username"
+              v-model="register.username"
             />
           </div>
           <div class="mine-input-line"></div>
           <div class="mine-input-row">
             <label>学号</label>
-            <input
-              type="text"
-              placeholder="请输入学号"
-              v-model="login.nth"
-            />
+            <input type="text" placeholder="请输入学号" v-model="register.nth" />
           </div>
           <div class="mine-input-line"></div>
           <div class="mine-input-row">
@@ -43,10 +39,16 @@
             <input
               type="text"
               placeholder="请输入密码"
-              v-model="login.password"
+              v-model="register.password"
             />
           </div>
-          <div class="mine-button-block" style="margin-top: 18px;" @click="userRegister">注册</div>
+          <div
+            class="mine-button-block"
+            style="margin-top: 18px"
+            @click="userRegister"
+          >
+            注册
+          </div>
         </form>
       </div>
     </main>
@@ -59,37 +61,40 @@
 export default {
   data() {
     return {
-      login: {
+      register: {
         username: null,
         password: "1234",
-        nth: null
-      }
+        nth: null,
+      },
     };
   },
   methods: {
     userRegister() {
       const _this = this;
-      if(this.login.username && this.login.nth) {
-        if(!_this.login.password) {
-          _this.login.password = "1234";
+      if (this.register.username && this.register.nth) {
+        if (!_this.register.password) {
+          _this.register.password = "1234";
         }
-      }
-      else {
+
+        _this.$store.dispatch("User/registerAccount", {
+          register: _this.register,
+          Router: _this.$router,
+          Toast: _this.$toast,
+        });
+      } else {
         this.$toast("请输入完整昵称和学号");
       }
     },
     goBack() {
       this.$router.push("/user/login");
-    }
+    },
   },
-  created() {
-
-  }
+  created() {},
 };
 </script>
 
 <style scoped lang="scss">
-.login {
+.register {
   width: 100%;
   height: 100%;
 
