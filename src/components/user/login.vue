@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2021-10-26 08:08:24
+ * @LastEditTime: 2021-10-27 09:32:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/login/login.vue
@@ -81,6 +81,7 @@ export default {
       }
     },
     registerAccount() {
+      window.sessionStorage.setItem("registerMark", "1");
       this.$router.push("/user/register");
     },
     forgetAccount() {

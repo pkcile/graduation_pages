@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-26 18:56:01
+ * @LastEditTime: 2021-10-27 09:34:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -77,6 +77,7 @@ const routes = [
       },
       {
         path: 'register',
+        name: 'Register',
         component: vueComponent.userRegister
       }
     ]
@@ -89,9 +90,19 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(store);
-  if (to.name !== 'Login' && !window.sessionStorage.getItem("loginData")) next({ name: 'Login' })
+  console.log(to.name);
+  if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("loginData")) {
+    if(window.sessionStorage.getItem("registerMark") == "1") {
+      console.log("register");
+      next({ name: 'Register' });
+    }
+    else {
+      console.log("Login");
+      next({ name: 'Login' });
+    }
+  }
   else {
+    console.log("next");
     next()
   }
 })
