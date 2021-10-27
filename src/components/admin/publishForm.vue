@@ -1,58 +1,96 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-26 09:27:48
- * @LastEditTime: 2021-10-26 18:23:20
+ * @LastEditTime: 2021-10-27 23:00:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/publishForm.vue
 -->
 <template>
-  <ul class="publishForm mine-double-line">
-    <li>
-      <div>定位容错半径</div>
-      <van-slider v-model="value" active-color="#ee0a24" step="10" inactive-color="#8DB6C2">
-        <template #button>
-          <div class="custom-button">{{ value + "米" }}</div>
-        </template>
-      </van-slider>
-    </li>
-    <li>
-      <div>打卡开始时间</div>
-      <div class="mine-single-line-three"  @click="showPopup">
-        <div >时间</div>
-        <div>2021-10-26 09:27:48</div>
-        <div>图标</div>  
+  <div class="publishForm">
+    <ul class="mine-double-line">
+      <!-- 地点选择 -->
+      <li>
+        <div>打卡地点选择</div>
+        <select
+          class="mine-select-custom"
+        >
+          <option value="001">地点选择</option>
+          <option value="002">002</option>
+          <option value="003">003</option>
+        </select>
+      </li>
+      <!-- 开始时间 -->
+      <li>
+        <div>打卡开始时间</div>
+        <div class="mine-single-line-three" @click="showPopup">
+          <div>时间</div>
+          <div>2021-10-26 09:27:48</div>
+          <div>图标</div>
+        </div>
+      </li>
+      <!-- 结束时间 -->
+      <li>
+        <div>打卡结束时间</div>
+        <div class="mine-single-line-three" @click="showPopup">
+          <div>时间</div>
+          <div>2021-10-26 09:27:48</div>
+          <div>图标</div>
+        </div>
+      </li>
+      <!-- 定位半径 -->
+      <li>
+        <div>定位容错半径</div>
+        <van-slider
+          v-model="value"
+          active-color="#ee0a24"
+          step="10"
+          inactive-color="#8DB6C2"
+        >
+          <template #button>
+            <div class="custom-button">{{ value + "米" }}</div>
+          </template>
+        </van-slider>
+      </li>
+
+      <!-- 获取时间控件 -->
+      <van-popup v-model="show" position="bottom" :style="{ height: '30%' }">
+        <van-datetime-picker
+          v-model="currentDate"
+          type="datetime"
+          title="选择完整时间"
+          :min-date="minDate"
+          :max-date="maxDate"
+          swipe-duration="0"
+          :style="{ height: '244px' }"
+          visible-item-count="3"
+          @confirm="test001"
+        />
+      </van-popup>
+    </ul>
+    <div
+      class="mine-button-block"
+      style="position: sticky; bottom: 5px;"
+    >
+      下一步
+    </div>
+    <!-- 弹窗 -->
+    <div
+      class="send-part"
+      v-bind:class="{ 'send-part-control': false }"
+    >
+      <div class="send-title" style="background: #bfa;">
+        标题11123213
+        <div class="send-control"></div>
       </div>
-    </li>
-    <li>
-      <div>打卡结束时间</div>
-      <div class="mine-single-line-three"  @click="showPopup">
-        <div >时间</div>
-        <div>2021-10-26 09:27:48</div>
-        <div>图标</div>  
-      </div>
-    </li>
-    
-   
-    <!-- 获取时间控件 -->
-    <van-popup v-model="show" position="bottom" :style="{ height: '30%' }">
-      <van-datetime-picker
-        v-model="currentDate"
-        type="datetime"
-        title="选择完整时间"
-        :min-date="minDate"
-        :max-date="maxDate"
-        swipe-duration="0"
-        :style="{ height: '244px' }"
-        visible-item-count="3"
-        @confirm="test001"
-      />
-    </van-popup>
-  </ul>
+      <div class="send-main" id="viewDiv"></div>
+      <div class="send-footer" >发送</div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { DatetimePicker, Popup, Slider } from "vant";
+import { DatetimePicker, Popup, Slider, Step, Steps } from "vant";
 
 export default {
   data() {
@@ -81,24 +119,32 @@ export default {
     [DatetimePicker.name]: DatetimePicker,
     [Popup.name]: Popup,
     [Slider.name]: Slider,
+    [Step.name]: Step,
+    [Steps.name]: Steps,
   },
 };
 </script>
 
 <style lang="scss" scoped>
-/* 上下表单 */
-.mine-double-line {
+.publishForm {
   background: #fff;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  // border-bottom: 1px solid #f00;
   overflow-y: auto;
+  position: relative;
+}
+
+/* 上下表单 */
+.mine-double-line {
+  padding: 20px;
+  // border-bottom: 1px solid #f00;
   & > li {
     margin: 10px 0;
     padding: 0 0;
-    border-bottom: 1px solid #EFEFF3;
+    border-bottom: 1px solid #efeff3;
   }
+
   & > li > div:nth-of-type(1) {
     margin: 10px 0 15px 0;
     // color: #111;
@@ -107,16 +153,17 @@ export default {
 
   & > li > :not(div:nth-of-type(1)) {
     // margin: 0 0 15px 0;
-     margin-bottom: 15px;
+    margin-bottom: 15px;
   }
 }
 
+/* 单行三个元素 */
 .mine-single-line-three {
   display: flex;
-  flex-direction: row; 
-  flex-wrap: nowrap; 
-  justify-content: left; 
-  align-items: center; 
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: left;
+  align-items: center;
   // background: #f5f5fa;
   // background: #f5f5f5;
   // border: rgba(128, 0, 128, 0.164) 1px solid;
@@ -124,21 +171,31 @@ export default {
   padding: 10px 8px;
   border-radius: 5px;
   & > div:nth-of-type(1) {
-    flex: 0 0 50px;
-    color: #555
+    flex: 0 0 60px;
+    padding-left: 10px;
+    color: #555;
   }
   & > div:nth-of-type(2) {
     flex: 1 1 150px;
-    color: #444;
+    // color: #444;
+    color: #555;
   }
   & > div:nth-of-type(3) {
     flex: 0 0 50px;
+    color: #555;
   }
 }
 
-.publishForm {
-  padding: 20px;
+/* 选择 */
+.mine-select-custom {
+  width: 100%;
+  height: 40px;
+  padding: 5px 0 5px 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  color: #555555;
 }
+
 .custom-button {
   width: 30px;
   color: #fff;
@@ -147,5 +204,49 @@ export default {
   text-align: center;
   background-color: #ee0a24;
   border-radius: 100px;
+}
+
+// 弹出组件样式
+.send-part {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 70px);
+  left: 0%;
+  top: 0%;
+  background: #f1f1f4;
+  z-index: 0;
+  .send-title {
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    position: relative;
+    .send-control {
+      position: absolute;
+      right: 0;
+      top: -100px;
+      width: 50px;
+      height: 100%;
+      background: #bfa;
+    }
+  }
+  .send-main {
+    width: 100%;
+    height: calc(100% - 100px);
+    // background: #bfa;
+  }
+  .send-footer {
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
+
+.send-part-control {
+  display: none;
 }
 </style>

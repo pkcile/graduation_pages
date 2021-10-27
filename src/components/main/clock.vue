@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-27 11:00:43
+ * @LastEditTime: 2021-10-27 22:15:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -34,7 +34,7 @@
       ></textarea>
     </ul>
     <!-- 按钮 -->
-    <div class="mine-button-block bottom-fix" v-on:click="getCurrentLocation">
+    <div class="mine-button-block bottom-fix" v-on:click="getCurrentLocation" style="margin-top: 20px;">
       获取定位
     </div>
   </div>
