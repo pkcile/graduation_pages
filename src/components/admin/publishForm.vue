@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-26 09:27:48
- * @LastEditTime: 2021-10-27 23:00:42
+ * @LastEditTime: 2021-10-28 11:00:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/publishForm.vue
@@ -12,9 +12,7 @@
       <!-- 地点选择 -->
       <li>
         <div>打卡地点选择</div>
-        <select
-          class="mine-select-custom"
-        >
+        <select class="mine-select-custom">
           <option value="001">地点选择</option>
           <option value="002">002</option>
           <option value="003">003</option>
@@ -44,7 +42,7 @@
         <van-slider
           v-model="value"
           active-color="#ee0a24"
-          step="10"
+          step="20"
           inactive-color="#8DB6C2"
         >
           <template #button>
@@ -68,33 +66,109 @@
         />
       </van-popup>
     </ul>
-    <div
-      class="mine-button-block"
-      style="position: sticky; bottom: 5px;"
-    >
+    <div class="mine-button-block" style="position: sticky; bottom: 5px">
       下一步
     </div>
-    <!-- 弹窗 -->
+    <!-- 人员选择窗口 -->
     <div
-      class="send-part"
+      class="mine-send-part-absolute"
       v-bind:class="{ 'send-part-control': false }"
     >
-      <div class="send-title" style="background: #bfa;">
-        标题11123213
+      <div class="send-title">
+        人员选择窗口
         <div class="send-control"></div>
       </div>
-      <div class="send-main" id="viewDiv"></div>
-      <div class="send-footer" >发送</div>
+      <div class="send-main">
+        <ul class="mine-double-line" style="padding: 15px">
+          <li>
+            <div>批量设置</div>
+            <div>
+              <div>
+                <van-checkbox
+                  v-model="checked"
+                  style="background: #fff; padding: 10px"
+                  >全选学生</van-checkbox
+                >
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>学生选择</div>
+            <div style=" overflow-y: auto;height: 250px;">
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+               <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+              <van-checkbox
+                v-model="checked"
+                style="background: #fff; padding: 10px"
+                >王朋坤</van-checkbox
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="send-footer">确认选择</div>
     </div>
   </div>
 </template>
 
 <script>
-import { DatetimePicker, Popup, Slider, Step, Steps } from "vant";
+import {
+  DatetimePicker,
+  Popup,
+  Slider,
+  Step,
+  Steps,
+  Checkbox,
+  CheckboxGroup,
+} from "vant";
 
 export default {
   data() {
     return {
+      checked: true,
       value: 11,
       show: false,
       minDate: new Date(2020, 0, 1),
@@ -121,6 +195,8 @@ export default {
     [Slider.name]: Slider,
     [Step.name]: Step,
     [Steps.name]: Steps,
+    [Checkbox.name]: Checkbox,
+    [CheckboxGroup.name]: CheckboxGroup,
   },
 };
 </script>
@@ -131,14 +207,11 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  overflow-y: auto;
-  position: relative;
 }
 
 /* 上下表单 */
 .mine-double-line {
   padding: 20px;
-  // border-bottom: 1px solid #f00;
   & > li {
     margin: 10px 0;
     padding: 0 0;
@@ -147,12 +220,10 @@ export default {
 
   & > li > div:nth-of-type(1) {
     margin: 10px 0 15px 0;
-    // color: #111;
     color: #555;
   }
 
   & > li > :not(div:nth-of-type(1)) {
-    // margin: 0 0 15px 0;
     margin-bottom: 15px;
   }
 }
@@ -194,6 +265,7 @@ export default {
   border: 1px solid gray;
   border-radius: 5px;
   color: #555555;
+  background: #fff;
 }
 
 .custom-button {
@@ -206,43 +278,46 @@ export default {
   border-radius: 100px;
 }
 
-// 弹出组件样式
-.send-part {
+/* 弹出组件样式 */
+.mine-send-part-absolute {
   position: absolute;
   width: 100%;
   height: calc(100% - 70px);
   left: 0%;
   top: 0%;
   background: #f1f1f4;
+  // background: #fff;
   z-index: 0;
   .send-title {
     width: 100%;
-    height: 44px;
-    line-height: 44px;
+    height: 50px;
+    line-height: 50px;
     text-align: center;
     font-weight: 500;
     font-size: 17px;
     position: relative;
+    background: #f7f7f7;
     .send-control {
       position: absolute;
-      right: 0;
-      top: -100px;
+      right: 50;
+      top: 0;
       width: 50px;
       height: 100%;
-      background: #bfa;
     }
   }
   .send-main {
     width: 100%;
-    height: calc(100% - 100px);
-    // background: #bfa;
+    height: calc(100% - 126px);
+    overflow-y: auto;
   }
   .send-footer {
-    width: 100%;
     height: 56px;
     line-height: 56px;
-    box-sizing: border-box;
     text-align: center;
+    background: #007aff;
+    color: white;
+    margin: 0 5px;
+    border-radius: 5px;
   }
 }
 

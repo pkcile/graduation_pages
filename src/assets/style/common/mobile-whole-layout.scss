@@ -1,39 +1,40 @@
 // 弹出组件样式
-// .mine-send-part {
-//   width: 100%;
-//   height: 100%;
-//   background: #f1f1f4;
-//   // background-color: #f00;
-//   position: relative;
-//   .send-title {
-//     width: 100%;
-//     height: 50px;
-//     line-height: 50px;
-//     text-align: center;
-//     font-weight: 500;
-//     font-size: 17px;
-//     position: absolute;
-//     top: -50px;
-//     z-index: 1;
-//     background: #f1f1f4;
-//     .send-control {
-//       position: absolute;
-//       width: 50px;
-//       height: 100%;
-//       background: #bfa;
-//       right: 0;
-//       top: 0;
-//     }
-//   }
-//   .send-main {
-//     width: 100%;
-//     height: calc(100% - 56px);
-//   }
-//   .send-footer {
-//     width: 100%;
-//     height: 56px;
-//     line-height: 56px;
-//     box-sizing: border-box;
-//     text-align: center;
-//   }
-// }
+.mine-send-part {
+  // position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #f1f1f4;
+  // background-color: #f00;
+  position: relative;
+  .send-title {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    position: absolute;
+    top: -50px;
+    z-index: 1;
+    background: #f1f1f4;
+    .send-control {
+      position: absolute;
+      width: 50px;
+      height: 100%;
+      background: #bfa;
+      right: 0;
+      top: 0;
+    }
+  }
+  .send-main {
+    width: 100%;
+    height: calc(100% - 56px);
+  }
+  .send-footer {
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
