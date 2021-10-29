@@ -1,4 +1,4 @@
-// 弹出组件样式
+/* 弹出组件样式1 */
 .mine-send-part {
   // position: absolute;
   width: 100%;
@@ -36,5 +36,48 @@
     line-height: 56px;
     box-sizing: border-box;
     text-align: center;
+  }
+}
+
+/* 弹出组件样式2 */
+.mine-send-part-absolute {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 70px);
+  left: 0%;
+  top: 0%;
+  background: #f1f1f4;
+  // background: #fff;
+  z-index: 0;
+  .send-title {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    position: relative;
+    background: #f7f7f7;
+    .send-control {
+      position: absolute;
+      right: 50;
+      top: 0;
+      width: 50px;
+      height: 100%;
+    }
+  }
+  .send-main {
+    width: 100%;
+    height: calc(100% - 126px);
+    overflow-y: auto;
+  }
+  .send-footer {
+    height: 56px;
+    line-height: 56px;
+    text-align: center;
+    background: #007aff;
+    color: white;
+    margin: 0 5px;
+    border-radius: 5px;
   }
 }

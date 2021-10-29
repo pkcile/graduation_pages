@@ -159,34 +159,6 @@
   border-radius: 0;
   font-size: 18px;
 }
-// // 按钮样式
-// .mine-button-style {
-//   display: inline-block;
-//   line-height: 40px;
-//   padding: 8px;
-//   background: #017aff;
-//   color: white;
-//   text-align: center;
-//   border-radius: 5px;
-//   width: 100px;
-//   margin: 5px auto;
-// }
-
-// .mine-button-block {
-//   display: block;
-//   line-height: 40px;
-//   padding: 8px;
-//   background: #017aff;
-//   color: white;
-//   text-align: center;
-//   border-radius: 5px;
-//   width: calc(100% - 25px);
-//   margin: 8px auto;
-// }
-
-// .mine-button-red {
-//   background: #dd524d;
-// }
 
 /* 输入框 */
 .mine-input-row {
@@ -209,12 +181,14 @@
     /* justify-content: center; */
   }
 }
+
 /* 灰线 */
 .mine-input-line {
   width: 100%;
   background: #e3e3e5;
   height: 1px;
 }
+
 /* 居中链接 */
 .mine-link-center {
   margin-top: 25px;
@@ -227,3 +201,60 @@
     color: #c0bbc0
   }
 }
+
+/* 上下表单 */
+.mine-double-line {
+  padding: 20px;
+  & > li {
+    margin: 10px 0;
+    padding: 0 0;
+    border-bottom: 1px solid #efeff3;
+  }
+
+  & > li > div:nth-of-type(1) {
+    margin: 10px 0 15px 0;
+    color: #555;
+  }
+
+  & > li > :not(div:nth-of-type(1)) {
+    margin-bottom: 15px;
+  }
+}
+
+/* 单行三个元素 */
+.mine-single-line-three {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: left;
+  align-items: center;
+  border: gray 1px solid;
+  padding: 10px 8px;
+  border-radius: 5px;
+  & > div:nth-of-type(1) {
+    flex: 0 0 70px;
+    padding-left: 10px;
+    color: #555;
+  }
+  & > div:nth-of-type(2) {
+    flex: 1 1 140px;
+    // color: #444;
+    color: #555;
+  }
+  & > div:nth-of-type(3) {
+    flex: 0 0 50px;
+    color: #555;
+  }
+}
+
+/* 选择 */
+.mine-select-custom {
+  width: 100%;
+  height: 40px;
+  padding: 5px 0 5px 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  color: #555555;
+  background: #fff;
+}
+
