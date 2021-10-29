@@ -1,66 +1,83 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-26 09:27:48
- * @LastEditTime: 2021-10-28 11:00:29
+ * @LastEditTime: 2021-10-29 11:07:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/publishForm.vue
 -->
 <template>
   <div class="publishForm">
+    <!-- 打卡信息设置窗口 -->
     <ul class="mine-double-line">
-      <!-- 地点选择 -->
       <li>
         <div>打卡地点选择</div>
-        <select class="mine-select-custom">
-          <option value="001">地点选择</option>
-          <option value="002">002</option>
-          <option value="003">003</option>
+        <select
+          class="mine-select-custom"
+          v-model="publishTask.param.placename"
+        >
+          <option disabled value="请选择地点">请选择</option>
+          <option
+            v-for="item in publishTask.formData.placename"
+            :key="item.key"
+            value="item.name"
+          >
+            {{ item.name }}
+          </option>
         </select>
       </li>
-      <!-- 开始时间 -->
       <li>
         <div>打卡开始时间</div>
         <div class="mine-single-line-three" @click="showPopup">
           <div>时间</div>
-          <div>2021-10-26 09:27:48</div>
+          <div>{{ publishTask.param.starttime }}</div>
           <div>图标</div>
         </div>
       </li>
-      <!-- 结束时间 -->
       <li>
         <div>打卡结束时间</div>
         <div class="mine-single-line-three" @click="showPopup">
           <div>时间</div>
-          <div>2021-10-26 09:27:48</div>
+          <div>{{ publishTask.param.endtime }}</div>
           <div>图标</div>
         </div>
       </li>
-      <!-- 定位半径 -->
       <li>
         <div>定位容错半径</div>
         <van-slider
-          v-model="value"
+          v-model="publishTask.param.radius"
           active-color="#ee0a24"
           step="20"
           inactive-color="#8DB6C2"
         >
           <template #button>
-            <div class="custom-button">{{ value + "米" }}</div>
+            <div class="custom-button">
+              {{ publishTask.param.radius + "米" }}
+            </div>
           </template>
         </van-slider>
       </li>
-
+      <li>
+        <div>备注</div>
+        <input
+          type="text"
+          style="
+            border: 1px solid gray;
+            padding: 10px;
+            box-sizing: border-box;
+            width: 100%;
+            border-radius: 5px;
+          "
+          placeholder="可填写本次打卡主题"
+        />
+      </li>
       <!-- 获取时间控件 -->
       <van-popup v-model="show" position="bottom" :style="{ height: '30%' }">
         <van-datetime-picker
-          v-model="currentDate"
+          v-model="publishTask.formData.starttime.currentDate"
           type="datetime"
           title="选择完整时间"
-          :min-date="minDate"
-          :max-date="maxDate"
           swipe-duration="0"
-          :style="{ height: '244px' }"
           visible-item-count="3"
           @confirm="test001"
         />
@@ -72,7 +89,8 @@
     <!-- 人员选择窗口 -->
     <div
       class="mine-send-part-absolute"
-      v-bind:class="{ 'send-part-control': false }"
+      v-bind:class="{ 'send-part-control': true }"
+      style="z-index: 2"
     >
       <div class="send-title">
         人员选择窗口
@@ -94,47 +112,7 @@
           </li>
           <li>
             <div>学生选择</div>
-            <div style=" overflow-y: auto;height: 250px;">
-              <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
-              <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
-              <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
-              <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
-              <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
-              <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
-               <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
-              <van-checkbox
-                v-model="checked"
-                style="background: #fff; padding: 10px"
-                >王朋坤</van-checkbox
-              >
+            <div style="overflow-y: auto; height: 250px">
               <van-checkbox
                 v-model="checked"
                 style="background: #fff; padding: 10px"
@@ -151,30 +129,77 @@
       </div>
       <div class="send-footer">确认选择</div>
     </div>
+    <!-- 确认信息发送框 -->
+    <div
+      class="mine-send-part-absolute"
+      v-bind:class="{ 'send-part-control': true }"
+    >
+      <div class="send-title">
+        确认信息窗口
+        <div class="send-control"></div>
+      </div>
+      <div class="send-main">
+        <ul class="mine-double-line" style="padding: 15px">
+          <li>
+            <div>人员确定</div>
+            <div style="color: #555">
+              <div style="background: #fff; padding: 10px; display: flex">
+                <div style="flex: 1 0 100px; padding-left: 10px">王朋坤</div>
+                <div style="flex: 1 0 150px">地理信息科学2班</div>
+              </div>
+              <div style="background: #fff; padding: 10px; display: flex">
+                <div style="flex: 1 0 100px; padding-left: 10px">王朋坤</div>
+                <div style="flex: 1 0 150px">地理信息科学2班</div>
+              </div>
+              <div style="background: #fff; padding: 10px; display: flex">
+                <div style="flex: 1 0 100px; padding-left: 10px">王朋坤</div>
+                <div style="flex: 1 0 150px">地理信息科学2班</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="send-footer">确定</div>
+    </div>
   </div>
 </template>
 
 <script>
-import {
-  DatetimePicker,
-  Popup,
-  Slider,
-  Step,
-  Steps,
-  Checkbox,
-  CheckboxGroup,
-} from "vant";
+import { DatetimePicker, Popup, Slider, Checkbox, CheckboxGroup } from "vant";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      publishTask: {
+        param: {
+          radius: 1,
+          placename: "",
+          user_username: "",
+          starttime: this.convertDate(new Date()),
+          endtime: this.convertDate(new Date()),
+          content: "",
+        },
+        formData: {
+          placename: [],
+          starttime: {
+            showDate: false,
+            currentDate: new Date(),
+          },
+          endtime: {
+            showDate: false,
+          },
+          currentDate: new Date(),
+        },
+      },
       checked: true,
       value: 11,
       show: false,
-      minDate: new Date(2020, 0, 1),
-      maxDate: new Date(2025, 10, 1),
       currentDate: new Date(),
     };
+  },
+  computed: {
+    convertTime() {},
   },
   methods: {
     showPopup() {
@@ -183,20 +208,59 @@ export default {
     confirm() {
       console.log("666");
     },
-    test001(time) {
-      this.show = false; // 获取时间成功提示
-      console.log(time.getDate());
-      console.log(new Date());
+    starttime(time) {
+      // this.show = false; // 获取时间成功提示
+      // console.log(time.getDate());
+      // console.log(new Date());
+      // this.publishTask.param.starttime = this.convertDate(time);
+      // console.log(this.publishTask.param.starttime);
+    },
+    convertDate(Date) {
+      const date = Date;
+      const dateString =
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        date.getDate() +
+        " " +
+        date.getHours() +
+        ":" +
+        (date.getMinutes() + 1) +
+        ":" +
+        (date.getSeconds() + 1);
+
+      return dateString;
+    },
+    test001() {
+      console.log(888);
     },
   },
   components: {
     [DatetimePicker.name]: DatetimePicker,
     [Popup.name]: Popup,
     [Slider.name]: Slider,
-    [Step.name]: Step,
-    [Steps.name]: Steps,
     [Checkbox.name]: Checkbox,
     [CheckboxGroup.name]: CheckboxGroup,
+  },
+  mounted() {
+    // 打卡信息数据初始化
+    const initPositionData = JSON.parse(
+      window.localStorage.getItem("initPositionData")
+    );
+    const initItems = initPositionData.features.filter((item) => {
+      return item.properties.Name && item.properties.Name != " ";
+    });
+    let initItemsName = [];
+    initItems.map((item) => {
+      initItemsName.push({
+        key: item.properties.Name,
+        name: item.properties.Name,
+      });
+    });
+    this.publishTask.formData.placename = initItemsName;
+
+    console.log(this.convertDate(new Date()));
   },
 };
 </script>
@@ -207,6 +271,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 /* 上下表单 */
