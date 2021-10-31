@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:33:06
- * @LastEditTime: 2021-10-29 14:52:00
+ * @LastEditTime: 2021-10-31 11:02:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/personChooseForm.vue
@@ -18,13 +18,15 @@
       <div class="send-control"></div>
     </div>
     <div class="send-main">
-      <ul class="mine-double-line" style="padding: 15px">
+      <ul class="mine-double-line" style="padding: 10px">
         <li>
           <div>批量设置</div>
           <div>
             <div>
-              <!-- v-model="" -->
-              <van-checkbox style="background: #fff; padding: 10px" v-model="checked"
+              <van-checkbox
+                style="background: #fff; padding: 10px"
+                v-model="checked"
+                @click="allSelectChoosed"
                 >全选学生</van-checkbox
               >
             </div>
@@ -34,34 +36,75 @@
           <div>学生选择</div>
           <div style="overflow-y: auto; height: 250px">
             <van-checkbox
-              v-model="checked"
+              v-for="item in studentData"
+              v-bind:key="item.username"
+              v-model="item.checked"
               style="background: #fff; padding: 10px"
-              >王朋坤</van-checkbox
-            >
-            <van-checkbox
-              v-model="checked"
-              style="background: #fff; padding: 10px"
-              >王朋坤</van-checkbox
+              >{{ item.name }}</van-checkbox
             >
           </div>
         </li>
       </ul>
     </div>
-    <div class="send-footer">确认选择</div>
+    <div class="send-footer" @click="forSureStudents">确认选择</div>
   </div>
-</template>
+</template> 
 
 <script>
-import {Checkbox, CheckboxGroup } from "vant";
+import axios from "axios";
+import { Checkbox, CheckboxGroup } from "vant";
 export default {
   data() {
     return {
-      checked: true
-    }
+      checked: false,
+      studentData: [
+        {
+          name: "测试姓名",
+          id: "001",
+          checked: false,
+          username: 'guest'
+        }
+      ],
+    };
+  },
+  methods: {
+    forSureStudents() {
+      this.$emit("open-person-data-send", this.studentData);
+      console.log(this.$parent.form);
+      this.$parent.form.test0012 = 1234;
+      console.log(this.$parent.form);
+      // this.$parent.test001();
+    },
+    allSelectChoosed() {
+      const checked = this.checked;
+      const _this = this;
+      if (checked) {
+        _this.studentData.map((item) => {
+          item.checked = true;
+        });
+      } else {
+        _this.studentData.map((item) => {
+          item.checked = false;
+        });
+      }
+      console.log(_this.studentData);
+    },
   },
   components: {
     [Checkbox.name]: Checkbox,
     [CheckboxGroup.name]: CheckboxGroup,
+  },
+  mounted() {
+    const _this = this;
+    axios
+      .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/queryStudent`)
+      .then(function (returnData) {
+        console.log(returnData.data);
+        returnData.data.queryStudent.map((item) => {
+          _this.studentData.push({name: item.name , username: item.username, checked: false, id: item.username});
+        })
+        
+      });
   },
 };
 </script>

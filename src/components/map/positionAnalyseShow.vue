@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-27 18:17:01
+ * @LastEditTime: 2021-10-31 11:12:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -115,8 +115,9 @@ export default {
                 });
                 break;
             }
-          } else {
-            dateMax = -2;
+          } 
+          else {
+            dateMark = -2;
             _this.$toast({
               message: "位置偏离",
               position: "bottom",
@@ -148,6 +149,7 @@ export default {
 
     // 位置分析
     function analysePosition(resolve) {
+      console.log("位置分析001");
       console.log(positionPoint);
       const positionBufferPolygon = turf.buffer(
         positionPoint,

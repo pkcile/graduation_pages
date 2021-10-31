@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:00:45
- * @LastEditTime: 2021-10-29 14:43:11
+ * @LastEditTime: 2021-10-30 22:56:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/clockInforForm.vue
@@ -10,6 +10,7 @@
 <template>
   <div class="clockInforForm">
     <ul class="mine-double-line">
+      <!-- 地点选择 -->
       <li>
         <div>打卡地点选择</div>
         <select
@@ -20,34 +21,37 @@
           <option
             v-for="item in publishTask.formData.placename"
             :key="item.key"
-            value="item.name"
           >
             {{ item.name }}
           </option>
         </select>
       </li>
+      <!-- 开始时间 -->
       <li>
         <div>打卡开始时间</div>
         <div class="mine-single-line-three" @click="showStartTimePopup">
           <div>时间</div>
           <div>{{ publishTask.param.starttime }}</div>
-          <div>图标</div>
+          <div><van-icon name="clock-o" /></div>
         </div>
       </li>
+      <!-- 结束时间 -->
       <li>
         <div>打卡结束时间</div>
         <div class="mine-single-line-three" @click="showEndTimePopup">
           <div>时间</div>
           <div>{{ publishTask.param.endtime }}</div>
-          <div>图标</div>
+           <div><van-icon name="clock-o" /></div>
         </div>
       </li>
+      <!-- 容错半径 -->
       <li>
         <div>定位容错半径</div>
         <van-slider
+          style="display: none;"
           v-model="publishTask.param.radius"
           active-color="#ee0a24"
-          step="20"
+          step="1"
           inactive-color="#8DB6C2"
         >
           <template #button>
@@ -56,10 +60,16 @@
             </div>
           </template>
         </van-slider>
+        <div class="mine-single-line-three">
+          <div>半径</div>
+          <van-stepper v-model="publishTask.param.radius" style="flex: 1 1 150px; padding-left: 0px; padding-left: 0;" integer min="1" step="20" />
+          <div style="flex: 0 0 50px">米</div>
+        </div>     
       </li>
       <li>
         <div>备注</div>
         <input
+          v-model="publishTask.param.content"
           type="text"
           style="
             border: 1px solid gray;
@@ -99,17 +109,17 @@
           swipe-duration="0"
           visible-item-count="3"
           @confirm="endtimeData"
-        />
+        />    
       </van-popup>
     </ul>
-    <div class="mine-button-block" style="position: sticky; bottom: 5px">
+    <div class="mine-button-block" style="position: sticky; bottom: 0px" @click="clockInforMake">
       下一步
     </div>
   </div>
 </template>
 
 <script>
-import { DatetimePicker, Popup, Slider, Checkbox, CheckboxGroup } from "vant";
+import { DatetimePicker, Popup, Slider, Stepper, Icon} from "vant";
 import axios from "axios";
 
 export default {
@@ -117,9 +127,9 @@ export default {
     return {
       publishTask: {
         param: {
-          radius: 1,
+          radius: 10,
           placename: "",
-          user_username: "",
+          user_username: this?.$store?.state?.User?.login?.username,
           starttime: this.convertDate(new Date()),
           endtime: this.convertDate(new Date()),
           content: "",
@@ -133,7 +143,7 @@ export default {
           endtime: {
             showDate: false,
           },
-          currentDate: new Date(),
+          currentDate: new Date() 
         },
         currentDate: new Date(),
       },
@@ -182,13 +192,31 @@ export default {
       this.publishTask.param.starttime = this.convertDate(time);
       this.publishTask.formData.starttime.showDate = false;
     },
+    clockInforMake() {
+      const _this = this;
+      if(this.publishTask.param.placename != "" && this.publishTask.starttime != "" && this.publishTask.starttime != "") {
+        axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/publishtask`, {params: _this.publishTask.param}) 
+          .then(function(returnData) {
+            _this.$toast("创建的任务号码" + returnData.data.id);
+            _this.$emit("open-person-choose-form", returnData.data.id);
+
+          })
+          .catch(function() {
+            _this.$toast("服务出现问题，或者你的网速过慢");
+            
+          })
+      }
+      else {
+        _this.$toast("请输入完整地点和打卡起始时间");
+      }
+    }
   },
   components: {
     [DatetimePicker.name]: DatetimePicker,
     [Popup.name]: Popup,
     [Slider.name]: Slider,
-    [Checkbox.name]: Checkbox,
-    [CheckboxGroup.name]: CheckboxGroup,
+    [Stepper.name]: Stepper,
+    [Icon.name]: Icon
   },
   mounted() {
     // 打卡信息数据初始化
@@ -207,7 +235,8 @@ export default {
     });
     this.publishTask.formData.placename = initItemsName;
 
-    console.log(this.convertDate(new Date()));
+    // 数据
+    console.log(this.publishTask.param);
   }
 };
 </script>

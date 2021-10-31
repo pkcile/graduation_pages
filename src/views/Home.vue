@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-26 18:29:00
+ * @LastEditTime: 2021-10-31 10:55:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -38,7 +38,7 @@
       <van-tabbar-item icon="setting-o" to="/home/mine">我的</van-tabbar-item>
       <!-- 
               '/' : 根路由
-            -->
+      -->
     </van-tabbar>
   </div>
 </template>
