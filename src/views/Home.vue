@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-31 10:55:39
+ * @LastEditTime: 2021-10-31 16:46:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -29,23 +29,19 @@
     <!-- 导航 -->
     <van-tabbar v-model="active" class="footer">
       <van-tabbar-item badge="3" to="/home/main">
-        <span>签到</span>
+        <span>打卡</span>
         <template #icon="props">
           <img :src="props.active ? icon.active : icon.inactive" />
         </template>
       </van-tabbar-item>
       <van-tabbar-item icon="search" to="/home/social">更多</van-tabbar-item>
       <van-tabbar-item icon="setting-o" to="/home/mine">我的</van-tabbar-item>
-      <!-- 
-              '/' : 根路由
-      -->
     </van-tabbar>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-console.log(process.env.VUE_APP_POSITION_PATH);
+import { Tabbar, TabbarItem } from "vant"
 export default {
   data() {
     return {
@@ -56,12 +52,10 @@ export default {
       },
     };
   },
-  mounted() {
-    console.log(process.env);
-    // axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/login`).then((data) => {
-    //   console.log(data);
-    // })
-  },
+  components: {
+    [Tabbar.name]: Tabbar,
+    [TabbarItem.name]: TabbarItem
+  }
 };
 </script>
 

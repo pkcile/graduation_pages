@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:33:06
- * @LastEditTime: 2021-10-31 11:02:31
+ * @LastEditTime: 2021-10-31 11:36:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/personChooseForm.vue
@@ -60,9 +60,9 @@ export default {
       studentData: [
         {
           name: "测试姓名",
-          id: "001",
           checked: false,
-          username: 'guest'
+          username: 'guest',
+          id: "guest",
         }
       ],
     };

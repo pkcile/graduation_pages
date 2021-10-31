@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-31 11:12:21
+ * @LastEditTime: 2021-10-31 16:48:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -28,6 +28,7 @@
 import * as axios from "axios";
 import * as turf from "@turf/turf";
 import * as L from "leaflet";
+import "leaflet/dist/leaflet.css"
 
 export default {
   data() {

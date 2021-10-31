@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-28 08:56:50
- * @LastEditTime: 2021-10-31 10:55:12
+ * @LastEditTime: 2021-10-31 16:04:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/publishForm.vue
@@ -73,9 +73,9 @@ export default {
   height: 100%;
   box-sizing: border-box;
   overflow-y: auto;
-  .clock-infor-form {
-    width: 100%;
-    height: 100%;
-  }
+  // .clock-infor-form {
+  //   width: 100%;
+  //   height: 100%;
+  // }
 }
 </style>

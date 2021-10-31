@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-27 10:50:58
+ * @LastEditTime: 2021-10-31 15:20:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -27,10 +27,26 @@ const vueComponent = {
 };
 
 const routes = [
+  // 404
+  // {
+  //   path: '*',
+  //   component: vueComponent.userLogin
+  // },
   {
     path: '/home',
     name: 'home',
     component: vueComponent.home,
+    redirect: '/home/mine',
+    beforeEnter: (to, from, next) => {
+      console.log(to, from, next);
+      if(to.fullPath === "/home/" || to.fullPath == "/home") {
+        next("/home/mine");
+      }
+      else {
+        next();
+      }
+    },
+
     children: [
       {
         path: 'main',
@@ -68,6 +84,7 @@ const routes = [
   {
     path: '/user',
     name: 'user',
+    redirect: '/user/login',
     component: vueComponent.user,
     children: [
       {
@@ -90,19 +107,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // console.log(to.name);
   if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("loginData")) {
     if(window.sessionStorage.getItem("registerMark") == "1") {
-      console.log("register");
       next({ name: 'Register' });
     }
     else {
-      console.log("Login");
       next({ name: 'Login' });
     }
   }
   else {
-    // console.log("next");
     next()
   }
 })

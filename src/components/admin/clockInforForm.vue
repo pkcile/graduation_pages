@@ -1,15 +1,19 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:00:45
- * @LastEditTime: 2021-10-30 22:56:24
+ * @LastEditTime: 2021-10-31 16:52:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/clockInforForm.vue
 -->
 
 <template>
-  <div class="clockInforForm">
-    <ul class="mine-double-line">
+  <div class="clockInforForm mine-send-part-absolute">   
+    <div class="send-title">
+      打卡信息设置
+      <div class="send-control"></div>
+    </div>
+    <ul class="mine-double-line send-main" style="box-sizing:border-box;height: calc(100% - 136px);background: #fff;margin-bottom:10px;padding: 10px 20px;">
       <!-- 地点选择 -->
       <li>
         <div>打卡地点选择</div>
@@ -112,7 +116,7 @@
         />    
       </van-popup>
     </ul>
-    <div class="mine-button-block" style="position: sticky; bottom: 0px" @click="clockInforMake">
+    <div class="send-footer"  @click="clockInforMake">
       下一步
     </div>
   </div>

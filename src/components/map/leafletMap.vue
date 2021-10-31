@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 23:19:36
- * @LastEditTime: 2021-10-19 21:15:41
+ * @LastEditTime: 2021-10-31 16:48:01
  * @LastEditors: Please set LastEditors
  e set LastEditors
  * @Description: In User Settings Edit
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-
+import "leaflet/dist/leaflet.css"
 export default {
   data() {
     return {

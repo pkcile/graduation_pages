@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2021-10-27 10:54:19
+ * @LastEditTime: 2021-10-31 16:45:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/login/login.vue
@@ -54,6 +54,7 @@
 
 <script>
 import axios from "axios";
+import { NavBar } from "vant"
 export default {
   data() {
     return {
@@ -89,6 +90,9 @@ export default {
     },
   },
   created() {},
+  components: {
+    [NavBar.name]: NavBar
+  }
 };
 </script>
 

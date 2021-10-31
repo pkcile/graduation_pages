@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-13 10:51:39
- * @LastEditTime: 2021-10-27 21:00:27
+ * @LastEditTime: 2021-10-31 14:33:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/mine/mine.vue
@@ -43,13 +43,10 @@ import "@/assets/style/common/mobile-form.scss"
 export default {
   methods: {
     loginOut() {
-      // 1.清除信息
-      // 2.跳转
       this.$router.push("/user/login");
       window.sessionStorage.clear("loginData");
     }
   }
-  
 }
 </script>
 

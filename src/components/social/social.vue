@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2021-10-30 12:26:09
+ * @LastEditTime: 2021-10-31 15:24:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -9,21 +9,24 @@
 
 <template>
   <div class="home-social">
+    <van-cell title="打卡发布" icon="shop-o" @click="jumpToPublishForm">
+      <template #right-icon>
+        <van-icon name="search" class="search-icon"  style="display:flex;align-items:center;"/>
+      </template>
+    </van-cell>
     <van-cell title="动态显示" icon="shop-o">
       <template #right-icon>
         <van-icon name="search" class="search-icon"  style="display:flex;align-items: center;"/>
       </template>
     </van-cell>
-    <van-cell title="打卡发布" icon="shop-o" @click="jumpToPublishForm">
-      <template #right-icon>
-        <van-icon name="search" class="search-icon"  style="display:flex;align-items: center;"/>
-      </template>
-    </van-cell>
+    <!-- <van-cell title="位置签到" is-link arrow-direction="down" value="内容" /> -->
+    <van-cell title="位置签到" icon="location-o"  />
+    <van-cell title="统计导出" icon="location-o"  />
+    <!-- <van-cell title="位置签到" is-link to="/home/map" /> -->
   </div>
 </template>
 
 <script>
-import login from "@/api/login/login.js";
 import studentTask from "@/api/studentTask.js";
 import axios from "axios"
 import  {Cell, CellGroup, Icon } from "vant"
