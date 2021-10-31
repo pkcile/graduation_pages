@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-31 16:46:45
+ * @LastEditTime: 2021-10-31 22:57:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -42,6 +42,7 @@
 
 <script>
 import { Tabbar, TabbarItem } from "vant"
+import axios from "axios"
 export default {
   data() {
     return {
@@ -55,6 +56,12 @@ export default {
   components: {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem
+  },
+  // watch() {
+  //   console.log();
+  // }
+  mounted() {
+    this.$store.commit("User/updataLloginIn");
   }
 };
 </script>

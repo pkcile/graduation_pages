@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-10-27 22:15:27
+ * @LastEditTime: 2021-10-31 21:13:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -17,11 +17,11 @@
       </li>
       <li>
         <span>结束时间</span>
-        <span>{{  $store.state.User.login.task_endtime }}</span>
+        <span>{{ $store.state.User.login.task_endtime }}</span>
       </li>
       <li>
         <span>打卡地点</span>
-        <span>{{  $store.state.User.login.task_placename }}</span>
+        <span>{{ $store.state.User.login.task_placename }}</span>
       </li>
       <li style="background: #efeff3"><span>备注</span></li>
       <textarea
@@ -34,43 +34,65 @@
       ></textarea>
     </ul>
     <!-- 按钮 -->
-    <div class="mine-button-block bottom-fix" v-on:click="getCurrentLocation" style="margin-top: 20px;">
+    <div
+      class="mine-button-block bottom-fix"
+      v-on:click="getCurrentLocation"
+      style="margin-top: 20px"
+    >
       获取定位
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "home",
   data() {
-    return {
-    };
+    return {};
   },
   mounted() {
-  // // 信息初始化
-  // axios
-  //   .get("./school-building.geojson")
-  //   .then(function (initPosition) {
-  //     window.localStorage.removeItem("initPositionData");
-  //     window.localStorage.setItem(
-  //       "initPositionData",
-  //       JSON.stringify(initPosition?.data)
-  //     );
-  // })
+    // // 信息初始化
+    // axios
+    //   .get("./school-building.geojson")
+    //   .then(function (initPosition) {
+    //     window.localStorage.removeItem("initPositionData");
+    //     window.localStorage.setItem(
+    //       "initPositionData",
+    //       JSON.stringify(initPosition?.data)
+    //     );
+    // })
   },
   methods: {
     // 获取位置
     getCurrentLocation() {
-      this.$store.state.User.get.locationItem.positionPoint = {latitude: 28.68687471077349, longitude: 116.02624654769897};
-      this.$router.push("map");
-    }
-  },
-  components: {
+      const _this = this;
+      const geoOption = {
+        enableHighAccuracy: true,
+        maximumAge        : 30000,
+        timeout           : 27000
+      };
 
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function (data) {
+          _this.$store.state.User.get.locationItem.positionPoint = {
+            latitude: data.coords.latitude,
+            longitude: data.coords.longitude,
+          };
+          _this.$router.push("map");
+        }, geoError, geoOption);
+      }
+      else {
+        alert("不支持定位");
+      }
+
+      function geoError() {
+        alert("定位发生错误，chorme浏览器不支持定位，请更换浏览器");
+      }
+    },
   },
+  components: {},
   computed: {},
 };
 </script>
@@ -86,5 +108,4 @@ export default {
     left: 0;
   }
 }
-
 </style>

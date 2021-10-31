@@ -1,14 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-31 15:20:45
+ * @LastEditTime: 2021-10-31 23:08:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
  */
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-// import store from '../store/modules/User'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 
@@ -38,7 +37,6 @@ const routes = [
     component: vueComponent.home,
     redirect: '/home/mine',
     beforeEnter: (to, from, next) => {
-      console.log(to, from, next);
       if(to.fullPath === "/home/" || to.fullPath == "/home") {
         next("/home/mine");
       }
@@ -77,7 +75,7 @@ const routes = [
     children: [
       {
         path: 'main',
-        // component: vueComponent.homeClock
+        component: vueComponent.homeClock
       }
     ]
   },
