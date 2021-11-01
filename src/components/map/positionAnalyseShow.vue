@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-10-31 16:48:16
+ * @LastEditTime: 2021-11-01 18:30:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -68,10 +68,13 @@ export default {
       // 2.时间判断
       .then(function (data) {
         return new Promise(function (resolve) {
+          console.log(task_starttime);
+          console.log(task_endtime);
           //  -2 -1 0 1 2
           const dateNow = Date.now();
           const dateMin = Date.parse(`${task_starttime}`); // 修改Date.parse方法
           const dateMax = Date.parse(`${task_endtime}`);
+          console.log(dateNow, dateMin, dateMax);
           // 未打卡标识
           let dateMark = 0;
           // 位置标识
@@ -80,7 +83,7 @@ export default {
           if (dateNow < dateMin) {
             // 提前标识
             dateMark = 2;
-          } else if (dateNow > dateMax) {
+          } else if (dateNow >= dateMax && dateNow >= dateMin) {
             // 迟到标识
             dateMark = -1;
           } else if (dateNow >= dateMin && dateNow <= dateMax) {
@@ -99,7 +102,7 @@ export default {
                 break;
               case 0:
                 _this.$toast({
-                  message: "未",
+                  message: "未打卡？？",
                   position: "bottom",
                 });
                 break;

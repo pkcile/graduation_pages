@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-10-31 23:26:41
+ * @LastEditTime: 2021-11-01 09:46:31
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -165,7 +165,6 @@ const actions = {
       Router: userInfo.Router,
       register: userInfo.register,
     };
-
     // http://127.0.0.1:8000/api/position/register?user_username=edqd&user_nth=201824803057&user_password=1234
 
     register = {
