@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-11-02 22:07:37
+ * @LastEditTime: 2021-11-03 09:27:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -84,7 +84,7 @@ export default {
 
       function geoError() {
         navigator.geolocation.getCurrentPosition(function () {
-          _this.$store.state.User.get.locationItem.positionPoint = {
+          _this.$store.state.User.g饿et.locationItem.positionPoint = {
             latitude: data.coords.latitude,
             longitude: data.coords.longitude,
           };
