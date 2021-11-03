@@ -1,13 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-11-01 09:46:31
+ * @LastEditTime: 2021-11-01 21:56:23
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
  */
 import * as turf from "@turf/turf";
 import axios from "axios";
+import { Notify } from 'vant';
 
 const state = {
   // 1.登陆获取信息
@@ -115,7 +116,7 @@ const actions = {
     const { Toast, Router, login } = {
       Toast: userInfo.Toast,
       Router: userInfo.Router,
-      login: userInfo.login,
+      login: userInfo.login
     };
 
     axios
@@ -126,7 +127,7 @@ const actions = {
       .then((returnData) => {
         const loginData = returnData.data;
         if (loginData?.login[0]?.status != "false") {
-          Toast("登陆成功");
+          Notify({ type: 'primary', message: "登陆成功" });
           // 录入数据
           context.commit("loginIn", { loginPerson: loginData.login[0] });
           context.dispatch("loginStorage");
@@ -136,11 +137,12 @@ const actions = {
           );
           Router.push("/home/mine");
         } else {
-          Toast("请输入正确的账户密码");
+          Notify({ type: 'danger', message: "请输入正确的账户密码" });
         }
       })
       .catch(function(error) {
-        Toast("你的网速过慢或服务出现了问题");
+        Notify({ type: 'warning', message: "你的网速过慢或服务出现了问题" });
+
       });
   },
   // 登陆数据持久化

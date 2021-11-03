@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-31 22:57:06
+ * @LastEditTime: 2021-11-02 18:08:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -16,11 +16,11 @@
         text-align: center;
         line-height: 50px;
         background: #f7f7f7;
-        font-weight: 500;
+        font-weight: 400;
         font-size: 17px;
       "
     >
-      默认标题
+      校园打卡系统
     </header>
     <!-- 内容区域 -->
     <main class="main">

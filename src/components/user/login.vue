@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2021-10-31 16:45:24
+ * @LastEditTime: 2021-11-01 21:58:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/login/login.vue
@@ -71,7 +71,7 @@ export default {
         _this.$store.dispatch("User/loginIn", {
           login: _this.login ,
           Router: _this.$router,
-          Toast: _this.$toast,
+          Toast: _this.$toast
         });
       } else {
         _this.$toast("请完整输入账户密码信息");
@@ -86,7 +86,8 @@ export default {
       this.$router.push("/user/register");
     },
     forgetAccount() {
-      this.$toast("不要忘记密码，找不回来了 :)");
+      // this.$toast("不要忘记密码，找不回来了 :)");
+      this.$notify("不要忘记密码，找不回来了 :)");
     },
   },
   created() {},

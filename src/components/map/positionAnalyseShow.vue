@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-11-01 18:30:24
+ * @LastEditTime: 2021-11-02 18:29:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -11,7 +11,7 @@
   <div class="mine-send-part">
     <div class="send-title">
       位置显示
-      <div class="send-control" @click="goToHomeMain"></div>
+      <div class="send-control" @click="goToHomeMain" :style="{'background-image': `url(${require('@/assets/font/close.svg')})`}"></div>
     </div>
     <div class="send-main" id="viewDiv"></div>
     <div
@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import * as axios from "axios";
+import axios from "axios";
 import * as turf from "@turf/turf";
-import * as L from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css"
 
 export default {
@@ -68,13 +68,13 @@ export default {
       // 2.时间判断
       .then(function (data) {
         return new Promise(function (resolve) {
-          console.log(task_starttime);
-          console.log(task_endtime);
+          // console.log(task_starttime);
+          // console.log(task_endtime);
           //  -2 -1 0 1 2
           const dateNow = Date.now();
           const dateMin = Date.parse(`${task_starttime}`); // 修改Date.parse方法
           const dateMax = Date.parse(`${task_endtime}`);
-          console.log(dateNow, dateMin, dateMax);
+          // console.log(dateNow, dateMin, dateMax);
           // 未打卡标识
           let dateMark = 0;
           // 位置标识
@@ -95,36 +95,36 @@ export default {
           if (positionMark) {
             switch (dateMark) {
               case -1:
-                _this.$toast({
+                _this.$notify({
                   message: "迟到了",
-                  position: "bottom",
+                  type: "danger"
                 });
                 break;
               case 0:
-                _this.$toast({
+                _this.$notify({
                   message: "未打卡？？",
-                  position: "bottom",
+                  type: "danger"
                 });
                 break;
               case 1:
-                _this.$toast({
-                  message: "定位成功",
-                  position: "bottom",
+                _this.$notify({
+                  message: "定位分析成功",
+                  type: "success"
                 });
                 break;
               case 2:
-                _this.$toast({
+                _this.$notify({
                   message: "来早了",
-                  position: "bottom",
+                  type: "danger"
                 });
                 break;
             }
           } 
           else {
             dateMark = -2;
-            _this.$toast({
+            _this.$notify({
               message: "位置偏离",
-              position: "bottom",
+              type: "warning"
             });
           }
 
@@ -144,7 +144,7 @@ export default {
             (date.getSeconds() + 1);
           _this.$store.state.User.get.sendDatabase.datenow = datenow;
           _this.$store.state.User.get.sendDatabase.task_status = dateMark;
-          console.log(_this.$store.state.User.get.sendDatabase);
+          // console.log(_this.$store.state.User.get.sendDatabase);
           resolve(data);
         });
       })
@@ -153,8 +153,8 @@ export default {
 
     // 位置分析
     function analysePosition(resolve) {
-      console.log("位置分析001");
-      console.log(positionPoint);
+      // console.log("位置分析001");
+      // console.log(positionPoint);
       const positionBufferPolygon = turf.buffer(
         positionPoint,
         task_radius * 1e-3,
@@ -294,7 +294,7 @@ export default {
         }
       );
 
-      console.log(sendDatabase);
+      // console.log(sendDatabase);
       // 数据发送
       axios
         .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/submit`, {
@@ -309,7 +309,7 @@ export default {
           }
         )
         .then(function (returnData) {
-          console.log(returnData.data.status);
+          // console.log(returnData.data.status);
           if (returnData.data.status === "ok") {
             _this.$toast({
               message: "打卡结果提交成功",

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:00:45
- * @LastEditTime: 2021-10-31 16:52:22
+ * @LastEditTime: 2021-11-02 18:23:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/clockInforForm.vue
@@ -11,7 +11,7 @@
   <div class="clockInforForm mine-send-part-absolute">   
     <div class="send-title">
       打卡信息设置
-      <div class="send-control"></div>
+      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}"></div>
     </div>
     <ul class="mine-double-line send-main" style="box-sizing:border-box;height: calc(100% - 136px);background: #fff;margin-bottom:10px;padding: 10px 20px;">
       <!-- 地点选择 -->
@@ -201,17 +201,17 @@ export default {
       if(this.publishTask.param.placename != "" && this.publishTask.starttime != "" && this.publishTask.starttime != "") {
         axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/publishtask`, {params: _this.publishTask.param}) 
           .then(function(returnData) {
-            _this.$toast("创建的任务号码" + returnData.data.id);
+            _this.$notify("创建的任务号码" + returnData.data.id);
             _this.$emit("open-person-choose-form", returnData.data.id);
 
           })
           .catch(function() {
-            _this.$toast("服务出现问题，或者你的网速过慢");
+            _this.$notify("服务出现问题，或者你的网速过慢");
             
           })
       }
       else {
-        _this.$toast("请输入完整地点和打卡起始时间");
+        _this.$notify("请输入完整地点和打卡起始时间");
       }
     }
   },

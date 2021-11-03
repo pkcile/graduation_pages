@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:33:06
- * @LastEditTime: 2021-10-31 11:36:22
+ * @LastEditTime: 2021-11-02 18:31:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/personChooseForm.vue
@@ -15,7 +15,7 @@
   >
     <div class="send-title">
       人员选择窗口
-      <div class="send-control"></div>
+      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}"></div>
     </div>
     <div class="send-main">
       <ul class="mine-double-line" style="padding: 10px">

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:35:19
- * @LastEditTime: 2021-10-31 10:58:44
+ * @LastEditTime: 2021-11-02 18:31:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/personDataSend.vue
@@ -14,7 +14,7 @@
   >
     <div class="send-title">
       确认信息窗口
-      <div class="send-control"></div>
+      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}"></div>
     </div>
     <div class="send-main">
       <ul class="mine-double-line" style="padding: 10px">

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-11-01 18:21:44
+ * @LastEditTime: 2021-11-02 22:07:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -53,16 +53,7 @@ export default {
     return {};
   },
   mounted() {
-    // // 信息初始化
-    // axios
-    //   .get("./school-building.geojson")
-    //   .then(function (initPosition) {
-    //     window.localStorage.removeItem("initPositionData");
-    //     window.localStorage.setItem(
-    //       "initPositionData",
-    //       JSON.stringify(initPosition?.data)
-    //     );
-    // })
+    this.$notify({ type: "primary", message: "欢迎来到打卡模块" });
   },
   methods: {
     // 获取位置
@@ -70,25 +61,36 @@ export default {
       const _this = this;
       const geoOption = {
         enableHighAccuracy: true,
-        maximumAge        : 30000,
-        timeout           : 27000
+        maximumAge: 30000,
+        // timeout           : 5000
       };
 
       if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function (data) {
+        _this.$toast("正在获取位置");
+        navigator.geolocation.getCurrentPosition(
+          function (data) {
+            _this.$store.state.User.get.locationItem.positionPoint = {
+              latitude: data.coords.latitude,
+              longitude: data.coords.longitude,
+            };
+            _this.$router.push("map");
+          },
+          geoError,
+          geoOption
+        );
+      } else {
+        _this.$toast("不支持定位");
+      }
+
+      function geoError() {
+        navigator.geolocation.getCurrentPosition(function () {
           _this.$store.state.User.get.locationItem.positionPoint = {
             latitude: data.coords.latitude,
             longitude: data.coords.longitude,
           };
           _this.$router.push("map");
-        }, geoError, geoOption);
-      }
-      else {
-        alert("不支持定位");
-      }
-
-      function geoError() {
-        alert("定位发生错误，chorme浏览器不支持定位，请更换浏览器");
+        });
+        // _this.$toast("定位发生错误，chorme浏览器不支持定位，请更换浏览器");
       }
     },
   },
