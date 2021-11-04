@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:35:19
- * @LastEditTime: 2021-11-02 18:31:45
+ * @LastEditTime: 2021-11-04 10:29:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/personDataSend.vue
@@ -14,7 +14,7 @@
   >
     <div class="send-title">
       确认信息窗口
-      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}"></div>
+      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}" @click="backTo"></div>
     </div>
     <div class="send-main">
       <ul class="mine-double-line" style="padding: 10px">
@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     displayResult(data, taskId) {
-      console.log(data);
       const _this = this;
       data.map((item) => {
         if (item.checked) {
@@ -58,7 +57,6 @@ export default {
         }
       });
       this.taskId = taskId;
-      console.log(_this.sendStudentData);
     },
     sendDdata() {
       const _this = this;
@@ -71,10 +69,12 @@ export default {
           `${process.env.VUE_APP_POSITION_PATH}/api/position/studentTask?${sendStudentString}task_id=${_this.taskId}`
         )
         .then(function (returnData) {
-          console.log(returnData);
           _this.$toast(returnData.data.result);
         });
     },
+    backTo() {
+      this.$parent.openPersonChooseFormBack();
+    }
   },
   mounted() {
     // axios

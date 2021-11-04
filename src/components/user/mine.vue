@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-13 10:51:39
- * @LastEditTime: 2021-11-02 21:51:58
+ * @LastEditTime: 2021-11-04 08:56:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/mine/mine.vue
@@ -49,7 +49,7 @@ export default {
     }
   },
   mounted() {
-    this.$notify({type: "primary", message: "欢迎来到个人中心"});
+    // this.$notify({type: "primary", message: "欢迎来到个人中心"});
   }
 }
 </script>

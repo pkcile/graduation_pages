@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-31 23:08:49
+ * @LastEditTime: 2021-11-03 10:33:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -21,8 +21,8 @@ const vueComponent = {
   homeSocialMain: () => import("@/components/social/social.vue"),
   homeMap: () => import("@/components/map/positionAnalyseShow.vue"),
   homeClock: () => import('@/components/main/clock.vue'),
-  homeAdminPublish: () => import("@/components/admin/publishForm.vue")
-
+  homeAdminPublish: () => import("@/components/admin/publishForm.vue"),
+  homeSocialMessage01: () => import("@/components/social/emojiMessage.vue")
 };
 
 const routes = [
@@ -96,6 +96,11 @@ const routes = [
         component: vueComponent.userRegister
       }
     ]
+  },
+  {
+    path: '/message',
+    name: 'message',
+    component: vueComponent.homeSocialMessage01
   }
 ];
 

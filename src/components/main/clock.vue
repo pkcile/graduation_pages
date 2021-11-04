@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-11-03 09:27:49
+ * @LastEditTime: 2021-11-04 08:56:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
@@ -53,12 +53,12 @@ export default {
     return {};
   },
   mounted() {
-    this.$notify({ type: "primary", message: "欢迎来到打卡模块" });
+    // this.$notify({ type: "primary", message: "欢迎来到打卡模块" });
   },
   methods: {
     // 获取位置
     getCurrentLocation() {
-      const _this = this;
+      const _this = this; 
       const geoOption = {
         enableHighAccuracy: true,
         maximumAge: 30000,
@@ -91,6 +91,9 @@ export default {
           _this.$router.push("map");
         });
         // _this.$toast("定位发生错误，chorme浏览器不支持定位，请更换浏览器");
+        setTimeout(function() {
+              _this.$toast('建议尝试手机内置浏览器或电脑中的火狐 edge浏览器');
+        }, 2000);
       }
     },
   },

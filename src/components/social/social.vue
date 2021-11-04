@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2021-11-02 18:06:12
+ * @LastEditTime: 2021-11-04 09:16:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -75,6 +75,12 @@
       height: 50%;
     }
   }
+
+  .mine-single-line-three-socail:active {
+    background-color: #eee;
+    transition: all 1000ms;
+  }
+  
   .mine-single-line-three-socail-title {
     display: flex;
     flex-flow: row nowrap;
@@ -126,7 +132,7 @@ export default {
     }
   },
   mounted() {
-    this.$notify({type: "primary", message: "欢迎来到动态模块"});
+    // this.$notify({type: "primary", message: "欢迎来到动态模块"});
   }
 }
 </script>

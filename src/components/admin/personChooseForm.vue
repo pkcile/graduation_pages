@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:33:06
- * @LastEditTime: 2021-11-02 18:31:27
+ * @LastEditTime: 2021-11-04 10:25:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/personChooseForm.vue
@@ -15,7 +15,7 @@
   >
     <div class="send-title">
       人员选择窗口
-      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}"></div>
+      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}" @click="backTo"></div>
     </div>
     <div class="send-main">
       <ul class="mine-double-line" style="padding: 10px">
@@ -89,6 +89,9 @@ export default {
       }
       console.log(_this.studentData);
     },
+    backTo() {
+      this.$parent.openClockInforOnly();
+    }
   },
   components: {
     [Checkbox.name]: Checkbox,
@@ -99,7 +102,7 @@ export default {
     axios
       .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/queryStudent`)
       .then(function (returnData) {
-        console.log(returnData.data);
+        // console.log(returnData.data);
         returnData.data.queryStudent.map((item) => {
           _this.studentData.push({name: item.name , username: item.username, checked: false, id: item.username});
         })

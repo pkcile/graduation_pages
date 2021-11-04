@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:00:45
- * @LastEditTime: 2021-11-02 18:23:20
+ * @LastEditTime: 2021-11-04 10:23:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/clockInforForm.vue
@@ -11,7 +11,7 @@
   <div class="clockInforForm mine-send-part-absolute">   
     <div class="send-title">
       打卡信息设置
-      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}"></div>
+      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}" @click="backTo"></div>
     </div>
     <ul class="mine-double-line send-main" style="box-sizing:border-box;height: calc(100% - 136px);background: #fff;margin-bottom:10px;padding: 10px 20px;">
       <!-- 地点选择 -->
@@ -213,6 +213,9 @@ export default {
       else {
         _this.$notify("请输入完整地点和打卡起始时间");
       }
+    },
+    backTo() {
+      this.$router.push("/home/social");
     }
   },
   components: {
@@ -240,7 +243,7 @@ export default {
     this.publishTask.formData.placename = initItemsName;
 
     // 数据
-    console.log(this.publishTask.param);
+    // console.log(this.publishTask.param);
   }
 };
 </script>
@@ -256,4 +259,5 @@ export default {
   border-radius: 100px;
   margin-left: 20px;
 }
+
 </style>

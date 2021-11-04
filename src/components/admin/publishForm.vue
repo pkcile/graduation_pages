@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-28 08:56:50
- * @LastEditTime: 2021-10-31 16:04:48
+ * @LastEditTime: 2021-11-04 10:29:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/admin/publishForm.vue
@@ -55,6 +55,14 @@ export default {
       this.studentData = data;
       // 传递sendStudentData的值给personDataSend组件
       this.$refs["sendStudentData"]?.displayResult(this.studentData, this.taskId);
+    },
+    openClockInforOnly() {
+      this.form.personChooseForm = "none";
+      this.form.personDataSend = "none";
+    },
+    openPersonChooseFormBack() {
+      this.form.personChooseForm = "block";
+      this.form.personDataSend = "none";
     },
   },
   components: {

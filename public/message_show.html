@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>评论模块</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <style>
+    .clearfix::after {
+      clear: both;
+      display: table;
+      content: '';
+    }
+
+    #message_section section {
+      background: #bfa;
+      width: 340px;
+      margin: 0 auto;
+    }
+
+    #message_section .message-main {
+      width: 340px;
+      margin: 20px auto;
+    }
+
+    .message-main .message-title {
+      background: #F1F8FF;
+      border-radius: 3px 3px 0 0;
+      border-top: 1px solid #D5E6F9;
+      border-left: 1px solid #D5E6F9;
+      border-right: 1px solid #D5E6F9;
+    }
+
+    .message-title .message-title-img {
+      width: 30px;
+      height: 30px;
+      background: url("https://avatars.githubusercontent.com/u/44103871?s=400&u=8cc5c04de9b7f5ade4c4433f73c0847b08e163e8&v=4") no-repeat;
+      background-size: contain;
+      margin: 10px 0 0 10px;
+      border-radius: 15px;
+    }
+
+    .message-title div {
+      height: 50px;
+      line-height: 50px;
+      float: left;
+    }
+
+    .message-title .message-title-name {
+      width: 50px;
+      margin-left: 5px;
+    }
+
+    .message-title .message-title-date {
+      width: 170px;
+      margin-left: 5px
+    }
+
+    .message-title .message-title-more {
+      height: 50px;
+      width: 38px;
+      text-align: right;
+      margin-right: 10px;
+    }
+
+    .message-main .message-content {
+      line-height: 30px;
+      background: #fff;
+      border-left: 1px solid #D5E6F9;
+      border-right: 1px solid #D5E6F9;
+      padding: 10px;
+
+    }
+
+    .message-main .message-comment {
+      border-radius: 0 0 3px 3px;
+      background: #fff;
+      border-top: 1px solid #E1E4E8;
+      border-bottom: 1px solid #D5E6F9;
+      border-left: 1px solid #D5E6F9;
+      border-right: 1px solid #D5E6F9;
+    }
+
+    .message-comment .message-comment-smiles {
+      float: left;
+    }
+
+    .message-comment .message-comment-smiles-item,
+    .message-comment .message-comment-smile {
+      float: left;
+      line-height: 33px;
+      width: 40px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .message-comment .message-comment-smiles-item:hover {
+      background-color: #F1F8FF;
+    }
+
+    .message-comment .message-comment-smile:hover {
+      background-color: #F1F8FF;
+      fill: #0366D6;
+    }
+
+    .message-comment-smile svg {
+      margin-top: 8px;
+    }
+
+    .message-comment-detail-container {
+      position: relative;
+      /*display: none;*/
+    }
+
+    .message-comment-detail::before {
+      content: '';
+      display: block;
+      border: 5px solid white;
+      border: 5px solid rgba(255, 255, 255, 0);
+      border-bottom: 5px solid red;
+      position: absolute;
+      top: -10px;
+      left: 13px;
+    }
+
+    .message-comment-detail {
+      position: absolute;
+      z-index: 9;
+      left: 0px;
+      top: 10px;
+      width: 152px;
+      border: 1px solid red;
+      background: #fff;
+      border-radius: 5px;
+    }
+
+    .message-comment-detail-title {
+      padding: 10px
+    }
+
+    .message-comment-detail-line {
+      border-bottom: 1px solid #E1E4E8;
+    }
+
+    .message-comment-detail-emoji {
+      padding: 5px 10px 10px 10px
+    }
+
+    .message-comment-detail-emoji-item {
+      float: left;
+      line-height: 33px;
+      width: 33px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .message-comment-detail-emoji-item:hover {
+      background: #F1F8FF;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <!--
+  1.vertical-align和line-height的区别
+  2.禁止选中
+  3.百分比和不加百分比是否撑开问题 宽度是否设置100%对border的影响 对padding的影响
+  4.focus blus的适用标签
+  5.sass的使用？？
+  6.样式与script脚本的执行顺序
+  7.背景图片控制、img标签控制 是否设置宽度和设置border-radius
+  8.没有设置宽度但加border容易出现像素计算错误
+  样式权重
+  e.target.nodeName === "path"
+
+  难点：
+  1.点击符号后，如何控制它的位置，相对于内容移动……
+
+  创新：表情消消乐
+-->
+  <section id="message_section">
+    <div class="message-main">
+      <h3 class="message-title clearfix">
+        <div class="message-title-img"></div>
+        <div class="message-title-name">pkcile</div>
+        <div class="message-title-date">评论于2天前</div>
+        <div class="message-title-more">...</div>
+      </h3>
+      <div class="message-content">
+        测试测试，用户留言
+      </div>
+      <div class="message-comment">
+        <div class="message-comment-smiles">
+        </div>
+        <div class="message-comment-smile">
+          <svg class="octicon octicon-smiley smile-svg" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+            aria-hidden="true">
+            <path class="smile-svg-path" fill-rule="evenodd"
+              d="M1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zM8 0a8 8 0 100 16A8 8 0 008 0zM5 8a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zM5.32 9.636a.75.75 0 011.038.175l.007.009c.103.118.22.222.35.31.264.178.683.37 1.285.37.602 0 1.02-.192 1.285-.371.13-.088.247-.192.35-.31l.007-.008a.75.75 0 111.222.87l-.614-.431c.614.43.614.431.613.431v.001l-.001.002-.002.003-.005.007-.014.019a1.984 1.984 0 01-.184.213c-.16.166-.338.316-.53.445-.63.418-1.37.638-2.127.629-.946 0-1.652-.308-2.126-.63a3.32 3.32 0 01-.715-.657l-.014-.02-.005-.006-.002-.003v-.002h-.001l.613-.432-.614.43a.75.75 0 01.183-1.044h.001z">
+            </path>
+          </svg>
+        </div>
+        <div style="display: block;clear: both;"></div>
+        <div class="message-comment-detail-container">
+          <div class="message-comment-detail">
+            <div class="message-comment-detail-inner">
+              <h3 class="message-comment-detail-title">
+                选择你的回应
+              </h3>
+              <div class="message-comment-detail-line"></div>
+              <div class="message-comment-detail-emoji">
+                <div class="message-comment-detail-emoji-item">
+                  &#x1F61C;
+                </div>
+                <div class="message-comment-detail-emoji-item">
+                  &#128513;
+                </div>
+                <div class="message-comment-detail-emoji-item">
+                  &#128541;
+                </div>
+                <div class="message-comment-detail-emoji-item">
+                  &#128558;
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    //事件的委托，就行图层一样
+    /*
+        下一标签元素的选择：nextElementSibling
+        错误判断：e.target.nextElementSibling e.target.nextElementSibling.className
+        性能优化：根据点击的最大可能性，先判断最容易点击的
+  
+        优点1：能够对message_section区域的点击赋予一定事件
+        缺陷1：不能进行重复的展示和隐藏-----错误
+        缺陷2：选取的范围大，其缺陷也大
+        缺陷3：战线拉的过长
+  
+    */
+
+
+    // 在message_section区域内操作,表情点击弹出、点击消失功能
+    //1.获取message-comment-smile class类
+    const message_comment_smiles = document.querySelectorAll(".message-comment-smile");
+    // (".message-comment-smile");
+    for (let i = 0; i < message_comment_smiles.length; i++) {
+      message_comment_smiles[i].onclick = function () {
+        //获取当前message-comment-detail-container类
+        let message_comment_detail_container = this.parentElement.querySelector(".message-comment-detail-container");
+        //如果弹出框处于打开状态时，点击笑脸则关闭
+        if (message_comment_detail_container.style.display === "block") {
+          message_comment_detail_container.style.display = "none";
+        }
+        //如果弹出框处于关闭状态或初始化状态时，点击笑脸则打开
+        else if (message_comment_detail_container.style.display === "none") {
+          message_comment_detail_container.style.display = "block";
+        }
+        else if (message_comment_detail_container.style.display === "") {
+          message_comment_detail_container.style.display = "block";
+        }
+      }
+    }
+    //对点击其他地方，则关闭弹出框，情况进行补充，事件委托
+    document.body.onclick = function (e) {
+      // alert(666);
+      console.log(e.target.nodeName);
+      console.log(e.target.className);
+      if (e.target.className == "message-comment-detail-title" || e.target.className === "message-comment-smile" || e.target.nodeName === "svg" || e.target.nodeName === "path") {
+        console.log("不关闭");
+      }
+      else {
+        let message_comment_detail_containers = document.querySelectorAll(".message-comment-detail-container");
+        console.log(message_comment_detail_containers.length);
+        for (let i = 0; i < message_comment_detail_containers.length; i++) {
+          console.log(message_comment_detail_containers[i].style.display);
+          if (message_comment_detail_containers[i].style.display === "block") {
+            message_comment_detail_containers[i].style.display = "none";
+            console.log("关闭");
+          }
+        }
+      }
+
+    }
+
+
+    /*
+      表情符号
+      移入改变改变：改变提示内容
+      移出改变状态：还原状态
+    */
+    const message_comment_detail_emoji_items = document.querySelectorAll(".message-comment-detail-emoji-item");
+    for (let i = 0; i < message_comment_detail_emoji_items.length; i++) {
+      message_comment_detail_emoji_items[i].onmouseover = function () {
+        //移入表情则将表情打印
+        this.parentElement.parentElement.querySelector(".message-comment-detail-title").innerHTML = this.innerHTML;
+      }
+      message_comment_detail_emoji_items[i].onmouseout = function () {
+        //移除表情则将文字显示
+        this.parentElement.parentElement.querySelector(".message-comment-detail-title").innerHTML = "选择你的回应";
+      }
+
+      //点击表情将添加节点
+      message_comment_detail_emoji_items[i].onclick = function () {
+        //创建div节点
+        let div_emoji_add_div = document.createElement("div");
+        //选中div节点要插入的位置
+        let div_emoji_add_div_parent = this.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector(".message-comment-smiles");
+        //设置div节点的类名
+        div_emoji_add_div.className = "message-comment-smiles-item";
+        //设置div节点内容
+        div_emoji_add_div.innerHTML = this.innerHTML;
+        //添加节点
+        div_emoji_add_div_parent.appendChild(div_emoji_add_div);
+      }
+    }
+
+
+  </script>
+  <script>
+
+  </script>
+</body>
+
+</html>

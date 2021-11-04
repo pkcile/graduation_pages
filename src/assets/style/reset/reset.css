@@ -7,3 +7,8 @@ select{-webkit-appearance:none;}
 select:focus, input:focus, button:focus{outline: none;}
 input {border-width: 0;}
 
+body, html {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}

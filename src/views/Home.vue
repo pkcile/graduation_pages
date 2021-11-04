@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-02 18:08:35
+ * @LastEditTime: 2021-11-04 09:42:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -28,14 +28,24 @@
     </main>
     <!-- 导航 -->
     <van-tabbar v-model="active" class="footer">
-      <van-tabbar-item badge="3" to="/home/main">
+      <van-tabbar-item to="/home/main">
         <span>打卡</span>
         <template #icon="props">
-          <img :src="props.active ? icon.active : icon.inactive" />
+          <img :src="props.active ? iconMain.active : iconMain.inactive" style="height: 23px;"/>
         </template>
       </van-tabbar-item>
-      <van-tabbar-item icon="search" to="/home/social">更多</van-tabbar-item>
-      <van-tabbar-item icon="setting-o" to="/home/mine">我的</van-tabbar-item>
+      <van-tabbar-item to="/home/social">
+        <span>更多</span>
+        <template #icon="props">
+          <img :src="props.active ? iconSocial.active : iconSocial.inactive" style="height: 23px;"/>
+        </template>
+      </van-tabbar-item>
+      <van-tabbar-item to="/home/mine">
+        <span>我的</span>
+        <template #icon="props">
+          <img :src="props.active ? iconMine.active : iconMine.inactive" style="height: 23px;"/>
+        </template>
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -46,20 +56,25 @@ import axios from "axios"
 export default {
   data() {
     return {
-      active: 0,
-      icon: {
-        active: "https://img01.yzcdn.cn/vant/user-active.png",
-        inactive: "https://img01.yzcdn.cn/vant/user-inactive.png",
+      active: 2,
+      iconMain: {
+        active: require("@/assets/img/home/clock.svg"),
+        inactive: require("@/assets/img/home/clock-grey.svg"),
       },
+      iconSocial: {
+        active: require("@/assets/img/home/more.svg"),
+        inactive: require("@/assets/img/home/more-grey.svg"),
+      },
+      iconMine: {
+        active: require("@/assets/img/home/mine.svg"),
+        inactive: require("@/assets/img/home/mine.svg"),
+      }
     };
   },
   components: {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem
   },
-  // watch() {
-  //   console.log();
-  // }
   mounted() {
     this.$store.commit("User/updataLloginIn");
   }
@@ -85,5 +100,10 @@ export default {
     height: 70px;
     width: 100%;
   }
+}
+
+.van-tabbar-item:active {
+  background: #eee;
+  transition: all 100ms;
 }
 </style>

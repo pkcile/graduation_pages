@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-10-26 17:01:55
+ * @LastEditTime: 2021-11-04 09:57:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\App.vue
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-
+import "leaflet/dist/leaflet.css"
 export default {
   
 }
