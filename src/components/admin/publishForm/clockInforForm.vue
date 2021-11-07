@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:00:45
- * @LastEditTime: 2021-11-04 10:23:52
+ * @LastEditTime: 2021-11-04 10:43:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: /graduation-project-master/src/components/admin/clockInforForm.vue
+ * @FilePath: /graduation-project-master/src/components/admin/publishForm/clockInforForm.vue
 -->
 
 <template>

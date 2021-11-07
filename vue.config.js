@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2021-11-01 23:19:46
+ * @LastEditTime: 2021-11-07 15:55:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
@@ -35,9 +35,9 @@ module.exports = {
   devServer: {
     proxy: {
       "/api/position": {
-        // target: 'http://127.0.0.1:8000',
-        target: "https://www.pkcile.cn/advsk/sj/sj13/public/index.php/",
-        secure: false, // 如果是https接口，需要配置这个参数
+        target: 'http://127.0.0.1:8000',
+        // target: "https://www.pkcile.cn/advsk/sj/sj13/public/index.php/",
+        secure: true, // 如果是https接口，需要配置这个参数
         changeOrigin: true, //是否跨域
       },
     },

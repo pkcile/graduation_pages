@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-29 14:35:19
- * @LastEditTime: 2021-11-04 10:29:26
+ * @LastEditTime: 2021-11-04 10:44:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: /graduation-project-master/src/components/admin/personDataSend.vue
+ * @FilePath: /graduation-project-master/src/components/admin/publishForm/personDataSend.vue
 -->
 
 <template>

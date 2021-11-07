@@ -75,6 +75,9 @@
       background-size: contain;
       background-repeat: no-repeat;
     }
+    .send-control:active {
+     background-color: #eee;
+    }
   }
   .send-main {
     width: 100%;

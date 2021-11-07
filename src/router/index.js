@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-03 10:33:51
+ * @LastEditTime: 2021-11-07 16:16:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -17,20 +17,22 @@ const vueComponent = {
   user: () => import("@/views/User.vue"),
   userLogin: () => import("@/components/user/login.vue"),
   userRegister: () => import("@/components/user/register.vue"),
-  homeUserMine: () => import('@/components/user/mine.vue'),
-  homeSocialMain: () => import("@/components/social/social.vue"),
-  homeMap: () => import("@/components/map/positionAnalyseShow.vue"),
-  homeClock: () => import('@/components/main/clock.vue'),
-  homeAdminPublish: () => import("@/components/admin/publishForm.vue"),
-  homeSocialMessage01: () => import("@/components/social/emojiMessage.vue")
+  userMine: () => import('@/components/user/mine.vue'),
+  userSocialMain: () => import("@/components/user/social/social.vue"),
+  mainMap: () => import("@/components/main/positionAnalyseShow.vue"),
+  mainClock: () => import('@/components/main/clock.vue'),
+  adminPublish: () => import("@/components/admin/publishForm/publishForm.vue"),
+  homeSocialMessage01: () => import("@/components/user/social/emojiMessage.vue"),
+  "404": () => import("@/components/common/404.vue")
 };
 
 const routes = [
   // 404
-  // {
-  //   path: '*',
-  //   component: vueComponent.userLogin
-  // },
+  {
+    path: '*',
+    component: vueComponent["404"]
+  },
+  // 主菜单
   {
     path: '/home',
     name: 'home',
@@ -44,27 +46,26 @@ const routes = [
         next();
       }
     },
-
     children: [
       {
         path: 'main',
-        component: vueComponent.homeClock
+        component: vueComponent.mainClock
       },
       {
         path: 'map',
-        component: vueComponent.homeMap
+        component: vueComponent.mainMap
       },
       {
         path: 'social',
-        component: vueComponent.homeSocialMain
+        component: vueComponent.userSocialMain
       },
       {
         path: 'mine',
-        component: vueComponent.homeUserMine
+        component: vueComponent.userMine
       },
       {
         path: 'admin',
-        component: vueComponent.homeAdminPublish
+        component: vueComponent.adminPublish
       }
     ]
   },
@@ -75,7 +76,7 @@ const routes = [
     children: [
       {
         path: 'main',
-        component: vueComponent.homeClock
+        component: vueComponent.mainMap
       }
     ]
   },
