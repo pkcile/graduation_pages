@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-07 16:16:43
+ * @LastEditTime: 2021-11-07 17:02:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -23,6 +23,8 @@ const vueComponent = {
   mainClock: () => import('@/components/main/clock.vue'),
   adminPublish: () => import("@/components/admin/publishForm/publishForm.vue"),
   homeSocialMessage01: () => import("@/components/user/social/emojiMessage.vue"),
+  socialMain: () => import("@/components/user/social/main.vue"),
+  socialState: () => import("@/components/user/social/state.vue"),
   "404": () => import("@/components/common/404.vue")
 };
 
@@ -80,6 +82,7 @@ const routes = [
       }
     ]
   },
+  // 登陆注册
   {
     path: '/user',
     name: 'user',
@@ -98,10 +101,18 @@ const routes = [
       }
     ]
   },
+  // 个人动态
   {
-    path: '/message',
-    name: 'message',
-    component: vueComponent.homeSocialMessage01
+    path: '/social',
+    name: 'Social',
+    component: vueComponent.socialMain,
+    children: [
+      {
+        path: 'socailstate',
+        name: 'SocailState',
+        component: vueComponent.socialState
+      }
+    ]
   }
 ];
 
