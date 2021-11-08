@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2021-11-04 09:16:38
+ * @LastEditTime: 2021-11-08 00:03:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -13,7 +13,7 @@
       <div class="mine-single-line-three-socail-title">
         用户功能
       </div> 
-      <div class="mine-single-line-three-socail" @click="jumpToPublishForm">
+      <div class="mine-single-line-three-socail" @click="jumpToSocailMain">
         <div><img src="@/assets/font/social-reddit.svg" alt="" style="width: 50%;height: 50%;"></div>
         <div>动态显示</div>
         <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
@@ -129,6 +129,9 @@ export default {
   methods: {
     jumpToPublishForm() {
       this.$router.push("/home/admin");
+    },
+    jumpToSocailMain() {
+      this.$router.push("/social/state");
     }
   },
   mounted() {

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-07 16:48:05
- * @LastEditTime: 2021-11-07 23:57:38
+ * @LastEditTime: 2021-11-08 00:06:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/social/state.vue
@@ -20,6 +20,7 @@
         :style="{
           'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
         }"
+        @click="backToSocial"
       ></div>
     </div>
     <div class="send-main">
@@ -99,6 +100,11 @@ export default {
         console.log(_this.studentData);
       });
   },
+  methods: {
+    backToSocial() {
+      this.$router.push("/home/social");
+    }
+  }
 };
 </script>
 

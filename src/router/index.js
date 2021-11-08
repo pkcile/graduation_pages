@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-07 17:02:23
+ * @LastEditTime: 2021-11-08 00:01:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -108,8 +108,8 @@ const routes = [
     component: vueComponent.socialMain,
     children: [
       {
-        path: 'socailstate',
-        name: 'SocailState',
+        path: 'state',
+        name: 'State',
         component: vueComponent.socialState
       }
     ]
