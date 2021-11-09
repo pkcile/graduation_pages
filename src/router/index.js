@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-08 00:01:07
+ * @LastEditTime: 2021-11-09 22:30:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -25,6 +25,10 @@ const vueComponent = {
   homeSocialMessage01: () => import("@/components/user/social/emojiMessage.vue"),
   socialMain: () => import("@/components/user/social/main.vue"),
   socialState: () => import("@/components/user/social/state.vue"),
+  signInMain: () => import("@/components/user/signIn/main.vue"),
+  signInGet: () => import("@/components/user/signIn/stepSignGet.vue"),
+  signInResult: () => import("@/components/user/signIn/stepSignResult.vue"),
+  signInSend: () => import("@/components/user/signIn/stepSignSend.vue"),
   "404": () => import("@/components/common/404.vue")
 };
 
@@ -111,6 +115,19 @@ const routes = [
         path: 'state',
         name: 'State',
         component: vueComponent.socialState
+      }
+    ]
+  },
+  // 签到打卡
+  {
+    path: '/sign',
+    name: 'Sign',
+    component: vueComponent.signInMain,
+    children: [
+      {
+        path: 'get',
+        name: 'Get',
+        component: vueComponent.signInGet
       }
     ]
   }
