@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-12 09:51:35
+ * @LastEditTime: 2021-11-12 11:31:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
@@ -38,8 +38,9 @@
 </template>
 
 <script>
-import L from "leaflet";
-import {convertDate} from "@/utils/date.js"
+import { convertDate } from "@/utils/date.js"
+import { getCurrentLocation } from "@/utils/geolocation.js"
+import initLeaflet from "@/map/leaflet/init.js"
 
 export default {
   data() {
@@ -53,35 +54,35 @@ export default {
     };
   },
   mounted() {
-    this.initDate();
+    const _this = this;
+    new Promise(getCurrentLocation)
+      .then(function(geolocationData) {
+        console.log(geolocationData);
+        _this.initMap(geolocationData);
+      })
+    
   },
   computed: {
     setTimeFun() {
       setInterval(() => {
         this.date.full = convertDate();
         this.date.hourMinute = convertDate().substr(11, 5);
-        // this.
-      }, 700);
+      }, 500);
     }
   },
   methods: {
-    initDate() {
-      const map = L.map("sign-map").setView(
-        [28.682975759198253, 116.026260653],
-        16
-      );
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "Mapbox",
-      }).addTo(map);
+    initMap(position) {
+      // console.log(position)
+      // 初始化leaflet地图
+      let defaultConfig = {
+        position
+      };
+      new initLeaflet("sign-map", defaultConfig.position);
 
-      const pointArray = [];
-      L.DomEvent.on(map, "click", function (ev) {
-        pointArray.push([ev.latlng.lng, ev.latlng.lat]);
-        // console.log(JSON.stringify(pointArray));
-        // L.DomEvent.stopPropagation(ev);
-      });
     },
+    initLocation() {
+      
+    }
   },
 };
 </script>
