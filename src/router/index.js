@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-09 22:30:46
+ * @LastEditTime: 2021-11-12 15:53:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -29,6 +29,7 @@ const vueComponent = {
   signInGet: () => import("@/components/user/signIn/stepSignGet.vue"),
   signInResult: () => import("@/components/user/signIn/stepSignResult.vue"),
   signInSend: () => import("@/components/user/signIn/stepSignSend.vue"),
+  pathMain: () => import("@/components/user/path/main.vue"),
   "404": () => import("@/components/common/404.vue")
 };
 
@@ -130,6 +131,12 @@ const routes = [
         component: vueComponent.signInGet
       }
     ]
+  },
+  // 运动轨迹
+  {
+    path: '/path',
+    name: "path",
+    component: vueComponent.pathMain
   }
 ];
 
