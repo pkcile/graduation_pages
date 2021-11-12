@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-31 11:06:03
+ * @LastEditTime: 2021-11-11 11:26:17
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /graduation-project-master/doc/temp.md
+-->
 - [ ] 1.问题：safari浏览器中，不能将2021-11-01 10:14:00解析
 
   ```
@@ -35,4 +43,20 @@
   ```
 
   5.评论动态页面制作
+
+
+6. 
+```
+npm run serve -- --port 8033  
+yarn serve --port 1232
+```
+
+7.
+极速打卡模式
+备用链接
+
+如果服务器崩了，离线的方式来存储打卡信息，服务！！！
+
+8.
+好友在线服务，好友oooo动态显示
 
