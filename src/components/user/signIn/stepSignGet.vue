@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-11 22:38:55
+ * @LastEditTime: 2021-11-12 09:51:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
@@ -9,7 +9,6 @@
 
 <template>
   <div class="mine-send-part-absolute" style="width:100%;height:100%;">
-    <!-- background: #F7F7F7; -->
     <div class="send-title">
       打卡信息设置
       <div
@@ -19,10 +18,9 @@
         }"
 
       ></div>
-              <!-- @click="backTo" -->
     </div>
     <ul class="send-main">
-      <section class="date">2021年11月09日{{ number }}</section>
+      <section class="date">{{ date.full }}</section>
       <section class="infor-title">
         <div>江西师范大学</div>
         <div>地点微调</div>
@@ -31,7 +29,7 @@
       <div class="sign-get">
         <section class="sign-button">
           <div>签到</div>
-          <div>23:06</div>
+          <div>{{ date.hourMinute }}</div>
         </section>
         <section class="sign-reminder">今天你已经签到6次</section>
       </div>
@@ -41,23 +39,29 @@
 
 <script>
 import L from "leaflet";
+import {convertDate} from "@/utils/date.js"
 
 export default {
   data() {
     return {
       map: "",
-      number: 1,
+      number: convertDate(),
+      date: {
+        full: convertDate(),
+        hourMinute: convertDate().substr(11, 5)
+      }
     };
   },
   mounted() {
     this.initDate();
-    console.log(L);
   },
   computed: {
-    fun01() {
+    setTimeFun() {
       setInterval(() => {
-        this.number++;
-      }, 100);
+        this.date.full = convertDate();
+        this.date.hourMinute = convertDate().substr(11, 5);
+        // this.
+      }, 700);
     }
   },
   methods: {
@@ -74,10 +78,9 @@ export default {
       const pointArray = [];
       L.DomEvent.on(map, "click", function (ev) {
         pointArray.push([ev.latlng.lng, ev.latlng.lat]);
-        console.log(JSON.stringify(pointArray));
+        // console.log(JSON.stringify(pointArray));
         // L.DomEvent.stopPropagation(ev);
       });
-      console.log(L);
     },
   },
 };
