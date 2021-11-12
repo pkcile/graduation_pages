@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-12 11:31:42
+ * @LastEditTime: 2021-11-12 14:29:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
@@ -55,6 +55,7 @@ export default {
   },
   mounted() {
     const _this = this;
+    this.setTimeFun();
     new Promise(getCurrentLocation)
       .then(function(geolocationData) {
         console.log(geolocationData);
@@ -63,7 +64,7 @@ export default {
     
   },
   computed: {
-    setTimeFun() {
+    setTimeFun01: function() {
       setInterval(() => {
         this.date.full = convertDate();
         this.date.hourMinute = convertDate().substr(11, 5);
@@ -72,16 +73,21 @@ export default {
   },
   methods: {
     initMap(position) {
-      // console.log(position)
       // 初始化leaflet地图
       let defaultConfig = {
         position
       };
-      new initLeaflet("sign-map", defaultConfig.position);
+      new initLeaflet("sign-map", defaultConfig);
 
     },
     initLocation() {
       
+    },
+    setTimeFun() {
+      setInterval(() => {
+        this.date.full = convertDate();
+        this.date.hourMinute = convertDate().substr(11, 5);
+      }, 500);
     }
   },
 };
@@ -125,6 +131,12 @@ export default {
 
 .sign-get {
   padding: 30px 0 0 0;
+  @keyframes round001
+  {
+      0%   {background: #fca;}
+      75%  {background: #fba;}
+      100% {background: #faa;}
+  }
   .sign-button {
     display: block;
     width: 140px;
@@ -134,6 +146,16 @@ export default {
     margin: 0 auto;
     display: flex;
     flex-flow: column nowrap;
+
+    animation-name: round001;
+    animation-duration: 1.75s;
+    animation-timing-function: linear;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-play-state: running;
+
+
     div {
       height: 70px;
       display: flex;
@@ -141,10 +163,10 @@ export default {
       justify-content: center;
     }
     & > div:nth-of-type(1) {
-      align-items: end;
+      align-items: flex-end;
     }
     & > div:nth-of-type(2) {
-      align-items: start;
+      align-items: flex-start;
     }
   }
 

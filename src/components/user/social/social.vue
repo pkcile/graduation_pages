@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2021-11-08 00:03:24
+ * @LastEditTime: 2021-11-12 14:02:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -18,7 +18,7 @@
         <div>动态显示</div>
         <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
       </div>
-      <div class="mine-single-line-three-socail" @click="jumpToPublishForm">
+      <div class="mine-single-line-three-socail" @click="jumpToLocationDing">
         <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
         <div>位置签到</div>
         <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
@@ -132,6 +132,9 @@ export default {
     },
     jumpToSocailMain() {
       this.$router.push("/social/state");
+    },
+    jumpToLocationDing() {
+      this.$router.push("/sign/get");
     }
   },
   mounted() {
