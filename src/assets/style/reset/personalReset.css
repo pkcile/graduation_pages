@@ -29,3 +29,7 @@ input:focus, select:focus, button:focus {
 select {box-sizing: content-box;border-width: 1px;}
 
 i{font-style:initial;}
+
+img.leaflet-marker-icon {
+  border-radius: 10px !important;
+}

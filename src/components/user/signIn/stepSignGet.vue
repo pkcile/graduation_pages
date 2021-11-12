@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-12 14:29:39
+ * @LastEditTime: 2021-11-12 14:47:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
@@ -11,13 +11,14 @@
   <div class="mine-send-part-absolute" style="width:100%;height:100%;">
     <div class="send-title">
       打卡信息设置
-      <div
-        class="send-control"
-        :style="{
-          'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
-        }"
-
-      ></div>
+      <router-link to="/home/social">
+        <div
+          class="send-control"
+          :style="{
+            'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
+          }"
+        ></div>
+      </router-link>
     </div>
     <ul class="send-main">
       <section class="date">{{ date.full }}</section>
@@ -58,7 +59,6 @@ export default {
     this.setTimeFun();
     new Promise(getCurrentLocation)
       .then(function(geolocationData) {
-        console.log(geolocationData);
         _this.initMap(geolocationData);
       })
     
@@ -79,9 +79,6 @@ export default {
       };
       new initLeaflet("sign-map", defaultConfig);
 
-    },
-    initLocation() {
-      
     },
     setTimeFun() {
       setInterval(() => {
@@ -146,7 +143,6 @@ export default {
     margin: 0 auto;
     display: flex;
     flex-flow: column nowrap;
-
     animation-name: round001;
     animation-duration: 1.75s;
     animation-timing-function: linear;
@@ -175,6 +171,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* leaflet图片样式设置 */
+  img.leaflet-marker-icon {
+    border-radius: 10px !important;
   }
 }
 </style>

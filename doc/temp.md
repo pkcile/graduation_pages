@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-31 11:06:03
- * @LastEditTime: 2021-11-11 11:26:17
+ * @LastEditTime: 2021-11-12 14:48:29
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/doc/temp.md
@@ -59,4 +59,7 @@ yarn serve --port 1232
 
 8.
 好友在线服务，好友oooo动态显示
+
+9.
+如何修改地图icon的border-radius
 
