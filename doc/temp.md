@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-31 11:06:03
- * @LastEditTime: 2021-11-12 14:48:29
+ * @LastEditTime: 2021-11-14 16:20:49
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/doc/temp.md
@@ -63,3 +63,8 @@ yarn serve --port 1232
 9.
 如何修改地图icon的border-radius
 
+10.
+组件间值的传递
+图片在html css js中的引入方式
+
+路由的跳转标签

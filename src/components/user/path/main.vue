@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-12 15:13:52
- * @LastEditTime: 2021-11-12 17:15:57
+ * @LastEditTime: 2021-11-13 10:18:15
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/components/user/path/main.vue
@@ -75,6 +75,7 @@ export default {
         this.date.full = convertDate();
         this.date.hourMinute = convertDate().substr(11, 5);
       }, 500);
+      
     }
   },
   methods: {

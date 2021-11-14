@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-12 14:47:20
+ * @LastEditTime: 2021-11-14 16:05:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
@@ -122,7 +122,7 @@ export default {
 
 #sign-map {
   width: 100%;
-  height: 200px;
+  height: 230px;
   // background: #bfa;
 }
 

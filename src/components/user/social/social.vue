@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2021-11-12 17:14:59
+ * @LastEditTime: 2021-11-14 16:59:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -12,17 +12,27 @@
     <div class="user">
       <div class="mine-single-line-three-socail-title">
         用户功能
-      </div> 
-      <div class="mine-single-line-three-socail" @click="jumpToSocailMain">
-        <div><img src="@/assets/font/social-reddit.svg" alt="" style="width: 50%;height: 50%;"></div>
-        <div>动态显示</div>
-        <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
       </div>
-      <div class="mine-single-line-three-socail" @click="jumpToLocationDing">
-        <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
-        <div>位置签到</div>
-        <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-      </div>
+      <router-link to="/social">
+        <div class="mine-single-line-three-socail">
+          <div><img src="@/assets/font/social-reddit.svg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>动态显示</div>
+          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
+        </div>
+      </router-link> 
+
+      <router-link to="/sign">
+        <div class="mine-single-line-three-socail">
+          <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>位置签到</div>
+          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
+        </div>
+      </router-link> 
+
+      <router-link to="">
+
+      </router-link> 
+
       <router-link to="/path"> 
       <div class="mine-single-line-three-socail">
         <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
@@ -37,23 +47,29 @@
         管理员功能
       </div> 
 
-      <div class="mine-single-line-three-socail" @click="jumpToPublishForm">
-        <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
-        <div>任务发布</div>
-        <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-      </div>
+      <router-link to="">
+        <div class="mine-single-line-three-socail">
+          <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>任务发布</div>
+          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
+        </div>
+      </router-link> 
+
       <router-link to=""> 
-        <div class="mine-single-line-three-socail" @click="jumpToPublishForm">
+        <div class="mine-single-line-three-socail">
           <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
           <div>任务修改</div>
           <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
         </div>
       </router-link>
-      <div class="mine-single-line-three-socail" @click="jumpToPublishForm">
-        <div><img src="@/assets/font/social-reddit.svg" alt="" style="width: 50%;height: 50%;"></div>
-        <div>打卡统计</div>
-        <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-      </div>
+
+      <router-link to="">
+        <div class="mine-single-line-three-socail">
+          <div><img src="@/assets/font/social-reddit.svg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>打卡统计</div>
+          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
+        </div>
+      </router-link> 
     </div>
 
 

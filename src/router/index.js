@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-12 15:53:07
+ * @LastEditTime: 2021-11-14 16:38:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -15,21 +15,16 @@ const vueComponent = {
   home: () => import('@/views/Home.vue'),
   map: () => import("@/views/Map.vue"),
   user: () => import("@/views/User.vue"),
-  userLogin: () => import("@/components/user/login.vue"),
-  userRegister: () => import("@/components/user/register.vue"),
   userMine: () => import('@/components/user/mine.vue'),
   userSocialMain: () => import("@/components/user/social/social.vue"),
   mainMap: () => import("@/components/main/positionAnalyseShow.vue"),
   mainClock: () => import('@/components/main/clock.vue'),
   adminPublish: () => import("@/components/admin/publishForm/publishForm.vue"),
-  homeSocialMessage01: () => import("@/components/user/social/emojiMessage.vue"),
-  socialMain: () => import("@/components/user/social/main.vue"),
-  socialState: () => import("@/components/user/social/state.vue"),
+  socialMain: () => import("@/components/user/social/state.vue"),
   signInMain: () => import("@/components/user/signIn/main.vue"),
-  signInGet: () => import("@/components/user/signIn/stepSignGet.vue"),
-  signInResult: () => import("@/components/user/signIn/stepSignResult.vue"),
-  signInSend: () => import("@/components/user/signIn/stepSignSend.vue"),
   pathMain: () => import("@/components/user/path/main.vue"),
+  login: () => import("@/components/user/login.vue"),
+  register: () => import("@/components/user/register.vue"),
   "404": () => import("@/components/common/404.vue")
 };
 
@@ -97,12 +92,12 @@ const routes = [
       {
         path: 'login',
         name: 'Login',
-        component: vueComponent.userLogin
+        component: vueComponent.login
       },
       {
         path: 'register',
         name: 'Register',
-        component: vueComponent.userRegister
+        component: vueComponent.register
       }
     ]
   },
@@ -111,32 +106,23 @@ const routes = [
     path: '/social',
     name: 'Social',
     component: vueComponent.socialMain,
-    children: [
-      {
-        path: 'state',
-        name: 'State',
-        component: vueComponent.socialState
-      }
-    ]
   },
   // 签到打卡
   {
     path: '/sign',
     name: 'Sign',
     component: vueComponent.signInMain,
-    children: [
-      {
-        path: 'get',
-        name: 'Get',
-        component: vueComponent.signInGet
-      }
-    ]
   },
   // 运动轨迹
   {
     path: '/path',
     name: "path",
     component: vueComponent.pathMain
+  },
+  // 任务发布
+  {
+    path: '/admin',
+    component: vueComponent.adminPublish
   }
 ];
 
