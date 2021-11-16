@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-14 16:38:09
+ * @LastEditTime: 2021-11-16 15:20:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -22,6 +22,7 @@ const vueComponent = {
   adminPublish: () => import("@/components/admin/publishForm/publishForm.vue"),
   socialMain: () => import("@/components/user/social/state.vue"),
   signInMain: () => import("@/components/user/signIn/main.vue"),
+  signResult: () => import("@/components/user/signIn/stepSignResult.vue"),
   pathMain: () => import("@/components/user/path/main.vue"),
   login: () => import("@/components/user/login.vue"),
   register: () => import("@/components/user/register.vue"),
@@ -112,6 +113,11 @@ const routes = [
     path: '/sign',
     name: 'Sign',
     component: vueComponent.signInMain,
+  },
+  {
+    path: '/signResult',
+    name: 'SignResult',
+    component: vueComponent.signResult
   },
   // 运动轨迹
   {

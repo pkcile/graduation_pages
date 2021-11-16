@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-14 16:05:47
+ * @LastEditTime: 2021-11-16 14:48:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
@@ -28,7 +28,7 @@
       </section>
       <section id="sign-map"></section>
       <div class="sign-get">
-        <section class="sign-button">
+        <section class="sign-button" @click="getInfor">
           <div>签到</div>
           <div>{{ date.hourMinute }}</div>
         </section>
@@ -85,6 +85,10 @@ export default {
         this.date.full = convertDate();
         this.date.hourMinute = convertDate().substr(11, 5);
       }, 500);
+    },
+    getInfor() {
+      // 修改父组件中的属性值
+      this.$emit("open-send-form", {data: '001'});
     }
   },
 };
@@ -109,7 +113,6 @@ export default {
   color: #555;
   background: #fff;
   & > div:nth-of-type(1) {
-    // font-size: 22px;
     flex: 1 0 200px;
   }
   & > div:nth-of-type(2) {
@@ -123,14 +126,13 @@ export default {
 #sign-map {
   width: 100%;
   height: 230px;
-  // background: #bfa;
 }
 
 .sign-get {
   padding: 30px 0 0 0;
   @keyframes round001
   {
-      0%   {background: #fca;}
+      0%   {background: rgb(231, 156, 106);}
       75%  {background: #fba;}
       100% {background: #faa;}
   }

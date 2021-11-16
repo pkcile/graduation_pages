@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:25:05
- * @LastEditTime: 2021-11-14 21:27:07
+ * @LastEditTime: 2021-11-16 14:15:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignResult.vue
 -->
 
 <template>
-  <div class="mine-send-part-absolute" style="width:100%;height:100%;">
+  <div class="mine-send-part-absolute" style="width:100%;height:100%;background:#fff;">
     <div class="send-title">
       签到详情
       <router-link to="/home/social">
@@ -39,15 +39,15 @@
           <div class="main">
             <div>
               <div>签到备注</div>
-              <div>……一个签到备注</div>
+              <div>一个签到备注zzz</div>
             </div>
             <div>
               <div>签到坐标</div>
-              <div></div>
+              <div>坐标何许人也</div>
             </div>   
             <div>
               <div>设备信息</div>
-              <div></div>
+              <div>一个设备信息</div>
             </div>  
           </div>
         </div>
@@ -113,7 +113,6 @@ export default {
 #sign-map02 {
   width: 100%;
   height: 70%;
-  background: #bfa;
 }
 
 .sign-person-card {
@@ -123,19 +122,38 @@ export default {
   border-radius: 5px;
   border: 1px solid #aaa;
   padding: 10px;
+  overflow-y: auto;
   .title {
     display: flex;
     height: 40px;
     align-items: center;
     justify-content: flex-start;
+    border-bottom: 1px solid #aaa;
+    & > div {
+      font-size: 17px;
+      font-weight: 500;
+    }
     & > div:nth-of-type(1) {
-      flex: 0 0 70px;
+      flex: 0 0 60px;
     }
     & > div:nth-of-type(2) {
       flex: 1 0 100px;
     }
   }
   .main {
+    & > div {
+      margin-top: 10px;
+      & > div {
+        font-size: 15px;
+      }
+      & > div:nth-of-type(1) {
+        color: #999;
+      }
+      & > div:nth-of-type(2) {
+        line-height: 30px;
+      }
+    }
+    
 
   }
 }
