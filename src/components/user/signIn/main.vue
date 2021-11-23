@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:19:20
- * @LastEditTime: 2021-11-16 15:10:52
+ * @LastEditTime: 2021-11-22 16:12:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/main.vue
@@ -16,12 +16,12 @@
     ></step-sign-get>
     <!-- 签到信息发送窗口 -->
     <step-sign-send
-      v-bind:style="{ display: form.dataSend }"
+      v-bind:style="{ visibility: form.dataSend }"
       @open-result-form="openResultForm"
     ></step-sign-send>
     <!-- 签到信息结果显示窗口 -->
     <step-sign-result
-      v-bind:style="{ display: form.dataResult }"
+      v-bind:style="{  visibility: form.dataResult }"
     ></step-sign-result>
   </div>
 </template>
@@ -42,8 +42,8 @@ export default {
   data() {
     return {
       form: {
-        dataResult: "none",
-        dataSend: "none"
+        dataResult: 'hidden',
+        dataSend: 'hidden'
       },
       studentData: null,
       taskId: null
@@ -72,9 +72,8 @@ export default {
       this.form.personDataSend = "none";
     },
     openSendForm(data) {
-      console.log(data);
-      this.form.dataSend = "block";
-      // this.form.dataResult = "block";
+      this.form.dataSend = 'visible';
+      // this.form.dataResult = 'visible';
     },
     openResultForm(data) {
       // console.log(data);

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:24:48
- * @LastEditTime: 2021-11-14 20:57:50
+ * @LastEditTime: 2021-11-22 16:50:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignSend.vue
@@ -19,7 +19,7 @@
         ></div>
       </router-link>
     </div>
-    <ul class="send-main">
+    <ul class="send-main" style="overflow: hidden;">
       <section class="date">
         {{ date.full }}
       <section class="infor-title">
@@ -29,7 +29,7 @@
         </section>
 
       <section class="comment">
-        <textarea name="" id="" cols="30" rows="10" placeholder="请填写签到备注" v-model="comment"></textarea>
+        <textarea name="" id="" cols="30" rows="10" placeholder="请填写签到备注" v-model="comment" style="resize:none;"></textarea>
       </section>
     </ul>
     <div class="send-footer">确认选择</div>
@@ -116,5 +116,48 @@ export default {
     border-width: 0;
   }
 }
+
+
+/* 弹出组件样式2 */
+.mine-send-part-absolute-sign {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 70px);
+  left: 0%;
+  top: 0%;
+  background: #f1f1f4;
+  // background: #fff;
+  z-index: 0;
+  .send-title {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    position: relative;
+    background: #f7f7f7;
+    .send-control {
+      position: absolute;
+      right: 50;
+      top: 0;
+      width: 50px;
+      height: 100%;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .send-control:active {
+     background-color: #eee;
+    }
+  }
+  .send-main {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+  }
+  
+}
+ 
 
 </style>

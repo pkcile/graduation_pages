@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-16 14:48:25
+ * @LastEditTime: 2021-11-22 14:52:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
 -->
 
 <template>
-  <div class="mine-send-part-absolute" style="width:100%;height:100%;">
+  <div class="mine-send-part-absolute-sign" style="width:100%;height:100%;">
     <div class="send-title">
       打卡信息设置
       <router-link to="/home/social">
@@ -180,4 +180,46 @@ export default {
     border-radius: 10px !important;
   }
 }
+
+/* 弹出组件样式2 */
+.mine-send-part-absolute-sign {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 70px);
+  left: 0%;
+  top: 0%;
+  background: #f1f1f4;
+  // background: #fff;
+  z-index: 0;
+  .send-title {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    position: relative;
+    background: #f7f7f7;
+    .send-control {
+      position: absolute;
+      right: 50;
+      top: 0;
+      width: 50px;
+      height: 100%;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .send-control:active {
+     background-color: #eee;
+    }
+  }
+  .send-main {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+  }
+  
+}
+
 </style>
