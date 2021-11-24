@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:19:20
- * @LastEditTime: 2021-11-22 16:12:09
+ * @LastEditTime: 2021-11-24 21:29:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/main.vue
@@ -22,6 +22,7 @@
     <!-- 签到信息结果显示窗口 -->
     <step-sign-result
       v-bind:style="{  visibility: form.dataResult }"
+      @back-start-form="backStartForm"
     ></step-sign-result>
   </div>
 </template>
@@ -51,34 +52,17 @@ export default {
   },
   computed: {},
   methods: {
-    openPersonChooseForm(data) {
-      this.form.personChooseForm = "block";
-      this.form.personDataSend = "none";
-      this.taskId = data;
-    },
-    openPersonDataSend(data) {
-      this.form.personChooseForm = "none";
-      this.form.personDataSend = "block";
-      this.studentData = data;
-      // 传递sendStudentData的值给personDataSend组件
-      this.$refs["sendStudentData"]?.displayResult(this.studentData, this.taskId);
-    },
-    openClockInforOnly() {
-      this.form.personChooseForm = "none";
-      this.form.personDataSend = "none";
-    },
-    openPersonChooseFormBack() {
-      this.form.personChooseForm = "block";
-      this.form.personDataSend = "none";
-    },
     openSendForm(data) {
       this.form.dataSend = 'visible';
-      // this.form.dataResult = 'visible';
+      this.form.dataResult = 'hidden';
     },
     openResultForm(data) {
-      // console.log(data);
-      // this.form.dataSend = "block";
-      // this.form.dataResult = "block";
+      this.form.dataSend = 'hidden';
+      this.form.dataResult = 'visible';
+    },
+    backStartForm(data) {
+      this.form.dataSend = 'hidden';
+      this.form.dataResult = 'hidden';
     }
   },
   mounted() {

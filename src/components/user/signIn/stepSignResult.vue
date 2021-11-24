@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:25:05
- * @LastEditTime: 2021-11-22 15:18:11
+ * @LastEditTime: 2021-11-24 21:30:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignResult.vue
@@ -11,14 +11,13 @@
   <div class="mine-send-part-absolute-sign" style="width:100%;height:100%;background:#fff;">
     <div class="send-title">
       签到详情
-      <router-link to="/home/social">
-        <div
-          class="send-control"
-          :style="{
-            'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
-          }"
-        ></div>
-      </router-link>
+      <div
+        class="send-control"
+        :style="{
+          'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
+        }"
+        @click="backToGetForm"
+      ></div>
     </div>
     <ul class="send-main">
       <section id="sign-map02"></section>
@@ -45,10 +44,6 @@
               <div>签到坐标</div>
               <div>坐标何许人也</div>
             </div>   
-            <!-- <div>
-              <div>设备信息</div>
-              <div>一个设备信息</div>
-            </div>   -->
           </div>
         </div>
       </div>
@@ -103,6 +98,9 @@ export default {
         this.date.full = convertDate();
         this.date.hourMinute = convertDate().substr(11, 5);
       }, 500);
+    },
+    backToGetForm() {
+      this.$emit("back-start-form");
     }
   },
 };

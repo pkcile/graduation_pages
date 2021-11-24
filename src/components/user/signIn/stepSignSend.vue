@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:24:48
- * @LastEditTime: 2021-11-22 16:50:44
+ * @LastEditTime: 2021-11-24 21:17:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignSend.vue
@@ -32,7 +32,7 @@
         <textarea name="" id="" cols="30" rows="10" placeholder="请填写签到备注" v-model="comment" style="resize:none;"></textarea>
       </section>
     </ul>
-    <div class="send-footer">确认选择</div>
+    <div class="send-footer" @click="forSureResult">确认选择</div>
   </div>
 </template>
 
@@ -71,7 +71,12 @@ export default {
         this.date.full = convertDate();
         this.date.hourMinute = convertDate().substr(11, 5);
       }, 500);
+    },
+    forSureResult() {
+      console.log(666);
+      this.$emit("open-result-form", {test: '001'});
     }
+    
   },
 };
 </script>
@@ -110,10 +115,12 @@ export default {
   height: 150px;
   background: #fff;
   margin-top: 15px;
+  padding: 10px;
   textarea {
     width: 100%;
     height: 100%;
     border-width: 0;
+    resize: none;
   }
 }
 
