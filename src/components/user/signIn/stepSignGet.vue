@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:22:58
- * @LastEditTime: 2021-11-22 14:52:22
+ * @LastEditTime: 2021-11-26 14:53:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignGet.vue
@@ -51,7 +51,9 @@ export default {
       date: {
         full: convertDate(),
         hourMinute: convertDate().substr(11, 5)
-      }
+      },
+      geolocationData: null,
+      poiname: null
     };
   },
   mounted() {
@@ -59,9 +61,11 @@ export default {
     this.setTimeFun();
     new Promise(getCurrentLocation)
       .then(function(geolocationData) {
+        console.log(geolocationData);
+        _this.geolocationData = geolocationData;
         _this.initMap(geolocationData);
       })
-    
+                                                                                                                                                                                                                                                                                                                                                                                                              
   },
   computed: {
     setTimeFun01: function() {
@@ -77,7 +81,8 @@ export default {
       let defaultConfig = {
         position
       };
-      new initLeaflet("sign-map", defaultConfig);
+      const map = new initLeaflet("sign-map", defaultConfig);
+      this.map = map;
 
     },
     setTimeFun() {
@@ -88,9 +93,12 @@ export default {
     },
     getInfor() {
       // 修改父组件中的属性值
-      this.$emit("open-send-form", {data: '001'});
+      this.$emit("open-send-form", {geolocationData: this.geolocationData, poiname: this.poiname});
     }
   },
+  watch: {
+
+  }
 };
 </script>
 

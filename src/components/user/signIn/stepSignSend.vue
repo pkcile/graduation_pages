@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:24:48
- * @LastEditTime: 2021-11-24 21:17:57
+ * @LastEditTime: 2021-11-26 15:02:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignSend.vue
@@ -26,7 +26,7 @@
         <!-- <div>江西师范大学</div> -->
         <div>地点微调</div>
       </section>
-        </section>
+      </section>
 
       <section class="comment">
         <textarea name="" id="" cols="30" rows="10" placeholder="请填写签到备注" v-model="comment" style="resize:none;"></textarea>
@@ -73,8 +73,7 @@ export default {
       }, 500);
     },
     forSureResult() {
-      console.log(666);
-      this.$emit("open-result-form", {test: '001'});
+      this.$emit("open-result-form", {comment: this.comment});
     }
     
   },
@@ -123,7 +122,6 @@ export default {
     resize: none;
   }
 }
-
 
 /* 弹出组件样式2 */
 .mine-send-part-absolute-sign {

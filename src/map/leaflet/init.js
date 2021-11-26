@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-12 11:17:49
- * @LastEditTime: 2021-11-12 14:10:37
+ * @LastEditTime: 2021-11-26 11:30:57
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/map/leaflet/init.js
@@ -41,6 +41,8 @@ function initLeaflet(containerId, defaultConfig) {
   L.marker([position.latitude, position.longitude], {icon: greenIcon}).addTo(map);
   // latitude: 28.686717, longitude: 116.02632
   
+  return map;
+  map.setView([0, 0], 0);
 }
 
 export default initLeaflet;

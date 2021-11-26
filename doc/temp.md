@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-31 11:06:03
- * @LastEditTime: 2021-11-16 15:02:32
+ * @LastEditTime: 2021-11-26 16:17:00
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/doc/temp.md
@@ -72,3 +72,8 @@ yarn serve --port 1232
 11.
 地图显示，如果非首屏、非postion的情况
 显示不出来的原因：？
+
+
+12.
+地图显示问题
+同一路由不同组件层级，进行visibility设置，最后的展示地图显示，如何修改为初始化后的位置

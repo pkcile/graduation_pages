@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:19:20
- * @LastEditTime: 2021-11-24 21:29:34
+ * @LastEditTime: 2021-11-25 17:53:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/main.vue
@@ -47,7 +47,14 @@ export default {
         dataSend: 'hidden'
       },
       studentData: null,
-      taskId: null
+      taskId: null,
+      dataSend: {
+        username: this?.$store?.state?.User?.login?.username,
+        comment: "",
+        latitude: 0,
+        longitude: 0,
+        poiname: "默认POI名称"
+      }
     };
   },
   computed: {},
@@ -55,10 +62,14 @@ export default {
     openSendForm(data) {
       this.form.dataSend = 'visible';
       this.form.dataResult = 'hidden';
+      this.dataSend.latitude = data.geolocationData.latitude;
+      this.dataSend.longitude = data.geolocationData.longitude;
+      console.log(this.dataSend);
     },
     openResultForm(data) {
       this.form.dataSend = 'hidden';
       this.form.dataResult = 'visible';
+      this.dataSend.comment = data.comment;
     },
     backStartForm(data) {
       this.form.dataSend = 'hidden';
@@ -68,6 +79,7 @@ export default {
   mounted() {
     // this.form.dataResult = "block";
     // this.form.dataResult = "none";
+    
   }
 }
 </script>

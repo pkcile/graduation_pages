@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:25:05
- * @LastEditTime: 2021-11-24 21:30:10
+ * @LastEditTime: 2021-11-26 11:40:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignResult.vue
@@ -28,21 +28,21 @@
         <div class="sign-person-card">
           <div class="title">
             <div>
-              21:12
+              {{ date.hourMinute }}
             </div>
             <div>
-              1栋
+              {{ dataSend.poiname }}
             </div>
 
           </div>
           <div class="main">
             <div>
               <div>签到备注</div>
-              <div>一个签到备注zzz</div>
+              <div>{{ dataSend.comment }}</div>
             </div>
             <div>
               <div>签到坐标</div>
-              <div>坐标何许人也</div>
+              <div>{{ dataSend.latitude}}, {{ dataSend.longitude }}</div>
             </div>   
           </div>
         </div>
@@ -64,17 +64,26 @@ export default {
       date: {
         full: convertDate(),
         hourMinute: convertDate().substr(11, 5)
+      },
+      poiname: "默认poi地点",
+      dataSend: {
+        username: this?.$store?.state?.User?.login?.username,
+        comment: "",
+        latitude: 0,
+        longitude: 0,
+        poiname: "默认POI名称"
       }
     };
   },
   mounted() {
+    console.log("-------------------");
+    // console.log(this.dataSend);
     const _this = this;
-    this.setTimeFun();
-    new Promise(getCurrentLocation)
-      .then(function(geolocationData) {
-        _this.initMap(geolocationData);
-      })
     
+    this.dataSend = this.$parent.dataSend;
+    console.log(this.dataSend);
+    this.setTimeFun();
+    _this.initMap({latitude: this.dataSend.latitude, longitude: this.dataSend.longitude});
   },
   computed: {
     setTimeFun01: function() {
@@ -87,6 +96,7 @@ export default {
   methods: {
     initMap(position) {
       // 初始化leaflet地图
+      console.log(position);
       let defaultConfig = {
         position
       };
@@ -103,6 +113,18 @@ export default {
       this.$emit("back-start-form");
     }
   },
+  watch: {
+    // // dataSend.latitude
+    // dataSend: {
+    //   handler(newName, oldName) {
+    //     // this.fullName = newName + ' ' + this.lastName;
+    //     console.log(newName);
+    //     this.map?.setView([28.686717, 116.02632], 10);
+    //   },
+    //   // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法，如果设置了false，那么效果和上边例子一样
+    //   immediate: false
+    // }
+  }
 };
 </script>
 
@@ -157,8 +179,6 @@ export default {
         line-height: 30px;
       }
     }
-    
-
   }
 }
 
