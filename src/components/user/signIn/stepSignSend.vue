@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:24:48
- * @LastEditTime: 2021-11-26 15:02:05
+ * @LastEditTime: 2021-11-27 11:18:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/stepSignSend.vue
 -->
 <template>
-    <div class="mine-send-part-absolute" style="width:100%;height:100%;">
+  <div class="mine-send-part-absolute" style="width: 100%; height: 100%">
     <div class="send-title">
       打卡提交
       <router-link to="/home/social">
@@ -19,17 +19,25 @@
         ></div>
       </router-link>
     </div>
-    <ul class="send-main" style="overflow: hidden;">
+    <ul class="send-main" style="overflow: hidden">
       <section class="date">
         {{ date.full }}
-      <section class="infor-title">
-        <!-- <div>江西师范大学</div> -->
-        <div>地点微调</div>
-      </section>
+        <section class="infor-title">
+          <!-- <div>江西师范大学</div> -->
+          <div>地点微调</div>
+        </section>
       </section>
 
       <section class="comment">
-        <textarea name="" id="" cols="30" rows="10" placeholder="请填写签到备注" v-model="comment" style="resize:none;"></textarea>
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          placeholder="请填写签到备注"
+          v-model="comment"
+          style="resize: none"
+        ></textarea>
       </section>
     </ul>
     <div class="send-footer" @click="forSureResult">确认选择</div>
@@ -37,8 +45,9 @@
 </template>
 
 <script>
-import { convertDate } from "@/utils/date.js"
-import { getCurrentLocation } from "@/utils/geolocation.js"
+import { convertDate } from "@/utils/date.js";
+import { getCurrentLocation } from "@/utils/geolocation.js";
+import axios from "axios";
 
 export default {
   data() {
@@ -47,23 +56,30 @@ export default {
       number: convertDate(),
       date: {
         full: convertDate(),
-        hourMinute: convertDate().substr(11, 5)
+        hourMinute: convertDate().substr(11, 5),
       },
       comment: "",
+      commitNumber: 0,
+      dataSend: {
+        username: this?.$store?.state?.User?.login?.username,
+        comment: "",
+        latitude: 0,
+        longitude: 0,
+        poiname: "默认POI名称"
+      }
     };
   },
   mounted() {
     const _this = this;
     this.setTimeFun();
-    
   },
   computed: {
-    setTimeFun01: function() {
+    setTimeFun01: function () {
       setInterval(() => {
         this.date.full = convertDate();
         this.date.hourMinute = convertDate().substr(11, 5);
       }, 500);
-    }
+    },
   },
   methods: {
     setTimeFun() {
@@ -73,9 +89,17 @@ export default {
       }, 500);
     },
     forSureResult() {
-      this.$emit("open-result-form", {comment: this.comment});
-    }
-    
+      // 你好你好
+      const _this = this;
+      _this.$emit("open-result-form", { comment: _this.comment });
+
+      if (!this.commitNumber) {
+        _this.commitNumber = 1;
+      } 
+      else {
+        alert("请稍后再试");
+      }
+    },
   },
 };
 </script>
@@ -153,7 +177,7 @@ export default {
       background-repeat: no-repeat;
     }
     .send-control:active {
-     background-color: #eee;
+      background-color: #eee;
     }
   }
   .send-main {
@@ -161,8 +185,5 @@ export default {
     height: calc(100% - 50px);
     overflow-y: auto;
   }
-  
 }
- 
-
 </style>

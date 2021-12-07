@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 22:19:20
- * @LastEditTime: 2021-11-25 17:53:18
+ * @LastEditTime: 2021-11-27 11:19:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/signIn/main.vue
@@ -31,6 +31,7 @@
 import StepSignGet from './stepSignGet.vue';
 import stepSignSend from './stepSignSend.vue';
 import StepSignResult from './stepSignResult.vue';
+import axios from "axios";
 
 // import stepSignResult from "./stepSignResult.vue";
 // import stepSignSend from "./stepSignSend.vue";
@@ -54,7 +55,8 @@ export default {
         latitude: 0,
         longitude: 0,
         poiname: "默认POI名称"
-      }
+      },
+      
     };
   },
   computed: {},
@@ -67,9 +69,48 @@ export default {
       console.log(this.dataSend);
     },
     openResultForm(data) {
-      this.form.dataSend = 'hidden';
-      this.form.dataResult = 'visible';
-      this.dataSend.comment = data.comment;
+        const _this = this;
+        this.dataSend.comment = data.comment;
+        // 向给定ID的用户发起请求
+        axios
+          .get("/api/position/signInRecord", {
+            params: _this.dataSend
+              // {
+              //   //   'username' => 'bar',
+              //   //   'latitude' => 'foo',
+              //   //   'longitude' => 121.1,
+              //   //   'latitude' => 26.11,
+              //   //   'comment' => "备注"
+              //   // username: "bar",
+              //   // latitude: 121.1,
+              //   // longitude: 26.1,
+              //   // comment: "备注",
+              // },
+              
+          })
+          .then(function (returnData) {
+            // 处理成功情况
+            // console.log(returnData);
+            if (returnData.data.status == true) {
+              // 计数归零
+              _this.commitNumber = 0;
+              _this.form.dataSend = 'hidden';
+              _this.form.dataResult = 'visible';
+
+            }
+            else {
+              alert("尝试失败");
+            }
+          })
+          .catch(function (error) {
+            // 处理错误情况
+            console.log(error);
+          })
+          .then(function () {
+            // 总是会执行
+          });
+
+
     },
     backStartForm(data) {
       this.form.dataSend = 'hidden';
