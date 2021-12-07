@@ -1,0 +1,238 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-12-07 14:10:17
+ * @LastEditTime: 2021-12-07 22:14:44
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /graduation-project-master/src/components/user/social/state2.vue
+-->
+
+<template>
+  <div class="socail-page" style="z-index: 2">
+    <div class="title">
+      <div
+        class="control"
+        :style="{
+          'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
+        }"
+        @click="backToSocial"
+      ></div>
+      <div
+        class="right"
+        :style="{
+          'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
+        }"
+        @click="backToSocial"
+      ></div>
+    </div>
+
+    <div class="main">
+      <div
+        class="background-img"
+        :style="{
+          'background-image': `url('https://wx1.sinaimg.cn/large/6c942574ly1gwzvc23zr5g20hs0dckjl.gif')`,
+        }"
+      >
+        <!-- https://photo.weibo.com/1821648244/wbphotos/large/mid/4710088767701407/pid/6c942574ly1gwzvc23zr5g20hs0dckjl -->
+        <div class="user-infor">
+          <div class="name">wpkqq qq qq</div>
+          <div
+            class="img"
+            :style="{
+              'background-image': `url(${require('@/assets/img/user/1.jpg')})`,
+            }"
+          ></div>
+        </div>
+      </div>
+      <section class="socail-state-item">
+        <div
+          class="user-img"
+          :style="{
+            'background-image': `url(${require('@/assets/img/user/1.jpg')})`,
+          }"
+        ></div>
+        <div class="user-main">
+          <div class="user-name">王朋坤</div>
+          <div class="user-comment">打卡成功，Everthing will be OK!</div>
+          <div class="user-status">
+            <div class="location">黄河流域</div>
+            <div class="time">
+              <div>2小时前</div>
+              <div>打卡动态</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Pagination } from "vant";
+import axios from "axios";
+
+export default {
+  components: {
+    [Pagination.name]: Pagination,
+  },
+  data() {
+    return {
+      currentPage: 1,
+      checked: false,
+      studentData: [
+        {
+          user_username: "hhxx",
+          task_id: "47",
+          edittime: "2021-07-05 18:49:16",
+          status: "1",
+          comment: "好好学习测试打卡",
+        },
+      ],
+    };
+  },
+  mounted() {
+    const _this = this;
+    axios
+      .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/recordshow`)
+      .then(function (returnData) {
+        console.log(returnData.data);
+        returnData.data.recordShow.map((item, index) => {
+          if (item.edittime) {
+            _this.studentData.push({
+              user_username: item["user_username"],
+              username: "0000",
+              edittime: item.edittime,
+              status: item.status,
+              comment: item.comment,
+              id: index,
+            });
+          }
+        });
+        console.log(_this.studentData);
+      });
+  },
+  methods: {
+    backToSocial() {
+      this.$router.push("/home/social");
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.socail-page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0%;
+  top: 0%;
+  background: #f1f1f4;
+  z-index: 0;
+  .title {
+    position: absolute;
+    background: rgba(100, 10, 0, 0.2);
+    height: 50px;
+    top: 0;
+    z-index: 4;
+    width: 100%;
+    text-align: center;
+    .control {
+      position: absolute;
+      width: 50px;
+      height: 100%;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background-position: center;
+      background-size: 50%;
+      background-repeat: no-repeat;
+    }
+    .right {
+      position: absolute;
+      width: 50px;
+      height: 100%;
+      right: 0;
+      top: 0;
+      height: 100%;
+      background-position: center;
+      background-size: 50%;
+      background-repeat: no-repeat;
+    }
+
+  }
+  .main {
+    background: #fff;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 3;
+    .background-img {
+      margin-bottom: 50px;
+      height: 150px;
+      width: 100%;
+      position: relative;
+      background-size: cover;
+      background-repeat: repeat-x;
+    }
+    .user-infor {
+      position: absolute;
+      right: 0;
+      bottom: -25px;
+      width: 120px;
+      height: 50px;
+      // border: 1px solid red;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      .name {
+        flex: 1 0 50px;
+      }
+      .img {
+        height: 50px;
+        flex: 0 0 55px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        border-radius: 9%;
+      }
+    }
+  }
+}
+
+.socail-state-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  div {
+    line-height: 25px;
+  }
+  .user-img {
+    flex: 0 0 50px;
+    height: 50px;
+    background: #bbb;
+    margin-left: 12px;
+    background-size: contain;
+    border-radius: 9%;
+  }
+  .user-main {
+    flex: 1 1 50px;
+    padding-left: 5px;
+    .user-name {
+      color: blue;
+    }
+    .user-status {
+      color: #999;
+      div {
+        font-size: 14px;
+      }
+      .location {
+      }
+      .time {
+        display: flex;
+      }
+    }
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-16 15:20:52
+ * @LastEditTime: 2021-12-07 14:12:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -26,7 +26,8 @@ const vueComponent = {
   pathMain: () => import("@/components/user/path/main.vue"),
   login: () => import("@/components/user/login.vue"),
   register: () => import("@/components/user/register.vue"),
-  "404": () => import("@/components/common/404.vue")
+  "404": () => import("@/components/common/404.vue"),
+  temp: ()=> import("@/components/user/social/state2.vue"),
 };
 
 const routes = [
@@ -34,6 +35,10 @@ const routes = [
   {
     path: '*',
     component: vueComponent["404"]
+  },
+  {
+    path: '/temp',
+    component: vueComponent["temp"]
   },
   // 主菜单
   {
