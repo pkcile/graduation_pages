@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2021-11-14 16:59:51
+ * @LastEditTime: 2021-12-07 22:36:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -47,7 +47,7 @@
         管理员功能
       </div> 
 
-      <router-link to="">
+      <router-link to="/home/admin">
         <div class="mine-single-line-three-socail">
           <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
           <div>任务发布</div>

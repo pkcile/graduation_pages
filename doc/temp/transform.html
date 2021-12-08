@@ -1,0 +1,43 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-12-08 09:30:52
+ * @LastEditTime: 2021-12-08 09:32:10
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /graduation-project-master/doc/temp/transform.html
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #aaa {
+      width: 100px;
+      height: 100px;
+      background: blue;
+      transition: width 2s;
+      -moz-transition: width 2s; /* Firefox 4 */
+      -webkit-transition: width 2s; /* Safari and Chrome */
+      -o-transition: width 2s; /* Opera */
+    }
+
+    #aaa:hover {
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+  <script>
+    function big() {
+      document.getElementById("aaa").style.width = "0";
+      document.getElementById("aaa").style.height = "0";
+    }
+    function small() {
+      document.getElementById("aaa").style.width = "0";
+    }
+  </script>
+</head>
+<body>
+  <button onclick="big()">Big</button>
+  <button onclick="small()">Small</button>
+  <div id="aaa"></div>
+</body>
+</html>

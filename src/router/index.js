@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-12-07 14:12:02
+ * @LastEditTime: 2021-12-08 11:03:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -20,7 +20,7 @@ const vueComponent = {
   mainMap: () => import("@/components/main/positionAnalyseShow.vue"),
   mainClock: () => import('@/components/main/clock.vue'),
   adminPublish: () => import("@/components/admin/publishForm/publishForm.vue"),
-  socialMain: () => import("@/components/user/social/state.vue"),
+  socialMain: () => import("@/components/user/social/state2.vue"),
   signInMain: () => import("@/components/user/signIn/main.vue"),
   signResult: () => import("@/components/user/signIn/stepSignResult.vue"),
   pathMain: () => import("@/components/user/path/main.vue"),
@@ -28,6 +28,7 @@ const vueComponent = {
   register: () => import("@/components/user/register.vue"),
   "404": () => import("@/components/common/404.vue"),
   temp: ()=> import("@/components/user/social/state2.vue"),
+  temp2: ()=> import("@/components/admin/editTask/index.vue"),
 };
 
 const routes = [
@@ -39,6 +40,10 @@ const routes = [
   {
     path: '/temp',
     component: vueComponent["temp"]
+  },
+  {
+    path: '/temp2',
+    component: vueComponent["temp2"]
   },
   // 主菜单
   {
