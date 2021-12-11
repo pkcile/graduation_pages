@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-07 22:49:03
- * @LastEditTime: 2021-12-08 20:51:28
+ * @LastEditTime: 2021-12-09 09:31:04
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/components/admin/editTask/index.vue
@@ -40,15 +40,15 @@
           <div>{{ item.placename }}</div>
           <div>36小时前</div>
           <div>{{ item.user_username }}</div>
-          <van-radio name="1"></van-radio>
+          <van-radio v-bind:name="item.id"></van-radio>
         </div>
-        <div class="radio-four">
+        <!-- <div class="radio-four">
           <div>001</div>
           <div>方阴楼</div>
           <div>6小时前</div>
           <div>admin</div>
           <van-radio name="2"></van-radio>
-        </div>
+        </div> -->
       </van-radio-group>
     </ul>
 
