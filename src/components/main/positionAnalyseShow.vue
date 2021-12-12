@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-11-04 09:50:33
+ * @LastEditTime: 2021-12-12 15:56:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -219,6 +219,7 @@ export default {
       });
       _this.leaflet.map = map; // 存在this指向的问题
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        // https://tile.openstreetmap.org/{z}/{x}/{y}.png
         maxZoom: 19,
         attribution: "Mapbox",
       }).addTo(map);
