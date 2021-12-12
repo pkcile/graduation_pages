@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-12-08 11:03:09
+ * @LastEditTime: 2021-12-12 13:59:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -29,6 +29,7 @@ const vueComponent = {
   "404": () => import("@/components/common/404.vue"),
   temp: ()=> import("@/components/user/social/state2.vue"),
   temp2: ()=> import("@/components/admin/editTask/index.vue"),
+  baidumap: () => import("@/components/main/map/baidumap.vue")
 };
 
 const routes = [
@@ -90,6 +91,10 @@ const routes = [
       {
         path: 'main',
         component: vueComponent.mainMap
+      },
+      {
+        path: 'baidu',
+        component: vueComponent.baidumap
       }
     ]
   },
