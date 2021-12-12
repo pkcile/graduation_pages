@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-07 14:10:17
- * @LastEditTime: 2021-12-12 11:43:48
+ * @LastEditTime: 2021-12-12 13:48:01
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/components/user/social/state2.vue
@@ -92,25 +92,38 @@
           <van-cell-group>
             <van-cell center title="匿名发布" icon="location-o">
               <template #right-icon>
-                <van-switch v-model="checked" size="24" />
+                <!-- <van-switch v-model="checked" size="24" /> -->
+                 <van-checkbox v-model="checked"></van-checkbox>
               </template>
             </van-cell>
- <van-field
-  readonly
-  clickable
-  label="城市"
-  :value="value"
-  placeholder="选择城市"
-  @click="showPicker = true"
-/>
-<van-popup v-model="showPicker" round position="bottom">
-  <van-picker
-    show-toolbar
-    :columns="columns"
-    @cancel="showPicker = false"
-    @confirm="onConfirm"
-  />
-</van-popup>
+            <van-cell center title="获取定位" icon="location-o">
+              <template #right-icon>
+                <van-checkbox v-model="checked"></van-checkbox>
+              </template>
+            </van-cell>
+            <van-cell
+              center
+              title="主题选择"
+              readonly
+              clickable
+              :value="value"
+              placeholder="选择城市"
+              @click="showPicker = true"
+              icon="location-o"
+            >
+              <template #right-icon>
+                <!-- <van-switch v-model="checked" size="24" /> -->
+              </template>
+            </van-cell>
+
+            <van-popup v-model="showPicker" round position="bottom">
+              <van-picker
+                show-toolbar
+                :columns="columns"
+                @cancel="showPicker = false"
+                @confirm="onConfirm"
+              />
+            </van-popup>
           </van-cell-group>
         </div>
       </div>
@@ -119,7 +132,16 @@
 </template>
 
 <script>
-import { Pagination, Switch, Cell, CellGroup, Picker, Field, Popup    } from "vant";
+import {
+  Pagination,
+  Switch,
+  Cell,
+  CellGroup,
+  Picker,
+  Field,
+  Popup,
+  Checkbox
+} from "vant";
 import axios from "axios";
 
 export default {
@@ -130,7 +152,9 @@ export default {
     [CellGroup.name]: CellGroup,
     [Picker.name]: Picker,
     [Field.name]: Field,
-    [Popup.name]: Popup ,
+    [Popup.name]: Popup,
+    [Checkbox.name]: Checkbox,
+
   },
   data() {
     return {
@@ -145,9 +169,9 @@ export default {
           comment: "好好学习测试打卡",
         },
       ],
-      value: '',
+      value: "",
       showPicker: false,
-      columns: ['杭州', '宁波', '温州', '绍兴', '湖州', '嘉兴', '金华', '衢州'],
+      columns: ["杭州", "宁波", "温州", "绍兴", "湖州", "嘉兴", "金华", "衢州"],
     };
   },
   mounted() {
