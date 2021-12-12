@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-07 14:10:17
- * @LastEditTime: 2021-12-07 22:14:44
+ * @LastEditTime: 2021-12-12 11:43:48
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/components/user/social/state2.vue
@@ -20,9 +20,8 @@
       <div
         class="right"
         :style="{
-          'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
+          'background-image': `url(${require('@/assets/font/clock.svg')})`,
         }"
-        @click="backToSocial"
       ></div>
     </div>
 
@@ -64,16 +63,74 @@
         </div>
       </section>
     </div>
+
+    <div class="post send-part-message">
+      <div class="title">
+        <div
+          class="control"
+          :style="{
+            'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
+          }"
+          @click="backToSocial"
+        ></div>
+        <div
+          class="right"
+          :style="{
+            'background-image': `url(${require('@/assets/font/clock.svg')})`,
+          }"
+        ></div>
+      </div>
+      <div class="main">
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          placeholder="需要反馈发布的内容……"
+        ></textarea>
+        <div class="message-config">
+          <van-cell-group>
+            <van-cell center title="匿名发布" icon="location-o">
+              <template #right-icon>
+                <van-switch v-model="checked" size="24" />
+              </template>
+            </van-cell>
+ <van-field
+  readonly
+  clickable
+  label="城市"
+  :value="value"
+  placeholder="选择城市"
+  @click="showPicker = true"
+/>
+<van-popup v-model="showPicker" round position="bottom">
+  <van-picker
+    show-toolbar
+    :columns="columns"
+    @cancel="showPicker = false"
+    @confirm="onConfirm"
+  />
+</van-popup>
+          </van-cell-group>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { Pagination } from "vant";
+import { Pagination, Switch, Cell, CellGroup, Picker, Field, Popup    } from "vant";
 import axios from "axios";
 
 export default {
   components: {
     [Pagination.name]: Pagination,
+    [Switch.name]: Switch,
+    [Cell.name]: Cell,
+    [CellGroup.name]: CellGroup,
+    [Picker.name]: Picker,
+    [Field.name]: Field,
+    [Popup.name]: Popup ,
   },
   data() {
     return {
@@ -88,6 +145,9 @@ export default {
           comment: "好好学习测试打卡",
         },
       ],
+      value: '',
+      showPicker: false,
+      columns: ['杭州', '宁波', '温州', '绍兴', '湖州', '嘉兴', '金华', '衢州'],
     };
   },
   mounted() {
@@ -115,11 +175,71 @@ export default {
     backToSocial() {
       this.$router.push("/home/social");
     },
+    onConfirm(value) {
+      this.value = value;
+      this.showPicker = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.post {
+}
+
+.send-part-message {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 2;
+  textarea {
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    border-width: 0;
+    padding: 20px;
+  }
+  & > .title {
+    position: relative;
+    background: rgba(255, 255, 255, 0);
+    height: 50px;
+    z-index: 1;
+    // width: 100%    text-align: center;
+    .control {
+      position: absolute;
+      width: 50px;
+      height: 100%;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background-position: center;
+      background-size: 50%;
+      background-repeat: no-repeat;
+    }
+    .right {
+      position: absolute;
+      width: 50px;
+      height: 100%;
+      right: 0;
+      top: 0;
+      height: 100%;
+      background-position: center;
+      background-size: 50%;
+      background-repeat: no-repeat;
+    }
+  }
+  & > .main {
+    background: #fff;
+    height: calc(100% - 50px);
+    width: 100%;
+    overflow-y: auto;
+    position: relative;
+    textarea {
+      height: 200px;
+    }
+  }
+}
 .socail-page {
   position: absolute;
   width: 100%;
@@ -128,12 +248,12 @@ export default {
   top: 0%;
   background: #f1f1f4;
   z-index: 0;
-  .title {
+  & > .title {
     position: absolute;
     background: rgba(100, 10, 0, 0.2);
     height: 50px;
     top: 0;
-    z-index: 4;
+    z-index: 1;
     width: 100%;
     text-align: center;
     .control {
@@ -158,15 +278,14 @@ export default {
       background-size: 50%;
       background-repeat: no-repeat;
     }
-
   }
-  .main {
+  & > .main {
     background: #fff;
     height: 100%;
     width: 100%;
     overflow-y: auto;
     position: absolute;
-    z-index: 3;
+    z-index: 0;
     .background-img {
       margin-bottom: 50px;
       height: 150px;
