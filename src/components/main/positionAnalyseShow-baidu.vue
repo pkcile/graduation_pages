@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-12-12 15:56:05
+ * @LastEditTime: 2021-12-12 17:55:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -13,7 +13,7 @@
       位置显示
       <div class="send-control" @click="goToHomeMain" :style="{'background-image': `url(${require('@/assets/font/close.svg')})`}"></div>
     </div>
-    <div class="send-main" id="viewDiv"></div>
+    <div class="send-main" :id="mapId"></div>
     <div
       class="send-footer"
       @click="getSendData"
@@ -28,7 +28,7 @@
 import axios from "axios";
 import * as turf from "@turf/turf";
 import L from "leaflet";
-// import "leaflet/dist/leaflet.css"
+import loadBMap from "@/map/baidu/init.js";
 
 export default {
   data() {
@@ -37,6 +37,8 @@ export default {
         map: null,
         send: false,
       },
+      mapId: "BMap-" + parseInt(Date.now() + Math.random()),
+      mapbaidu: undefined
     };
   },
   mounted() {
@@ -212,65 +214,29 @@ export default {
     function analyseTime(resolve) {}
     // 结果显示
     function showMap(data) {
-      // 地图显示
-      const map = L.map("viewDiv", {
-        zoomControl: true,
-        attributionControl: true,
-      });
-      _this.leaflet.map = map; // 存在this指向的问题
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        // https://tile.openstreetmap.org/{z}/{x}/{y}.png
-        maxZoom: 19,
-        attribution: "Mapbox",
-      }).addTo(map);
-      map.setView(
-        {
-          lat: positionPoint?.geometry?.coordinates[1] || 28.682975759198253,
-          lon: positionPoint?.geometry?.coordinates[0] || 116.026260653,
-        },
-        18
-      );
-      if (
-        data?.positionBufferPolygon &&
-        data?.positionFilterResult &&
-        positionPoint
-      ) {
-        // L.geoJSON(JSON.parse(window.localStorage.getItem("initPositionData"))).addTo(_this.leaflet.map);
-        L.geoJSON(data.positionBufferPolygon, {
-          style: {
-            // "color": "#D55154",
-            color: "#00f",
-            weight: 5,
-            opacity: 0.5,
-            fillColor: "#fff",
-          },
-        }).addTo(_this.leaflet.map);
-        L.geoJSON(data.positionFilterResult, {
-          style: {
-            color: "#f00",
-            weight: 3,
-            opacity: 1,
-            fillColor: "#fff",
-          },
-        }).addTo(_this.leaflet.map);
+      console.log(data);
+        loadBMap("74SeVoIxamZsKnAjgFsN8fecdAdrmAA9")
+        .then(() => {
+          let myMap = new BMapGL.Map(_this.mapId); 
+          _this.mapbaidu = myMap;
+          myMap.centerAndZoom(new BMapGL.Point(116.026260653, 28.682975759198253), 15); 
+          myMap.enableScrollWheelZoom(true); 
 
-        L.geoJSON(positionPoint, {
-          pointToLayer: function (feature, latlng) {
-            const geojsonMarkerOptions = {
-              radius: 8,
-              fillColor: "#ff7800",
-              color: "#fff",
-              weight: 1,
-              opacity: 1,
-              fillOpacity: 0.8,
-            };
-            return L.circleMarker(latlng, geojsonMarkerOptions);
-          },
-          onEachFeature: function (feature, layer) {
-            layer.bindPopup("定位获取的位置").openPopup();
-          },
-        }).addTo(map);
-      }
+          // let gcj = coordtransform.wgs84togcj02(116.02700293064119,28.682474537585097);
+
+          // coordtransform.
+          // coordtransform.bd09togcj02(116.404, 39.915);
+          // coordtransform.gcj02towgs84(116.404, 39.915);
+          // var wgs84togcj02 = coordtransform.wgs84togcj02(116.404, 39.915);
+          // var gcj02tobd09 = coordtransform.gcj02tobd09(116.404, 39.915);
+          // console.log(coordtransform.gcj02tobd09(gcj[0], gcj[1]) );
+
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("地图加载失败");
+        });
+      
     }
   },
   computed: {},
@@ -279,6 +245,7 @@ export default {
       this.$router.push("main");
     },
     getSendData() {
+      console.log(this.mapbaidu);
       const { positionPoint, _this, map, sendDatabase } = {
         positionPoint:
           this?.$store?.state?.User?.get?.locationItem?.positionPoint,
@@ -286,14 +253,6 @@ export default {
         map: this.leaflet.map,
         sendDatabase: this?.$store?.state?.User?.get?.sendDatabase,
       };
-
-      map.setView(
-        L.latLng(positionPoint.latitude, positionPoint.longitude),
-        17,
-        {
-          duration: 2,
-        }
-      );
 
       // console.log(sendDatabase);
       // 数据发送
