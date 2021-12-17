@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-04 09:57:58
+ * @LastEditTime: 2021-12-12 11:01:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\App.vue
@@ -26,6 +26,7 @@ body, html {
   padding: 0;
   background: #EFEFF3;
   // background: #F7F8FA;
+  // background: url('https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RWLNb9?ver=6f2d')
 }
 
 #app {
