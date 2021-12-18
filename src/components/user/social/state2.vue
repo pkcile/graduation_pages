@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-07 14:10:17
- * @LastEditTime: 2021-12-12 13:48:01
+ * @LastEditTime: 2021-12-18 11:28:07
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/components/user/social/state2.vue
@@ -78,6 +78,7 @@
           :style="{
             'background-image': `url(${require('@/assets/font/clock.svg')})`,
           }"
+          @click="sendMessage"
         ></div>
       </div>
       <div class="main">
@@ -203,6 +204,9 @@ export default {
       this.value = value;
       this.showPicker = false;
     },
+    sendMessage() {
+      
+    }
   },
 };
 </script>
