@@ -46,7 +46,6 @@
       <div class="mine-single-line-three-socail-title">
         管理员功能
       </div> 
-
       <router-link to="/home/admin">
         <div class="mine-single-line-three-socail">
           <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
@@ -55,7 +54,7 @@
         </div>
       </router-link> 
 
-      <router-link to=""> 
+      <router-link to="/edit"> 
         <div class="mine-single-line-three-socail">
           <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
           <div>任务修改</div>

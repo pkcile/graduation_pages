@@ -8,7 +8,7 @@
 -->
 
 <template>
-  <div class="clockInforForm mine-send-part-absolute">   
+  <div class="clockInforForm mine-send-part-absolute" style="background:#fff;">   
     <div class="send-title">
       打卡信息设置
       <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}" @click="backTo"></div>

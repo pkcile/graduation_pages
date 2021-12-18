@@ -22,6 +22,7 @@
         :style="{
           'background-image': `url(${require('@/assets/font/clock.svg')})`,
         }"
+        @click="initSendMessage"
       ></div>
     </div>
 
@@ -43,7 +44,7 @@
           ></div>
         </div>
       </div>
-      <section class="socail-state-item">
+      <section class="socail-state-item" v-for="item in userState" v-bind:key="item.key">
         <div
           class="user-img"
           :style="{
@@ -51,32 +52,32 @@
           }"
         ></div>
         <div class="user-main">
-          <div class="user-name">王朋坤</div>
-          <div class="user-comment">打卡成功，Everthing will be OK!</div>
+          <div class="user-name">{{ item.user.name }}</div>
+          <div class="user-comment">{{ item.content }}</div>
           <div class="user-status">
-            <div class="location">黄河流域</div>
+            <div class="location">{{ item.user.position }}</div>
             <div class="time">
-              <div>2小时前</div>
-              <div>打卡动态</div>
+              <div>{{ item.user.time }}</div>
+              <div>{{ item.user.type }}</div>
             </div>
           </div>
         </div>
       </section>
     </div>
 
-    <div class="post send-part-message">
+    <div class="post send-part-message" :style="{display:sendPage}">
       <div class="title">
         <div
           class="control"
           :style="{
             'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
           }"
-          @click="backToSocial"
+          @click="backHomeSocail"
         ></div>
         <div
           class="right"
           :style="{
-            'background-image': `url(${require('@/assets/font/clock.svg')})`,
+            'background-image': `url(${require('@/assets/font/clock.svg')} )`,
           }"
           @click="sendMessage"
         ></div>
@@ -159,6 +160,7 @@ export default {
   },
   data() {
     return {
+      sendPage: "none",
       currentPage: 1,
       checked: false,
       studentData: [
@@ -173,6 +175,78 @@ export default {
       value: "",
       showPicker: false,
       columns: ["杭州", "宁波", "温州", "绍兴", "湖州", "嘉兴", "金华", "衢州"],
+      userState: [
+        {
+          key: 1,
+          user: {
+            name: "zzz",
+            backgroundImg: require('@/assets/img/user/1.jpg'),
+            position: "黄河流域",
+            time: new Date().toDateString(),
+            type: "打卡动态"
+          },
+          content: "打卡成功，Everthing will be OK!",
+          comment: [
+            {}
+          ]
+        },
+        {
+          key: 2,
+          user: {
+            name: "zzz",
+            backgroundImg: require('@/assets/img/user/1.jpg'),
+            position: "黄河流域",
+            time: new Date().toDateString(),
+            type: "打卡动态"
+          },
+          content: "打卡成功，Everthing will be OK!如果你已经拷贝了密钥,但想要替换为新的密码,使用 -f 选项覆盖已有的密钥。 $ ssh-copy-id -f sk@192.168.225.22 我们现在已经成功地将本地系统的 SSH 公钥添加进了远程系统。现在,让我们在远程系统上完全禁用掉基于密码认证的",
+          comment: [
+            {}
+          ]
+        },
+        {
+          key: 3,
+          user: {
+            name: "zzz",
+            backgroundImg: require('@/assets/img/user/1.jpg'),
+            position: "黄河流域",
+            time: new Date().toDateString(),
+            type: "打卡动态"
+          },
+          content: "打卡成功，Everthing will be OK!",
+          comment: [
+            {}
+          ]
+        },
+        {
+          key: 4,
+          user: {
+            name: "zzz",
+            backgroundImg: require('@/assets/img/user/1.jpg'),
+            position: "黄河流域",
+            time: new Date().toDateString(),
+            type: "打卡动态"
+          },
+          content: "打卡成功，Everthing will be OK!",
+          comment: [
+            {}
+          ]
+        },        
+        {
+          key: 5,
+          user: {
+            name: "zzz",
+            backgroundImg: require('@/assets/img/user/1.jpg'),
+            position: "黄河流域",
+            time: new Date().toDateString(),
+            type: "打卡动态"
+          },
+          content: "打卡成功，Everthing will be OK!",
+          comment: [
+            {}
+          ]
+        }
+      ]
     };
   },
   mounted() {
@@ -205,15 +279,21 @@ export default {
       this.showPicker = false;
     },
     sendMessage() {
-      
+      this.sendPage = "block";
+    },
+    initSendMessage() {
+      this.sendPage = "block";
+    },
+    backHomeSocail() {
+      this.sendPage = "none";
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.post {
-}
+// .post {
+// }
 
 .send-part-message {
   position: absolute;
@@ -354,6 +434,7 @@ export default {
   flex-wrap: nowrap;
   div {
     line-height: 25px;
+    font-size: 16px;
   }
   .user-img {
     flex: 0 0 50px;
@@ -374,8 +455,8 @@ export default {
       div {
         font-size: 14px;
       }
-      .location {
-      }
+      // .location {
+      // }
       .time {
         display: flex;
       }

@@ -149,6 +149,11 @@ const routes = [
   {
     path: '/admin',
     component: vueComponent.adminPublish
+  },
+  // 任务编辑
+  {
+    path: '/edit',
+    component: vueComponent.temp2
   }
 ];
 
