@@ -68,14 +68,14 @@
       <li class="infor-forsure" style="height: 80px; overflow-y: auto;">
         <van-radio-group v-model="radio">
             <div class="mine-single-line-two" @click="showStartTimePopup">
-                <div style="">分配人员</div>
-                <div>{{  }}</div>
+                <div style="">分配人员：</div>
+                <div>{{ "学生被分配" }}</div>
                 <div><van-radio name="1"></van-radio></div>
             </div>
 
             <div class="mine-single-line-two" @click="showStartTimePopup">
                 <div style="">任务修改</div>
-                <div>{{  }}</div>
+                <div>{{ "任务被分配" }}</div>
                 <div><van-radio name="2"></van-radio></div>
             </div>
         </van-radio-group>
