@@ -42,13 +42,6 @@
           <div>{{ item.user_username }}</div>
           <van-radio v-bind:name="item.id"></van-radio>
         </div>
-        <!-- <div class="radio-four">
-          <div>001</div>
-          <div>方阴楼</div>
-          <div>6小时前</div>
-          <div>admin</div>
-          <van-radio name="2"></van-radio>
-        </div> -->
       </van-radio-group>
     </ul>
 
@@ -148,27 +141,28 @@ export default {
       this.publishTask.formData.starttime.showDate = false;
     },
     clockInforMake() {
-      const _this = this;
-      if (
-        this.publishTask.param.placename != "" &&
-        this.publishTask.starttime != "" &&
-        this.publishTask.starttime != ""
-      ) {
-        axios
-          .get(
-            `${process.env.VUE_APP_POSITION_PATH}/api/position/publishtask`,
-            { params: _this.publishTask.param }
-          )
-          .then(function (returnData) {
-            _this.$notify("创建的任务号码" + returnData.data.id);
-            _this.$emit("open-person-choose-form", returnData.data.id);
-          })
-          .catch(function () {
-            _this.$notify("服务出现问题，或者你的网速过慢");
-          });
-      } else {
-        _this.$notify("请输入完整地点和打卡起始时间");
-      }
+      this.$router.push("/edit/forsure");
+      // const _this = this;
+      // if (
+      //   this.publishTask.param.placename != "" &&
+      //   this.publishTask.starttime != "" &&
+      //   this.publishTask.starttime != ""
+      // ) {
+      //   axios
+      //     .get(
+      //       `${process.env.VUE_APP_POSITION_PATH}/api/position/publishtask`,
+      //       { params: _this.publishTask.param }
+      //     )
+      //     .then(function (returnData) {
+      //       _this.$notify("创建的任务号码" + returnData.data.id);
+      //       _this.$emit("open-person-choose-form", returnData.data.id);
+      //     })
+      //     .catch(function () {
+      //       _this.$notify("服务出现问题，或者你的网速过慢");
+      //     });
+      // } else {
+      //   _this.$notify("请输入完整地点和打卡起始时间");
+      // }
     },
     backTo() {
       this.$router.push("/home/social");

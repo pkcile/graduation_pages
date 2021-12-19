@@ -28,9 +28,14 @@ const vueComponent = {
   register: () => import("@/components/user/register.vue"),
   "404": () => import("@/components/common/404.vue"),
   temp: ()=> import("@/components/user/social/state2.vue"),
-  temp2: ()=> import("@/components/admin/editTask/index.vue"),
+  choose: ()=> import("@/components/admin/editTask/choose.vue"),
   baidumap: () => import("@/components/main/map/baidumap.vue"),
-  leafletmap: () => import("@/components/main/map/leafletMap.vue")
+  leafletmap: () => import("@/components/main/map/leafletMap.vue"),
+  empty: ()=> import("@/components/admin/editTask/empty.vue"),
+  forsure: () => import("@/components/admin/editTask/forsure.vue"),
+  asign: () => import("@/components/admin/editTask/asign.vue"),
+  asignForsure: () => import("@/components/admin/editTask/asignForsure.vue"),
+
 };
 
 const routes = [
@@ -153,7 +158,44 @@ const routes = [
   // 任务编辑
   {
     path: '/edit',
-    component: vueComponent.temp2
+    component: vueComponent.empty,
+    redirect: '/edit/choose',
+    beforeEnter: (to, from, next) => {
+      if(to.fullPath === "/edit/" || to.fullPath == "/edit") {
+        next("/edit/choose");
+      }
+      else {
+        next();
+      }
+    },
+    children: [
+      {
+        path: 'choose',
+        name: 'choose',
+        component: vueComponent.choose
+      },
+      {
+        path: 'forsure',
+        name: 'forsure',
+        component: vueComponent.forsure
+      },
+      {
+        path: 'editTask',
+        name: 'editTask',
+        component: vueComponent.register
+      },
+      {
+        path: 'asign',
+        name: 'asign',
+        component: vueComponent.asign
+      },  
+      {
+        path: 'asignForsure',
+        name: 'asignForsure',
+        component: vueComponent.asignForsure
+      },
+      
+    ]
   }
 ];
 

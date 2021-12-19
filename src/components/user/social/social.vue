@@ -29,16 +29,20 @@
         </div>
       </router-link> 
 
-      <router-link to="">
-
+      <router-link to="/path"> 
+        <div class="mine-single-line-three-socail">
+          <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>运动轨迹</div>
+          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
+        </div>
       </router-link> 
 
-      <router-link to="/path"> 
-      <div class="mine-single-line-three-socail">
-        <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
-        <div>运动轨迹</div>
-        <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-      </div>
+      <router-link to="">
+        <div class="mine-single-line-three-socail">
+          <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>好友列表</div>
+          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
+        </div>
       </router-link> 
     </div> 
 

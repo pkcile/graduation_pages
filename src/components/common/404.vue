@@ -10,6 +10,9 @@
 <template>
   <div style="width:100%;height:100%;background: #fff;overflow: hidden;">
     <h1 style="text-align: center;margin-top:50px;">404</h1>
+    <router-link to="/home">
+      <a href="">返回主页面</a>
+    </router-link>
   </div>
 </template>
 
