@@ -76,7 +76,7 @@
           v-model="publishTask.param.content"
           type="text"
           style="
-            border: 1px solid gray;
+            border: 1px solid #8080802e;
             padding: 10px;
             box-sizing: border-box;
             width: 100%;
