@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-11-04 09:42:36
+ * @LastEditTime: 2022-01-01 19:22:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -40,6 +40,12 @@
           <img :src="props.active ? iconSocial.active : iconSocial.inactive" style="height: 23px;"/>
         </template>
       </van-tabbar-item>
+      <van-tabbar-item to="/home/work">
+        <span>工作</span>
+        <template #icon="props">
+          <img :src="props.active ? iconWork.active : iconWork.inactive" style="height: 23px;"/>
+        </template>
+      </van-tabbar-item>
       <van-tabbar-item to="/home/mine">
         <span>我的</span>
         <template #icon="props">
@@ -56,7 +62,7 @@ import axios from "axios"
 export default {
   data() {
     return {
-      active: 2,
+      active: 0,
       iconMain: {
         active: require("@/assets/img/home/clock.svg"),
         inactive: require("@/assets/img/home/clock-grey.svg"),
@@ -67,7 +73,11 @@ export default {
       },
       iconMine: {
         active: require("@/assets/img/home/mine.svg"),
-        inactive: require("@/assets/img/home/mine.svg"),
+        inactive: require("@/assets/img/home/mine-grey.svg"),
+      },
+      iconWork: {
+        active: require("@/assets/img/home/clock.svg"),
+        inactive: require("@/assets/img/home/clock-grey.svg")
       }
     };
   },

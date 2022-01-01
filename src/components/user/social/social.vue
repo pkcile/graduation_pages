@@ -1,9 +1,9 @@
 <!--
- * @Author: your name
+ * @Author: pkcile
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2021-12-07 22:36:18
+ * @LastEditTime: 2022-01-01 19:13:01
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 
  * @FilePath: /graduation-project-master/src/components/social/social.vue
 -->
 
