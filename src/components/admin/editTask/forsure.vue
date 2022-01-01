@@ -63,7 +63,8 @@
         :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
       >
         操作选择
-      </van-divider> -->
+      </van-di
+      vider> -->
 
       <li class="infor-forsure" style="height: 80px; overflow-y: auto;">
         <van-radio-group v-model="radio">
