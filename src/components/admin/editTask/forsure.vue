@@ -1,7 +1,7 @@
 <template>
   <div class="clockInforForm mine-send-part-absolute2">
     <div class="send-title">
-      打卡信息设置
+      结果提示页面
       <div
         class="send-control"
         :style="{
@@ -102,7 +102,7 @@
 
 <script>
 import { DatetimePicker, Popup, Slider, Stepper, Icon, Divider,  RadioGroup, Radio, Cell, CellGroup} from "vant";
-import axios from "axios";
+// import axios from "axios";
 export default {
   data() {
     return {
