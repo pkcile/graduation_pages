@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2021-11-01 21:56:23
+ * @LastEditTime: 2022-01-06 17:35:44
  * @LastEditors: Please set LastEditors
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/login.js
@@ -71,42 +71,13 @@ const mutations = {
     state.get.sendDatabase.datenow = loginPerson.datenow;
     state.get.sendDatabase.username = loginPerson.username;
     state.get.sendDatabase.task_status = loginPerson.task_status;
-
-    // state.get.sendDatabase.task_id = 21;
-    // state.get.sendDatabase.comment = "";
-    // state.get.sendDatabase.datenow = "";
-    // state.get.sendDatabase.username = "pkcile";
-    // state.get.sendDatabase.task_status = "-1";
-
-    // state ={
-    //   login: {
-    //     role: loginPerson.role,
-    //     name: loginPerson.name,
-    //     username: loginPerson.username,
-    //     task_radius: loginPerson.task_radius,
-    //     task_starttime: loginPerson.task_starttime,
-    //     task_endtime: loginPerson.task_endtime,
-    //     task_placename: loginPerson.task_placename,
-    //     task_id: loginPerson.task_id,
-    //     positionData: loginPerson.positionData,
-    //   },
-    //   sendDatabase: {
-    //     task_id: loginPerson.task_id,
-    //     comment: "",
-    //     datenow: null,
-    //     username: loginPerson.username,
-    //     task_status: loginPerson.task_status,
-    //   }
-    // }
-
-    // state.get.sendDatabase.task_placename = loginPerson.task_placename;
-    // state.login.task_id = loginPerson.task_id;
-    // state.login.positionData = loginPerson.positionData;
   },
   updataLloginIn() {
     this.commit("User/loginIn", {
       loginPerson: JSON.parse(window.sessionStorage.getItem("loginData")),
     });
+    console.log("登录");
+    
   },
 };
 
@@ -183,9 +154,7 @@ const actions = {
       .then(function(returnData) {
         Toast(returnData.data.result);
       });
-  },
-
-  //
+  }
 };
 
 export default {

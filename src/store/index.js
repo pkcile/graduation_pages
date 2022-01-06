@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 21:50:35
- * @LastEditTime: 2021-10-27 10:53:05
+ * @LastEditTime: 2022-01-06 17:36:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/store/index.js
@@ -24,7 +24,6 @@ export default new Vuex.Store({
       // 异步获取数据
       parts.login(parts.params).then(rs => {
         console.log(rs.data);
-
 
       });
       // 写入login状态

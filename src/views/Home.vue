@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-01-01 19:22:38
+ * @LastEditTime: 2022-01-06 17:59:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -28,57 +28,54 @@
     </main>
     <!-- 导航 -->
     <van-tabbar v-model="active" class="footer">
-      <van-tabbar-item to="/home/main">
-        <span>打卡</span>
-        <template #icon="props">
-          <img :src="props.active ? iconMain.active : iconMain.inactive" style="height: 23px;"/>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item to="/home/social">
-        <span>更多</span>
-        <template #icon="props">
-          <img :src="props.active ? iconSocial.active : iconSocial.inactive" style="height: 23px;"/>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item to="/home/work">
-        <span>工作</span>
-        <template #icon="props">
-          <img :src="props.active ? iconWork.active : iconWork.inactive" style="height: 23px;"/>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item to="/home/mine">
-        <span>我的</span>
-        <template #icon="props">
-          <img :src="props.active ? iconMine.active : iconMine.inactive" style="height: 23px;"/>
-        </template>
-      </van-tabbar-item>
+      <router-link :to="item.path" v-for="item in menuData" v-bind:key="item.key" class="van-tabbar-item">
+        <van-tabbar-item>
+          <span>{{ item.name }}</span>
+          <template #icon="props">
+            <img :src="props.active ? item.active : item.inactive" style="height: 23px;"/>
+          </template>
+        </van-tabbar-item>
+      </router-link>
     </van-tabbar>
   </div>
 </template>
 
 <script>
 import { Tabbar, TabbarItem } from "vant"
-import axios from "axios"
 export default {
   data() {
     return {
-      active: 0,
-      iconMain: {
-        active: require("@/assets/img/home/clock.svg"),
-        inactive: require("@/assets/img/home/clock-grey.svg"),
-      },
-      iconSocial: {
-        active: require("@/assets/img/home/more.svg"),
-        inactive: require("@/assets/img/home/more-grey.svg"),
-      },
-      iconMine: {
-        active: require("@/assets/img/home/mine.svg"),
-        inactive: require("@/assets/img/home/mine-grey.svg"),
-      },
-      iconWork: {
-        active: require("@/assets/img/home/clock.svg"),
-        inactive: require("@/assets/img/home/clock-grey.svg")
-      }
+      active: 2,
+      menuData: [
+        {
+          name: "打卡",
+          key: 0,
+          active: require("@/assets/img/home/clock.svg"),
+          inactive: require("@/assets/img/home/clock-grey.svg"),
+          path: "/home/main"
+        },
+        {
+          name: "工作",
+          key: 1,
+          active: require("@/assets/img/home/clock.svg"),
+          inactive: require("@/assets/img/home/clock-grey.svg"),
+          path: "/home/work"
+        },
+        {
+          name: "更多",
+          key: 2,
+          active: require("@/assets/img/home/more.svg"),
+          inactive: require("@/assets/img/home/more-grey.svg"),
+          path: "/home/social"
+        },
+        {
+          name: "我的",
+          key: 3,
+          active: require("@/assets/img/home/mine.svg"),
+          inactive: require("@/assets/img/home/mine-grey.svg"),
+          path: "/home/mine"
+        },
+      ]
     };
   },
   components: {

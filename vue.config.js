@@ -35,8 +35,8 @@ module.exports = {
   devServer: {
     proxy: {
       "/api/position": {
-        target: 'http://127.0.0.1:8000',
-        // target: "https://www.pkcile.cn/advsk/sj/sj13/public/index.php/",
+        // target: 'http://127.0.0.1:8000',
+        target: "https://www.pkcile.cn/advsk/sj/sj13/public/index.php/",
         secure: true, // 如果是https接口，需要配置这个参数
         changeOrigin: true, //是否跨域
       },
