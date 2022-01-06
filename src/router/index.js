@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2021-12-12 17:08:16
+ * @LastEditTime: 2022-01-06 18:22:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -76,7 +76,7 @@ const routes = [
         component: vueComponent.mainMap
       },
       {
-        path: 'social',
+        path: 'more',
         component: vueComponent.userSocialMain
       },
       {

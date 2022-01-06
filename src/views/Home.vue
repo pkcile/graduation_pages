@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-01-06 17:59:26
+ * @LastEditTime: 2022-01-06 18:20:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -66,7 +66,7 @@ export default {
           key: 2,
           active: require("@/assets/img/home/more.svg"),
           inactive: require("@/assets/img/home/more-grey.svg"),
-          path: "/home/social"
+          path: "/home/more"
         },
         {
           name: "我的",
