@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \page-view\vue.config.js
  */
-
+const webpack = require('webpack');
 const path = require("path");
 const myTheme = path.resolve(
   __dirname,
@@ -42,18 +42,36 @@ module.exports = {
       },
     },
   },
-  configureWebpack: config => {
-    if (process.env.NODE_ENV === "production") {
-      config.externals = {
-        vue: "Vue",
-        "vue-router": "VueRouter",
-        vuex: "Vuex",
-        axios: "axios",
-        "@turf/turf": "turf",
-        "leaflet": "L" 
-      };
-    }
+  configureWebpack: {
+    output: {
+      // 输出重构  打包编译后的 文件名称  【模块名称.版本号】
+      filename: `js/[name].js`,
+      chunkFilename: `js/[name].js`
+    },
+    plugins:[
+      new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 4
+      }),
+      // new webpack.DllReferencePlugin({
+      //   context: __dirname,
+      //   manifest: require("./lib/dist/manifest.json"),
+      //   name: "zzzlib"
+      // })
+      
+    ]
   },
+  // configureWebpack: config => {
+  //   if (process.env.NODE_ENV === "production") {
+  //     config.externals = {
+  //       vue: "Vue",
+  //       "vue-router": "VueRouter",
+  //       vuex: "Vuex",
+  //       axios: "axios",
+  //       "@turf/turf": "turf",
+  //       "leaflet": "L" 
+  //     };
+  //   }
+  // },
   chainWebpack: (config) => {
     if (process.env.NODE_ENV === "production") {
       config
