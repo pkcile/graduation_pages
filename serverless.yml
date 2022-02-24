@@ -1,0 +1,12 @@
+component: website
+name: websiteDemo
+app: gradulation-aaa-391c1820
+
+inputs:
+  src:
+    src: ./dist
+    index: index.html
+    error: index.html
+  region: ap-guangzhou
+  bucketName: my-website-starter
+  protocol: https
