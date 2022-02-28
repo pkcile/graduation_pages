@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2022-02-28 21:05:22
+ * @LastEditTime: 2022-02-28 21:06:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -29,7 +29,7 @@ import axios from "axios";
 import * as turf from "@turf/turf";
 import L from "leaflet";
 // import "leaflet/dist/leaflet.css"
-
+// 想法实时的计算个人与其他同学的距离
 export default {
   data() {
     return {
@@ -332,7 +332,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss">
 .sendStatus {

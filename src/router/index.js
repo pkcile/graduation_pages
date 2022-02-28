@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-02-28 07:17:24
+ * @LastEditTime: 2022-02-28 21:55:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -37,7 +37,13 @@ const vueComponent = {
   asignForsure: () => import("@/components/admin/editTask/asignForsure.vue"),
 
   pages: {
-    social: () => import("@/pages/social/social.vue")
+    social: {
+      social: () => import("@/pages/social/social.vue"),
+    },
+    sign: {
+      sign: () => import("@/pages/sign/sign.vue")
+    }
+    
   }
 
 };
@@ -93,6 +99,7 @@ const routes = [
       }
     ]
   },
+  // 地图测试
   {
     path: '/map',
     name: 'map',
@@ -135,13 +142,13 @@ const routes = [
   {
     path: '/social',
     name: 'Social',
-    component: vueComponent.pages.social,
+    component: vueComponent.pages.social.social,
   },
   // 签到打卡
   {
     path: '/sign',
     name: 'Sign',
-    component: vueComponent.signInMain,
+    component: vueComponent.pages.sign.sign,
   },
   {
     path: '/signResult',
