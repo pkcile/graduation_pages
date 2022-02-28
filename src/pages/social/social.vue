@@ -1,12 +1,11 @@
 <!--
- * @Author: pkcile
- * @Date: 2021-12-07 14:10:17
- * @LastEditTime: 2022-02-28 07:03:07
+ * @Author: your name
+ * @Date: 2022-02-28 07:13:32
+ * @LastEditTime: 2022-02-28 07:15:19
  * @LastEditors: Please set LastEditors
- * @Description: 状态显示主界面
- * @FilePath: /graduation-project-master/src/components/user/social/state2.vue
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /graduation-project-master/src/pages/social/social.vue
 -->
-
 <template>
   <div class="social-page" style="z-index: 2">
     <div class="title">

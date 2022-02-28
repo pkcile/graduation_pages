@@ -11,7 +11,7 @@
   <div class="mine-send-part-absolute-sign" style="width:100%;height:100%;background:#fff;">
     <div class="send-title">
       打卡信息设置
-      <router-link to="/home/social">
+      <router-link to="/home/more">
         <div
           class="send-control"
           :style="{

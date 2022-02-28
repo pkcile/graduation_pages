@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-01-06 18:20:09
+ * @LastEditTime: 2022-02-28 07:07:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\views\Home.vue
@@ -54,13 +54,13 @@ export default {
           inactive: require("@/assets/img/home/clock-grey.svg"),
           path: "/home/main"
         },
-        {
-          name: "工作",
-          key: 1,
-          active: require("@/assets/img/home/clock.svg"),
-          inactive: require("@/assets/img/home/clock-grey.svg"),
-          path: "/home/work"
-        },
+        // {
+        //   name: "工作",
+        //   key: 1,
+        //   active: require("@/assets/img/home/clock.svg"),
+        //   inactive: require("@/assets/img/home/clock-grey.svg"),
+        //   path: "/home/more"
+        // },
         {
           name: "更多",
           key: 2,
@@ -72,7 +72,7 @@ export default {
           name: "我的",
           key: 3,
           active: require("@/assets/img/home/mine.svg"),
-          inactive: require("@/assets/img/home/mine-grey.svg"),
+          inactive: require("@/assets/img/home/mine.svg"),
           path: "/home/mine"
         },
       ]

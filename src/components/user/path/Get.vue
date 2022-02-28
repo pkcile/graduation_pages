@@ -12,7 +12,7 @@
   <div class="mine-send-part-absolute" style="width:100%;height:100%;">
     <div class="send-title">
       运动轨迹记录
-      <router-link to="/home/social">
+      <router-link to="/home/more">
         <div
           class="send-control"
           :style="{

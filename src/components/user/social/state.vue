@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     backToSocial() {
-      this.$router.push("/home/social");
+      this.$router.push("/home/more");
     }
   }
 };

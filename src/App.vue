@@ -14,9 +14,12 @@
 
 <script>
 import "leaflet/dist/leaflet.css"
+
 export default {
   
 }
+
+
 </script>
 <style lang="scss">
 body, html {

@@ -1,7 +1,7 @@
 <!--
  * @Author: pkcile
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2022-01-01 19:13:01
+ * @LastEditTime: 2022-02-28 07:59:17
  * @LastEditors: Please set LastEditors
  * @Description: 
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -10,78 +10,36 @@
 <template>
   <div class="home-social">  
     <div class="user">
-      <div class="mine-single-line-three-socail-title">
-        用户功能
+      <div class="mine-single-line-three-social-title">
+        {{ pageData.user.title }}
       </div>
-      <router-link to="/social">
-        <div class="mine-single-line-three-socail">
-          <div><img src="@/assets/font/social-reddit.svg" alt="" style="width: 50%;height: 50%;"></div>
-          <div>动态显示</div>
-          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-        </div>
-      </router-link> 
-
-      <router-link to="/sign">
-        <div class="mine-single-line-three-socail">
-          <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
-          <div>位置签到</div>
-          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-        </div>
-      </router-link> 
-
-      <router-link to="/path"> 
-        <div class="mine-single-line-three-socail">
-          <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
-          <div>运动轨迹</div>
-          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-        </div>
-      </router-link> 
-
-      <router-link to="">
-        <div class="mine-single-line-three-socail">
-          <div><img src="@/assets/font/position.svg" alt="" style="width: 50%;height: 50%;"></div>
-          <div>好友列表</div>
+      <router-link v-bind:to="item.router" v-for="item in pageData.user.items" v-bind:key="item.key" v-show="item.show">
+        <div class="mine-single-line-three-social">
+          <div><img :src="item.backgroundimg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>{{ item.name }}</div>
           <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
         </div>
       </router-link> 
     </div> 
 
     <div class="admin">
-      <div class="mine-single-line-three-socail-title">
-        管理员功能
-      </div> 
-      <router-link to="/home/admin">
-        <div class="mine-single-line-three-socail">
-          <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
-          <div>任务发布</div>
+      <div class="mine-single-line-three-social-title">
+        {{ pageData.admin.title }}
+      </div>
+      <router-link v-bind:to="item.router" v-for="item in pageData.admin.items" v-bind:key="item.key" v-show="item.show">
+        <div class="mine-single-line-three-social">
+          <div><img :src="item.backgroundimg" alt="" style="width: 50%;height: 50%;"></div>
+          <div>{{ item.name }}</div>
           <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
         </div>
       </router-link> 
-
-      <router-link to="/edit"> 
-        <div class="mine-single-line-three-socail">
-          <div><img src="@/assets/font/clock.svg" alt="" style="width: 50%;height: 50%;"></div>
-          <div>任务修改</div>
-          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-        </div>
-      </router-link>
-
-      <router-link to="">
-        <div class="mine-single-line-three-socail">
-          <div><img src="@/assets/font/social-reddit.svg" alt="" style="width: 50%;height: 50%;"></div>
-          <div>打卡统计</div>
-          <div :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
-        </div>
-      </router-link> 
-    </div>
-
-
+    </div> 
   </div>
 
 </template>
 
 <style lang="scss" scoped>
-  .mine-single-line-three-socail {
+  .mine-single-line-three-social {
     display: flex;
     flex-flow: row nowrap;
     justify-content: left;
@@ -109,12 +67,12 @@
     }
   }
 
-  .mine-single-line-three-socail:active {
+  .mine-single-line-three-social:active {
     background-color: #eee;
     transition: all 1000ms;
   }
   
-  .mine-single-line-three-socail-title {
+  .mine-single-line-three-social-title {
     display: flex;
     flex-flow: row nowrap;
     justify-content: left;
@@ -150,6 +108,68 @@ export default {
   },
   data() {
     return {
+      pageData: {
+        user: {
+          title: "用户功能",
+          items: [
+            {
+              name: "动态显示",
+              router: "/social",
+              key: "001",
+              backgroundimg: require("@/assets/font/social-reddit.svg"),
+              show: false
+            },
+            {
+              name: "位置签到",
+              router: "/sign",
+              key: "002",
+              backgroundimg: require("@/assets/font/position.svg"),
+              show: true
+            },
+            {
+              name: "运动轨迹",
+              router: "/path",
+              key: "003",
+              backgroundimg: require("@/assets/font/position.svg"),
+              show: false
+            },
+            {
+              name: "好友列表",
+              router: "/sign",
+              key: "004",
+              backgroundimg: require("@/assets/font/position.svg"),
+              show: false
+            },
+            
+          ]
+        },
+        admin: {
+          title: "管理员功能",
+          items: [
+            {
+              name: "任务发布",
+              router: "/home/admin",
+              key: "001",
+              backgroundimg: require("@/assets/font/clock.svg"),
+              show: false
+            },
+            {
+              name: "任务修改",
+              router: "/edit",
+              key: "002",
+              backgroundimg: require("@/assets/font/clock.svg"),
+              show: true
+            },
+            {
+              name: "打卡统计",
+              router: "/edit",
+              key: "003",
+              backgroundimg: require("@/assets/font/clock.svg"),
+              show: false
+            }     
+          ]
+        }
+      },
       currentContact: {
       }
     }
@@ -163,7 +183,7 @@ export default {
     jumpToPublishForm() {
       this.$router.push("/home/admin");
     },
-    jumpToSocailMain() {
+    jumpTosocialMain() {
       this.$router.push("/social/state");
     },
     jumpToLocationDing() {

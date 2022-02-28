@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-01-06 18:22:17
+ * @LastEditTime: 2022-02-28 07:17:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \page-view\src\router\index.js
@@ -35,6 +35,10 @@ const vueComponent = {
   forsure: () => import("@/components/admin/editTask/forsure.vue"),
   asign: () => import("@/components/admin/editTask/asign.vue"),
   asignForsure: () => import("@/components/admin/editTask/asignForsure.vue"),
+
+  pages: {
+    social: () => import("@/pages/social/social.vue")
+  }
 
 };
 
@@ -131,7 +135,7 @@ const routes = [
   {
     path: '/social',
     name: 'Social',
-    component: vueComponent.socialMain,
+    component: vueComponent.pages.social,
   },
   // 签到打卡
   {

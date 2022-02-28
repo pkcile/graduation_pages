@@ -215,7 +215,7 @@ export default {
       }
     },
     backTo() {
-      this.$router.push("/home/social");
+      this.$router.push("/home/more");
     }
   },
   components: {
