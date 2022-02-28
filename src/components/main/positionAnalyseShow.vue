@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-19 10:52:51
- * @LastEditTime: 2021-12-12 15:56:05
+ * @LastEditTime: 2022-02-28 21:05:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/main/map.vue
@@ -218,11 +218,14 @@ export default {
         attributionControl: true,
       });
       _this.leaflet.map = map; // 存在this指向的问题
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        // https://tile.openstreetmap.org/{z}/{x}/{y}.png
-        maxZoom: 19,
-        attribution: "Mapbox",
-      }).addTo(map);
+      L.tileLayer(
+          "http://t{s}.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
+          {
+              subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
+              attribution: "tianDitu",
+          }
+      ).addTo(map);
+
       map.setView(
         {
           lat: positionPoint?.geometry?.coordinates[1] || 28.682975759198253,
