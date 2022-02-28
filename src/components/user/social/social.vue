@@ -1,7 +1,7 @@
 <!--
  * @Author: pkcile
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2022-02-28 07:59:17
+ * @LastEditTime: 2022-02-28 22:41:01
  * @LastEditors: Please set LastEditors
  * @Description: 
  * @FilePath: /graduation-project-master/src/components/social/social.vue
@@ -158,7 +158,7 @@ export default {
               router: "/edit",
               key: "002",
               backgroundimg: require("@/assets/font/clock.svg"),
-              show: true
+              show: false
             },
             {
               name: "打卡统计",
