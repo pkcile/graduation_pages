@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-01-06 17:35:44
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-14 21:49:04
+ * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
- * @FilePath: /graduation-project-master/src/store/modules/login.js
+ * @FilePath: /graduation-project-master/src/store/modules/User.js
  */
 import * as turf from "@turf/turf";
 import axios from "axios";
@@ -91,28 +91,15 @@ const actions = {
     };
 
     axios
-      .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/login`, {
-        params: login,
+      .get(`${process.env.VUE_APP_POSITION_PATH}/api/position`, {
+        // params: login,
         // timeout: 4000,
       })
       .then((returnData) => {
-        const loginData = returnData.data;
-        if (loginData?.login[0]?.status != "false") {
-          Notify({ type: 'primary', message: "登陆成功" });
-          // 录入数据
-          context.commit("loginIn", { loginPerson: loginData.login[0] });
-          context.dispatch("loginStorage");
-          window.sessionStorage.setItem(
-            "loginData",
-            JSON.stringify(loginData.login[0])
-          );
-          Router.push("/home/mine");
-        } else {
-          Notify({ type: 'danger', message: "请输入正确的账户密码" });
-        }
+       console.log(returnData);
       })
       .catch(function(error) {
-        Notify({ type: 'warning', message: "你的网速过慢或服务出现了问题" });
+        
 
       });
   },

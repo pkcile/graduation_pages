@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-02-28 07:07:00
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-14 14:57:44
+ * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
- * @FilePath: \page-view\src\views\Home.vue
+ * @FilePath: /graduation-project-master/src/views/Home.vue
 -->
 <template>
   <div class="home">
@@ -83,7 +83,7 @@ export default {
     [TabbarItem.name]: TabbarItem
   },
   mounted() {
-    this.$store.commit("User/updataLloginIn");
+    // this.$store.commit("User/updataLloginIn");
   }
 };
 </script>

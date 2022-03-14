@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2022-02-28 22:21:42
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-14 23:31:31
+ * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
- * @FilePath: \page-view\vue.config.js
+ * @FilePath: /graduation-project-master/vue.config.js
  */
 const webpack = require('webpack');
 const path = require("path");
@@ -34,13 +34,13 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      "/api/position": {
-        target: 'http://127.0.0.1:8000',
-        // target: "https://www.pkcile.cn/advsk/sj/sj13/public/index.php/",
-        // target: "https://pkcile.cn:1111/",
-        // target: "https://www.pkcile.cn/advsk/sj/sj13/public/index.php/",
-        secure: true, // 如果是https接口，需要配置这个参数
-        changeOrigin: true, //是否跨域
+      "/user": {
+        target: "http://localhost:9000/",
+        changeOrigin: false, 
+      },
+      "/task": {
+        target: "http://localhost:9000/",
+        changeOrigin: true, 
       },
     },
   },

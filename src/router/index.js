@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-02-28 21:55:38
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-14 14:53:07
+ * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
- * @FilePath: \page-view\src\router\index.js
+ * @FilePath: /graduation-project-master/src/router/index.js
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -43,7 +43,6 @@ const vueComponent = {
     sign: {
       sign: () => import("@/pages/sign/sign.vue")
     }
-    
   }
 
 };
@@ -215,17 +214,17 @@ const router = new VueRouter({
   mode: 'hash'
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("loginData")) {
-    if(window.sessionStorage.getItem("registerMark") == "1") {
-      next({ name: 'Register' });
-    }
-    else {
-      next({ name: 'Login' });
-    }
-  }
-  else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("loginData")) {
+//     if(window.sessionStorage.getItem("registerMark") == "1") {
+//       next({ name: 'Register' });
+//     }
+//     else {
+//       next({ name: 'Login' });
+//     }
+//   }
+//   else {
+//     next()
+//   }
+// })
 export default router;

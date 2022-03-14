@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2021-10-31 16:50:14
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-14 23:34:56
+ * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue
 -->
@@ -20,34 +20,27 @@
     <main class="main">
       <div style="padding-top: 15px">
         <form>
-          <div class="mine-input-row">
-            <label>昵称</label>
-            <input
-              type="text"
-              placeholder="请输入昵称"
-              v-model="register.username"
-            />
+          <div v-bind:key="inputItem.key" v-for="inputItem in pageData.items">
+            <div
+              class="mine-input-row"
+              v-bind:class="{ greydispaly: inputItem.greydispaly }"
+            >
+              <label>{{ inputItem.title }}</label>
+              <input
+                type="text"
+                :placeholder="inputItem.inputplaceholder"
+                v-model="inputItem.value"
+              />
+            </div>
+            <div class="mine-input-line" :style="{}"></div>
           </div>
-          <div class="mine-input-line"></div>
-          <div class="mine-input-row">
-            <label>学号</label>
-            <input type="text" placeholder="请输入学号" v-model="register.nth" />
-          </div>
-          <div class="mine-input-line"></div>
-          <div class="mine-input-row">
-            <label>密码</label>
-            <input
-              type="text"
-              placeholder="请输入密码"
-              v-model="register.password"
-            />
-          </div>
+
           <div
             class="mine-button-block"
-            style="margin-top: 18px"
             @click="userRegister"
+            style="margin-top: 18px; position: sticky; bottom: 20px; left: 0"
           >
-            注册
+            {{ pageData.register.title }}
           </div>
         </form>
       </div>
@@ -58,34 +51,77 @@
 </template>
 
 <script>
-import { NavBar } from "vant"
+import { NavBar } from "vant";
+import axios from "axios";
 
 export default {
   data() {
     return {
-      register: {
-        username: null,
-        password: "1234",
-        nth: null,
+      pageData: {
+        items: [
+          {
+            key: 1,
+            title: "学号",
+            inputplaceholder: "请输入学号",
+            value: "",
+            greydispaly: true,
+          },
+          {
+            key: 2,
+            title: "昵称",
+            inputplaceholder: "默认为学号",
+            value: "",
+            greydispaly: false,
+          },
+          {
+            key: 3,
+            title: "密码",
+            inputplaceholder: "默认为1234",
+            value: "",
+            greydispaly: false,
+          },
+        ],
+        register: {
+          title: "注册",
+        },
       },
     };
   },
   methods: {
     userRegister() {
       const _this = this;
-      if (this.register.username && this.register.nth) {
-        if (!_this.register.password) {
-          _this.register.password = "1234";
-        }
+      const { studynth, password, nth } = {
+        studynth: this.pageData.items[0].value,
+        password: this.pageData.items[1].value,
+        nth: this.pageData.items[2].value,
+      };
 
-        _this.$store.dispatch("User/registerAccount", {
-          register: _this.register,
-          Router: _this.$router,
-          Toast: _this.$toast,
-        });
-      } else {
-        this.$toast("请输入完整昵称和学号");
+      if (!studynth) {
+        this.$notify("请输入学号");
+      } 
+      else {
+        console.log(process.env.VUE_APP_POSITION_PATH);
+        axios
+          .get(`${process.env.VUE_APP_POSITION_PATH}/user/register`, {
+            params: {
+              studynth,
+              password,
+              nth
+            }
+          })
+          .then((returnData) => {
+            console.log
+          });
       }
+
+      //   _this.$store.dispatch("User/registerAccount", {
+      //     register: _this.register,
+      //     Router: _this.$router,
+      //     Toast: _this.$toast,
+      //   });
+      // } else {
+      //   this.$notify("请输入完整昵称和学号");
+      // }
     },
     goBack() {
       this.$router.push("/user/login");
@@ -93,8 +129,8 @@ export default {
   },
   created() {},
   components: {
-    [NavBar.name]: NavBar
-  }
+    [NavBar.name]: NavBar,
+  },
 };
 </script>
 
@@ -117,6 +153,25 @@ export default {
     height: 70px;
     width: 100%;
   }
+}
+
+.greydispaly {
+  // input::-webkit-input-placeholder {
+  //   color: #017cffb6;
+  // }
+  // input:-moz-placeholder {
+  //   color: #fff;
+  // }
+  // input::-moz-placeholder {
+  //   color: #fff;
+  // }
+  // input:-ms-input-placeholder {
+  //   color: #fff;
+  // }
+}
+
+.greydispaly + div {
+  // background: #00f;
 }
 </style>
 
