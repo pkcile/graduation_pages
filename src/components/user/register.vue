@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-03-14 23:34:56
+ * @LastEditTime: 2022-03-15 11:29:19
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue
@@ -34,6 +34,14 @@
             </div>
             <div class="mine-input-line" :style="{}"></div>
           </div>
+          <ul class="mine-form-display-infor" style="color: #017afebf">
+            <transition-group name="list" tag="p">
+              <li v-for="item in returnData" :key="item.key">
+                <span>{{ item.key }}</span>
+                <span>{{ item.value }}</span>
+              </li>
+            </transition-group>
+          </ul>
 
           <div
             class="mine-button-block"
@@ -53,6 +61,7 @@
 <script>
 import { NavBar } from "vant";
 import axios from "axios";
+import { convertDate } from "@/utils/date.js";
 
 export default {
   data() {
@@ -66,62 +75,113 @@ export default {
             value: "",
             greydispaly: true,
           },
-          {
-            key: 2,
-            title: "昵称",
-            inputplaceholder: "默认为学号",
-            value: "",
-            greydispaly: false,
-          },
-          {
-            key: 3,
-            title: "密码",
-            inputplaceholder: "默认为1234",
-            value: "",
-            greydispaly: false,
-          },
         ],
         register: {
           title: "注册",
         },
       },
+      returnData: [],
     };
   },
   methods: {
     userRegister() {
-      const _this = this;
-      const { studynth, password, nth } = {
+      this.returnData = [];
+
+      const params = {
         studynth: this.pageData.items[0].value,
-        password: this.pageData.items[1].value,
-        nth: this.pageData.items[2].value,
       };
 
-      if (!studynth) {
-        this.$notify("请输入学号");
-      } 
-      else {
-        console.log(process.env.VUE_APP_POSITION_PATH);
+      if (!params.studynth) {
+        this.$notify({ type: "warning", message: "请输入学号" });
+      } else {
+        this.userRegisterRequest(params).then((returnData) => {
+          console.log(returnData);
+          if (returnData.data.status == 1) {
+            this.$notify({
+              type: "success",
+              message: returnData.data.status.infor + "密码：1234",
+            });
+            console.log(returnData.data.result);
+
+            this.returnData = [
+              {
+                key: "结果",
+                value: returnData.data.status.infor,
+              },
+              {
+                key: "姓名",
+                value: returnData.data.result?.name,
+              },
+              {
+                key: "身份",
+                value: returnData.data.result?.role,
+              },
+              {
+                key: "注册时间",
+                value: returnData.data.result?.registertimestamp
+                  ? convertDate(returnData.data.result?.registertimestamp)
+                  : returnData.data.result?.registertimestamp,
+              },
+            ];
+
+            this.returnData = this.returnData.filter((item) => item.value);
+          
+          } else {
+            this.$notify({
+              type: "danger",
+              message: returnData.data.status.infor,
+            });
+            console.log(returnData.data.result);
+            // 结果 status.infor
+            // 姓名 result.name
+            // 注册时间 result.registertimestamp
+            // 身份 result.role
+
+            this.returnData = [
+              {
+                key: "结果",
+                value: returnData.data.status.infor,
+              },
+              {
+                key: "姓名",
+                value: returnData.data.result?.name,
+              },
+              {
+                key: "身份",
+                value: returnData.data.result?.role,
+              },
+              {
+                key: "注册时间",
+                value: returnData.data.result?.registertimestamp
+                  ? convertDate(returnData.data.result?.registertimestamp)
+                  : returnData.data.result?.registertimestamp,
+              },
+            ];
+            this.returnData = this.returnData.filter((item) => item.value);
+            console.log(this.returnData);
+            console.log(convertDate(undefined));
+          }
+        });
+      }
+    },
+    userRegisterParams() {
+      return {
+        studynth: this.pageData.items[0].value,
+      };
+    },
+    userRegisterRequest(paramsobj) {
+      return new Promise((resolve) => {
         axios
           .get(`${process.env.VUE_APP_POSITION_PATH}/user/register`, {
             params: {
-              studynth,
-              password,
-              nth
-            }
+              studynth: paramsobj.studynth,
+            },
           })
           .then((returnData) => {
-            console.log
+            console.log(returnData.data);
+            resolve(returnData);
           });
-      }
-
-      //   _this.$store.dispatch("User/registerAccount", {
-      //     register: _this.register,
-      //     Router: _this.$router,
-      //     Toast: _this.$toast,
-      //   });
-      // } else {
-      //   this.$notify("请输入完整昵称和学号");
-      // }
+      });
     },
     goBack() {
       this.$router.push("/user/login");
@@ -172,6 +232,25 @@ export default {
 
 .greydispaly + div {
   // background: #00f;
+}
+
+.mine-form-display-infor,
+.mine-button-block {
+  transition: 10s;
+}
+
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translate(0px);
+  // translate
 }
 </style>
 
