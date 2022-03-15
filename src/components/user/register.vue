@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-03-15 15:32:48
+ * @LastEditTime: 2022-03-15 15:34:44
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue
@@ -20,6 +20,7 @@
     <main class="main">
       <div style="padding-top: 15px">
         <form>
+          <!-- 输入框 -->
           <div v-bind:key="inputItem.key" v-for="inputItem in pageData.items">
             <div
               class="mine-input-row"
@@ -34,6 +35,7 @@
             </div>
             <div class="mine-input-line" :style="{}"></div>
           </div>
+          <!-- 提示框 -->
           <ul class="mine-form-display-infor" style="color: #017afebf">
             <transition-group name="list" tag="p">
               <li v-for="item in returnData" :key="item.key">
@@ -42,7 +44,7 @@
               </li>
             </transition-group>
           </ul>
-
+          <!-- 注册按钮 -->
           <div
             class="mine-button-block"
             @click="userRegister"
