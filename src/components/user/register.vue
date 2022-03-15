@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-03-15 11:29:19
+ * @LastEditTime: 2022-03-15 14:59:04
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue
@@ -38,7 +38,7 @@
             <transition-group name="list" tag="p">
               <li v-for="item in returnData" :key="item.key">
                 <span>{{ item.key }}</span>
-                <span>{{ item.value }}</span>
+                <span :class="{redColor: item.red, blueColor: item.blue}">{{ item.value }}</span>
               </li>
             </transition-group>
           </ul>
@@ -83,6 +83,13 @@ export default {
       returnData: [],
     };
   },
+  watch: {
+    // 如果 `question` 发生改变，这个函数就会运行
+    returnData: function (newQuestion, oldQuestion) {
+      console.log("真听");
+      console.log(this.returnData);
+    }
+  },
   methods: {
     userRegister() {
       this.returnData = [];
@@ -97,6 +104,7 @@ export default {
         this.userRegisterRequest(params).then((returnData) => {
           console.log(returnData);
           if (returnData.data.status == 1) {
+            // 成功提示
             this.$notify({
               type: "success",
               message: returnData.data.status.infor + "密码：1234",
@@ -106,7 +114,9 @@ export default {
             this.returnData = [
               {
                 key: "结果",
-                value: returnData.data.status.infor,
+                value: "注册成功，密码1234",
+                // blue: true,
+                // red: false
               },
               {
                 key: "姓名",
@@ -124,9 +134,14 @@ export default {
               },
             ];
 
+            // this.returnData[0].red = true;
+
             this.returnData = this.returnData.filter((item) => item.value);
           
-          } else {
+            console.log(this.returnData);
+          } 
+          else {
+            // 错误提示
             this.$notify({
               type: "danger",
               message: returnData.data.status.infor,
@@ -141,6 +156,8 @@ export default {
               {
                 key: "结果",
                 value: returnData.data.status.infor,
+                red: true,
+                blue: false
               },
               {
                 key: "姓名",
@@ -251,6 +268,13 @@ export default {
   opacity: 0;
   transform: translate(0px);
   // translate
+}
+
+.redColor {
+  color: #f00;
+}
+.blueColor {
+  color: #00f;
 }
 </style>
 

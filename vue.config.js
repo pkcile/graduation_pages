@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2022-03-14 23:31:31
+ * @LastEditTime: 2022-03-15 12:27:18
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/vue.config.js
@@ -16,7 +16,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 
 module.exports = {
-  productionSourceMap: process.env.NODE_ENV == "development" ? true: true,
+  productionSourceMap: process.env.NODE_ENV == "development" ? true: false,
   publicPath: "./",
   outputDir: "dist",
   assetsDir: "./static",
@@ -36,7 +36,7 @@ module.exports = {
     proxy: {
       "/user": {
         target: "http://localhost:9000/",
-        changeOrigin: false, 
+        changeOrigin: true, 
       },
       "/task": {
         target: "http://localhost:9000/",
@@ -44,59 +44,62 @@ module.exports = {
       },
     },
   },
-  configureWebpack: {
-    output: {
-      // 输出重构  打包编译后的 文件名称  【模块名称.版本号】
-      filename: `js/[name].js`,
-      chunkFilename: `js/[name].js`
-    },
-    plugins:[
-      new webpack.optimize.LimitChunkCountPlugin({
-        maxChunks: 1
-      }),
-      // new webpack.DllReferencePlugin({
-      //   context: __dirname,
-      //   manifest: require("./lib/dist/manifest.json"),
-      //   name: "zzzlib"
-      // })
-      
-    ]
-  },
-  // configureWebpack: config => {
-  //   if (process.env.NODE_ENV === "production") {
-  //     config.externals = {
-  //       vue: "Vue",
-  //       "vue-router": "VueRouter",
-  //       vuex: "Vuex",
-  //       axios: "axios",
-  //       "@turf/turf": "turf",
-  //       "leaflet": "L" 
-  //     };
-  //   }
+  // configureWebpack: {
+  //   outputDir: {
+  //     // 输出重构  打包编译后的 文件名称  【模块名称.版本号】
+  //     filename: `js/[name].js`,
+  //     chunkFilename: `js/[name].js`
+  //   },
+  //   plugins:[
+  //     new webpack.optimize.LimitChunkCountPlugin({
+  //       maxChunks: 1
+  //     }) 
+  //   ]
   // },
-  // chainWebpack: (config) => {
-  //   if (process.env.NODE_ENV === "production") {
-  //     config
-  //       .plugin('webpack-bundle-analyzer')
-  //       .use(BundleAnalyzerPlugin)
-  //     const cdn = {
-  //       css: [
-  //         "//unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  //       ],
-  //       js: [
-  //         "//unpkg.com/vue@2.6.10/dist/vue.min.js", 
-  //         "//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js",
-  //         "//unpkg.com/vuex@3.1.1/dist/vuex.min.js",
-  //         "//unpkg.com/axios@0.19.0/dist/axios.min.js",
-  //         "//unpkg.com/leaflet@1.7.1/dist/leaflet.js",
-  //         "//unpkg.com/@turf/turf"
-  //       ]
-  //     };
-  //     config.plugin("html").tap(args => {
-  //       // html中添加cdn
-  //       args[0].cdn = cdn;
-  //       return args;
-  //     });
-  //   }
-  // }
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === "production") {
+      config.externals = {
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios",
+        "@turf/turf": "turf",
+        "leaflet": "L" 
+      };
+    }
+  },
+  chainWebpack: (config) => {
+    if (process.env.NODE_ENV === "production") {
+      const cdn = {
+        css: [
+          "//lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/leaflet/1.7.1/leaflet.min.css"
+        ],
+        js: [
+          "//lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.14/vue.min.js", 
+          "//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js",
+          "//unpkg.com/vuex@3.1.1/dist/vuex.min.js",
+          "//unpkg.com/axios@0.19.0/dist/axios.min.js",
+          "//unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+          "//unpkg.com/@turf/turf"
+        ]
+      };
+      
+      // config
+      //   .plugin('webpack-bundle-analyzer')
+      //   .use(BundleAnalyzerPlugin);
+
+      config
+        .plugin('chunkPlugin')
+        .use(webpack.optimize.LimitChunkCountPlugin,[{
+          maxChunks: 2, 
+          // minChunkSize: 2000
+        }]);
+      
+      config.plugin("html").tap(args => {
+        // html中添加cdn
+        args[0].cdn = cdn;
+        return args;
+      });
+    }
+  }
 };

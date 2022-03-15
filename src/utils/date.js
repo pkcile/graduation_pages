@@ -1,7 +1,7 @@
 /*
- * @Author: your name
+ * @Author: 王朋坤
  * @Date: 2021-11-12 08:50:14
- * @LastEditTime: 2022-03-15 10:57:26
+ * @LastEditTime: 2022-03-15 11:33:24
  * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/utils/date.js
@@ -37,6 +37,6 @@ function convertDate(date = Date.now()) {
 }
 
 
-console.log(convertDate());
+// console.log(convertDate());
 
 export {convertDate};

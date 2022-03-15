@@ -27,5 +27,5 @@ pnpm-debug.log*
 
 production__/
 
-yarn.lock
-package-lock.json
+# yarn.lock
+# package-lock.json
