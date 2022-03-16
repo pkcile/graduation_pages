@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-03-15 15:34:44
+ * @LastEditTime: 2022-03-16 07:30:23
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/register.vue
