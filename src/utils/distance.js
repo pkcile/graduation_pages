@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-16 21:23:09
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-16 23:20:15
+ * @LastEditTime: 2022-03-17 00:08:58
  * @FilePath: /graduation-project-master/src/utils/distance.js
  * @Description:
  */
@@ -74,8 +74,23 @@ function getDistance04( lat1,  lon1,  lat2,  lon2) {
   );
 }
 
+function getDistance05( lat1,  lon1,  lat2,  lon2) {
+  // var a = rad(lat1)- rad(lat2);
+  // var b = rad(lng1) - rad(lng2);
+  var wa = rad(lon1)
+  var ja = rad(lat1);
+  var wb = rad(lon2);
+  var jb = rad(lat2);
+
+  console.log(6378137 * Math.acos( Math.cos(wa) * Math.cos(wb) * Math.cos(jb - ja) + Math.sin(wa) * Math.sin(wb) )
+  );
+}
+
 getDistance(116.45, 39.941, 116.451, 39.94);
 getDistance02(116.45, 39.941, 116.451, 39.94);
 getDistance03(116.45, 39.941, 116.451, 39.94);
 // getDistance03(113.273, 23.1172, 115.4268, 22.7733);
 getDistance04(116.45, 39.941, 116.451, 39.94);
+getDistance05(116.0253033877, 28.6843965821, 116.0284952165, 28.6845471765);
+getDistance02(116.0253033877, 28.6843965821, 116.0284952165, 28.6845471765);
+
