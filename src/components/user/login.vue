@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-15 22:48:24
+ * @LastEditTime: 2022-03-17 23:58:58
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/login.vue
@@ -77,9 +77,17 @@
         >
           登陆
         </div>
-        <span @click="registerAccount">注册账号</span>
-        <span>|</span>
-        <span @click="forgetAccount">忘记密码</span>
+
+        <div
+          v-bind:style="{
+            opacity: returnData.placeinformation.length ? 0 : 1,
+            color: '#017AFF',
+          }"
+        >
+          <span @click="registerAccount">注册账号</span>
+          <span>|</span>
+          <span @click="forgetAccount">忘记密码</span>
+        </div>
       </div>
     </main>
     <!-- 导航 -->
@@ -90,7 +98,18 @@
 <script>
 import axios from "axios";
 import { NavBar, Cell, CellGroup, Checkbox, CheckboxGroup } from "vant";
-import { getCurrentLocation2, getLocationInformation } from "@/utils/geolocation.js";
+import {
+  getCurrentLocation2,
+  getLocationInformation,
+} from "@/utils/geolocation.js";
+
+import {
+  flatearthDistance,
+  acosDistance,
+  haversineDistance,
+  vincentyDistance
+} from "@/utils/distance2.js"
+
 export default {
   data() {
     return {
@@ -142,32 +161,153 @@ export default {
   methods: {
     loginIn() {
       const _this = this;
-      const {studynth, password} = {
+      const { studynth, password } = {
         studynth: this.pageData.items[0].value,
-        password: this.pageData.items[1].value
-      }
-      
-      if(!studynth || !password) {
-        this.$notify({type: "warning", message: "请输入完整参数"});
-      }
-      else {
-        this.loginSendData({studynth, password})
+        password: this.pageData.items[1].value,
+      };
+
+      if (!studynth || !password) {
+        this.$notify({ type: "warning", message: "请输入完整参数" });
+      } else {
+        this.loginSendData({ studynth, password }).then((returnData) => {
+          // console.log(returnData.data);
+          // console.log(returnData);
+          this.resolveLocationClock(returnData);
+        });
       }
     },
     loginSendData(paramsobj) {
-      new Promise(resolve => {
-         axios
-      .get(`${process.env.VUE_APP_POSITION_PATH}/user/login`, {
+      return new Promise((resolve) => {
+        axios
+          .get(`${process.env.VUE_APP_POSITION_PATH}/user/login`, {
             params: {
               studynth: paramsobj.studynth,
-              password: paramsobj.password
+              password: paramsobj.password,
             },
           })
           .then((returnData) => {
-            console.log(returnData.data);
             resolve(returnData);
           });
       });
+    },
+    resolveLocationClock(returnData) {
+      console.log(returnData.data);
+      if(returnData.data.status.mark == 1) {
+        if(returnData.data.result?.tasks.length) {
+        // 处理定位任务
+        // if(this.returnData.placeinformation.length) {
+          // this.returnData.placeinformation.push({
+          //   key: "任务",
+          //   value: "获取了" + returnData.data.result.tasks.length + "个任务点"
+          // })
+
+          // 一维数组
+          const placetaskidstamp = [
+            {
+              id: 1,
+              topic: 1,
+              startstamp: 12,
+              statusmark: 1,
+              status: 1,
+              "Places": [
+                {
+                  "taskid": 220,
+                  "placesnth": 42,
+                  "servermark": true,
+                  "serverplacename": "地点",
+                  "geometrymark": false,
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                      -76.984722,
+                      39.807222
+                    ]
+                },
+                "createstamp": 1647518176544,
+                "taskId": 220
+                }
+            ],
+              wifis: [
+                
+              ],
+              key: Date.now(),
+              geometry: { type: "Point", coordinates: [-76.984722, 39.807222] },
+              wifimark: 1,
+              placemark: 1
+            }
+
+          ];
+
+          returnData.data.result.tasks.forEach(taskitem => {
+            taskitem.Results.forEach(taskitemperson => {
+              placetaskidstamp.push({
+                id: taskitem.id,
+                topic: taskitem.topic,
+                Wifis: taskitem.Wifis,
+                Places: taskitem.Places,
+                key: Date.now(),
+                startstamp: taskitemperson.startstamp,
+                beginstamp: taskitemperson.startstamp - taskitemperson.previousstamp,
+                endstamp: taskitemperson.startstamp + taskitemperson.afterstamp,
+                status: taskitemperson.status,
+                statusmark: taskitemperson.statusmark,
+                geometry: { type: "Point", coordinates: [-76.984722, 39.807222] },
+                radius: taskitemperson.radius,
+                userwifimark: 0,
+                userplacemark: 0
+              })
+            })
+          });
+
+          placetaskidstamp.map(placetaskidstampitem => {
+            placetaskidstampitem.Places.forEach(placesitem => {
+              let distance = flatearthDistance({latitude: this.returnData.geometry?.latitude, longitude: this.returnData.geometry?.longitude}, {latitude: placesitem.geometry.coordinates[1], longitude: placesitem.geometry.coordinates[0]});
+              console.log(flatearthDistance({latitude: this.returnData.geometry?.latitude, longitude: this.returnData.geometry?.longitude}, {latitude: placesitem.geometry.coordinates[1], longitude: placesitem.geometry.coordinates[0]}));
+              if( distance < placesitem.radius) {
+                console.log("在范围内");
+                placetaskidstampitem.userplacemark += 1;
+                console.log({latitude: this.returnData.geometry?.latitude, longitude: this.returnData.geometry?.longitude}, {latitude: placesitem.geometry.coordinates[1], longitude: placesitem.geometry.coordinates[0]});
+              }
+              else {
+                console.log("距离过大");
+                console.log({latitude: this.returnData.geometry?.latitude, longitude: this.returnData.geometry?.longitude}, {latitude: placesitem.geometry.coordinates[1], longitude: placesitem.geometry.coordinates[0]});
+
+              }
+            })
+          })
+          // console.log(this.returnData.geometry);
+          // console.log(flatearthDistance({latitude: this.returnData.geometry?.latitude, longitude: this.returnData.geometry?.longitude}, {latitude: 23.132137, longitude: 113.383399}));
+
+          // 判断位置、wifi
+          // 条件过滤
+          let placetaskidstampfilter = placetaskidstamp.filter(placetaskidstampitem => {
+            return placetaskidstampitem.userplacemark;
+          })
+          console.log(placetaskidstampfilter);
+
+          // 批量更新
+
+
+        }
+        else {
+          console.log("没有定位任务");
+        }
+      }
+      else {
+
+      }
+      // return new Promise((resolve) => {
+      //     axios
+      //     .get(`${process.env.VUE_APP_POSITION_PATH}/user/login`, {
+      //       params: {
+      //         studynth: paramsobj.studynth,
+      //         password: paramsobj.password,
+      //       },
+      //     })
+      //     .then((returnData) => {
+      //       resolve(returnData);
+      //     });
+      // });
     },
     registerAccount() {
       window.sessionStorage.setItem("registerMark", "1");
@@ -184,23 +324,31 @@ export default {
         this.returnData.placeinformation = [];
       }
       if (!this.pageData.checkboxes.result.length) {
+        this.$toast.loading({
+        message: '加载中...',
+          forbidClick: true,
+          duration: 0
+        });
+
         getCurrentLocation2().then((data) => {
+          this.$toast.clear();
           this.$toast.success("位置获取成功");
           console.log(data);
           this.returnData.geometry = data;
-          getLocationInformation(this.returnData.geometry)
-            .then(returnData => {
-              console.log(returnData);
 
-            const returnDataReference = [
-              {
-                key: "详细地址",
-                value: returnData.data.result.formatted_address
-              }
-            ];
+          console.log(this.returnData.geometry);
+          getLocationInformation(this.returnData.geometry).then(
+            (returnData) => {
+              const returnDataReference = [
+                {
+                  key: "详细地址",
+                  value: returnData.data.result.formatted_address,
+                },
+              ];
 
-            this.returnData.placeinformation = returnDataReference;
-            })
+              this.returnData.placeinformation = returnDataReference;
+            }
+          );
           // https://api.tianditu.gov.cn/geocoder?type=geocode&postStr=%7B%22lon%22:113.383507,%22lat%22:23.132059,%22ver%22:1%7D&tk=75f0434f240669f4a2df6359275146d2
         });
       } else {

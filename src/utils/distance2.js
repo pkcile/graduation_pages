@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-17 10:16:29
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-17 17:00:36
+ * @LastEditTime: 2022-03-17 22:46:33
  * @FilePath: /graduation-project-master/src/utils/distance2.js
  * @Description: 
  */
@@ -156,3 +156,11 @@ console.log(flatearthDistance({latitude: 28.6843965821, longitude: 116.025303387
 console.log(acosDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "acosDistance");
 console.log(haversineDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "haversineDistance");
 console.log(vincentyDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "vincentyDistance");
+
+
+export {
+  flatearthDistance,
+  acosDistance,
+  haversineDistance,
+  vincentyDistance
+};
