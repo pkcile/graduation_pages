@@ -1,0 +1,23 @@
+<!--
+ * @Author: 王朋坤
+ * @Date: 2022-03-17 09:53:29
+ * @LastEditors: 王朋坤
+ * @LastEditTime: 2022-03-17 09:54:49
+ * @FilePath: /graduation-project-master/doc/temp/distancelib.html
+ * @Description: 
+-->
+<!-- getDistance05(116.0253033877, 28.6843965821, 116.0284952165, 28.6845471765); -->
+<!doctype html><title>geodesy example</title><meta charset="utf-8">
+<script type="module">
+    import LatLon from 'https://cdn.jsdelivr.net/npm/geodesy@2.3.0/latlon-spherical.min.js';
+
+    const p1 = new LatLon(116.0253033877, 28.6843965821);
+    const p2 = new LatLon(116.0284952165, 28.6845471765);
+
+    const d = p1.distanceTo(p2);
+    // console.assert(d.toFixed(3) == '968874.704');
+
+    console.log(d);
+    const mid = p1.midpointTo(p2);
+    console.assert(mid.toString('dms') == '54° 21′ 44″ N, 004° 31′ 51″ W');
+</script>
