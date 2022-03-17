@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-16 21:23:09
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-17 10:51:57
+ * @LastEditTime: 2022-03-17 14:50:56
  * @FilePath: /graduation-project-master/src/utils/distance.js
  * @Description:
  */
@@ -14,8 +14,8 @@ function getDistance(lat1, lng1, lat2, lng2) {
   var Lx = ((dx * Math.PI) / 180.0) * 6367000.0 * Math.cos((b * Math.PI) / 180.0); // 东西距离
   // var Ly = (6367000.0 * dy * Math.PI) / 180.0; // 南北距离
   var Ly = (6367000.0 * dy * Math.PI) / 180.0; // 南北距离
-  // 6378.137
   console.log(Math.sqrt(Lx * Lx + Ly * Ly));
+  return Math.sqrt(Lx * Lx + Ly * Ly);
 }
 
 function rad(d) {
@@ -86,7 +86,7 @@ function getDistance04( lat1,  lon1,  lat2,  lon2) {
   var wb = rad(lon2);
   var jb = rad(lat2);
 
-  console.log(  6367000 * Math.acos( Math.cos(wa) * Math.cos(wb) * Math.cos(jb - ja) + Math.sin(wa) * Math.sin(wb) )
+  console.log(6367000 * Math.acos( Math.cos(wa) * Math.cos(wb) * Math.cos(jb - ja) + Math.sin(wa) * Math.sin(wb) )
   );
 }
 
@@ -216,6 +216,7 @@ getDistance05(116.0253033877, 28.6843965821, 116.0284952165, 28.6845471765);
 function toRad(n) {
   return n * Math.PI / 180;
  };
+
  function distVincenty(lat1, lon1, lat2, lon2) {
   var a = 6378137,
       b = 6356752.3142,
