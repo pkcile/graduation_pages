@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-18 08:56:32
+ * @LastEditTime: 2022-03-18 14:35:53
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/views/Home.vue
@@ -27,23 +27,16 @@
       <router-view />
     </main>
     <!-- 导航 -->
-    <van-tabbar v-model="active" class="footer" active-color="#017AFF" inactive-color="#000">
-      <router-link :to="item.path" v-for="item in menuData" v-bind:key="item.key" class="van-tabbar-item">
-        <van-tabbar-item v-if="!item.iconsystem">
-          <span>{{ item.name }}</span>
-          <template #icon="props">
-            <img :src="props.active ? item.active : item.inactive" style="height: 23px;"/>
-          </template>
-        </van-tabbar-item>
-        <van-tabbar-item icon="setting-o" v-else >{{ item.name }}</van-tabbar-item>
-      </router-link>
-      <!-- <van-tabbar-item icon="setting-o">标签</van-tabbar-item> -->
+    <van-tabbar v-model="active" route >
+      <van-tabbar-item :to="item.path" v-for="item in menuData" v-bind:key="item.key" :icon="item.icon">
+        {{item.name }}
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script>
-import { Tabbar, TabbarItem } from "vant"
+import { Tabbar, TabbarItem } from "vant";
 export default {
   data() {
     return {
@@ -54,14 +47,16 @@ export default {
           key: 0,
           active: require("@/assets/img/home/clock.svg"),
           inactive: require("@/assets/img/home/clock-grey.svg"),
-          path: "/home/main"
+          path: "/home/main",
+          icon: "certificate",
         },
         {
           name: "更多",
           key: 2,
           active: require("@/assets/img/home/more.svg"),
           inactive: require("@/assets/img/home/more-grey.svg"),
-          path: "/home/more"
+          path: "/home/more",
+          icon: "notes-o",
         },
         {
           name: "我的",
@@ -70,18 +65,18 @@ export default {
           inactive: require("@/assets/img/home/mine.svg"),
           path: "/home/mine",
           iconsystem: true,
-          icon: "setting-o"
+          icon: "setting-o",
         },
-      ]
+      ],
     };
   },
   components: {
     [Tabbar.name]: Tabbar,
-    [TabbarItem.name]: TabbarItem
+    [TabbarItem.name]: TabbarItem,
   },
   mounted() {
     // this.$store.commit("User/updataLloginIn");
-  }
+  },
 };
 </script>
 
