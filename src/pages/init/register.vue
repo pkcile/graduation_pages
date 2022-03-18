@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-03-18 07:43:52
+ * @LastEditTime: 2022-03-18 22:12:26
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/register.vue
@@ -134,8 +134,6 @@ export default {
                   : returnData.data.result?.registertimestamp,
               },
             ];
-
-            // this.returnData[0].red = true;
 
             this.returnData = returnDataReference.filter((item) => item.value);
           

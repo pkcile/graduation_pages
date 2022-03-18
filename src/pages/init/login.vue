@@ -1,12 +1,11 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-18 07:41:47
+ * @LastEditTime: 2022-03-18 23:33:01
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
- * @FilePath: /graduation-project-master/src/pages/login.vue
+ * @FilePath: /graduation-project-master/src/pages/init/login.vue
 -->
-
 <template>
   <div class="login">
     <!-- 头部 -->
@@ -89,6 +88,12 @@
           <span @click="forgetAccount">忘记密码</span>
         </div>
       </div>
+      <button id="show-modal" @click="showModal001">Show Modal</button>
+      <modal :show="showModal"  ref="showModal">
+        <template #header>
+          <h3>custom header</h3>
+        </template>
+      </modal>
     </main>
     <!-- 导航 -->
     <footer class="footer"></footer>
@@ -103,12 +108,15 @@ import {
   getLocationInformation,
 } from "@/utils/geolocation.js";
 
+
 import {
   flatearthDistance,
   acosDistance,
   haversineDistance,
   vincentyDistance
 } from "@/utils/distance2.js"
+
+import Modal from './result.vue'
 
 export default {
   data() {
@@ -156,6 +164,7 @@ export default {
           // },
         ],
       },
+      showModal: false
     };
   },
   methods: {
@@ -363,6 +372,10 @@ export default {
       console.log(23223);
       e.stopPropagation();
     },
+    showModal001() {
+      this.$refs["showModal"]?.openopen();
+      // console.log("show model 001");
+    }
   },
   created() {},
   components: {
@@ -371,6 +384,7 @@ export default {
     [CheckboxGroup.name]: CheckboxGroup,
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
+    Modal: Modal
   },
 };
 </script>

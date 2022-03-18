@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-27 16:30:08
- * @LastEditTime: 2021-11-04 08:56:04
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-03-18 23:41:20
+ * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
- * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/src/components/main/main.vue
+ * @FilePath: /graduation-project-master/src/components/main/clock.vue
 -->
 
 <template>
