@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-14 14:53:07
+ * @LastEditTime: 2022-03-18 08:05:39
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/router/index.js
@@ -13,7 +13,6 @@ Vue.use(VueRouter);
 
 const vueComponent = {
   home: () => import('@/views/Home.vue'),
-  map: () => import("@/views/Map.vue"),
   user: () => import("@/views/User.vue"),
   userMine: () => import('@/components/user/mine.vue'),
   userSocialMain: () => import("@/components/user/social/social.vue"),
@@ -24,13 +23,7 @@ const vueComponent = {
   signInMain: () => import("@/components/user/signIn/main.vue"),
   signResult: () => import("@/components/user/signIn/stepSignResult.vue"),
   pathMain: () => import("@/components/user/path/main.vue"),
-  login: () => import("@/components/user/login.vue"),
-  register: () => import("@/components/user/register.vue"),
-  "404": () => import("@/components/common/404.vue"),
-  temp: ()=> import("@/components/user/social/state2.vue"),
   choose: ()=> import("@/components/admin/editTask/choose.vue"),
-  baidumap: () => import("@/components/main/map/baidumap.vue"),
-  leafletmap: () => import("@/components/main/map/leafletMap.vue"),
   empty: ()=> import("@/components/admin/editTask/empty.vue"),
   forsure: () => import("@/components/admin/editTask/forsure.vue"),
   asign: () => import("@/components/admin/editTask/asign.vue"),
@@ -42,6 +35,18 @@ const vueComponent = {
     },
     sign: {
       sign: () => import("@/pages/sign/sign.vue")
+    },
+    init: {
+      login: () => import("@/pages/init/login.vue"),
+      register: () => import("@/pages/init/register.vue"),   
+    } 
+  },
+  common: {
+    "404": () => import("@/components/common/404.vue"),
+    temp: ()=> import("@/components/user/social/state2.vue"),
+    map: {
+      baidumap: () => import("@/components/main/map/baidumap.vue"),
+      leafletmap: () => import("@/components/main/map/leafletMap.vue"),
     }
   }
 
@@ -51,11 +56,11 @@ const routes = [
   // 404
   {
     path: '*',
-    component: vueComponent["404"]
+    component: vueComponent.common["404"]
   },
   {
     path: '/temp',
-    component: vueComponent["temp"]
+    component: vueComponent.common.temp
   },
   {
     path: '/temp2',
@@ -106,15 +111,11 @@ const routes = [
     children: [
       {
         path: 'main',
-        component: vueComponent.mainMap
+        component: vueComponent.common.map.leafletmap
       },
       {
         path: 'baidu',
-        component: vueComponent.baidumap
-      },
-      {
-        path: 'leaflet',
-        component: vueComponent.leafletmap
+        component: vueComponent.common.map.baidumap
       }
     ]
   },
@@ -128,12 +129,12 @@ const routes = [
       {
         path: 'login',
         name: 'Login',
-        component: vueComponent.login
+        component: vueComponent.pages.init.login
       },
       {
         path: 'register',
         name: 'Register',
-        component: vueComponent.register
+        component: vueComponent.pages.init.register
       }
     ]
   },

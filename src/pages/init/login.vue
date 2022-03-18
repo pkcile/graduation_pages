@@ -1,10 +1,10 @@
 <!--
- * @Author: your name
+ * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-18 07:16:21
+ * @LastEditTime: 2022-03-18 07:41:47
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
- * @FilePath: /graduation-project-master/src/components/user/login.vue
+ * @FilePath: /graduation-project-master/src/pages/login.vue
 -->
 
 <template>
