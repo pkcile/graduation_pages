@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-14 14:57:44
+ * @LastEditTime: 2022-03-18 08:56:32
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/views/Home.vue
@@ -27,15 +27,17 @@
       <router-view />
     </main>
     <!-- 导航 -->
-    <van-tabbar v-model="active" class="footer">
+    <van-tabbar v-model="active" class="footer" active-color="#017AFF" inactive-color="#000">
       <router-link :to="item.path" v-for="item in menuData" v-bind:key="item.key" class="van-tabbar-item">
-        <van-tabbar-item>
+        <van-tabbar-item v-if="!item.iconsystem">
           <span>{{ item.name }}</span>
           <template #icon="props">
             <img :src="props.active ? item.active : item.inactive" style="height: 23px;"/>
           </template>
         </van-tabbar-item>
+        <van-tabbar-item icon="setting-o" v-else >{{ item.name }}</van-tabbar-item>
       </router-link>
+      <!-- <van-tabbar-item icon="setting-o">标签</van-tabbar-item> -->
     </van-tabbar>
   </div>
 </template>
@@ -54,13 +56,6 @@ export default {
           inactive: require("@/assets/img/home/clock-grey.svg"),
           path: "/home/main"
         },
-        // {
-        //   name: "工作",
-        //   key: 1,
-        //   active: require("@/assets/img/home/clock.svg"),
-        //   inactive: require("@/assets/img/home/clock-grey.svg"),
-        //   path: "/home/more"
-        // },
         {
           name: "更多",
           key: 2,
@@ -73,7 +68,9 @@ export default {
           key: 3,
           active: require("@/assets/img/home/mine.svg"),
           inactive: require("@/assets/img/home/mine.svg"),
-          path: "/home/mine"
+          path: "/home/mine",
+          iconsystem: true,
+          icon: "setting-o"
         },
       ]
     };

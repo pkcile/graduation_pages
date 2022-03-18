@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-18 08:05:39
+ * @LastEditTime: 2022-03-18 08:17:48
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/router/index.js
@@ -38,7 +38,8 @@ const vueComponent = {
     },
     init: {
       login: () => import("@/pages/init/login.vue"),
-      register: () => import("@/pages/init/register.vue"),   
+      register: () => import("@/pages/init/register.vue"),
+      result: () => import("@/pages/init/result.vue")   
     } 
   },
   common: {
@@ -135,6 +136,11 @@ const routes = [
         path: 'register',
         name: 'Register',
         component: vueComponent.pages.init.register
+      },
+      {
+        path: 'result',
+        name: 'result',
+        component: vueComponent.pages.init.result
       }
     ]
   },
