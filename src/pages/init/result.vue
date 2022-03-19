@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-19 00:09:53
+ * @LastEditTime: 2022-03-19 23:35:24
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -16,20 +16,92 @@
         left-arrow
         @click-left="closeclose"
       />
-      <ul class="mine-form-display-infor" style="color: #017afebf">
-        <transition-group name="list" tag="p">
-          <li v-for="item in returnData" :key="item.key">
-            <span>{{ item.key }}</span>
-            <span :class="{ redColor: item.red, blueColor: item.blue }">{{
-              item.value
-            }}</span>
+      <ul class="main-information" style="color: #555555">
+        <ul
+          style="
+            padding: 10px 15px;
+            color: #555555;
+            border-bottom: 1px solid #efeff3;
+            background: #fff;
+          "
+        >
+          用户信息
+        </ul>
+        <ul
+          class="mine-form-display-infor"
+          style="padding: 0 0 15px 0; margin: 0; color: #444"
+        >
+          <li>
+            <span>{{ "姓名" }}</span>
+            <span>
+              {{ returnData.signInit.tasks.result.userinformation.name }}
+            </span>
           </li>
-        </transition-group>
+          <li>
+            <span>{{ "提交状态" }}</span>
+            <span
+            style="position: relative"
+            >
+              {{ returnData.signResult.status.mark == 1 ? "提交成功" : "提交失败" || "结果" }}
+              <span
+                :style="{
+                  position: 'absolute',
+                  width: '80px',
+                  height: '0',
+                  bottom: '5px',
+                  background: '#bfa',
+                  'border-bottom': '1px dotted blue',
+                }"
+              ></span>
+            </span>
+          </li>
+          <li>
+            <span>判断状态</span>
+            <span style="position: relative">
+              {{  returnData.signJudge[0].status }}
+              <span
+                :style="{
+                  position: 'absolute',
+                  width: '180px',
+                  height: '0',
+                  bottom: '5px',
+                  background: '#bfa',
+                  'border-bottom': '1px dotted blue',
+                }"
+              ></span>
+            </span>
+          </li>
+        </ul>
+
+        <ul
+          style="
+            padding: 10px 15px;
+            color: #555555;
+            border-bottom: 1px solid #efeff3;
+            background: #fff;
+          "
+        >
+          附加信息
+        </ul>
+        <ul
+          class="mine-form-display-infor"
+          style="margin: 0; color: #555555; color: #444"
+        >
+          <li>
+            <span>{{ "近期打卡" }}</span>
+            <span>{{ "未来的任务" }}</span>
+          </li>
+          <li>
+            <span>上次登陆</span>
+            <span>{{ "0000-00-00 00:00" }}</span>
+          </li>
+        </ul>
       </ul>
+
       <!-- 注册按钮 -->
       <div
         class="mine-button-block"
-        style="margin-top: 18px; position: sticky; bottom: 30px; left: 0;background:rgba(255, 255, 255,0);border: 1px dotted #1989FA;color:#579BFF;"
+        style="margin-top: 18px; position: sticky; bottom: 20px; left: 0"
         @click="closeclose"
       >
         {{ pageData.register.title }}
@@ -40,6 +112,8 @@
 
 <script>
 import { NavBar } from "vant";
+import { flatearthDistance } from "@/utils/distance2.js";
+import axios from "axios";
 
 export default {
   props: {
@@ -53,81 +127,504 @@ export default {
           title: "返回",
         },
       },
-      returnData: [
-        {
-          key: "打卡结果",
-          value: "注册成功，密码1234",
-          blue: true,
-          red: false,
+      returnData: {
+        signResult: {
+          result: [],
+          status: { mark: 0, infor: "打卡更新情况" },
         },
-        {
-          key: "打卡任务数",
-          value: "returnData.data.result?.name",
+        signJudge: [
+          {
+            id: 225,
+            topic: "暑假打卡主题",
+            Wifis: [],
+            Places: [
+              {
+                taskid: 225,
+                placesnth: 47,
+                servermark: true,
+                serverplacename: "地点",
+                geometrymark: false,
+                geometry: {
+                  type: "Point",
+                  coordinates: [-76.984722, 39.807222],
+                },
+                radius: 100,
+                createstamp: 1647619349205,
+                taskId: 225,
+              },
+            ],
+            key: 1647700870345,
+            startstamp: 1647659664862,
+            beginstamp: 1647657664862,
+            endstamp: 1647661464862,
+            status: "未迟到，位置判断失败",
+            statusmark: -1,
+            studynth: "1",
+            geometry: { type: "Point", coordinates: [-76.984722, 39.807222] },
+            userwifimark: 0,
+            userplacemark: 0,
+            usertimemark: 1,
+          },
+        ],
+        signInit: {
+          geometry: { latitude: 23.132103, longitude: 113.383381 },
+          tasks: {
+            result: {
+              userinformation: {
+                username: "1",
+                password: "1234",
+                name: "管理员1号",
+                studynth: "1",
+                register: "2022-03-18 07:25:08",
+                registertimestamp: 1647559508896,
+                logintimestamp: 1647559508896,
+                imglink:
+                  "https://portrait.gitee.com/uploads/avatars/user/2511/7534207_pkcile_1616390370.png!avatar200",
+                showinfor: "默认签名",
+                role: "管理员",
+              },
+              tasks: [
+                {
+                  id: 225,
+                  placesmark: false,
+                  wifismark: false,
+                  classnamesmark: false,
+                  timesmark: false,
+                  topic: "暑假打卡主题",
+                  createstamp: 1647619349211,
+                  createuser: "pkcile",
+                  Places: [
+                    {
+                      taskid: 225,
+                      placesnth: 47,
+                      servermark: true,
+                      serverplacename: "地点",
+                      geometrymark: false,
+                      geometry: {
+                        type: "Point",
+                        coordinates: [-76.984722, 39.807222],
+                      },
+                      radius: 100,
+                      createstamp: 1647619349205,
+                      taskId: 225,
+                    },
+                  ],
+                  Classnames: [{ classname: "admin", taskId: 225 }],
+                  Wifis: [],
+                  Results: [
+                    {
+                      taskid: 225,
+                      startstamp: 1647659664862,
+                      studynth: "1",
+                      statusmark: 0,
+                      status: "任务分发初始化",
+                      previousstamp: 2000000,
+                      afterstamp: 1800000,
+                      taskId: 225,
+                    },
+                  ],
+                },
+              ],
+            },
+            status: { mark: 1, infor: "登陆成功" },
+          },
+          placeinformation: [
+            { key: "地址", value: "广州市天河区棠东富华新街二巷" },
+          ],
         },
-        {
-          key: "位置011",
-          value: "(116.001, 36.111)",
-        },
-        {
-          key: "位置022",
-          value: "(116.001, 36.111)",
-        },
-        {
-          key: "位置013",
-          value: "(116.001, 36.111)",
-        },
-        {
-          key: "位置024",
-          value: "(116.001, 36.111)",
-        },
-        // {
-        //   key: "位置015",
-        //   value: "(116.001, 36.111)",
-        // },
-        // {
-        //   key: "位置026",
-        //   value: "(116.001, 36.111)",
-        // },
-        // {
-        //   key: "位置017",
-        //   value: "(116.001, 36.111)",
-        // },
-        // {
-        //   key: "位置028",
-        //   value: "(116.001, 36.111)",
-        // },
-        // {
-        //   key: "位置029",
-        //   value: "(116.001, 36.111)",
-        // },
-        // {
-        //   key: "位置0199",
-        //   value: "(116.001, 36.111)",
-        // },
-        // {
-        //   key: "位置02997",
-        //   value: "(116.001, 36.111)",
-        // },
-        // {
-        //   key: "位置01676",
-        //   value: "(116.001, 36.111)",
-        // },
-      ],
+      },
       showResulet: this.show,
     };
   },
   methods: {
-    // goBack() {
-
-    // }
     closeclose() {
       this.showResulet = false;
-      console.log(this.showResulet);
     },
-    openopen(data) {
-      this.showResulet = true;
-      console.log("open" + data);
+    openopen(data01, aaa) {
+      // 快捷登陆结果，解析
+      
+      setTimeout(() => {
+        this.showResulet = true;
+      }, 0);
+
+      // return;
+
+      const data = {
+        geometry: { latitude: 23.132103, longitude: 113.383381 },
+        tasks: {
+          result: {
+            userinformation: {
+              username: "1",
+              password: "1234",
+              name: "管理员1号",
+              studynth: "1",
+              register: "2022-03-18 07:25:08",
+              registertimestamp: 1647559508896,
+              logintimestamp: 1647559508896,
+              imglink:
+                "https://portrait.gitee.com/uploads/avatars/user/2511/7534207_pkcile_1616390370.png!avatar200",
+              showinfor: "默认签名",
+              role: "管理员",
+            },
+            tasks: [
+              {
+                id: 225,
+                placesmark: false,
+                wifismark: false,
+                classnamesmark: false,
+                timesmark: false,
+                topic: "暑假打卡主题",
+                createstamp: 1647619349211,
+                createuser: "pkcile",
+                Places: [
+                  {
+                    taskid: 225,
+                    placesnth: 47,
+                    servermark: true,
+                    serverplacename: "地点",
+                    geometrymark: false,
+                    geometry: {
+                      type: "Point",
+                      coordinates: [-76.984722, 39.807222],
+                    },
+                    radius: 100,
+                    createstamp: 1647619349205,
+                    taskId: 225,
+                  },
+                ],
+                Classnames: [{ classname: "admin", taskId: 225 }],
+                Wifis: [],
+                Results: [
+                  {
+                    taskid: 225,
+                    startstamp: 1647659664862,
+                    studynth: "1",
+                    statusmark: 0,
+                    status: "任务分发初始化",
+                    previousstamp: 2000000,
+                    afterstamp: 1800000,
+                    taskId: 225,
+                  },
+                ],
+              },
+            ],
+          },
+          status: { mark: 1, infor: "登陆成功" },
+        },
+        placeinformation: [
+          { key: "地址", value: "广州市天河区棠东富华新街二巷" },
+        ],
+      };
+
+      // console.log(data01, aaa);
+      this.taskJudge(data01);
     },
+    taskJudge(data) {
+      const _this = this;
+      
+      class TaskDealWith {
+        initData;
+        forminitData;
+        singlestamptaskArray;
+        wifijudgemark;
+        timejudgemark;
+        geometryjudgemark;
+
+        constructor(data) {
+          this.initData = data;
+          this.forminitData = data;
+        }
+
+        forminit() {
+          // 一维数组
+          const singlestamptaskArray = [
+            // {
+            //   id: 1,
+            //   topic: 1,
+            //   startstamp: 12,
+            // studynth
+            //   statusmark: 1,
+            //   status: 1,
+            //   Places: [
+            //     {
+            //       taskid: 220,
+            //       placesnth: 42,
+            //       servermark: true,
+            //       serverplacename: "地点",
+            //       geometrymark: false,
+            //       geometry: {
+            //         type: "Point",
+            //         coordinates: [-76.984722, 39.807222],
+            //       },
+            //       createstamp: 1647518176544,
+            //       taskId: 220,
+            //     },
+            //   ],
+            //   wifis: [],
+            //   key: Date.now(),
+            //   geometry: { type: "Point", coordinates: [-76.984722, 39.807222] },
+            //   userwifimark: 1,
+            //   userplacemark: 1,
+            //   usertimemark: 0
+            // },
+          ];
+          const { tasks, geometry, placeinformation, wifis } =
+            this.forminitData;
+
+          tasks.result.tasks.forEach((taskitem) => {
+            taskitem.Results.forEach((taskitemperson) => {
+              singlestamptaskArray.push({
+                id: taskitem.id,
+                topic: taskitem.topic,
+                Wifis: taskitem.Wifis,
+                Places: taskitem.Places,
+                key: Date.now(),
+                startstamp: taskitemperson.startstamp,
+                beginstamp:
+                  taskitemperson.startstamp - taskitemperson.previousstamp,
+                endstamp: taskitemperson.startstamp + taskitemperson.afterstamp,
+                status: taskitemperson.status,
+                statusmark: taskitemperson.statusmark,
+                studynth: taskitemperson.studynth,
+                geometry: {
+                  type: "Point",
+                  coordinates: [-76.984722, 39.807222],
+                },
+                userwifimark: 0,
+                userplacemark: 0,
+                usertimemark: 0,
+              });
+            });
+          });
+
+          this.singlestamptaskArray = singlestamptaskArray;
+
+          return this;
+        }
+
+        wifijudge() {
+          this.wifijudge = 1;
+        }
+
+        geometryjudge() {
+          const singlestamptaskArray = this.singlestamptaskArray;
+          const { geometry } = this.forminitData;
+
+          singlestamptaskArray.map((singlestamptaskArrayitem) => {
+            singlestamptaskArrayitem.Places.forEach((placesitem) => {
+              let distance = flatearthDistance(
+                {
+                  latitude: geometry?.latitude,
+                  longitude: geometry?.longitude,
+                },
+                {
+                  latitude: placesitem.geometry.coordinates[1],
+                  longitude: placesitem.geometry.coordinates[0],
+                }
+              );
+              if (distance < placesitem.radius) {
+                singlestamptaskArrayitem.userplacemark += 1;
+              } else {
+                console.log("距离过大");
+              }
+            });
+          });
+
+          console.log(singlestamptaskArray);
+
+          this.geometryjudgemark = 1;
+          return this;
+        }
+
+        timejudge() {
+          this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
+            if (Date.now() > singlestamptaskArrayitem) {
+              // 迟到了
+              singlestamptaskArrayitem.usertimemark = -1;
+            } else {
+              // 打卡正常
+              singlestamptaskArrayitem.usertimemark = 1;
+            }
+          });
+
+          this.timejudgemark = 1;
+          return this;
+        }
+
+        updateresult() {
+          const _this = this;
+          return new Promise((resolve) => {
+            const wifijudgemark = this.wifijudgemark;
+            const timejudgemark = this.timejudgemark;
+            const geometryjudgemark = this.geometryjudgemark;
+
+            console.log(wifijudgemark, timejudgemark, geometryjudgemark);
+            this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
+              // 只使用位置、时间来显示打卡情况
+              if (timejudgemark && geometryjudgemark && !wifijudgemark) {
+                console.log(
+                  singlestamptaskArrayitem.userplacemark,
+                  singlestamptaskArrayitem.usertimemark
+                );
+                if (
+                  singlestamptaskArrayitem.usertimemark == 1 &&
+                  singlestamptaskArrayitem.userplacemark > 0
+                ) {
+                  singlestamptaskArrayitem.statusmark = 1;
+                  singlestamptaskArrayitem.status = "打卡成功";
+                } else if (
+                  singlestamptaskArrayitem.usertimemark == -1 &&
+                  singlestamptaskArrayitem.userplacemark > 0
+                ) {
+                  singlestamptaskArrayitem.statusmark = -1;
+                  singlestamptaskArrayitem.status = "迟到了，打卡成功";
+                } else if (
+                  singlestamptaskArrayitem.usertimemark == -1 &&
+                  singlestamptaskArrayitem.userplacemark == 0
+                ) {
+                  singlestamptaskArrayitem.statusmark = -1;
+                  singlestamptaskArrayitem.status = "迟到了，位置判断失败";
+                } else if (
+                  singlestamptaskArrayitem.usertimemark == 1 &&
+                  singlestamptaskArrayitem.userplacemark == 0
+                ) {
+                  singlestamptaskArrayitem.statusmark = -1;
+                  singlestamptaskArrayitem.status = "未迟到，位置判断失败";
+                }
+              } else {
+              }
+            });
+
+            const singlestamptaskArraySend = [];
+
+            this.singlestamptaskArray.forEach((singlestamptaskArrayitem) => {
+              console.log(singlestamptaskArrayitem.geometry);
+              singlestamptaskArraySend.push({
+                geometry: singlestamptaskArrayitem.geometry,
+                taskid: singlestamptaskArrayitem.id,
+                studynth: singlestamptaskArrayitem.studynth,
+                startstamp: singlestamptaskArrayitem.startstamp,
+                topic: singlestamptaskArrayitem.topic,
+                status: singlestamptaskArrayitem.status,
+                statusmark: singlestamptaskArrayitem.statusmark,
+                userplacemark: singlestamptaskArrayitem.userplacemark,
+                usertimemark: singlestamptaskArrayitem.usertimemark,
+                userwifimark: singlestamptaskArrayitem.userwifimark,
+              });
+            });
+
+            axios
+              .get(`${process.env.VUE_APP_POSITION_PATH}/result/taskSign`, {
+                params: { sendArray: singlestamptaskArraySend },
+              })
+              .then((returnData) => {
+                resolve({
+                  signResult: returnData.data,
+                  signJudge: _this.singlestamptaskArray,
+                  signInit: _this.forminitData,
+                });
+              });
+
+            return this;
+          });
+        }
+
+        showresult() {
+          return this;
+        }
+      }
+
+      const task = new TaskDealWith(data);
+
+
+      task
+        .forminit()
+        .geometryjudge()
+        .timejudge()
+        .updateresult()
+        .then((returnData) => {
+          // console.log(JSON.stringify(returnData));
+          // console.log(returnData.signResult);
+          // console.log(returnData.signJudge);
+          // console.log(returnData.signInit);
+
+          console.log(returnData);
+          _this.returnData = returnData;
+        });
+
+        console.log(11122);
+              // return;
+    },
+  },
+  mounted() {
+    const data = {
+      geometry: { latitude: 23.132103, longitude: 113.383381 },
+      tasks: {
+        result: {
+          userinformation: {
+            username: "1",
+            password: "1234",
+            name: "管理员1号",
+            studynth: "1",
+            register: "2022-03-18 07:25:08",
+            registertimestamp: 1647559508896,
+            logintimestamp: 1647559508896,
+            imglink:
+              "https://portrait.gitee.com/uploads/avatars/user/2511/7534207_pkcile_1616390370.png!avatar200",
+            showinfor: "默认签名",
+            role: "管理员",
+          },
+          tasks: [
+            {
+              id: 225,
+              placesmark: false,
+              wifismark: false,
+              timesmark: false,
+              classnamesmark: false,
+              topic: "暑假打卡主题",
+              createstamp: 1647619349211,
+              createuser: "pkcile",
+              Places: [
+                {
+                  taskid: 225,
+                  placesnth: 47,
+                  servermark: true,
+                  serverplacename: "地点",
+                  geometrymark: false,
+                  geometry: {
+                    type: "Point",
+                    coordinates: [-76.984722, 39.807222],
+                  },
+                  radius: 100,
+                  createstamp: 1647619349205,
+                  taskId: 225,
+                },
+              ],
+              Classnames: [{ classname: "admin", taskId: 225 }],
+              Wifis: [],
+              Results: [
+                {
+                  taskid: 225,
+                  startstamp: 1647659664862,
+                  studynth: "1",
+                  statusmark: 0,
+                  status: "任务分发初始化",
+                  previousstamp: 2000000,
+                  afterstamp: 1800000,
+                  taskId: 225,
+                },
+              ],
+            },
+          ],
+        },
+        status: { mark: 1, infor: "登陆成功" },
+      },
+      placeinformation: [
+        { key: "地址", value: "广州市天河区棠东富华新街二巷" },
+      ],
+    };
+
+    // console.log(data);
   },
   components: {
     [NavBar.name]: NavBar,
@@ -139,15 +636,15 @@ export default {
 <style lang="scss">
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 10;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   /* background-color: rgba(0, 0, 0, 0.5); */
-  background: #fff;
-  transition: all 0.1s ease;
-  .mine-form-display-infor {
+  background: #efeff3;
+  transition: all 0.1s ease-in;
+  .main-information {
     overflow-y: auto;
     width: 100%;
     height: calc(100% - 56px);
@@ -155,7 +652,7 @@ export default {
 }
 
 .modal-enter-from {
-  opacity: 0;
+  opacity: 1;
 }
 
 .modal-leave-to {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-12 10:13:37
- * @LastEditTime: 2022-03-15 21:32:46
+ * @LastEditTime: 2022-03-19 01:35:37
  * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/utils/geolocation.js
@@ -16,8 +16,8 @@ import axios from "axios"
 function getCurrentLocation(resolve) {
   const geoOption = {
     enableHighAccuracy: true,
-    // maximumAge: 30000,
-    // timeout: 5000
+    maximumAge: 30000,
+    timeout: 5000
   };
 
   if ("geolocation" in navigator) {
@@ -35,18 +35,19 @@ function getCurrentLocation(resolve) {
   }
 
   function geoError(resolve) {
-    navigator.geolocation.getCurrentPosition(function(data) {
-      resolve({
-        latitude: data.coords.latitude,
-        longitude: data.coords.longitude,
-      });
-    });
-    setTimeout(function() {
-      resolve({
-        latitude: null,
-        longitude: null,
-      });
-    }, 2000);
+    console.log("error");
+    // navigator.geolocation.getCurrentPosition(function(data) {
+    //   resolve({
+    //     latitude: data.coords.latitude,
+    //     longitude: data.coords.longitude,
+    //   });
+    // });
+    // setTimeout(function() {
+    //   resolve({
+    //     latitude: null,
+    //     longitude: null,
+    //   });
+    // }, 2000);
   }
 }
 
@@ -76,19 +77,21 @@ function getCurrentLocation2() {
     } else {
     }
 
-    function geoError(resolve) {
-      navigator.geolocation.getCurrentPosition(function(data) {
-        resolve({
-          latitude: data.coords.latitude,
-          longitude: data.coords.longitude,
-        });
-      });
-      setTimeout(function() {
-        resolve({
-          latitude: null,
-          longitude: null,
-        });
-      }, 2000);
+    function geoError() {
+      // resolve("error")
+      console.log("error");
+      // navigator.geolocation.getCurrentPosition(function(data) {
+      //   resolve({
+      //     latitude: data.coords.latitude,
+      //     longitude: data.coords.longitude,
+      //   });
+      // });
+      // setTimeout(function() {
+      //   resolve({
+      //     latitude: null,
+      //     longitude: null,
+      //   });
+      // }, 2000);
     }
   });
 }

@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-18 23:33:01
+ * @LastEditTime: 2022-03-19 23:27:42
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -26,7 +26,6 @@
           <div class="mine-input-line"></div>
         </div>
         <!-- 匿名登陆 -->
-
         <van-checkbox-group
           v-model="pageData.checkboxes.result"
           style="margin-top: 25px"
@@ -39,7 +38,8 @@
               @click="toggle(index)"
               clickable
             >
-              <span style="color: #f00" @click="spanclickmap"
+            <!--  -->
+              <span style="color: #555"  @click="spanclickmap"
                 >{{ returnData.geometry.longitude }}
                 {{ returnData.geometry.latitude }}</span
               >
@@ -49,11 +49,13 @@
             </van-cell>
           </van-cell-group>
         </van-checkbox-group>
+        
         <!-- 提示框 -->
         <ul
           class="mine-form-display-infor"
-          style="color: #017afebf; margin: -5px 0"
+          style="margin: -5px 0;color:#555;"
         >
+        <!-- color: #017afebf;  -->
           <transition-group name="list" tag="p">
             <li v-for="item in returnData.placeinformation" :key="item.key">
               <span>{{ item.key }}</span>
@@ -163,6 +165,7 @@ export default {
           //   red: false,
           // },
         ],
+        tasks: null
       },
       showModal: false
     };
@@ -175,13 +178,31 @@ export default {
         password: this.pageData.items[1].value,
       };
 
+      // 缓冲登录
       if (!studynth || !password) {
         this.$notify({ type: "warning", message: "请输入完整参数" });
       } else {
         this.loginSendData({ studynth, password }).then((returnData) => {
-          // console.log(returnData.data);
-          // console.log(returnData);
-          this.resolveLocationClock(returnData);
+          this.returnData.tasks = returnData;
+          // 登陆成功
+          if(returnData.data.status.mark == 1) {
+            // 快捷登录
+            if(this.returnData.geometry.latitude) {
+              this.$notify({ type: "success", message: "快捷登录成功" });
+              this.$refs["showModal"]?.openopen({
+                geometry: _this.returnData.geometry,
+                tasks: returnData.data,
+                placeinformation: _this.returnData.placeinformation
+              }, {aabb: 12312});
+            }
+            else {
+               this.$notify({ type: "success", message: "常规登录成功" });
+            }
+            // 常规登录
+          }
+          else {
+            this.$notify({ type: "danger", message: "账号密码错误" });
+          }
         });
       }
     },
@@ -284,6 +305,8 @@ export default {
               }
             })
           })
+
+          
           // console.log(this.returnData.geometry);
           // console.log(flatearthDistance({latitude: this.returnData.geometry?.latitude, longitude: this.returnData.geometry?.longitude}, {latitude: 23.132137, longitude: 113.383399}));
 
@@ -350,7 +373,7 @@ export default {
             (returnData) => {
               const returnDataReference = [
                 {
-                  key: "详细地址",
+                  key: "地址",
                   value: returnData.data.result.formatted_address,
                 },
               ];
@@ -426,7 +449,7 @@ export default {
 .list-enter,
 .list-leave-to {
   opacity: 0;
-  transform: translate(0px);
+  // transform: translate(100px);
   // translate
 }
 
