@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-19 23:35:24
+ * @LastEditTime: 2022-03-20 09:16:21
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -34,35 +34,19 @@
           <li>
             <span>{{ "姓名" }}</span>
             <span>
-              {{ returnData.signInit.tasks.result.userinformation.name }}
+              {{pageData.signResult.information.name}}
             </span>
           </li>
           <li>
-            <span>{{ "提交状态" }}</span>
+            <span>{{ "任务状态" }}</span>
             <span
             style="position: relative"
             >
-              {{ returnData.signResult.status.mark == 1 ? "提交成功" : "提交失败" || "结果" }}
+             {{pageData.signResult.sign.infor}}
               <span
                 :style="{
                   position: 'absolute',
                   width: '80px',
-                  height: '0',
-                  bottom: '5px',
-                  background: '#bfa',
-                  'border-bottom': '1px dotted blue',
-                }"
-              ></span>
-            </span>
-          </li>
-          <li>
-            <span>判断状态</span>
-            <span style="position: relative">
-              {{  returnData.signJudge[0].status }}
-              <span
-                :style="{
-                  position: 'absolute',
-                  width: '180px',
                   height: '0',
                   bottom: '5px',
                   background: '#bfa',
@@ -88,12 +72,8 @@
           style="margin: 0; color: #555555; color: #444"
         >
           <li>
-            <span>{{ "近期打卡" }}</span>
-            <span>{{ "未来的任务" }}</span>
-          </li>
-          <li>
-            <span>上次登陆</span>
-            <span>{{ "0000-00-00 00:00" }}</span>
+            <span>{{ "近期任务" }}</span>
+            <span>{{ "0个打卡任务" }}</span>
           </li>
         </ul>
       </ul>
@@ -126,112 +106,20 @@ export default {
         register: {
           title: "返回",
         },
+        signResult: {
+          information: {
+            name: "guest"
+          },
+          sign: {
+            infor: "打卡结果"
+          },
+          future: {
+
+          }
+        }
       },
       returnData: {
-        signResult: {
-          result: [],
-          status: { mark: 0, infor: "打卡更新情况" },
-        },
-        signJudge: [
-          {
-            id: 225,
-            topic: "暑假打卡主题",
-            Wifis: [],
-            Places: [
-              {
-                taskid: 225,
-                placesnth: 47,
-                servermark: true,
-                serverplacename: "地点",
-                geometrymark: false,
-                geometry: {
-                  type: "Point",
-                  coordinates: [-76.984722, 39.807222],
-                },
-                radius: 100,
-                createstamp: 1647619349205,
-                taskId: 225,
-              },
-            ],
-            key: 1647700870345,
-            startstamp: 1647659664862,
-            beginstamp: 1647657664862,
-            endstamp: 1647661464862,
-            status: "未迟到，位置判断失败",
-            statusmark: -1,
-            studynth: "1",
-            geometry: { type: "Point", coordinates: [-76.984722, 39.807222] },
-            userwifimark: 0,
-            userplacemark: 0,
-            usertimemark: 1,
-          },
-        ],
-        signInit: {
-          geometry: { latitude: 23.132103, longitude: 113.383381 },
-          tasks: {
-            result: {
-              userinformation: {
-                username: "1",
-                password: "1234",
-                name: "管理员1号",
-                studynth: "1",
-                register: "2022-03-18 07:25:08",
-                registertimestamp: 1647559508896,
-                logintimestamp: 1647559508896,
-                imglink:
-                  "https://portrait.gitee.com/uploads/avatars/user/2511/7534207_pkcile_1616390370.png!avatar200",
-                showinfor: "默认签名",
-                role: "管理员",
-              },
-              tasks: [
-                {
-                  id: 225,
-                  placesmark: false,
-                  wifismark: false,
-                  classnamesmark: false,
-                  timesmark: false,
-                  topic: "暑假打卡主题",
-                  createstamp: 1647619349211,
-                  createuser: "pkcile",
-                  Places: [
-                    {
-                      taskid: 225,
-                      placesnth: 47,
-                      servermark: true,
-                      serverplacename: "地点",
-                      geometrymark: false,
-                      geometry: {
-                        type: "Point",
-                        coordinates: [-76.984722, 39.807222],
-                      },
-                      radius: 100,
-                      createstamp: 1647619349205,
-                      taskId: 225,
-                    },
-                  ],
-                  Classnames: [{ classname: "admin", taskId: 225 }],
-                  Wifis: [],
-                  Results: [
-                    {
-                      taskid: 225,
-                      startstamp: 1647659664862,
-                      studynth: "1",
-                      statusmark: 0,
-                      status: "任务分发初始化",
-                      previousstamp: 2000000,
-                      afterstamp: 1800000,
-                      taskId: 225,
-                    },
-                  ],
-                },
-              ],
-            },
-            status: { mark: 1, infor: "登陆成功" },
-          },
-          placeinformation: [
-            { key: "地址", value: "广州市天河区棠东富华新街二巷" },
-          ],
-        },
+
       },
       showResulet: this.show,
     };
@@ -246,8 +134,6 @@ export default {
       setTimeout(() => {
         this.showResulet = true;
       }, 0);
-
-      // return;
 
       const data = {
         geometry: { latitude: 23.132103, longitude: 113.383381 },
@@ -316,7 +202,7 @@ export default {
         ],
       };
 
-      // console.log(data01, aaa);
+      console.log(data, data01);
       this.taskJudge(data01);
     },
     taskJudge(data) {
@@ -338,36 +224,8 @@ export default {
         forminit() {
           // 一维数组
           const singlestamptaskArray = [
-            // {
-            //   id: 1,
-            //   topic: 1,
-            //   startstamp: 12,
-            // studynth
-            //   statusmark: 1,
-            //   status: 1,
-            //   Places: [
-            //     {
-            //       taskid: 220,
-            //       placesnth: 42,
-            //       servermark: true,
-            //       serverplacename: "地点",
-            //       geometrymark: false,
-            //       geometry: {
-            //         type: "Point",
-            //         coordinates: [-76.984722, 39.807222],
-            //       },
-            //       createstamp: 1647518176544,
-            //       taskId: 220,
-            //     },
-            //   ],
-            //   wifis: [],
-            //   key: Date.now(),
-            //   geometry: { type: "Point", coordinates: [-76.984722, 39.807222] },
-            //   userwifimark: 1,
-            //   userplacemark: 1,
-            //   usertimemark: 0
-            // },
           ];
+          console.log(this.forminitData);
           const { tasks, geometry, placeinformation, wifis } =
             this.forminitData;
 
@@ -388,7 +246,7 @@ export default {
                 studynth: taskitemperson.studynth,
                 geometry: {
                   type: "Point",
-                  coordinates: [-76.984722, 39.807222],
+                  coordinates: [geometry?.longitude, geometry?.latitude],
                 },
                 userwifimark: 0,
                 userplacemark: 0,
@@ -398,6 +256,8 @@ export default {
           });
 
           this.singlestamptaskArray = singlestamptaskArray;
+
+          console.log(this.singlestamptaskArray);
 
           return this;
         }
@@ -458,7 +318,6 @@ export default {
             const timejudgemark = this.timejudgemark;
             const geometryjudgemark = this.geometryjudgemark;
 
-            console.log(wifijudgemark, timejudgemark, geometryjudgemark);
             this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
               // 只使用位置、时间来显示打卡情况
               if (timejudgemark && geometryjudgemark && !wifijudgemark) {
@@ -477,7 +336,7 @@ export default {
                   singlestamptaskArrayitem.userplacemark > 0
                 ) {
                   singlestamptaskArrayitem.statusmark = -1;
-                  singlestamptaskArrayitem.status = "迟到了，打卡成功";
+                  singlestamptaskArrayitem.status = "迟到了";
                 } else if (
                   singlestamptaskArrayitem.usertimemark == -1 &&
                   singlestamptaskArrayitem.userplacemark == 0
@@ -489,7 +348,7 @@ export default {
                   singlestamptaskArrayitem.userplacemark == 0
                 ) {
                   singlestamptaskArrayitem.statusmark = -1;
-                  singlestamptaskArrayitem.status = "未迟到，位置判断失败";
+                  singlestamptaskArrayitem.status = "位置判断失败";
                 }
               } else {
               }
@@ -513,13 +372,53 @@ export default {
               });
             });
 
+            console.log(singlestamptaskArraySend);
+
             axios
               .get(`${process.env.VUE_APP_POSITION_PATH}/result/taskSign`, {
                 params: { sendArray: singlestamptaskArraySend },
               })
               .then((returnData) => {
+                // 
+                let signResult = {
+                  result: null,
+                  status: {
+                    mark: 0,
+                    info: "无打卡任务"
+                  }
+                }
+                // 无打卡任务
+                // 有打卡任务，打卡任务，单个任务打卡、多个任务打卡成功
+                if(singlestamptaskArraySend.length == 0) {
+                  signResult = {
+                    result: null,
+                    status: {
+                      mark: 0,
+                      infor: "无打卡任务"
+                    }
+                  }
+                }
+                else if(singlestamptaskArraySend.length == 1){
+                  signResult = {
+                    result: returnData.data.result,
+                    status: {
+                      mark: returnData.data.status.mark,
+                      infor: returnData.data.status.infor
+                    }
+                  }
+                }
+                else {
+                  signResult = {
+                    result: returnData.data.result,
+                    status: {
+                      mark: 2,
+                      infor: "多个任务提交完成"
+                    }
+                  }
+                }
+
                 resolve({
-                  signResult: returnData.data,
+                  signResult: signResult,
                   signJudge: _this.singlestamptaskArray,
                   signInit: _this.forminitData,
                 });
@@ -543,16 +442,13 @@ export default {
         .timejudge()
         .updateresult()
         .then((returnData) => {
-          // console.log(JSON.stringify(returnData));
-          // console.log(returnData.signResult);
-          // console.log(returnData.signJudge);
-          // console.log(returnData.signInit);
-
           console.log(returnData);
           _this.returnData = returnData;
+          _this.pageData.signResult.information.name = returnData.signInit.tasks.result.userinformation.name;
+          _this.pageData.signResult.sign.infor = returnData.signResult.status.infor;
+          // this.pageData
         });
 
-        console.log(11122);
               // return;
     },
   },
