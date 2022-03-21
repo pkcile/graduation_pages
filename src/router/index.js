@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-18 08:17:48
+ * @LastEditTime: 2022-03-21 15:27:38
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/router/index.js
@@ -30,6 +30,9 @@ const vueComponent = {
   asignForsure: () => import("@/components/admin/editTask/asignForsure.vue"),
 
   pages: {
+    index: {
+      tasklist: () => import("@/pages/index/tasklist.vue")
+    },
     social: {
       social: () => import("@/pages/social/social.vue"),
     },
@@ -84,7 +87,8 @@ const routes = [
     children: [
       {
         path: 'main',
-        component: vueComponent.mainClock
+        // component: vueComponent.mainClock
+        component: vueComponent.pages.index.tasklist
       },
       {
         path: 'map',

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-20 09:16:21
+ * @LastEditTime: 2022-03-21 14:09:26
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -71,10 +71,10 @@
           class="mine-form-display-infor"
           style="margin: 0; color: #555555; color: #444"
         >
-          <li>
+          <!-- <li>
             <span>{{ "近期任务" }}</span>
             <span>{{ "0个打卡任务" }}</span>
-          </li>
+          </li> -->
         </ul>
       </ul>
 
