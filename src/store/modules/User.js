@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-03-14 21:49:04
+ * @LastEditTime: 2022-03-23 15:44:12
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -39,6 +39,8 @@ const state = {
       task_status: null,
     },
   },
+
+  // 1.
 };
 
 const getters = {

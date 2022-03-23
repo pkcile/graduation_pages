@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-23 15:27:29
+ * @LastEditTime: 2022-03-23 15:42:11
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -436,7 +436,6 @@ export default {
 
       const task = new TaskDealWith(data);
 
-
       task
         .forminit()
         .geometryjudge()
@@ -450,10 +449,9 @@ export default {
           // this.pageData
         });
 
-              // return;
+        // return;
     },
     changesize(){
-
       eventbus.$emit('add',this.arg)
       this.$router.push("/home");
     }
