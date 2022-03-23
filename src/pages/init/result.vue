@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-21 14:09:26
+ * @LastEditTime: 2022-03-23 15:27:29
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -38,7 +38,7 @@
             </span>
           </li>
           <li>
-            <span>{{ "任务状态" }}</span>
+            <span @click="changesize">{{ "任务状态" }}</span>
             <span
             style="position: relative"
             >
@@ -94,6 +94,7 @@
 import { NavBar } from "vant";
 import { flatearthDistance } from "@/utils/distance2.js";
 import axios from "axios";
+import eventbus from "@/utils/evenbus.js"
 
 export default {
   props: {
@@ -451,6 +452,12 @@ export default {
 
               // return;
     },
+    changesize(){
+
+      eventbus.$emit('add',this.arg)
+      this.$router.push("/home");
+    }
+
   },
   mounted() {
     const data = {
@@ -521,6 +528,9 @@ export default {
     };
 
     // console.log(data);
+  },
+  destroyed() {
+    console.log('该组件可销毁 result');
   },
   components: {
     [NavBar.name]: NavBar,

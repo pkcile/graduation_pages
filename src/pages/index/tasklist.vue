@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-23 11:31:35
+ * @LastEditTime: 2022-03-23 15:27:07
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -32,7 +32,6 @@
         </div>
       </li>
     </ul>
-
 </van-pull-refresh>
 
 
@@ -44,6 +43,7 @@ import { PullRefresh, NoticeBar } from "vant";
 import { flatearthDistance } from "@/utils/distance2.js";
 import axios from "axios";
 import "@/assets/font/index.js"
+import eventbus from "@/utils/evenbus.js"
 
 export default {
   props: {
@@ -103,9 +103,21 @@ export default {
     },
     taskitemjump(jumpitem) {
       console.log("jump", jumpitem);
+    },
+    changesize(){
+        eventbus.$emit('add',this.arg)
     }
   },
   mounted() {
+  },
+  created() {
+    eventbus.$on('add',(message)=>{
+        //一些操作，message就是从top组件传过来的值
+        console.log(message)
+    });
+  },
+  destroyed() {
+    console.log('该组件可销毁 tasklist');
   },
   components: {
     [PullRefresh.name]: PullRefresh,
