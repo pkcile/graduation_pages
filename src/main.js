@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-18 21:33:23
+ * @LastEditTime: 2022-03-23 11:25:07
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/main.js
@@ -17,6 +17,10 @@ import VueCompositionAPI from '@vue/composition-api'
 import "@/assets/style/common/mobile-form.scss";
 import "@/assets/style/common/mobile-whole-layout.scss";
 import "@/assets/style/reset/reset.css";
+
+import "@/utils/keyboard.js"
+
+
 
 Vue.use(Toast);
 Vue.use(Notify);
