@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-19 23:27:42
+ * @LastEditTime: 2022-03-24 10:30:09
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -109,6 +109,7 @@ import {
   getCurrentLocation2,
   getLocationInformation,
 } from "@/utils/geolocation.js";
+import { mapMutations } from 'vuex'
 
 
 import {
@@ -165,6 +166,7 @@ export default {
           //   red: false,
           // },
         ],
+        placeinformationformal: null,
         tasks: null
       },
       showModal: false
@@ -181,16 +183,28 @@ export default {
       // 缓冲登录
       if (!studynth || !password) {
         this.$notify({ type: "warning", message: "请输入完整参数" });
+        return;
       } else {
         this.loginSendData({ studynth, password }).then((returnData) => {
           this.returnData.tasks = returnData;
           // 登陆成功
-          if(returnData.data.status.mark == 1) {
+          const loginStoreData = {
+            userinformation: returnData.data?.result?.userinformation,
+            tasks: returnData.data?.result?.tasks,
+            getGeometry: this.returnData.geometry,
+            getGeometryInformation: this.returnData.placeinformationformal,
+            getWifis: null
+          }
+          
+          this.loginStore(loginStoreData);
+          
+          if(returnData.data.status.mark == 1) {   
             // 快捷登录
             if(this.returnData.geometry.latitude) {
               this.$notify({ type: "success", message: "快捷登录成功" });
               this.$refs["showModal"]?.openopen({
                 geometry: _this.returnData.geometry,
+                userinformation: returnData.data.result.userinformation,
                 tasks: returnData.data,
                 placeinformation: _this.returnData.placeinformation
               }, {aabb: 12312});
@@ -375,10 +389,11 @@ export default {
                 {
                   key: "地址",
                   value: returnData.data.result.formatted_address,
-                },
+                }
               ];
 
               this.returnData.placeinformation = returnDataReference;
+              this.returnData.placeinformationformal = returnData;
             }
           );
           // https://api.tianditu.gov.cn/geocoder?type=geocode&postStr=%7B%22lon%22:113.383507,%22lat%22:23.132059,%22ver%22:1%7D&tk=75f0434f240669f4a2df6359275146d2
@@ -398,7 +413,13 @@ export default {
     showModal001() {
       this.$refs["showModal"]?.openopen();
       // console.log("show model 001");
-    }
+    },
+     ...mapMutations('User', [
+      'loginStore'
+    ]),
+    // ...mapMutations('User', {
+    //   loginStore2: 'loginStore' // 将 `this.add()` 映射为 `this.$store.commit('increment')`
+    // })
   },
   created() {},
   components: {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-03-23 15:44:12
+ * @LastEditTime: 2022-03-24 10:49:32
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -11,36 +11,21 @@ import axios from "axios";
 import { Notify } from 'vant';
 
 const state = {
-  // 1.登陆获取信息
+  // 登陆数据
   login: {
-    role: "学生",
-    name: "guest",
-    username: "guest",
-    task_radius: null,
-    task_starttime: null, //2021-11-14 11:19:00
-    task_endtime: null,
-    task_placename: null,
-    task_id: null,
-    positionData: null,
-  },
-  // 2.用户提交信息
-  get: {
-    locationItem: {
-      positionPoint: {
-        latitude: 28.68687471077349,
-        longitude: 116.02624654769897,
-      },
-    },
-    sendDatabase: {
-      task_id: null,
-      comment: null,
-      datenow: null,
-      username: null,
-      task_status: null,
-    },
+    userinformation: null,
+    tasks: null,
+    getGeometry: null,
+    getGeometryInformation: null,
+    getWifis: null
   },
 
-  // 1.
+  // 任务签到打卡数据
+  taskSign: {
+    judgeArray: [],
+    signResult: []
+  }
+
 };
 
 const getters = {
@@ -56,31 +41,44 @@ const getters = {
 
 const mutations = {
   // 登陆配置
-  loginIn(state, param) {
-    const loginPerson = param.loginPerson;
-    state.login.role = loginPerson.role;
-    state.login.name = loginPerson.name;
-    state.login.username = loginPerson.username;
-    state.login.task_radius = loginPerson.task_radius;
-    state.login.task_starttime = loginPerson.task_starttime;
-    state.login.task_endtime = loginPerson.task_endtime;
-    state.login.task_placename = loginPerson.task_placename;
-    state.login.task_id = loginPerson.task_id;
-    state.login.positionData = loginPerson.positionData;
+  loginInStore(state, param) {
+    console.log(param);
+    // const loginPerson = param.loginPerson;
+    // state.login.role = loginPerson.role;
+    // state.login.name = loginPerson.name;
+    // state.login.username = loginPerson.username;
+    // state.login.task_radius = loginPerson.task_radius;
+    // state.login.task_starttime = loginPerson.task_starttime;
+    // state.login.task_endtime = loginPerson.task_endtime;
+    // state.login.task_placename = loginPerson.task_placename;
+    // state.login.task_id = loginPerson.task_id;
+    // state.login.positionData = loginPerson.positionData;
 
-    state.get.sendDatabase.task_id = loginPerson.task_id;
-    state.get.sendDatabase.comment = loginPerson.comment || "";
-    state.get.sendDatabase.datenow = loginPerson.datenow;
-    state.get.sendDatabase.username = loginPerson.username;
-    state.get.sendDatabase.task_status = loginPerson.task_status;
+    // state.get.sendDatabase.task_id = loginPerson.task_id;
+    // state.get.sendDatabase.comment = loginPerson.comment || "";
+    // state.get.sendDatabase.datenow = loginPerson.datenow;
+    // state.get.sendDatabase.username = loginPerson.username;
+    // state.get.sendDatabase.task_status = loginPerson.task_status;
   },
-  updataLloginIn() {
+  updataLoginIn() {
     this.commit("User/loginIn", {
-      loginPerson: JSON.parse(window.sessionStorage.getItem("loginData")),
+      // loginPerson: JSON.parse(window.sessionStorage.getItem("loginData")),
     });
     console.log("登录");
-    
   },
+  // 登陆选项
+  loginStore(state, param) {
+    this.state.User.login.userinformation = param.userinformation;
+    this.state.User.login.tasks = param.tasks;
+    this.state.User.login.getGeometry = param.getGeometry;
+    this.state.User.login.getGeometryInformation = param.getGeometryInformation;
+    this.state.User.login.getWifis = param.getWifis;
+  },
+  // 
+  taskSignStore(state, param) {
+    this.state.User.taskSign.judgeArray = param.judgeArray;
+    this.state.User.taskSign.signResult = param.signResult;
+  }
 };
 
 const actions = {

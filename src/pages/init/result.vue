@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-23 15:42:11
+ * @LastEditTime: 2022-03-24 10:46:18
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -37,8 +37,8 @@
               {{pageData.signResult.information.name}}
             </span>
           </li>
-          <li>
-            <span @click="changesize">{{ "任务状态" }}</span>
+          <li @click="changesize">
+            <span>{{ "任务状态" }}</span>
             <span
             style="position: relative"
             >
@@ -95,6 +95,8 @@ import { NavBar } from "vant";
 import { flatearthDistance } from "@/utils/distance2.js";
 import axios from "axios";
 import eventbus from "@/utils/evenbus.js"
+import { mapMutations } from 'vuex'
+import signVue from '../sign/sign.vue';
 
 export default {
   props: {
@@ -130,8 +132,7 @@ export default {
       this.showResulet = false;
     },
     openopen(data01, aaa) {
-      // 快捷登陆结果，解析
-      
+      // 快捷登陆结果，解析     
       setTimeout(() => {
         this.showResulet = true;
       }, 0);
@@ -175,8 +176,7 @@ export default {
                       coordinates: [-76.984722, 39.807222],
                     },
                     radius: 100,
-                    createstamp: 1647619349205,
-                    taskId: 225,
+                    createstamp: 1647619349205
                   },
                 ],
                 Classnames: [{ classname: "admin", taskId: 225 }],
@@ -418,6 +418,7 @@ export default {
                   }
                 }
 
+              
                 resolve({
                   signResult: signResult,
                   signJudge: _this.singlestamptaskArray,
@@ -446,7 +447,7 @@ export default {
           _this.returnData = returnData;
           _this.pageData.signResult.information.name = returnData.signInit.tasks.result.userinformation.name;
           _this.pageData.signResult.sign.infor = returnData.signResult.status.infor;
-          // this.pageData
+          _this.taskSignStore({judgeArray: returnData.signJudge, signResult: returnData.signResult});
         });
 
         // return;
@@ -454,7 +455,10 @@ export default {
     changesize(){
       eventbus.$emit('add',this.arg)
       this.$router.push("/home");
-    }
+    },
+     ...mapMutations('User', [
+      'taskSignStore'
+    ]),
 
   },
   mounted() {
