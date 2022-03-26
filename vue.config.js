@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2022-03-20 23:45:02
+ * @LastEditTime: 2022-03-25 12:08:33
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/vue.config.js
@@ -58,14 +58,14 @@ module.exports = {
   // },
   configureWebpack: config => {
     if (process.env.NODE_ENV === "production") {
-      // config.externals = {
-      //   vue: "Vue",
-      //   "vue-router": "VueRouter",
-      //   vuex: "Vuex",
-      //   axios: "axios",
-      //   "@turf/turf": "turf",
-      //   "leaflet": "L" 
-      // };
+      config.externals = {
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios",
+        "@turf/turf": "turf",
+        "leaflet": "L" 
+      };
     }
   },
   chainWebpack: (config) => {
@@ -95,11 +95,11 @@ module.exports = {
           // minChunkSize: 2000
         }]);
       
-      // config.plugin("html").tap(args => {
-      //   // html中添加cdn
-      //   args[0].cdn = cdn;
-      //   return args;
-      // });
+      config.plugin("html").tap(args => {
+        // html中添加cdn
+        args[0].cdn = cdn;
+        return args;
+      });
     }
   }
 };

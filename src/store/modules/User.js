@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-03-24 10:49:32
+ * @LastEditTime: 2022-03-26 10:14:49
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -78,6 +78,7 @@ const mutations = {
   taskSignStore(state, param) {
     this.state.User.taskSign.judgeArray = param.judgeArray;
     this.state.User.taskSign.signResult = param.signResult;
+    console.log(this.state.User);
   }
 };
 

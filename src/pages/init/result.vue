@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-24 10:46:18
+ * @LastEditTime: 2022-03-26 11:31:38
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -252,6 +252,7 @@ export default {
                 userwifimark: 0,
                 userplacemark: 0,
                 usertimemark: 0,
+                createuser: taskitem.createuser
               });
             });
           });
@@ -449,12 +450,11 @@ export default {
           _this.pageData.signResult.sign.infor = returnData.signResult.status.infor;
           _this.taskSignStore({judgeArray: returnData.signJudge, signResult: returnData.signResult});
         });
-
         // return;
     },
     changesize(){
       eventbus.$emit('add',this.arg)
-      this.$router.push("/home");
+      this.$router.push("/home/main");
     },
      ...mapMutations('User', [
       'taskSignStore'
@@ -528,8 +528,6 @@ export default {
         { key: "地址", value: "广州市天河区棠东富华新街二巷" },
       ],
     };
-
-    // console.log(data);
   },
   destroyed() {
     console.log('该组件可销毁 result');
