@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 21:38:54
+ * @LastEditTime: 2022-03-27 00:08:08
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -30,12 +30,12 @@
         @click="backTo"
       ></div>
     </div>
-    <div class="send-main" style="height: calc(100% - 50px);overflow-y:auto;">
+    <div class="send-main" style="height: calc(100% - 50px); overflow-y: auto">
       <!-- 表单 -->
       <ul class="mine-form-display" style="">
         <li>
           <span>打卡主题</span>
-          <span>{{  tasklistsSelectItem.topic }}</span>
+          <span>{{ tasklistsSelectItem.topic }}</span>
         </li>
         <li>
           <span>开始时间</span>
@@ -50,8 +50,21 @@
           <span>{{ tasklistsSelectItem.createuser }}</span>
         </li>
         <li>
-          <span>打卡状态</span>
-          <span>{{ tasklistsSelectItem.status }}</span>
+          <span>判断状态</span>
+          <span style="position: relative"
+            >{{ tasklistsSelectItem.status + "，" + (singletask? singletask.status : "") }}
+            <span
+              :style="{
+                position: 'absolute',
+                width: '150px',
+                height: '0',
+                bottom: '-4px',
+                left: 0,
+                background: '#bfa',
+                'border-bottom': '1px dotted blue',
+              }"
+            ></span>
+          </span>
         </li>
         <!-- <li>
           <span>打卡地点</span>
@@ -73,7 +86,7 @@
       </ul>
       <div
         class="mine-button-block bottom-fix"
-        style="position: sticky; bottom: 20px; left: 0;margin-top:15px;"
+        style="position: sticky; bottom: 20px; left: 0; margin-top: 15px"
       >
         打卡/更新
       </div>
@@ -83,17 +96,19 @@
 
 <script>
 import { convertDate } from "@/utils/date.js";
+import { flatearthDistance } from "@/utils/distance2.js";
+import { geometry } from "@turf/helpers";
 
 export default {
   name: "indexmodal",
   props: {
-    tasklistsSelectItem: Object
+    tasklistsSelectItem: Object,
   },
   data() {
     return {
       sendStudentData: [],
       taskId: null,
-      tasklistsSelectItem002: this.tasklistsSelectItem
+      singletask: null,
     };
   },
   methods: {
@@ -108,16 +123,177 @@ export default {
     },
     tasklistsEventCall(tasklistitem) {
       console.log("call", tasklistitem);
+      console.log("new call");
+      class TaskDealWith {
+        forminitData;
+        singlestamptaskArray;
+        wifijudgemark;
+        timejudgemark;
+        geometryjudgemark;
+
+        constructor(data) {
+          this.forminitData = data;
+          this.singlestamptaskArray = data.tasks;
+        }
+
+        forminit() {
+          console.log("forminit");
+
+          this.singlestamptaskArray.map((taskitem) => {
+            taskitem.userplacemark = 0;
+            taskitem.userwifimark = 0;
+            taskitem.usertimemark = 0;
+          });
+
+          console.log(this.singlestamptaskArray);
+
+          return this;
+        }
+
+        wifijudge() {
+          this.wifijudge = 1;
+        }
+
+        geometryjudge() {
+          const singlestamptaskArray = this.singlestamptaskArray;
+          const { geometry } = this.forminitData;
+          console.log(singlestamptaskArray);
+
+          singlestamptaskArray.map((singlestamptaskArrayitem) => {
+            console.log(singlestamptaskArrayitem);
+            singlestamptaskArrayitem.Places.forEach((placesitem) => {
+              let distance = flatearthDistance(
+                {
+                  latitude: geometry?.latitude,
+                  longitude: geometry?.longitude,
+                },
+                {
+                  latitude: placesitem.geometry.coordinates[1],
+                  longitude: placesitem.geometry.coordinates[0],
+                }
+              );
+              if (distance < placesitem.radius) {
+                singlestamptaskArrayitem.userplacemark = 1;
+              } else {
+                if (singlestamptaskArrayitem.userplacemark != 1) {
+                  singlestamptaskArrayitem.userplacemark = -1;
+                  console.log("距离过大");
+                }
+              }
+            });
+          });
+
+          this.geometryjudgemark = 1;
+          return this;
+        }
+
+        timejudge() {
+          this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
+            if (Date.now() > singlestamptaskArrayitem) {
+              // 迟到了
+              singlestamptaskArrayitem.usertimemark = -1;
+            } else {
+              // 打卡正常
+              singlestamptaskArrayitem.usertimemark = 1;
+            }
+          });
+
+          this.timejudgemark = 1;
+          return this;
+        }
+
+        updateresult() {
+          console.log("updateresult");
+          const _this = this;
+          const wifijudgemark = this.wifijudgemark;
+          const timejudgemark = this.timejudgemark;
+          const geometryjudgemark = this.geometryjudgemark;
+
+          this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
+            // 只使用位置、时间来显示打卡情况
+            if (timejudgemark && geometryjudgemark && !wifijudgemark) {
+              console.log(
+                singlestamptaskArrayitem.userplacemark,
+                singlestamptaskArrayitem.usertimemark
+              );
+              if (
+                singlestamptaskArrayitem.usertimemark == 1 &&
+                singlestamptaskArrayitem.userplacemark > 0
+              ) {
+                singlestamptaskArrayitem.statusmark = 1;
+                singlestamptaskArrayitem.status = "判断成功";
+              } else if (
+                singlestamptaskArrayitem.usertimemark == -1 &&
+                singlestamptaskArrayitem.userplacemark > 0
+              ) {
+                singlestamptaskArrayitem.statusmark = -1;
+                singlestamptaskArrayitem.status = "迟到了";
+              } else if (
+                singlestamptaskArrayitem.usertimemark == -1 &&
+                singlestamptaskArrayitem.userplacemark == -1
+              ) {
+                singlestamptaskArrayitem.statusmark = -1;
+                singlestamptaskArrayitem.status = "迟到了，位置判断失败";
+              } else if (
+                singlestamptaskArrayitem.usertimemark == 1 &&
+                singlestamptaskArrayitem.userplacemark == -1
+              ) {
+                singlestamptaskArrayitem.statusmark = -1;
+                singlestamptaskArrayitem.status = "位置判断失败";
+              }
+            } else {
+            }
+          });
+
+          return this;
+        }
+
+        showresult() {
+          return this;
+        }
+      }
+
+      const task = new TaskDealWith({
+        tasks: [this.deepClone(this.tasklistsSelectItem)],
+        geometry: {
+          longitude: tasklistitem.geometry.coordinates[0],
+          latitude: tasklistitem.geometry.coordinates[1],
+        },
+      });
+
+      console.log(
+        task.forminit().geometryjudge().timejudge().updateresult()
+          .singlestamptaskArray
+      );
+      console.log(this.tasklistsSelectItem);
+      this.singletask = task
+        .forminit()
+        .geometryjudge()
+        .timejudge()
+        .updateresult().singlestamptaskArray[0];
+      console.log(this.singletask);
     },
-    convertDate
+    convertDate,
+    deepClone(source) {
+      const targetObj = source.constructor === Array ? [] : {}; // 判断复制的目标是数组还是对象
+      for (let keys in source) {
+        // 遍历目标
+        if (source.hasOwnProperty(keys)) {
+          if (source[keys] && typeof source[keys] === "object") {
+            // 如果值是对象，就递归一下
+            targetObj[keys] = source[keys].constructor === Array ? [] : {};
+            targetObj[keys] = this.deepClone(source[keys]);
+          } else {
+            // 如果不是，就直接赋值
+            targetObj[keys] = source[keys];
+          }
+        }
+      }
+      return targetObj;
+    },
   },
-  created() {
-    console.log("created");
-    console.log(this.tasklistsSelectItem002);
-  },
-  mounted() {
-    console.log(this.tasklistsSelectItem002);
-  },
+  created() {},
+  mounted() {},
 };
 </script>
 

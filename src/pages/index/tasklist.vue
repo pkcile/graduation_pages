@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 21:36:47
+ * @LastEditTime: 2022-03-26 23:07:39
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -171,6 +171,8 @@ export default {
           endstamp: judgetaskitem.endstamp,
           beginstamp: judgetaskitem.beginstamp,
           geometry: judgetaskitem.geometry,
+          Places: judgetaskitem.Places,
+          Wifis: judgetaskitem.Wifis
 
         });
       });
@@ -192,7 +194,7 @@ export default {
   created() {
     this.pageData.tasklists = [];
     
-    const User = {
+    const User1 = {
       login: {
         userinformation: {
           username: "1",
@@ -348,7 +350,7 @@ export default {
         },
       },
     };
-    const User1 = this.$store.state.User;
+    const User = this.$store.state.User;
     console.log(User);
     console.log(JSON.stringify(this.$store.state.User));
     let tasklists = [];
