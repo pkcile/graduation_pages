@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 17:53:10
+ * @LastEditTime: 2022-03-26 19:09:47
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -62,6 +62,10 @@ import { mapState } from "vuex";
 import { convertDate } from "@/utils/date.js";
 import { TaskDealWith } from "@/utils/judgetasks.js";
 import indexmodal from './result.vue'
+import {
+  getCurrentLocation2,
+  getLocationInformation,
+} from "@/utils/geolocation.js";
 
 export default {
   props: {
@@ -121,8 +125,18 @@ export default {
     },
     taskitemjump(jumpitem) {
       this.pageData.tasklistsSelectItem = jumpitem;
-      this.pageResult = true;
-      console.log("jump", jumpitem);
+      this.$toast.loading({
+        message: '位置加载中...',
+        forbidClick: true,
+      });
+      getCurrentLocation2().then(returnData => {
+        this.$toast.clear();
+        this.$toast.success('位置获取成功');
+        console.log("位置获取成功", returnData);
+        this.pageResult = true;
+        console.log("jump", jumpitem);
+      })
+
     },
     judgeArrayToTasklists(judgeArray) {
       let tasklists = [];
