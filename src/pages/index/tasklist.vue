@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 19:09:47
+ * @LastEditTime: 2022-03-26 21:36:47
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -44,7 +44,7 @@
         <van-empty description="无打卡任务" />
       </ul>
       </van-pull-refresh>
-      <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem">
+      <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
       </indexmodal>
 
 
@@ -130,10 +130,16 @@ export default {
         forbidClick: true,
       });
       getCurrentLocation2().then(returnData => {
+        this.pageData.tasklistsSelectItem.geometry = {
+          coordinates: [returnData.longitude, returnData.latitude],
+          type: "Point",
+          accuracy: returnData.accuracy
+        }
         this.$toast.clear();
         this.$toast.success('位置获取成功');
         console.log("位置获取成功", returnData);
         this.pageResult = true;
+        this.$refs["tasklistsEvent"].tasklistsEventCall(this.pageData.tasklistsSelectItem);
         console.log("jump", jumpitem);
       })
 
@@ -153,6 +159,7 @@ export default {
           icon = "#icon-bianjiputong";
           status = "打卡失败";
         }
+        console.log(judgetaskitem, "judgetaskitem");
         tasklists.push({
           id: judgetaskitem.id,
           key: Date.now() + Math.random(),
@@ -161,6 +168,10 @@ export default {
           time: convertDate(judgetaskitem.startstamp),
           topic: judgetaskitem.topic,
           icon,
+          endstamp: judgetaskitem.endstamp,
+          beginstamp: judgetaskitem.beginstamp,
+          geometry: judgetaskitem.geometry,
+
         });
       });
       return tasklists;

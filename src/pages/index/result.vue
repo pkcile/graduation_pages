@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 17:52:19
+ * @LastEditTime: 2022-03-26 21:38:54
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -35,32 +35,32 @@
       <ul class="mine-form-display" style="">
         <li>
           <span>打卡主题</span>
-          <span>{{ $store.state.User.login.task_starttime }}</span>
+          <span>{{  tasklistsSelectItem.topic }}</span>
         </li>
         <li>
           <span>开始时间</span>
-          <span>{{ $store.state.User.login.task_starttime }}</span>
+          <span>{{ convertDate(tasklistsSelectItem.startstamp) }}</span>
         </li>
         <li>
           <span>结束时间</span>
-          <span>{{ $store.state.User.login.task_endtime }}</span>
+          <span>{{ convertDate(tasklistsSelectItem.endstamp) }}</span>
         </li>
-        <!-- <li>
+        <li>
           <span>创建人员</span>
-          <span>{{ $store.state.User.login.task_starttime }}</span>
-        </li> -->
+          <span>{{ tasklistsSelectItem.createuser }}</span>
+        </li>
         <li>
           <span>打卡状态</span>
-          <span>{{ $store.state.User.login.task_starttime }}</span>
+          <span>{{ tasklistsSelectItem.status }}</span>
         </li>
-        <li>
+        <!-- <li>
           <span>打卡地点</span>
-          <span>{{ $store.state.User.login.task_placename }}</span>
-        </li>
-        <li>
+          <span>{{ tasklistsSelectItem.topic }}</span>
+        </li> -->
+        <!-- <li>
           <span>签到误差</span>
-          <span>{{ $store.state.User.login.task_starttime }}</span>
-        </li>
+          <span>{{ tasklistsSelectItem.geometry ? tasklistsSelectItem.geometry.accuracy + "米" : "" }}</span>
+        </li> -->
 
         <li style="background: #efeff3"><span>备注</span></li>
         <textarea
@@ -82,6 +82,8 @@
 </template>
 
 <script>
+import { convertDate } from "@/utils/date.js";
+
 export default {
   name: "indexmodal",
   props: {
@@ -91,6 +93,7 @@ export default {
     return {
       sendStudentData: [],
       taskId: null,
+      tasklistsSelectItem002: this.tasklistsSelectItem
     };
   },
   methods: {
@@ -103,13 +106,20 @@ export default {
       // console.log(this.$parent.pageResult);
       // this.$emit("fun0001", "data");
     },
+    tasklistsEventCall(tasklistitem) {
+      console.log("call", tasklistitem);
+    },
+    convertDate
+  },
+  created() {
+    console.log("created");
+    console.log(this.tasklistsSelectItem002);
   },
   mounted() {
-    console.log(this.tasklistsSelectItem);
+    console.log(this.tasklistsSelectItem002);
   },
 };
 </script>
-
 
 <style lang="scss">
 </style>
