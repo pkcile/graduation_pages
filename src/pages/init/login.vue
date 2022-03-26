@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-24 10:30:09
+ * @LastEditTime: 2022-03-26 15:03:45
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -91,10 +91,7 @@
         </div>
       </div>
       <button id="show-modal" @click="showModal001">Show Modal</button>
-      <modal :show="showModal"  ref="showModal">
-        <template #header>
-          <h3>custom header</h3>
-        </template>
+      <modal :show="showModal" >
       </modal>
     </main>
     <!-- 导航 -->
@@ -183,8 +180,12 @@ export default {
       // 缓冲登录
       if (!studynth || !password) {
         this.$notify({ type: "warning", message: "请输入完整参数" });
+                    setTimeout(()=> {
+                this.$notify.clear();
+              }, 1500)
         return;
-      } else {
+      } 
+      else {
         this.loginSendData({ studynth, password }).then((returnData) => {
           this.returnData.tasks = returnData;
           // 登陆成功
@@ -197,6 +198,7 @@ export default {
           }
           
           this.loginStore(loginStoreData);
+          console.log(this.$store.state.User.login);
           
           if(returnData.data.status.mark == 1) {   
             // 快捷登录
@@ -208,11 +210,19 @@ export default {
                 tasks: returnData.data,
                 placeinformation: _this.returnData.placeinformation
               }, {aabb: 12312});
-            }
-            else {
-               this.$notify({ type: "success", message: "常规登录成功" });
+              setTimeout(()=> {
+                this.$notify.clear();
+              }, 1000)
             }
             // 常规登录
+            else {
+              this.$notify({ type: "success", message: "常规登录成功" });
+              setTimeout(()=> {
+                this.$router.push("/home/main");
+                this.$notify.clear();
+              }, 1000)
+            }
+
           }
           else {
             this.$notify({ type: "danger", message: "账号密码错误" });

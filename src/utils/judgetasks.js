@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 11:13:26
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 11:44:30
+ * @LastEditTime: 2022-03-26 14:33:25
  * @FilePath: /graduation-project-master/src/utils/judgetasks.js
  * @Description: 
  */
@@ -57,12 +57,12 @@ export class TaskDealWith {
     });
 
     this.singlestamptaskArray = singlestamptaskArray;
-    return this.singlestamptaskArray;
+    return this;
   }
 
   wifijudge() {
     this.wifijudge = 1;
-    return this.singlestamptaskArray
+    return this
   }
 
   geometryjudge() {
@@ -90,7 +90,7 @@ export class TaskDealWith {
 
     this.geometryjudgemark = 1;
 
-    return this.singlestamptaskArray;
+    return this;
   }
 
   timejudge() {
@@ -106,7 +106,7 @@ export class TaskDealWith {
 
     this.timejudgemark = 1;
 
-    return this.singlestamptaskArray;
+    return this;
   }
 
   updateresult() {

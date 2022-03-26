@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 12:07:36
+ * @LastEditTime: 2022-03-26 17:53:10
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -43,7 +43,11 @@
       <ul class="" v-else style="background: #fff; width: 100%; height: 100%">
         <van-empty description="无打卡任务" />
       </ul>
-    </van-pull-refresh>
+      </van-pull-refresh>
+      <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem">
+      </indexmodal>
+
+
   </div>
 </template>
 
@@ -57,12 +61,13 @@ import eventbus from "@/utils/evenbus.js";
 import { mapState } from "vuex";
 import { convertDate } from "@/utils/date.js";
 import { TaskDealWith } from "@/utils/judgetasks.js";
+import indexmodal from './result.vue'
 
 export default {
   props: {
     show: Boolean,
   },
-  name: "modal",
+  name: "aabb",
   data() {
     return {
       pageData: {
@@ -95,7 +100,9 @@ export default {
           //   icon: "#icon-kaishibofang"
           // },
         ],
+        tasklistsSelectItem: {}
       },
+      pageResult: false,
       returnData: {},
       showResulet: this.show,
       count: 0,
@@ -113,26 +120,29 @@ export default {
       // }, 1000);
     },
     taskitemjump(jumpitem) {
+      this.pageData.tasklistsSelectItem = jumpitem;
+      this.pageResult = true;
       console.log("jump", jumpitem);
-    },
-    changesize() {
-      eventbus.$emit("add", this.arg);
     },
     judgeArrayToTasklists(judgeArray) {
       let tasklists = [];
       let icon = "#icon-kaishibofang";
+      let status = "未打卡";
       judgeArray.forEach((judgetaskitem) => {
         if (judgetaskitem.statusmark === 1) {
           icon = "#icon-chaxun";
+          status = "打卡成功";
         } else if (judgetaskitem.statusmark == 0) {
           icon = "#icon-kaishibofang";
+          status = "未打卡";
         } else {
           icon = "#icon-bianjiputong";
+          status = "打卡失败";
         }
         tasklists.push({
           id: judgetaskitem.id,
           key: Date.now() + Math.random(),
-          status: judgetaskitem.status,
+          status,
           createuser: judgetaskitem.createuser,
           time: convertDate(judgetaskitem.startstamp),
           topic: judgetaskitem.topic,
@@ -145,6 +155,10 @@ export default {
       let taskDealWith = new TaskDealWith({tasks})
       console.log(taskDealWith.singlestamptaskArray);
       return taskDealWith.singlestamptaskArray;
+    },
+    resultClose() {
+      this.pageResult = false;
+      console.log(this.pageResult);
     }
   },
   mounted() {
@@ -152,6 +166,7 @@ export default {
   },
   created() {
     this.pageData.tasklists = [];
+    
     const User = {
       login: {
         userinformation: {
@@ -308,32 +323,20 @@ export default {
         },
       },
     };
+    const User1 = this.$store.state.User;
     console.log(User);
     console.log(JSON.stringify(this.$store.state.User));
     let tasklists = [];
     let judgeArray = User.taskSign?.judgeArray;
     let tasks = User.login?.tasks;
-    // key: 3,
-    // status: "未打卡",
-    // img: require('@/assets/font/start.svg'),
-    // createuser: "admin",
-    // time: "2022-03-21 12:00:00",
-    // topic: "暑假实习打卡",
-    // icon: "#icon-kaishibofang"
-    
     // 如果存在任务判断的数组
     if (!judgeArray) {
       this.pageData.tasklists = this.judgeArrayToTasklists(judgeArray);
     } 
     else if (tasks) {
+      console.log(this.tasksToJudgeArray(tasks));
       this.pageData.tasklists = this.judgeArrayToTasklists(this.tasksToJudgeArray(tasks));
-    
     }
-    // 如果存在原始的任务
-    // eventbus.$on('add',(message)=>{
-    //     //一些操作，message就是从top组件传过来的值
-    //     console.log(message)
-    // });
   },
   destroyed() {
     console.log("该组件可销毁 tasklist");
@@ -342,6 +345,7 @@ export default {
     [PullRefresh.name]: PullRefresh,
     [NoticeBar.name]: NoticeBar,
     [Empty.name]: Empty,
+    indexmodal: indexmodal
   },
 };
 </script>
@@ -371,13 +375,14 @@ export default {
   height: 40px;
   box-sizing: border-box;
   padding: 0 0 0 0px;
+  // margin: 5px;
 
   // margin-bottom: -10px;
   // backg
 }
 .mine-form-tasklist {
   height: calc(100% - 40px);
-  width: 99%;
+  // width: 99%;
   box-sizing: border-box;
   overflow-y: auto;
   padding: 0 5px 0 5px;
