@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 11:31:38
+ * @LastEditTime: 2022-03-26 18:48:57
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -132,6 +132,9 @@ export default {
       this.showResulet = false;
     },
     openopen(data01, aaa) {
+      this.$parent.showModal = true;
+      console.log(this.$parent.showModal);
+      this.showResulet = true;
       // 快捷登陆结果，解析     
       setTimeout(() => {
         this.showResulet = true;

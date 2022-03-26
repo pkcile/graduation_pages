@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-26 15:03:45
+ * @LastEditTime: 2022-03-26 18:50:24
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -91,7 +91,7 @@
         </div>
       </div>
       <button id="show-modal" @click="showModal001">Show Modal</button>
-      <modal :show="showModal" >
+      <modal v-show="showModal" ref="showModal">
       </modal>
     </main>
     <!-- 导航 -->
@@ -166,7 +166,7 @@ export default {
         placeinformationformal: null,
         tasks: null
       },
-      showModal: false
+      showModal: true
     };
   },
   methods: {
@@ -421,6 +421,7 @@ export default {
       e.stopPropagation();
     },
     showModal001() {
+      console.log("show show");
       this.$refs["showModal"]?.openopen();
       // console.log("show model 001");
     },
