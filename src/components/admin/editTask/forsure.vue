@@ -22,11 +22,11 @@
     >
       <!-- 地点选择 -->
       <li class="infor-title">信息确定</li>
-      <li class="infor-forsure" style="height: 240px; overflow-y: auto;">
+      <li class="infor-forsure" style=" overflow-y: auto;">
         <div class="mine-single-line-two" @click="showStartTimePopup">
           <div style="">创建编号</div>
           <div>{{ "001" }}</div>
-          <!-- <div><van-icon name="clock-o" /></div> -->
+          <div><van-icon name="clock-o" /></div>
         </div>
         <div class="mine-single-line-two" @click="showStartTimePopup">
           <div style="">创建人员</div>
@@ -44,13 +44,8 @@
           <!-- <div><van-icon name="clock-o" /></div> -->
         </div>
         <div class="mine-single-line-two" @click="showStartTimePopup">
-          <div style="">开始时间</div>
-          <div>{{ publishTask.param.starttime }}</div>
-          <!-- <div><van-icon name="clock-o" /></div> -->
-        </div>
-        <div class="mine-single-line-two" @click="showStartTimePopup">
-          <div style="">结束时间</div>
-          <div>{{ publishTask.param.starttime }}</div>
+          <div style="">创建时间</div>
+          <div>{{ "2022-03-27" }}</div>
           <!-- <div><van-icon name="clock-o" /></div> -->
         </div>
       </li>
@@ -68,16 +63,22 @@
 
       <li class="infor-forsure" style="height: 80px; overflow-y: auto;">
         <van-radio-group v-model="radio">
-            <div class="mine-single-line-two" @click="showStartTimePopup">
+            <!-- <div class="mine-single-line-two" @click="showStartTimePopup">
                 <div style="">分配人员：</div>
                 <div>{{ "学生被分配" }}</div>
                 <div><van-radio name="1"></van-radio></div>
+            </div> -->
+
+            <div class="mine-single-line-two" @click="showStartTimePopup">
+                <div style="">打卡位置：</div>
+                <div>{{ "打卡位置设置" }}</div>
+                <div><van-radio name="2"></van-radio></div>
             </div>
 
             <div class="mine-single-line-two" @click="showStartTimePopup">
-                <div style="">任务修改</div>
-                <div>{{ "任务被分配" }}</div>
-                <div><van-radio name="2"></van-radio></div>
+                <div style="">打卡WIFI：</div>
+                <div>{{ "WIFI添加设置" }}</div>
+                <div><van-radio name="3"></van-radio></div>
             </div>
         </van-radio-group>
         <!-- <van-radio-group v-model="radio">

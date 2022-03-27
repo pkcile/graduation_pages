@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-21 15:27:38
+ * @LastEditTime: 2022-03-27 16:17:27
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/router/index.js
@@ -35,9 +35,13 @@ const vueComponent = {
     },
     social: {
       social: () => import("@/pages/social/social.vue"),
+      more: () => import("@/pages/social/more.vue")
     },
     sign: {
       sign: () => import("@/pages/sign/sign.vue")
+    },
+    publish: {
+      publish: () => import("@/pages/publish/publish.vue")
     },
     init: {
       login: () => import("@/pages/init/login.vue"),
@@ -87,7 +91,6 @@ const routes = [
     children: [
       {
         path: 'main',
-        // component: vueComponent.mainClock
         component: vueComponent.pages.index.tasklist
       },
       {
@@ -96,7 +99,7 @@ const routes = [
       },
       {
         path: 'more',
-        component: vueComponent.userSocialMain
+        component: vueComponent.pages.social.more
       },
       {
         path: 'mine',
@@ -104,7 +107,7 @@ const routes = [
       },
       {
         path: 'admin',
-        component: vueComponent.adminPublish
+        component: vueComponent.pages.publish.publish
       }
     ]
   },
