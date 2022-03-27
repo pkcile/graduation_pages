@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-17 10:16:29
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-17 22:46:33
+ * @LastEditTime: 2022-03-27 13:46:13
  * @FilePath: /graduation-project-master/src/utils/distance2.js
  * @Description: 
  */
@@ -152,10 +152,10 @@ function vincentyDistance(point1 = {latitude ,longitude}, point2 = {latitude ,lo
   return s;
 };
 
-console.log(flatearthDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "flatearthDistance");
-console.log(acosDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "acosDistance");
-console.log(haversineDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "haversineDistance");
-console.log(vincentyDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "vincentyDistance");
+// console.log(flatearthDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "flatearthDistance");
+// console.log(acosDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "acosDistance");
+// console.log(haversineDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "haversineDistance");
+// console.log(vincentyDistance({latitude: 28.6843965821, longitude: 116.0253033877}, {latitude: 28.6845471765, longitude: 116.0284952165}), "vincentyDistance");
 
 
 export {

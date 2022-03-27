@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 23:07:39
+ * @LastEditTime: 2022-03-27 14:01:02
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -128,6 +128,7 @@ export default {
       this.$toast.loading({
         message: '位置加载中...',
         forbidClick: true,
+        duration: 0
       });
       getCurrentLocation2().then(returnData => {
         this.pageData.tasklistsSelectItem.geometry = {
@@ -137,10 +138,8 @@ export default {
         }
         this.$toast.clear();
         this.$toast.success('位置获取成功');
-        console.log("位置获取成功", returnData);
         this.pageResult = true;
         this.$refs["tasklistsEvent"].tasklistsEventCall(this.pageData.tasklistsSelectItem);
-        console.log("jump", jumpitem);
       })
 
     },
@@ -157,44 +156,44 @@ export default {
           status = "未打卡";
         } else {
           icon = "#icon-bianjiputong";
-          status = "打卡失败";
+          status = "已打卡";
         }
-        console.log(judgetaskitem, "judgetaskitem");
+        // console.log(judgetaskitem, "judgetaskitem");
         tasklists.push({
           id: judgetaskitem.id,
           key: Date.now() + Math.random(),
           status,
           createuser: judgetaskitem.createuser,
           time: convertDate(judgetaskitem.startstamp),
+          startstamp: judgetaskitem.startstamp,
           topic: judgetaskitem.topic,
           icon,
           endstamp: judgetaskitem.endstamp,
           beginstamp: judgetaskitem.beginstamp,
           geometry: judgetaskitem.geometry,
           Places: judgetaskitem.Places,
-          Wifis: judgetaskitem.Wifis
-
+          Wifis: judgetaskitem.Wifis,
+          studynth: judgetaskitem.studynth,
+          taskid: judgetaskitem.id,
+          comment: ""
         });
       });
       return tasklists;
     },
     tasksToJudgeArray(tasks) {
       let taskDealWith = new TaskDealWith({tasks})
-      console.log(taskDealWith.singlestamptaskArray);
       return taskDealWith.singlestamptaskArray;
     },
     resultClose() {
       this.pageResult = false;
-      console.log(this.pageResult);
     }
   },
   mounted() {
-    // console.log(mapState());
   },
   created() {
     this.pageData.tasklists = [];
     
-    const User1 = {
+    const User = {
       login: {
         userinformation: {
           username: "1",
@@ -350,9 +349,9 @@ export default {
         },
       },
     };
-    const User = this.$store.state.User;
-    console.log(User);
-    console.log(JSON.stringify(this.$store.state.User));
+    const User1 = this.$store.state.User;
+    // console.log(User);
+    // console.log(JSON.stringify(this.$store.state.User));
     let tasklists = [];
     let judgeArray = User.taskSign?.judgeArray;
     let tasks = User.login?.tasks;
@@ -361,12 +360,11 @@ export default {
       this.pageData.tasklists = this.judgeArrayToTasklists(judgeArray);
     } 
     else if (tasks) {
-      console.log(this.tasksToJudgeArray(tasks));
       this.pageData.tasklists = this.judgeArrayToTasklists(this.tasksToJudgeArray(tasks));
     }
   },
   destroyed() {
-    console.log("该组件可销毁 tasklist");
+    // console.log("该组件可销毁 tasklist");
   },
   components: {
     [PullRefresh.name]: PullRefresh,

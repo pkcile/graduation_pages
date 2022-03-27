@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-12 10:13:37
- * @LastEditTime: 2022-03-26 19:12:44
+ * @LastEditTime: 2022-03-27 13:46:44
  * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/utils/geolocation.js
@@ -69,7 +69,7 @@ function getCurrentLocation2() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         function(data) {
-          console.log(data);
+          // console.log(data);
           resolve({
             latitude: data.coords.latitude,
             longitude: data.coords.longitude,

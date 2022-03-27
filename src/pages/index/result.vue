@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-27 00:08:08
+ * @LastEditTime: 2022-03-27 14:04:21
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -52,7 +52,11 @@
         <li>
           <span>判断状态</span>
           <span style="position: relative"
-            >{{ tasklistsSelectItem.status + "，" + (singletask? singletask.status : "") }}
+            >{{
+              tasklistsSelectItem.status +
+              "，" +
+              (singletask ? singletask.status : "")
+            }}
             <span
               :style="{
                 position: 'absolute',
@@ -82,11 +86,13 @@
           cols="30"
           rows="2"
           placeholder="请详细描述你的问题和意见..."
+          v-model="tasklistsSelectItem.comment"
         ></textarea>
       </ul>
       <div
         class="mine-button-block bottom-fix"
         style="position: sticky; bottom: 20px; left: 0; margin-top: 15px"
+        @click="updateSingleTask"
       >
         打卡/更新
       </div>
@@ -98,6 +104,7 @@
 import { convertDate } from "@/utils/date.js";
 import { flatearthDistance } from "@/utils/distance2.js";
 import { geometry } from "@turf/helpers";
+import axios from "axios";
 
 export default {
   name: "indexmodal",
@@ -108,22 +115,19 @@ export default {
     return {
       sendStudentData: [],
       taskId: null,
-      singletask: null,
+      singletask: {
+        comment: ""
+      },
     };
   },
   methods: {
     displayResult() {},
     sendDdata() {},
     backTo() {
-      console.log(this.$parent.count);
-      console.log(this.$parent.pageResult);
       this.$parent.pageResult = false;
-      // console.log(this.$parent.pageResult);
       // this.$emit("fun0001", "data");
     },
     tasklistsEventCall(tasklistitem) {
-      console.log("call", tasklistitem);
-      console.log("new call");
       class TaskDealWith {
         forminitData;
         singlestamptaskArray;
@@ -137,15 +141,11 @@ export default {
         }
 
         forminit() {
-          console.log("forminit");
-
           this.singlestamptaskArray.map((taskitem) => {
             taskitem.userplacemark = 0;
             taskitem.userwifimark = 0;
             taskitem.usertimemark = 0;
           });
-
-          console.log(this.singlestamptaskArray);
 
           return this;
         }
@@ -157,10 +157,8 @@ export default {
         geometryjudge() {
           const singlestamptaskArray = this.singlestamptaskArray;
           const { geometry } = this.forminitData;
-          console.log(singlestamptaskArray);
 
           singlestamptaskArray.map((singlestamptaskArrayitem) => {
-            console.log(singlestamptaskArrayitem);
             singlestamptaskArrayitem.Places.forEach((placesitem) => {
               let distance = flatearthDistance(
                 {
@@ -177,7 +175,6 @@ export default {
               } else {
                 if (singlestamptaskArrayitem.userplacemark != 1) {
                   singlestamptaskArrayitem.userplacemark = -1;
-                  console.log("距离过大");
                 }
               }
             });
@@ -203,7 +200,6 @@ export default {
         }
 
         updateresult() {
-          console.log("updateresult");
           const _this = this;
           const wifijudgemark = this.wifijudgemark;
           const timejudgemark = this.timejudgemark;
@@ -212,10 +208,6 @@ export default {
           this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
             // 只使用位置、时间来显示打卡情况
             if (timejudgemark && geometryjudgemark && !wifijudgemark) {
-              console.log(
-                singlestamptaskArrayitem.userplacemark,
-                singlestamptaskArrayitem.usertimemark
-              );
               if (
                 singlestamptaskArrayitem.usertimemark == 1 &&
                 singlestamptaskArrayitem.userplacemark > 0
@@ -261,19 +253,14 @@ export default {
         },
       });
 
-      console.log(
-        task.forminit().geometryjudge().timejudge().updateresult()
-          .singlestamptaskArray
-      );
-      console.log(this.tasklistsSelectItem);
       this.singletask = task
         .forminit()
         .geometryjudge()
         .timejudge()
         .updateresult().singlestamptaskArray[0];
-      console.log(this.singletask);
     },
     convertDate,
+
     deepClone(source) {
       const targetObj = source.constructor === Array ? [] : {}; // 判断复制的目标是数组还是对象
       for (let keys in source) {
@@ -290,6 +277,54 @@ export default {
         }
       }
       return targetObj;
+    },
+    updateSingleTask() {
+      const _this = this;
+      let indexTask;
+      this.$parent.pageData.tasklists.forEach((item, index) => {
+        if(item.taskid == this.singletask.taskid) {
+          indexTask =  index;
+        }
+      });
+      
+      this.updateSingleTaskApi(this.singletask)
+        .then((returnData) => {
+          if(returnData.status.mark == 1) {
+            _this.$parent.pageData.tasklists[indexTask].status = "打卡成功"
+          }
+          else if(returnData.status.mark == -1) {
+            _this.$parent.pageData.tasklists[indexTask].status = "已打卡";
+            _this.$parent.pageData.tasklists[indexTask].icon = "#icon-bianjiputong";
+            _this.singletask.status = returnData.status.infor;
+          }
+          else {
+            this.$parent.pageData.tasklists[indexTask].status = "未打卡";
+          }
+        })
+    },
+    updateSingleTaskApi(singletask) {
+      return new Promise((resolve) => {
+        let singlestamptaskArraySend = [];
+        singlestamptaskArraySend.push(singletask);
+        axios
+          .get(`${process.env.VUE_APP_POSITION_PATH}/result/taskSignSingle`, {
+            params: { sendArray: singlestamptaskArraySend },
+          })
+          .then((returnData) => {
+            let signResult = {
+              result: null,
+              status: {
+                mark: 0,
+                info: "无打卡任务",
+              },
+            };
+
+            signResult.result = returnData.data.result ? returnData.data.result : signResult.result;
+            signResult.status = returnData.data.status ? returnData.data.status : signResult.status;
+
+            resolve(signResult);
+          });
+      });
     },
   },
   created() {},

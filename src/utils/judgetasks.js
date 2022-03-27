@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 11:13:26
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 14:33:25
+ * @LastEditTime: 2022-03-27 13:44:55
  * @FilePath: /graduation-project-master/src/utils/judgetasks.js
  * @Description: 
  */
@@ -17,7 +17,7 @@ export class TaskDealWith {
 
   constructor({ tasks, geometry, placeinformation, wifis }) {
     this.forminitData = { tasks, geometry, placeinformation, wifis };
-    console.log(this.forminit())
+    this.forminit();
     return this;
   }
 
@@ -83,7 +83,7 @@ export class TaskDealWith {
         if (distance < placesitem.radius) {
           singlestamptaskArrayitem.userplacemark += 1;
         } else {
-          console.log("距离过大");
+          // console.log("距离过大");
         }
       });
     });
@@ -119,10 +119,6 @@ export class TaskDealWith {
       this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
         // 只使用位置、时间来显示打卡情况
         if (timejudgemark && geometryjudgemark && !wifijudgemark) {
-          console.log(
-            singlestamptaskArrayitem.userplacemark,
-            singlestamptaskArrayitem.usertimemark
-          );
           if (
             singlestamptaskArrayitem.usertimemark == 1 &&
             singlestamptaskArrayitem.userplacemark > 0
@@ -155,7 +151,6 @@ export class TaskDealWith {
       const singlestamptaskArraySend = [];
 
       this.singlestamptaskArray.forEach((singlestamptaskArrayitem) => {
-        console.log(singlestamptaskArrayitem.geometry);
         singlestamptaskArraySend.push({
           geometry: singlestamptaskArrayitem.geometry,
           taskid: singlestamptaskArrayitem.id,
@@ -169,8 +164,6 @@ export class TaskDealWith {
           userwifimark: singlestamptaskArrayitem.userwifimark,
         });
       });
-
-      console.log(singlestamptaskArraySend);
 
       axios
         .get(`${process.env.VUE_APP_POSITION_PATH}/result/taskSign`, {
