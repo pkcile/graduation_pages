@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 16:15:38
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-28 01:23:12
+ * @LastEditTime: 2022-03-28 23:37:56
  * @FilePath: /graduation-project-master/src/pages/publish/publish.vue
  * @Description: 
 -->
@@ -39,7 +39,7 @@
       <li>
         <div class="mine-single-line-three-theme1" @click="placecomponentControl=true">
           <div>地点</div>
-          <div>{{ pageData.placeData ? pageData.placeData : "未初始化" }}</div>
+          <div>{{ pageData.placecomponentData ?  "设置了" + pageData.placecomponentData.length + "个地点节点" : "未初始化" }}</div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
@@ -121,7 +121,7 @@ export default {
       },
       pageData: {
         inputcomponentData: "",
-        placecomponentData: "",
+        placecomponentData: null,
         datecomponentData: null
       },
       inputcomponentControl: false,

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:46:04
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-28 10:46:37
+ * @LastEditTime: 2022-03-28 23:38:45
  * @FilePath: /graduation-project-master/src/pages/publish/place.vue
  * @Description: 
 -->
@@ -11,7 +11,7 @@
     class="social-page send-part-message"
     style="z-index: 2; background: #efeff3"
   >
-   <mapcomponent></mapcomponent>
+    <mapcomponent v-show="mapcomponentControl" ref="mapcomponentref" @updateplaces="updatePlaces"></mapcomponent>
     <div class="title">
       <div
         class="control"
@@ -29,8 +29,7 @@
         @click="initSendMessage"
       ></div>
     </div>
-
-    <!-- <div style="background: #efeff3;  box-sizing:border-radius;height: calc(100% - 50px);overflow-y:auto;">
+    <div style="background: #efeff3;  box-sizing:border-radius;height: calc(100% - 50px);overflow-y:auto;">
       <div class="mine-double-line-date">
         <div class="title">
           <div>地点选择</div>
@@ -46,9 +45,9 @@
           <div style="color: #007aff" @click="addHourTime">地点添加</div>
         </div>
         <div class="main" style="background:#fff;border-radius:5px;overflow-y:auto;">
-          <div class="mine-single-line-three" @click="showEndTimePopup(getHourItem)" style="border: #8080802e 0px solid;border-bottom: #8080802e 1px solid;" v-for="getHourItem in getHours" v-bind:key="getHourItem.id">
-            <div>时间点</div>
-            <div>{{ getHourItem.currentHour }}</div>
+          <div class="mine-single-line-three" @click="showEndTimePopup(getHourItem)" style="border: #8080802e 0px solid;border-bottom: #8080802e 1px solid;" v-for="getHourItem in getPosition" v-bind:key="getHourItem.id">
+            <div>地点</div>
+            <div>{{ Number(getHourItem.coordinates[0]).toFixed(2) + "," + Number(getHourItem.coordinates[1]).toFixed(2) + "&nbsp;&nbsp;&nbsp;" + getHourItem.radius + "米" }}</div>
             <div><van-icon name="cross"  @click="removeHourItem(getHourItem)"/></div>
           </div>
           <van-popup
@@ -68,8 +67,7 @@
         </div>
 
       </div>
-    </div> -->
-           
+    </div>    
   </div>
 </template>
 
@@ -97,18 +95,17 @@ export default {
       text: "",
       show: false,
       showDate: false,
-      getHours: [
+      getPosition: [
         {
           id: 1,
-          currentHour: "12:11"
-        },
-        {
-          id: 2,
-          currentHour: "12:33"
+          coordinates: [112, 113],
+          type: "Point",
+          radius: 100
         }
       ],
-      getHoursIndex: null,
-      getDays: []
+      getPositionIndex: null,
+      getDays: [],
+      mapcomponentControl: false
     };
   },
   mounted() {},
@@ -117,7 +114,26 @@ export default {
       this.$parent.placecomponentControl = false;
     },
     initSendMessage() {
+      // const getPositionSet = new Set();
+      // this.getPosition.forEach(item => {
+      //   getPositionSet.add(item.currentHour);
+      // });
 
+      // let dateStamps = [];
+      // for (const getPositionitem of getPositionSet) {
+      //   let hm = String(getPositionitem).split(":");
+      //   this.getDays.forEach(dayitem => {
+      //     dayitem.setHours(parseInt(hm[0]));
+      //     dayitem.setMinutes(parseInt(hm[1]));
+      //     dayitem.setSeconds(0);
+      
+      //     dateStamps.push(Date.parse(dayitem));
+      //   })
+      // }
+      // this.$parent.pageData.datecomponentData = dateStamps;
+      // console.log(this.$parent.pageData.datecomponentData);
+      console.log(this.getPosition);
+      this.$parent.pageData.placecomponentData = this.getPosition;
       this.$parent.placecomponentControl = false;
     },
     onConfirm(date) {
@@ -130,35 +146,44 @@ export default {
     endtimeData(time) {
       console.log(time);
 
-      this.getHours.map((item, index) => {
-        if(item.id == this.getHoursIndex) {
+      this.getPosition.map((item, index) => {
+        if(item.id == this.getPositionIndex) {
           item.currentHour = time;
         }
 
       })
       this.showDate = false;
     },
-    showEndTimePopup(hourItem) {
-      console.log(hourItem);
-      this.getHoursIndex = hourItem.id;
-      this.showDate = true;
+    showEndTimePopup(positionItem) {
+      console.log(positionItem);
+      this.mapcomponentControl = true;
+      this.$refs["mapcomponentref"].editplaces(positionItem);
+      
+      // this.getPositionIndex = positionItem.id;
+      // this.showDate = true;
     },
     onConcelHour() {
       
       this.showDate = false;
     },
     addHourTime() {
-      
-      this.getHours.push({
-        currentHour: "12:00",
-        id: Date.now()
-      })
+      this.mapcomponentControl = true;
+      this.$refs["mapcomponentref"].init();
+      // this.getPosition.push({
+      //   currentHour: "12:00",
+      //   id: Date.now()
+      // })
     },
-    removeHourItem(hourItem) {
-      console.log(hourItem);
-      console.log(hourItem.id);
-      this.getHours = this.getHours.filter((item, index) => {
-        return item.id != hourItem.id
+    updatePlaces() {
+      console.log("开始更新指令");
+      this.$parent.placecomponentData = this.getPosition;
+      console.log(this.$parent.placecomponentData);
+
+    },
+    removeHourItem(positionItem) {
+      // 移除单个任务
+      this.getPosition = this.getPosition.filter((item, index) => {
+        return item.id != positionItem.id;
       })
 
       window.event? window.event.cancelBubble = true : e.stopPropagation();

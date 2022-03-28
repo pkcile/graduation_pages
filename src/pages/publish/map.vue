@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-28 16:04:14
+ * @LastEditTime: 2022-03-28 23:20:11
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -15,6 +15,7 @@
         :style="{
           'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
         }"
+        @click="leftClose"
       ></div>
       <div class="text">位置拾取</div>
       <div
@@ -22,6 +23,7 @@
         :style="{
           'background-image': `url(${require('@/assets/font/save.svg')})`,
         }"
+        @click="rightSure"
       ></div>
     </div>
     <div id="viewDiv" style="position: relative">
@@ -66,7 +68,7 @@
       <van-cell
         is-link
         title="打卡范围"
-        :value="actionsSelect + '米'"
+        :value="radius + '米'"
         @click="show = true"
       />
       <van-action-sheet
@@ -237,84 +239,62 @@ export default {
           value: 10000,
         },
       ],
-      actionsSelect: 200,
+      radius: 200,
+      editplacesBool: false,
+      placeitem: null
     };
   },
   created() {},
   mounted() {
     console.log("mounted");
     // this.init();
-    const _this = this;
-    setTimeout(() => {
-      var map = L.map("viewDiv").setView([51.505, -0.09], 13);
-      this.map = map;
-
-      var image = L.tileLayer(
-        "http://t{s}.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
-        {
-          subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
-        }
-      ).addTo(map);
-
-      var vector = L.tileLayer(
-        "http://t{s}.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
-        {
-          subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
-        }
-      ).addTo(map);
-
-      var cva = L.tileLayer(
-        "http://t{s}.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
-        {
-          subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
-        }
-      ).addTo(map);
-
-      cva.remove();
-      image.remove();
-      cva.addTo(map);
-
-      this.layer = {
-        image,
-        vector,
-        cva,
-      };
-
-      map.on("move", function (ev) {
-        // console.log(map.getCenter());
-        _this.longitude = map.getCenter().lng;
-        _this.latitude = map.getCenter().lat;
-      });
-
-      console.log(map.getCenter());
-    }, 3000);
   },
   methods: {
     init() {
-      var map = L.map("viewDiv").setView([51.505, -0.09], 13);
+      const _this = this;
+      setTimeout(() => {
+        var map = L.map("viewDiv").setView([34, 115], 4);
+        this.map = map;
 
-      var tiles = L.tileLayer(
-        "http://t{s}.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
-        {
-          subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
-        }
-      ).addTo(map);
+        var image = L.tileLayer(
+          "http://t{s}.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
+          {
+            subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
+          }
+        ).addTo(map);
 
-      var tiles2 = L.tileLayer(
-        "http://t{s}.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
-        {
-          subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
-        }
-      ).addTo(map);
+        var vector = L.tileLayer(
+          "http://t{s}.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
+          {
+            subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
+          }
+        ).addTo(map);
 
-      console.log(map.getCenter());
+        var cva = L.tileLayer(
+          "http://t{s}.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
+          {
+            subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
+          }
+        ).addTo(map);
 
-      map.on("move", function (ev) {
+        cva.remove();
+        image.remove();
+        cva.addTo(map);
+
+        this.layer = {
+          image,
+          vector,
+          cva,
+        };
+
+        map.on("move", function (ev) {
+          // console.log(map.getCenter());
+          _this.longitude = map.getCenter().lng;
+          _this.latitude = map.getCenter().lat;
+        });
+
         console.log(map.getCenter());
-
-        this.longitude = map.getCenter().lon;
-        this.latitude = map.getCenter().lat;
-      });
+      }, 0);
     },
     checkoutLayer(item) {
       const map = this.map;
@@ -323,8 +303,6 @@ export default {
       if (item.type == "location") {
         if (item.checked) {
           getCurrentLocation2().then((returnData) => {
-
-
             var LeafIcon = L.Icon.extend({
               options: {
                 shadowUrl:
@@ -342,22 +320,31 @@ export default {
                 "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
             });
 
-console.log(returnData);
+            console.log(returnData);
             var point = L.marker([returnData.latitude, returnData.longitude], {
               icon: greenIcon,
             }).addTo(map);
 
+            // console.log(returnData);
+            map.flyTo(
+              { lon: returnData.longitude, lat: returnData.latitude },
+              13,
+              { animate: false, duration: 0.5 }
+            );
 
-          // console.log(returnData);
-          map.flyTo({lon: returnData.longitude, lat: returnData.latitude}, 13, {animate: false, duration:0.5});
+            this.geometry = {
+              coordinates: [returnData.longitude, returnData.latitude],
+              type: "Point",
+              accuracy: returnData.accuracy,
+            };
 
-          // [returnData.latitude, returnData.longitude], 9
-
+            // [returnData.latitude, returnData.longitude],
           });
-
-
         } else {
-           map.flyTo({lon: 115.304657, lat: 36.110565}, 8, {animate: false,duration:0.5});
+          map.flyTo({ lon: 115.304657, lat: 36.110565 }, 8, {
+            animate: false,
+            duration: 0.5,
+          });
         }
       } else if (item.type == "imagery") {
         if (item.checked) {
@@ -383,8 +370,80 @@ console.log(returnData);
       // 可以通过 close-on-click-action 属性开启自动收起
       this.show = false;
       console.log(item);
-      this.actionsSelect = item.value;
+      this.radius = item.value;
     },
+    leftClose() {
+      this.$parent.mapcomponentControl = false;
+    },
+    rightSure() {
+      console.log(this.editplacesBool, this.placeitem);
+      
+      const map = this.map;
+      if (map && map.remove) {
+        map.off();
+        map.remove();
+      }
+      // map.remove();
+      // map.off();
+      // this.geometry = {
+      //       coordinates: [returnData.longitude, returnData.latitude],
+      //       type: "Point",
+      //       accuracy: returnData.accuracy,
+      // }
+      // this.map.de
+      
+      if (this.longitude && this.latitude && this.radius) {
+        // 修改
+        if(this.editplacesBool && this.placeitem) {
+          this.$parent.getPosition.map(item => {
+            if(item.id == this.placeitem.id) {
+              item.coordinates = [this.longitude, this.latitude];
+              item.radius = this.radius;
+            }
+          });
+          this.$toast("位置修改成功");
+        }
+        // 添加
+        else {
+        this.$parent.getPosition.push({
+          id: Date.now(),
+          coordinates: [this.longitude, this.latitude],
+          type: "Point",
+          radius: this.radius,
+        });
+                this.$toast(
+          "位置设置成功" +
+            "经纬度" +
+            this.longitude +
+            "," +
+            this.latitude +
+            "，范围" +
+            this.radius
+        );
+        
+        }
+
+        // 更新通知
+        this.$emit("updateplaces", 123131)
+
+        setTimeout(() => {
+          // this.
+          this.$parent.mapcomponentControl = false;
+        }, 1000);
+      } else {
+        this.$toast("请设置位置和范围");
+      }
+    },
+    editplaces(placeitem) {
+      console.log(placeitem);
+      this.placeitem = placeitem;
+      this.editplacesBool = true;
+      this.longitude = placeitem.coordinates[0];
+      this.latitude = placeitem.coordinates[1];
+      this.radius = placeitem.radius;
+      this.init();
+      console.log(this.placeitem, this.editplacesBool);
+    }
   },
 };
 </script>
