@@ -2,12 +2,16 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:46:04
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-27 20:55:08
+ * @LastEditTime: 2022-03-28 10:46:37
  * @FilePath: /graduation-project-master/src/pages/publish/place.vue
  * @Description: 
 -->
 <template>
-  <div class="social-page send-part-message" style="z-index: 2;background:#EFEFF3" >
+  <div
+    class="social-page send-part-message"
+    style="z-index: 2; background: #efeff3"
+  >
+   <mapcomponent></mapcomponent>
     <div class="title">
       <div
         class="control"
@@ -26,96 +30,154 @@
       ></div>
     </div>
 
-    <div class="main" style="background:#efeff3">
-      <div>
-        <input
-          v-model="inputData"
-          type="text"
-          style="
-            border: 1px solid #8080802e;
-            padding: 10px;
-            width: 96%;
-            display: block;
-            margin: 12px auto;
-            border-radius: 5px;
-            box-sizing: border-box;
-          "
-          placeholder="可填写本次打卡主题"
-        />
+    <!-- <div style="background: #efeff3;  box-sizing:border-radius;height: calc(100% - 50px);overflow-y:auto;">
+      <div class="mine-double-line-date">
+        <div class="title">
+          <div>地点选择</div>
+        </div>
+        <div class="main">
+          <van-cell title="可选择多个" :value="text" />
+        </div>
       </div>
-    </div>
+
+      <div class="mine-double-line-date">
+        <div class="title">
+          <div>扩展地点</div>
+          <div style="color: #007aff" @click="addHourTime">地点添加</div>
+        </div>
+        <div class="main" style="background:#fff;border-radius:5px;overflow-y:auto;">
+          <div class="mine-single-line-three" @click="showEndTimePopup(getHourItem)" style="border: #8080802e 0px solid;border-bottom: #8080802e 1px solid;" v-for="getHourItem in getHours" v-bind:key="getHourItem.id">
+            <div>时间点</div>
+            <div>{{ getHourItem.currentHour }}</div>
+            <div><van-icon name="cross"  @click="removeHourItem(getHourItem)"/></div>
+          </div>
+          <van-popup
+            v-model="showDate"
+            position="bottom"
+            :style="{ height: '30%' }"
+          >
+            <van-datetime-picker
+              type="time"
+              title="选择完整时间"
+              swipe-duration="0"
+              visible-item-count="4"
+              @confirm="endtimeData"
+              @cancel="onConcelHour"
+            />
+          </van-popup>
+        </div>
+
+      </div>
+    </div> -->
+           
   </div>
 </template>
 
 <script>
-import {
-  Pagination,
-  Switch,
-  Cell,
-  CellGroup,
-  Picker,
-  Field,
-  Popup,
-  Checkbox
-} from "vant";
+import { Calendar, Cell, CellGroup, DatetimePicker, Icon, Popup } from "vant";
 import axios from "axios";
-
+import mapcomponent from "./map.vue"
 export default {
+  name: "place",
   components: {
-    [Pagination.name]: Pagination,
-    [Switch.name]: Switch,
+    [Calendar.name]: Calendar,
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
-    [Picker.name]: Picker,
-    [Field.name]: Field,
+    [DatetimePicker.name]: DatetimePicker,
     [Popup.name]: Popup,
-    [Checkbox.name]: Checkbox,
-
+    [Icon.name]: Icon,
+    mapcomponent: mapcomponent
   },
   props: {
-    inputcomponentData: String
+    inputcomponentData: String,
   },
   data() {
     return {
-      inputData: ""
+      inputData: "",
+      text: "",
+      show: false,
+      showDate: false,
+      getHours: [
+        {
+          id: 1,
+          currentHour: "12:11"
+        },
+        {
+          id: 2,
+          currentHour: "12:33"
+        }
+      ],
+      getHoursIndex: null,
+      getDays: []
     };
   },
-  mounted() {
-  
-  },
+  mounted() {},
   methods: {
     backTo() {
-      this.$parent.placecomponentControl=false;
-    },
-    backToSocial() {
-      this.$router.push("/home/more");
-    },
-    onConfirm(value) {
-      this.value = value;
-      this.showPicker = false;
-    },
-    sendMessage() {
-      this.sendPage = "block";
-    },
-    initSendMessage() {
-      // this.$parent.pageData.inputcomponentData = this.inputData;
       this.$parent.placecomponentControl = false;
     },
-    backHomesocial() {
-      this.sendPage = "none";
+    initSendMessage() {
+
+      this.$parent.placecomponentControl = false;
+    },
+    onConfirm(date) {
+      console.log(date);
+      this.getDays = date;
+      this.show = false;
+      this.text = `选择了 ${date.length} 个日期`;
+    },
+    
+    endtimeData(time) {
+      console.log(time);
+
+      this.getHours.map((item, index) => {
+        if(item.id == this.getHoursIndex) {
+          item.currentHour = time;
+        }
+
+      })
+      this.showDate = false;
+    },
+    showEndTimePopup(hourItem) {
+      console.log(hourItem);
+      this.getHoursIndex = hourItem.id;
+      this.showDate = true;
+    },
+    onConcelHour() {
+      
+      this.showDate = false;
+    },
+    addHourTime() {
+      
+      this.getHours.push({
+        currentHour: "12:00",
+        id: Date.now()
+      })
+    },
+    removeHourItem(hourItem) {
+      console.log(hourItem);
+      console.log(hourItem.id);
+      this.getHours = this.getHours.filter((item, index) => {
+        return item.id != hourItem.id
+      })
+
+      window.event? window.event.cancelBubble = true : e.stopPropagation();
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.mine-double-line-date {
+}
 
 .send-part-message {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: #fff;
   z-index: 2;
+  top: 0;
   textarea {
     resize: none;
     width: 100%;
@@ -177,7 +239,7 @@ export default {
   z-index: 0;
   & > .title {
     position: relative;
-    background: #F7F7F7;
+    background: #f7f7f7;
     height: 50px;
     top: 0;
     // z-index: 1;
@@ -281,6 +343,28 @@ export default {
         display: flex;
       }
     }
+  }
+}
+
+.mine-double-line-date {
+  & > .title {
+    margin: 15px auto 5px auto;
+    padding: 7px;
+    display: flex;
+    & > div:nth-of-type(1) {
+      flex: 1 1 100px;
+    }
+    & > div:nth-of-type(2) {
+      flex: 0 0 100px;
+      text-align: right;
+    }
+  }
+
+  & > .main {
+  }
+
+  .van-cell {
+    border-radius: 5px;
   }
 }
 </style>
