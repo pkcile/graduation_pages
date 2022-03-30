@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:46:04
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-28 23:38:45
+ * @LastEditTime: 2022-03-29 10:10:44
  * @FilePath: /graduation-project-master/src/pages/publish/place.vue
  * @Description: 
 -->
@@ -29,7 +29,7 @@
         @click="initSendMessage"
       ></div>
     </div>
-    <div style="background: #efeff3;  box-sizing:border-radius;height: calc(100% - 50px);overflow-y:auto;">
+    <div style="background: #efeff3;box-sizing:border-radius;height:calc(100% - 50px);overflow-y:auto;">
       <div class="mine-double-line-date">
         <div class="title">
           <div>地点选择</div>

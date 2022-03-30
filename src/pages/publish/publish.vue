@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 16:15:38
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-28 23:37:56
+ * @LastEditTime: 2022-03-30 22:38:57
  * @FilePath: /graduation-project-master/src/pages/publish/publish.vue
  * @Description: 
 -->
@@ -32,48 +32,33 @@
       <li>
         <div class="mine-single-line-three-theme1"  @click="datecomponentControl=true">
           <div>时间</div>
-          <div>{{ pageData.datecomponentData ? "设置了" + pageData.datecomponentData.length + "个时间节点": "未初始化" }}</div>
+          <div>{{ pageData.datecomponentData ? "" + pageData.datecomponentData.length + "个时间节点": "未初始化" }}</div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
       <li>
         <div class="mine-single-line-three-theme1" @click="placecomponentControl=true">
           <div>地点</div>
-          <div>{{ pageData.placecomponentData ?  "设置了" + pageData.placecomponentData.length + "个地点节点" : "未初始化" }}</div>
+          <div>{{ pageData.placecomponentData ?  "" + pageData.placecomponentData.length + "个地点节点" : "未初始化" }}</div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
-      <!-- 获取开始时间控件 -->
-      <van-popup
-        v-model="publishTask.formData.starttime.showDate"
-        position="bottom"
-        :style="{ height: '30%' }"
-      >
-        <van-datetime-picker
-          v-model="publishTask.formData.currentDate"
-          type="datetime"
-          title="选择完整时间"
-          swipe-duration="0"
-          visible-item-count="3"
-          @confirm="starttimeData"
-        />
-      </van-popup>
-      <!-- 获取结束时间控件 -->
-      <van-popup
-        v-model="publishTask.formData.endtime.showDate"
-        position="bottom"
-        :style="{ height: '30%' }"
-      >
-        <van-datetime-picker
-          v-model="publishTask.formData.currentDate"
-          type="datetime"
-          title="选择完整时间"
-          swipe-duration="0"
-          visible-item-count="3"
-          @confirm="endtimeData"
-        />    
-      </van-popup>
-      <li   @click="clockInforMake" style="background: #fff;color:#00f;border:1px dotted #00f;padding: 10px;margin-top:20px;border-radius:5px;position:sticky;margin-bottom:10px;bottom:0;width:80px;text-align:center;">
+      <li>
+        <div class="mine-single-line-three-theme1" @click="placecomponentControl=true">
+          <div>人员</div>
+          <div>{{ pageData.placecomponentData ?  "" + pageData.placecomponentData.length + "个地点节点" : "未初始化" }}</div>
+          <div><van-icon name="arrow" /></div>
+        </div>
+      </li>
+      <li>
+        <div class="mine-single-line-three-theme1" @click="wificomponentControl=true">
+          <div>辅助</div>
+          <div>{{ pageData.wificomponentData ?  "" + pageData.wificomponentData.length + "个WIFI节点" : "值可为空" }}</div>
+          <div><van-icon name="arrow" /></div>
+        </div>
+      </li>
+      
+      <li   @click="clockInforMake" style="background: #fff;color:#00f;border:1px dotted #00f;padding: 10px;margin-top:20px;border-radius:5px;position:sticky;margin-bottom:10px;bottom:0;text-align:center;">
         下一步
       </li>
     </ul>
@@ -83,6 +68,7 @@
     <inputcomponent v-show="inputcomponentControl" :inputcomponentData="pageData.inputcomponentData"></inputcomponent>
     <datecomponent v-show="datecomponentControl" :datecomponentData="pageData.datecomponentData"></datecomponent>
     <placecomoponent v-show="placecomponentControl" :placecomponentData="pageData.placecomoponentData"></placecomoponent>
+    <wificomoponent v-show="wificomponentControl" :wificomponentData="pageData.wificomponentData"></wificomoponent>
   </div>
 </template>
 
@@ -92,6 +78,7 @@ import axios from "axios";
 import inputcomponent from "./input.vue"
 import datecomponent from "./date.vue"
 import placecomoponent from "./place.vue"
+import wificomoponent from "./wifi.vue"
 
 export default {
   data() {
@@ -122,11 +109,13 @@ export default {
       pageData: {
         inputcomponentData: "",
         placecomponentData: null,
-        datecomponentData: null
+        datecomponentData: null,
+        wificomponentData: null,
       },
       inputcomponentControl: false,
       placecomponentControl: false,
-      datecomponentControl: false
+      datecomponentControl: false,
+      wificomponentControl: false
     };
   },
   components: {
@@ -137,7 +126,8 @@ export default {
     [Icon.name]: Icon,
     inputcomponent: inputcomponent,
     datecomponent: datecomponent,
-    placecomoponent: placecomoponent
+    placecomoponent: placecomoponent,
+    wificomoponent: wificomoponent
   },
   methods: {
     showStartTimePopup() {
@@ -206,21 +196,7 @@ export default {
   },
 
   mounted() {
-    // 打卡信息数据初始化
-    const initPositionData = JSON.parse(
-      window.localStorage.getItem("initPositionData")
-    );
-    const initItems = initPositionData.features.filter((item) => {
-      return item.properties.Name && item.properties.Name != " ";
-    });
-    let initItemsName = [];
-    initItems.map((item) => {
-      initItemsName.push({
-        key: item.properties.Name,
-        name: item.properties.Name,
-      });
-    });
-    this.publishTask.formData.placename = initItemsName;
+
   }
 };
 </script>
@@ -255,7 +231,7 @@ export default {
     color: #555;
   }
   & > div:nth-of-type(2) {
-    flex: 0 1 80px;
+    flex: 0 1 100px;
     // color: #444;
     color: #555;
   }

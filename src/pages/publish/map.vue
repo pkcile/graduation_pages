@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-28 23:20:11
+ * @LastEditTime: 2022-03-29 09:51:23
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -93,26 +93,7 @@
     height: 50px;
     width: 100%;
   }
-  #viewDiv {
-    width: 100%;
-    height: calc(100% - 330px);
-  }
-
-  #tool-control {
-    width: 100%;
-    height: 180px;
-  }
-
-  .layer-item {
-    padding: 10px;
-    box-sizing: border-box;
-    border-bottom: 1px dotted #ddd;
-  }
-  .layer-item:last-child {
-    border-bottom: 0 solid rgb(212, 18, 18);
-    border-bottom: 1px dotted #ddd;
-  }
-  .title {
+    .title {
     // position: relative;
     background: #f1f1f4;
     height: 50px;
@@ -145,6 +126,26 @@
       background-repeat: no-repeat;
     }
   }
+  #viewDiv {
+    width: 100%;
+    height: calc(100% - 330px);
+  }
+
+  #tool-control {
+    width: 100%;
+    height: 180px;
+  }
+
+  .layer-item {
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px dotted #ddd;
+  }
+  .layer-item:last-child {
+    border-bottom: 0 solid rgb(212, 18, 18);
+    border-bottom: 1px dotted #ddd;
+  }
+
 }
 
 .van-popup--bottom.van-popup--round {
@@ -379,10 +380,7 @@ export default {
       console.log(this.editplacesBool, this.placeitem);
       
       const map = this.map;
-      if (map && map.remove) {
-        map.off();
-        map.remove();
-      }
+
       // map.remove();
       // map.off();
       // this.geometry = {
@@ -402,6 +400,8 @@ export default {
             }
           });
           this.$toast("位置修改成功");
+          this.editplacesBool = false;
+          this.placeitem = null;
         }
         // 添加
         else {
@@ -412,13 +412,7 @@ export default {
           radius: this.radius,
         });
                 this.$toast(
-          "位置设置成功" +
-            "经纬度" +
-            this.longitude +
-            "," +
-            this.latitude +
-            "，范围" +
-            this.radius
+          "位置设置成功"
         );
         
         }
@@ -429,7 +423,11 @@ export default {
         setTimeout(() => {
           // this.
           this.$parent.mapcomponentControl = false;
-        }, 1000);
+          if (map && map.remove) {
+          map.off();
+          map.remove();
+      }
+        }, 200);
       } else {
         this.$toast("请设置位置和范围");
       }
