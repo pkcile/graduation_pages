@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-29 09:39:33
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-31 20:47:28
+ * @LastEditTime: 2022-04-01 00:25:38
  * @FilePath: /graduation-project-master/src/pages/publish/wifi.vue
  * @Description: 
 -->
@@ -299,10 +299,11 @@ export default {
             },
           };
 
-          aabbcc.wifiList.forEach((wifiitem) => {
+          returnData.wifiList.forEach((wifiitem) => {
+            this.itemsData.length = 0;
             this.itemsData.push({
               bssid: wifiitem.bssid,
-              name: wifiitem.ssid,
+              ssid: wifiitem.ssid,
               level: wifiitem.level,
               key: Date.now(),
             });
