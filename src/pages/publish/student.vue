@@ -1,9 +1,9 @@
 <!--
  * @Author: 王朋坤
- * @Date: 2022-03-29 09:39:33
+ * @Date: 2022-03-31 20:28:35
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-31 20:47:28
- * @FilePath: /graduation-project-master/src/pages/publish/wifi.vue
+ * @LastEditTime: 2022-04-01 00:05:27
+ * @FilePath: /graduation-project-master/src/pages/publish/student.vue
  * @Description: 
 -->
 <template>
@@ -29,27 +29,29 @@
         @click="wififorsure"
       ></div>
     </div>
-    <div class="send-main" style="overflow-y: auto">
+    <div class="send-main" style="overflow-y: auto;height:calc(100% - 50px)">
       <div class="mine-double-line-date">
         <div class="title">
           <div>批量选择</div>
-          <div style="color: #007aff" @click="refreshLists">wifi列表刷新</div>
+          <div style="color: #007aff" @click="refreshLists">全部选择</div>
         </div>
         <div
           class="main"
-          style="background: #fff; border-radius: 5px; overflow-y: auto"
+          style="background: #fff; border-radius: 5px; overflow-y: auto;height:160px;"
         >
           <div
-            class="mine-single-line-three"
+            class="mine-single-line-three-wifi"
             style="
               border: #8080802e 0px solid;
               border-bottom: #8080802e 1px solid;
             "
-            @click="allSelectChoosed"
+            @click="allSelectChoosed(item)"
+            v-for="item in classnames"
+            v-bind:key="item.key"
           >
-            <div>全选</div>
+            <div>{{ item.classname }}</div>
             <div></div>
-            <div><van-checkbox v-model="checked"></van-checkbox></div>
+            <div><van-checkbox v-model="item.checked"></van-checkbox></div>
           </div>
         </div>
       </div>
@@ -71,13 +73,14 @@
                 @click="itemCheckedControl(item)"
                 v-for="item in itemsData"
                 v-bind:key="item.key"
+                v-show="item.pageshow"
               >
                 <div>
                   <div>
-                    {{ `ssid: ${item.ssid}` }}
+                    {{ `姓名: ${item.name}` }}
                   </div>
                   <div>
-                    {{ `bssid: ${item.bssid}，level: ${item.level}` }}
+                    {{ `性别: ${item.gender}，学号: ${item.studynth}` }}
                   </div>
                   <div></div>
                 </div>
@@ -200,47 +203,41 @@ export default {
   data() {
     return {
       checked: false,
+      classnames: [],
+      allchecked: true,
       itemsData: [
         {
-          key: Date.now() + Math.random(),
-          ssid: "测试wifi名称",
-          checked: false,
-          bssid: "e8:65:d4:a9:e6:70",
-          level: -67,
-          username: "guest",
-          id: "guest",
+
         },
         {
-          key: Date.now() + Math.random(),
-          ssid: "测试wifi名称",
-          checked: false,
-          bssid: "e8:65:d4:a9:e6:70",
-          level: -67,
-          username: "guest",
-          id: "guest",
+
         },
       ],
     };
   },
   methods: {
-    refreshtest() {
-      console.log("refresh");
-    },
     forSureStudents() {
       this.$router.push("/edit/asignForsure");
       //   this.$emit("open-person-data-send", this.studentData);
       console.log("aabbcc");
     },
-    allSelectChoosed() {
-      this.checked = !this.checked;
-
-      if (this.checked) {
+    allSelectChoosed(classnameselectitem) {
+      classnameselectitem.checked = !classnameselectitem.checked;
+      console.log(classnameselectitem);
+      if (classnameselectitem.checked) {
         this.itemsData.map((item) => {
-          item.checked = true;
+          if(item.classname == classnameselectitem.classname) {
+            item.pageshow = true;
+            item.checked = true;
+          }
         });
       } else {
         this.itemsData.map((item) => {
-          item.checked = false;
+          if(item.classname == classnameselectitem.classname) {
+            item.pageshow = false;
+            item.checked = false;
+
+          }      
         });
       }
 
@@ -251,98 +248,14 @@ export default {
       console.log(item);
     },
     backTo() {
-      this.$parent.wificomponentControl = false;
+      this.$parent.studentcomponentControl = false;
     },
     refreshLists() {
-      // this.itemsData = [];
-      // console.log(this.myUni);
-      // this.myUni.postMessage({
-      //         data: {
-      //           action: "uni.postMessage",
-      //           params: {
-      //             a: "a",
-      //             b: "b",
-      //             c: "c",
-      //             d: "d",
-      //           },
-      //         },
-      // });
-
-      if (window.plus) {
-        //当有plus时，直接plusPredy
-        this.GetWiFiAndLocation().then((returnData) => {
-          console.log(JSON.stringify(returnData));
-          const aabbcc = {
-            wifiList: [
-              {
-                name: "e8:65:d4:a9:e6:70",
-                ssid: "Tenda_A9E670",
-                level: -49,
-                id: 0,
-              },
-              { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
-              { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
-              { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
-            ],
-            positionList: {
-              coordsType: "wgs84",
-              coords: {
-                latitude: 36.111359,
-                longitude: 115.304958,
-                accuracy: 40,
-                altitude: 0,
-                heading: null,
-                speed: 0,
-                altitudeAccuracy: 0,
-              },
-              timestamp: null,
-            },
-          };
-
-          aabbcc.wifiList.forEach((wifiitem) => {
-            this.itemsData.push({
-              bssid: wifiitem.bssid,
-              name: wifiitem.ssid,
-              level: wifiitem.level,
-              key: Date.now(),
-            });
-          });
-        });
-      } else {
-        this.$notify("请在android客户端操作");
-        const aabbcc = {
-          wifiList: [
-            {
-              bssid: "e8:65:d4:a9:e6:70",
-              ssid: "Tenda_A9E670",
-              level: -49,
-              checked: false,
-              id: 0,
-            },
-            { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
-            { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
-            { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
-          ],
-        };
-
-        let wifis = [];
-
-        aabbcc.wifiList.forEach((wifiitem) => {
-          wifis.push({
-            bssid: wifiitem.bssid,
-            ssid: wifiitem.ssid,
-            level: wifiitem.level,
-            checked: false,
-            key: Date.now() + Math.random() + "",
-          });
-        });
-
-        this.itemsData.length = 0;
-        // this.itemsData = wifis;
-        console.log(wifis);
-        console.log(this.itemsData);
-        this.itemsData = wifis
-      }
+      this.allchecked = !this.allchecked;
+      this.classnames.map(item => {
+        item.checked = this.allchecked;
+        this.allSelectChoosed(item)
+      })
     },
     GetWiFiAndLocation() {
       const _this = this;
@@ -446,27 +359,67 @@ export default {
       });
     },
     wififorsure() {
-      this.$parent.wificomponentControl = false;
+      this.$parent.studentcomponentControl = false;
       let filterData = this.itemsData.filter((item) => {
         return item.checked;
       });
 
-      let wificomponentData = [];
+      let studentcomponentData = [];
       filterData.forEach((item) => {
-        wificomponentData.push({
-          level: item.level,
-          ssid: item.ssid,
-          bssid: item.bssid,
-          collectuser: "pkcile",
+        studentcomponentData.push({
+          studynth: item.studynth
         });
       });
 
-      this.$parent.pageData.wificomponentData = wificomponentData;
+      this.$parent.pageData.studentcomponentData = studentcomponentData;
       this.checked = false;
-      console.log(this.$parent.pageData.wificomponentData);
+      console.log(this.$parent.pageData.studentcomponentData);
       // console.log(th);
     },
+    refreshDatabase() {
+      const _this = this;
+      console.log("refreshDatabase");
+      axios.get(`${process.env.VUE_APP_POSITION_PATH}/user/registerStudynthQuery`, {}) 
+        .then(function(returnData) {
+          console.log(_this);
+          
+          console.log(returnData.data.result);
+          let studentData = [];
+          let newSet = new Set();
+          let newSetClassnameArray = [];
+          returnData.data.result.forEach((item, index) => {
+            newSet.add(item.classname)
+            studentData.push({
+                key: index + Math.random() + "",
+                checked: false,
+                classname: item.classname,
+                name: item.name,
+                studynth: item.studynth.trim(),
+                gender: item.gender,
+                pageshow: false
+              })
+          });
 
+          for (const item of newSet) {
+            newSetClassnameArray.push({
+              classname: item,
+              checked: false,
+              key: Date.now() + Math.random()
+            });
+          }
+
+
+          
+          _this.itemsData = studentData;
+          _this.classnames = newSetClassnameArray;
+          console.log(studentData);
+ 
+        })
+        .catch(function() {
+          _this.$notify("服务出现问题，或者你的网速过慢");
+          
+      })
+    }
   },
   components: {
     [Checkbox.name]: Checkbox,

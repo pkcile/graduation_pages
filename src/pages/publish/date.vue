@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:44:59
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-28 10:08:13
+ * @LastEditTime: 2022-03-30 23:11:22
  * @FilePath: /graduation-project-master/src/pages/publish/date.vue
  * @Description: 
 -->
@@ -101,11 +101,11 @@ export default {
       getHours: [
         {
           id: 1,
-          currentHour: "12:11"
+          currentHour: "8:00"
         },
         {
           id: 2,
-          currentHour: "12:33"
+          currentHour: "12:00"
         }
       ],
       getHoursIndex: null,

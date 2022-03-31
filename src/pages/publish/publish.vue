@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 16:15:38
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-30 22:38:57
+ * @LastEditTime: 2022-04-01 00:04:55
  * @FilePath: /graduation-project-master/src/pages/publish/publish.vue
  * @Description: 
 -->
@@ -44,9 +44,9 @@
         </div>
       </li>
       <li>
-        <div class="mine-single-line-three-theme1" @click="placecomponentControl=true">
+        <div class="mine-single-line-three-theme1" @click="studentcomponentControlFun">
           <div>人员</div>
-          <div>{{ pageData.placecomponentData ?  "" + pageData.placecomponentData.length + "个地点节点" : "未初始化" }}</div>
+          <div>{{ pageData.studentcomponentData ?  "" + pageData.studentcomponentData.length + "个人员节点" : "未初始化" }}</div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
@@ -69,6 +69,7 @@
     <datecomponent v-show="datecomponentControl" :datecomponentData="pageData.datecomponentData"></datecomponent>
     <placecomoponent v-show="placecomponentControl" :placecomponentData="pageData.placecomoponentData"></placecomoponent>
     <wificomoponent v-show="wificomponentControl" :wificomponentData="pageData.wificomponentData"></wificomoponent>
+    <studentcomoponent v-show="studentcomponentControl" :studentcomponentData="pageData.studentcomponentData" ref="studentcomponentControlRef"></studentcomoponent>
   </div>
 </template>
 
@@ -79,6 +80,7 @@ import inputcomponent from "./input.vue"
 import datecomponent from "./date.vue"
 import placecomoponent from "./place.vue"
 import wificomoponent from "./wifi.vue"
+import studentcomoponent from "./student.vue"
 
 export default {
   data() {
@@ -111,11 +113,13 @@ export default {
         placecomponentData: null,
         datecomponentData: null,
         wificomponentData: null,
+        studentcomponentData: null
       },
       inputcomponentControl: false,
       placecomponentControl: false,
       datecomponentControl: false,
-      wificomponentControl: false
+      wificomponentControl: false,
+      studentcomponentControl: false,
     };
   },
   components: {
@@ -127,7 +131,8 @@ export default {
     inputcomponent: inputcomponent,
     datecomponent: datecomponent,
     placecomoponent: placecomoponent,
-    wificomoponent: wificomoponent
+    wificomoponent: wificomoponent,
+    studentcomoponent: studentcomoponent
   },
   methods: {
     showStartTimePopup() {
@@ -192,6 +197,11 @@ export default {
     },
     backTo() {
       this.$router.push("/home/more");
+    },
+    studentcomponentControlFun() {
+      this.studentcomponentControl = true;
+      this.$refs["studentcomponentControlRef"].refreshDatabase();
+      // console.log(this.$refs["studentcomponentControlRef"].refreshtest);
     }
   },
 
