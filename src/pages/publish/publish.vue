@@ -2,85 +2,163 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 16:15:38
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 00:04:55
+ * @LastEditTime: 2022-04-01 22:14:02
  * @FilePath: /graduation-project-master/src/pages/publish/publish.vue
  * @Description: 
 -->
 <template>
-  <div class="clockInforForm mine-send-part-absolute" style="background:#fff;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100
-  ">   
+  <div
+    class="clockInforForm mine-send-part-absolute"
+    style="
+      background: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+    "
+  >
     <div class="send-title">
       打卡信息设置
-      <div class="send-control" :style="{'background-image': `url(${require('@/assets/font/arrow-left.svg')})`}" @click="backTo"></div>
+      <div
+        class="send-control"
+        :style="{
+          'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
+        }"
+        @click="backTo"
+      ></div>
     </div>
-    <ul class="mine-double-line send-main" style="box-sizing:border-box;height: calc(100% - 50px);background: #fff;margin-bottom:10px;padding: 10px 20px;">
+    <ul
+      class="mine-double-line send-main"
+      style="
+        box-sizing: border-box;
+        height: calc(100% - 50px);
+        background: #fff;
+        margin-bottom: 10px;
+        padding: 10px 20px;
+      "
+    >
       <!-- 打卡主题设置 -->
       <li>
-        <div class="mine-single-line-three-theme1" @click="inputcomponentControl=true"> 
+        <div
+          class="mine-single-line-three-theme1"
+          @click="inputcomponentControl = true"
+        >
           <div>主题</div>
-          <div>{{ pageData.inputcomponentData ? pageData.inputcomponentData : "未初始化" }}</div>
+          <div>
+            {{
+              pageData.inputcomponentData
+                ? pageData.inputcomponentData
+                : "未初始化"
+            }}
+          </div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
       <!-- 打卡时间设置 -->
       <li>
-        <div class="mine-single-line-three-theme1"  @click="datecomponentControl=true">
+        <div
+          class="mine-single-line-three-theme1"
+          @click="datecomponentControl = true"
+        >
           <div>时间</div>
-          <div>{{ pageData.datecomponentData ? "" + pageData.datecomponentData.length + "个时间节点": "未初始化" }}</div>
+          <div>
+            {{
+              pageData.datecomponentData
+                ? "" + pageData.datecomponentData.length + "个时间节点"
+                : "未初始化"
+            }}
+          </div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
       <li>
-        <div class="mine-single-line-three-theme1" @click="placecomponentControl=true">
+        <div
+          class="mine-single-line-three-theme1"
+          @click="placecomponentControl = true"
+        >
           <div>地点</div>
-          <div>{{ pageData.placecomponentData ?  "" + pageData.placecomponentData.length + "个地点节点" : "未初始化" }}</div>
+          <div>
+            {{
+              pageData.placecomponentData
+                ? "" + pageData.placecomponentData.length + "个地点节点"
+                : "未初始化"
+            }}
+          </div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
       <li>
-        <div class="mine-single-line-three-theme1" @click="studentcomponentControlFun">
+        <div
+          class="mine-single-line-three-theme1"
+          @click="studentcomponentControlFun"
+        >
           <div>人员</div>
-          <div>{{ pageData.studentcomponentData ?  "" + pageData.studentcomponentData.length + "个人员节点" : "未初始化" }}</div>
+          <div>
+            {{
+              pageData.studentcomponentData
+                ? "" + pageData.studentcomponentData.length + "个人员节点"
+                : "未初始化"
+            }}
+          </div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
       <li>
-        <div class="mine-single-line-three-theme1" @click="wificomponentControl=true">
+        <div
+          class="mine-single-line-three-theme1"
+          @click="wificomponentControl = true"
+        >
           <div>辅助</div>
-          <div>{{ pageData.wificomponentData ?  "" + pageData.wificomponentData.length + "个WIFI节点" : "值可为空" }}</div>
+          <div>
+            {{
+              pageData.wificomponentData
+                ? "" + pageData.wificomponentData.length + "个WIFI节点"
+                : "值可为空"
+            }}
+          </div>
           <div><van-icon name="arrow" /></div>
         </div>
       </li>
-      
-      <li   @click="clockInforMake" style="background: #fff;color:#00f;border:1px dotted #00f;padding: 10px;margin-top:20px;border-radius:5px;position:sticky;margin-bottom:10px;bottom:0;text-align:center;">
-        下一步
-      </li>
+
+      <li @click="clockInforMake" style="" class="clockNext">下一步</li>
     </ul>
     <!-- <div class="send-footer"  @click="clockInforMake" style="background: #fff;color:#00f;border:1px dotted #00f;">
       下一步
     </div> -->
-    <inputcomponent v-show="inputcomponentControl" :inputcomponentData="pageData.inputcomponentData"></inputcomponent>
-    <datecomponent v-show="datecomponentControl" :datecomponentData="pageData.datecomponentData"></datecomponent>
-    <placecomoponent v-show="placecomponentControl" :placecomponentData="pageData.placecomoponentData"></placecomoponent>
-    <wificomoponent v-show="wificomponentControl" :wificomponentData="pageData.wificomponentData"></wificomoponent>
-    <studentcomoponent v-show="studentcomponentControl" :studentcomponentData="pageData.studentcomponentData" ref="studentcomponentControlRef"></studentcomoponent>
+    <inputcomponent
+      v-show="inputcomponentControl"
+      :inputcomponentData="pageData.inputcomponentData"
+    ></inputcomponent>
+    <datecomponent
+      v-show="datecomponentControl"
+      :datecomponentData="pageData.datecomponentData"
+    ></datecomponent>
+    <placecomoponent
+      v-show="placecomponentControl"
+      :placecomponentData="pageData.placecomoponentData"
+    ></placecomoponent>
+    <wificomoponent
+      v-show="wificomponentControl"
+      :wificomponentData="pageData.wificomponentData"
+    ></wificomoponent>
+    <studentcomoponent
+      v-show="studentcomponentControl"
+      :studentcomponentData="pageData.studentcomponentData"
+      ref="studentcomponentControlRef"
+    ></studentcomoponent>
   </div>
 </template>
 
 <script>
-import { DatetimePicker, Popup, Slider, Stepper, Icon} from "vant";
+import { DatetimePicker, Popup, Slider, Stepper, Icon } from "vant";
 import axios from "axios";
-import inputcomponent from "./input.vue"
-import datecomponent from "./date.vue"
-import placecomoponent from "./place.vue"
-import wificomoponent from "./wifi.vue"
-import studentcomoponent from "./student.vue"
+import inputcomponent from "./input.vue";
+import datecomponent from "./date.vue";
+import placecomoponent from "./place.vue";
+import wificomoponent from "./wifi.vue";
+import studentcomoponent from "./student.vue";
 
 export default {
   data() {
@@ -103,17 +181,18 @@ export default {
           endtime: {
             showDate: false,
           },
-          currentDate: new Date() 
+          currentDate: new Date(),
         },
         currentDate: new Date(),
-       
       },
       pageData: {
         inputcomponentData: "",
         placecomponentData: null,
+        serverplacename: "",
         datecomponentData: null,
         wificomponentData: null,
-        studentcomponentData: null
+        studentcomponentData: null,
+
       },
       inputcomponentControl: false,
       placecomponentControl: false,
@@ -132,7 +211,7 @@ export default {
     datecomponent: datecomponent,
     placecomoponent: placecomoponent,
     wificomoponent: wificomoponent,
-    studentcomoponent: studentcomoponent
+    studentcomoponent: studentcomoponent,
   },
   methods: {
     showStartTimePopup() {
@@ -179,20 +258,36 @@ export default {
     },
     clockInforMake() {
       const _this = this;
-      if(this.publishTask.param.placename != "" && this.publishTask.starttime != "" && this.publishTask.starttime != "") {
-        axios.get(`${process.env.VUE_APP_POSITION_PATH}/api/position/publishtask`, {params: _this.publishTask.param}) 
-          .then(function(returnData) {
-            _this.$notify("创建的任务号码" + returnData.data.id);
-            _this.$emit("open-person-choose-form", returnData.data.id);
-
-          })
-          .catch(function() {
-            _this.$notify("服务出现问题，或者你的网速过慢");
-            
-          })
+      let params = {
+        Stamps: this.pageData.datecomponentData,
+        Students: this.pageData.studentcomponentData,
+        Places: this.pageData.placecomponentData,
+        Wifis: this.pageData.wificomponentData,
+        serverplacename: this.pageData.serverplacename,
+        createuser: this.$store.state.User.login.userinformation ? this.$store.state.User.login.userinformation.username : "guest",
+        topic: this.pageData.inputcomponentData
       }
-      else {
-        _this.$notify("请输入完整地点和打卡起始时间");
+      
+      if (
+        params?.Stamps?.length &&
+        params?.Students?.length &&
+        params?.Places?.length &&
+        params?.topic 
+      ) {
+        axios
+          .get(
+            `${process.env.VUE_APP_POSITION_PATH}/task/publishMain`,
+            { params: JSON.stringify(params) }
+          )
+          .then(function (returnData) {
+            // _this.$notify("服务出现问题，或者你的网速过慢");
+            console.log(returnData);
+          })
+          .catch(function () {
+            _this.$notify("服务出现问题，或者你的网速过慢");
+          });
+      } else {
+        this.$notify("请设置完整参数");
       }
     },
     backTo() {
@@ -202,12 +297,12 @@ export default {
       this.studentcomponentControl = true;
       this.$refs["studentcomponentControlRef"].refreshDatabase();
       // console.log(this.$refs["studentcomponentControlRef"].refreshtest);
-    }
+    },
   },
 
   mounted() {
-
-  }
+    console.log(this.pageData);
+  },
 };
 </script>
 
@@ -251,15 +346,34 @@ export default {
   }
 }
 
-.mine-single-line-three-theme1:active, .mine-single-line-three-theme1:hover{
+.mine-single-line-three-theme1:active,
+.mine-single-line-three-theme1:hover {
   // background-color: #eee;
   border: 1px solid #eee;
   transition: all 300ms;
 }
 
 .mine-double-line > li > div:nth-of-type(1) {
-    margin: 6px 0 10px 0 !important;
-    color: #555;
+  margin: 6px 0 10px 0 !important;
+  color: #555;
 }
 
+.clockNext {
+  background: #fff;
+  color: #00f;
+  border: 1px dotted #00f;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  position: sticky;
+  margin-bottom: 10px;
+  bottom: 0;
+  text-align: center;
+  transition: all 1s;
+}
+.clockNext:active,
+.clockNext:hover {
+  border: 1px solid #00f;
+  cursor: pointer;
+}
 </style>

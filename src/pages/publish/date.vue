@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:44:59
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-30 23:11:22
+ * @LastEditTime: 2022-04-01 20:27:16
  * @FilePath: /graduation-project-master/src/pages/publish/date.vue
  * @Description: 
 -->
@@ -131,7 +131,11 @@ export default {
           dayitem.setMinutes(parseInt(hm[1]));
           dayitem.setSeconds(0);
       
-          dateStamps.push(Date.parse(dayitem));
+          dateStamps.push({
+            startstamp: Date.parse(dayitem)
+          }
+    
+            );
         })
       }
       this.$parent.pageData.datecomponentData = dateStamps;
@@ -144,15 +148,12 @@ export default {
       this.show = false;
       this.text = `选择了 ${date.length} 个日期`;
     },
-    
     endtimeData(time) {
       console.log(time);
-
       this.getHours.map((item, index) => {
         if(item.id == this.getHoursIndex) {
           item.currentHour = time;
         }
-
       })
       this.showDate = false;
     },
@@ -162,7 +163,6 @@ export default {
       this.showDate = true;
     },
     onConcelHour() {
-      
       this.showDate = false;
     },
     addHourTime() {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-27 16:17:27
+ * @LastEditTime: 2022-04-01 16:38:14
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/router/index.js
@@ -47,7 +47,10 @@ const vueComponent = {
       login: () => import("@/pages/init/login.vue"),
       register: () => import("@/pages/init/register.vue"),
       result: () => import("@/pages/init/result.vue")   
-    } 
+    },
+    mine: {
+      mine: () => import("@/pages/mine/mine.vue")
+    }
   },
   common: {
     "404": () => import("@/components/common/404.vue"),
@@ -103,7 +106,7 @@ const routes = [
       },
       {
         path: 'mine',
-        component: vueComponent.userMine
+        component: vueComponent.pages.mine.mine
       },
       {
         path: 'admin',

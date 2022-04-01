@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 15:14:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-27 16:08:15
+ * @LastEditTime: 2022-04-01 11:28:54
  * @FilePath: /graduation-project-master/src/pages/social/more.vue
  * @Description: 
 -->
@@ -153,7 +153,7 @@ export default {
               show: true
             },
             {
-              name: "任务修改",
+              name: "任务查看",
               router: "/edit",
               key: "002",
               backgroundimg: require("@/assets/font/clock.svg"),

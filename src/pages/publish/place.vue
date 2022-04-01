@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:46:04
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-29 10:10:44
+ * @LastEditTime: 2022-04-01 19:34:22
  * @FilePath: /graduation-project-master/src/pages/publish/place.vue
  * @Description: 
 -->
@@ -35,7 +35,18 @@
           <div>地点选择</div>
         </div>
         <div class="main">
-          <van-cell title="可选择多个" :value="text" />
+          <van-cell
+            is-link
+            title="打卡地点"
+            :value="placeservername"
+            @click="show = true"
+          />
+          <van-action-sheet
+            v-model="show"
+            :actions="actions"
+            @select="onSelect"
+            style=""
+          />
         </div>
       </div>
 
@@ -45,25 +56,11 @@
           <div style="color: #007aff" @click="addHourTime">地点添加</div>
         </div>
         <div class="main" style="background:#fff;border-radius:5px;overflow-y:auto;">
-          <div class="mine-single-line-three" @click="showEndTimePopup(getHourItem)" style="border: #8080802e 0px solid;border-bottom: #8080802e 1px solid;" v-for="getHourItem in getPosition" v-bind:key="getHourItem.id">
+          <div class="mine-single-line-three" @click="showEndTimePopup(getPositionItem)" style="border: #8080802e 0px solid;border-bottom: #8080802e 1px solid;" v-for="getPositionItem in getPosition" v-bind:key="getPositionItem.id">
             <div>地点</div>
-            <div>{{ Number(getHourItem.coordinates[0]).toFixed(2) + "," + Number(getHourItem.coordinates[1]).toFixed(2) + "&nbsp;&nbsp;&nbsp;" + getHourItem.radius + "米" }}</div>
-            <div><van-icon name="cross"  @click="removeHourItem(getHourItem)"/></div>
+            <div>{{ Number(getPositionItem.geometry.coordinates[0]).toFixed(2) + "," + Number(getPositionItem.geometry.coordinates[1]).toFixed(2) + "&nbsp;&nbsp;&nbsp;" + getPositionItem.radius + "米" }}</div>
+            <div><van-icon name="cross"  @click="removeHourItem(getPositionItem)"/></div>
           </div>
-          <van-popup
-            v-model="showDate"
-            position="bottom"
-            :style="{ height: '30%' }"
-          >
-            <van-datetime-picker
-              type="time"
-              title="选择完整时间"
-              swipe-duration="0"
-              visible-item-count="4"
-              @confirm="endtimeData"
-              @cancel="onConcelHour"
-            />
-          </van-popup>
         </div>
 
       </div>
@@ -72,7 +69,7 @@
 </template>
 
 <script>
-import { Calendar, Cell, CellGroup, DatetimePicker, Icon, Popup } from "vant";
+import { Calendar, Cell, CellGroup, DatetimePicker, Icon, Popup,ActionSheet } from "vant";
 import axios from "axios";
 import mapcomponent from "./map.vue"
 export default {
@@ -84,6 +81,7 @@ export default {
     [DatetimePicker.name]: DatetimePicker,
     [Popup.name]: Popup,
     [Icon.name]: Icon,
+    [ActionSheet.name]: ActionSheet,
     mapcomponent: mapcomponent
   },
   props: {
@@ -96,16 +94,37 @@ export default {
       show: false,
       showDate: false,
       getPosition: [
-        {
-          id: 1,
-          coordinates: [112, 113],
-          type: "Point",
-          radius: 100
-        }
+        // {
+        //   id: 1,
+        //   geometry: {
+        //     coordinates: [112, 113],
+        //     type: "Point",
+        //   },
+        //   radius: 100
+        // }
       ],
       getPositionIndex: null,
       getDays: [],
-      mapcomponentControl: false
+      mapcomponentControl: false,
+      actions: [
+        {
+          name: "选择为空",
+          value: "",
+        },
+        {
+          name: "整个服务",
+          value: "",
+        },
+        {
+          name: "方荫楼",
+          value: "方荫楼",
+        },
+        {
+          name: "惟义楼",
+          value: "惟义楼",
+        }
+      ],
+      placeservername: ""
     };
   },
   mounted() {},
@@ -114,65 +133,20 @@ export default {
       this.$parent.placecomponentControl = false;
     },
     initSendMessage() {
-      // const getPositionSet = new Set();
-      // this.getPosition.forEach(item => {
-      //   getPositionSet.add(item.currentHour);
-      // });
-
-      // let dateStamps = [];
-      // for (const getPositionitem of getPositionSet) {
-      //   let hm = String(getPositionitem).split(":");
-      //   this.getDays.forEach(dayitem => {
-      //     dayitem.setHours(parseInt(hm[0]));
-      //     dayitem.setMinutes(parseInt(hm[1]));
-      //     dayitem.setSeconds(0);
-      
-      //     dateStamps.push(Date.parse(dayitem));
-      //   })
-      // }
-      // this.$parent.pageData.datecomponentData = dateStamps;
-      // console.log(this.$parent.pageData.datecomponentData);
-      console.log(this.getPosition);
       this.$parent.pageData.placecomponentData = this.getPosition;
       this.$parent.placecomponentControl = false;
-    },
-    onConfirm(date) {
-      console.log(date);
-      this.getDays = date;
-      this.show = false;
-      this.text = `选择了 ${date.length} 个日期`;
-    },
-    
-    endtimeData(time) {
-      console.log(time);
-
-      this.getPosition.map((item, index) => {
-        if(item.id == this.getPositionIndex) {
-          item.currentHour = time;
-        }
-
-      })
-      this.showDate = false;
     },
     showEndTimePopup(positionItem) {
       console.log(positionItem);
       this.mapcomponentControl = true;
       this.$refs["mapcomponentref"].editplaces(positionItem);
-      
-      // this.getPositionIndex = positionItem.id;
-      // this.showDate = true;
     },
     onConcelHour() {
-      
       this.showDate = false;
     },
     addHourTime() {
       this.mapcomponentControl = true;
       this.$refs["mapcomponentref"].init();
-      // this.getPosition.push({
-      //   currentHour: "12:00",
-      //   id: Date.now()
-      // })
     },
     updatePlaces() {
       console.log("开始更新指令");
@@ -187,6 +161,10 @@ export default {
       })
 
       window.event? window.event.cancelBubble = true : e.stopPropagation();
+    },
+    onSelect(item) {
+      this.show = false;
+      this.placeservername = item.name;
     }
   },
 };

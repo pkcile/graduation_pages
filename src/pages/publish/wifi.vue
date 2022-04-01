@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-29 09:39:33
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 00:25:38
+ * @LastEditTime: 2022-04-01 16:48:59
  * @FilePath: /graduation-project-master/src/pages/publish/wifi.vue
  * @Description: 
 -->
@@ -201,24 +201,24 @@ export default {
     return {
       checked: false,
       itemsData: [
-        {
-          key: Date.now() + Math.random(),
-          ssid: "测试wifi名称",
-          checked: false,
-          bssid: "e8:65:d4:a9:e6:70",
-          level: -67,
-          username: "guest",
-          id: "guest",
-        },
-        {
-          key: Date.now() + Math.random(),
-          ssid: "测试wifi名称",
-          checked: false,
-          bssid: "e8:65:d4:a9:e6:70",
-          level: -67,
-          username: "guest",
-          id: "guest",
-        },
+        // {
+        //   key: Date.now() + Math.random(),
+        //   ssid: "测试wifi名称",
+        //   checked: false,
+        //   bssid: "e8:65:d4:a9:e6:70",
+        //   level: -67,
+        //   username: "guest",
+        //   id: "guest",
+        // },
+        // {
+        //   key: Date.now() + Math.random(),
+        //   ssid: "测试wifi名称",
+        //   checked: false,
+        //   bssid: "e8:65:d4:a9:e6:70",
+        //   level: -67,
+        //   username: "guest",
+        //   id: "guest",
+        // },
       ],
     };
   },
@@ -247,8 +247,7 @@ export default {
       // console.log(_this.studentData);
     },
     itemCheckedControl(item) {
-      item.checked = true;
-      console.log(item);
+      item.checked =  !item.checked;
     },
     backTo() {
       this.$parent.wificomponentControl = false;
@@ -271,43 +270,17 @@ export default {
       if (window.plus) {
         //当有plus时，直接plusPredy
         this.GetWiFiAndLocation().then((returnData) => {
-          console.log(JSON.stringify(returnData));
-          const aabbcc = {
-            wifiList: [
-              {
-                name: "e8:65:d4:a9:e6:70",
-                ssid: "Tenda_A9E670",
-                level: -49,
-                id: 0,
-              },
-              { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
-              { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
-              { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
-            ],
-            positionList: {
-              coordsType: "wgs84",
-              coords: {
-                latitude: 36.111359,
-                longitude: 115.304958,
-                accuracy: 40,
-                altitude: 0,
-                heading: null,
-                speed: 0,
-                altitudeAccuracy: 0,
-              },
-              timestamp: null,
-            },
-          };
-
+          let wifis = [];
           returnData.wifiList.forEach((wifiitem) => {
-            this.itemsData.length = 0;
-            this.itemsData.push({
+            wifis.push({
               bssid: wifiitem.bssid,
               ssid: wifiitem.ssid,
               level: wifiitem.level,
               key: Date.now(),
             });
           });
+          this.itemsData.length = 0;
+          this.itemsData = wifis;
         });
       } else {
         this.$notify("请在android客户端操作");
@@ -339,10 +312,7 @@ export default {
         });
 
         this.itemsData.length = 0;
-        // this.itemsData = wifis;
-        console.log(wifis);
-        console.log(this.itemsData);
-        this.itemsData = wifis
+        this.itemsData = wifis;
       }
     },
     GetWiFiAndLocation() {

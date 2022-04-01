@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-31 20:28:35
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 00:05:27
+ * @LastEditTime: 2022-04-01 11:32:15
  * @FilePath: /graduation-project-master/src/pages/publish/student.vue
  * @Description: 
 -->
@@ -29,7 +29,7 @@
         @click="wififorsure"
       ></div>
     </div>
-    <div class="send-main" style="overflow-y: auto;height:calc(100% - 50px)">
+    <div class="send-main" style="overflow-y: auto; height: calc(100% - 50px)">
       <div class="mine-double-line-date">
         <div class="title">
           <div>批量选择</div>
@@ -37,7 +37,12 @@
         </div>
         <div
           class="main"
-          style="background: #fff; border-radius: 5px; overflow-y: auto;height:160px;"
+          style="
+            background: #fff;
+            border-radius: 5px;
+            overflow-y: auto;
+            height: 160px;
+          "
         >
           <div
             class="mine-single-line-three-wifi"
@@ -58,7 +63,7 @@
 
       <ul class="mine-double-line" style="padding: 10px">
         <li>
-          <div>wifi选择</div>
+          <div>人员选择</div>
           <div style="overflow-y: auto; height: 250px">
             <div
               class="main"
@@ -205,14 +210,7 @@ export default {
       checked: false,
       classnames: [],
       allchecked: true,
-      itemsData: [
-        {
-
-        },
-        {
-
-        },
-      ],
+      itemsData: [{}, {}],
     };
   },
   methods: {
@@ -226,25 +224,24 @@ export default {
       console.log(classnameselectitem);
       if (classnameselectitem.checked) {
         this.itemsData.map((item) => {
-          if(item.classname == classnameselectitem.classname) {
+          if (item.classname == classnameselectitem.classname) {
             item.pageshow = true;
             item.checked = true;
           }
         });
       } else {
         this.itemsData.map((item) => {
-          if(item.classname == classnameselectitem.classname) {
+          if (item.classname == classnameselectitem.classname) {
             item.pageshow = false;
             item.checked = false;
-
-          }      
+          }
         });
       }
 
       // console.log(_this.studentData);
     },
     itemCheckedControl(item) {
-      item.checked = true;
+      item.checked = !item.checked;
       console.log(item);
     },
     backTo() {
@@ -252,10 +249,10 @@ export default {
     },
     refreshLists() {
       this.allchecked = !this.allchecked;
-      this.classnames.map(item => {
+      this.classnames.map((item) => {
         item.checked = this.allchecked;
-        this.allSelectChoosed(item)
-      })
+        this.allSelectChoosed(item);
+      });
     },
     GetWiFiAndLocation() {
       const _this = this;
@@ -367,7 +364,7 @@ export default {
       let studentcomponentData = [];
       filterData.forEach((item) => {
         studentcomponentData.push({
-          studynth: item.studynth
+          studynth: item.studynth,
         });
       });
 
@@ -378,48 +375,51 @@ export default {
     },
     refreshDatabase() {
       const _this = this;
-      console.log("refreshDatabase");
-      axios.get(`${process.env.VUE_APP_POSITION_PATH}/user/registerStudynthQuery`, {}) 
-        .then(function(returnData) {
-          console.log(_this);
-          
-          console.log(returnData.data.result);
-          let studentData = [];
-          let newSet = new Set();
-          let newSetClassnameArray = [];
-          returnData.data.result.forEach((item, index) => {
-            newSet.add(item.classname)
-            studentData.push({
+      console.log(this.classnames.length, this.itemsData.length);
+      if (this.classnames.length && this.itemsData.length) {
+      } else {
+        axios
+          .get(
+            `${process.env.VUE_APP_POSITION_PATH}/user/registerStudynthQuery`,
+            {}
+          )
+          .then(function (returnData) {
+            console.log(_this);
+
+            console.log(returnData.data.result);
+            let studentData = [];
+            let newSet = new Set();
+            let newSetClassnameArray = [];
+            returnData.data.result.forEach((item, index) => {
+              newSet.add(item.classname);
+              studentData.push({
                 key: index + Math.random() + "",
                 checked: false,
                 classname: item.classname,
                 name: item.name,
                 studynth: item.studynth.trim(),
                 gender: item.gender,
-                pageshow: false
-              })
-          });
-
-          for (const item of newSet) {
-            newSetClassnameArray.push({
-              classname: item,
-              checked: false,
-              key: Date.now() + Math.random()
+                pageshow: false,
+              });
             });
-          }
 
+            for (const item of newSet) {
+              newSetClassnameArray.push({
+                classname: item,
+                checked: false,
+                key: Date.now() + Math.random(),
+              });
+            }
 
-          
-          _this.itemsData = studentData;
-          _this.classnames = newSetClassnameArray;
-          console.log(studentData);
- 
-        })
-        .catch(function() {
-          _this.$notify("服务出现问题，或者你的网速过慢");
-          
-      })
-    }
+            _this.itemsData = studentData;
+            _this.classnames = newSetClassnameArray;
+            console.log(studentData);
+          })
+          .catch(function () {
+            _this.$notify("服务出现问题，或者你的网速过慢");
+          });
+      }
+    },
   },
   components: {
     [Checkbox.name]: Checkbox,

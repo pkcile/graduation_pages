@@ -1,12 +1,11 @@
 <!--
- * @Author: your name
- * @Date: 2021-10-13 10:51:39
- * @LastEditTime: 2022-04-01 16:31:06
+ * @Author: 王朋坤
+ * @Date: 2022-04-01 16:36:02
  * @LastEditors: 王朋坤
- * @Description: In User Settings Edit
- * @FilePath: /graduation-project-master/src/components/user/mine.vue
+ * @LastEditTime: 2022-04-01 16:36:02
+ * @FilePath: /graduation-project-master/src/pages/mine/mine.vue
+ * @Description: 
 -->
-
 <template>
   <div class="home-mine">
     <!-- 用户信息设置 -->
@@ -50,26 +49,10 @@ export default {
       this.$router.push("/user/login");
       window.sessionStorage.clear("loginData");
       this.$toast("注销登陆成功");
-    // this.$dialog.confirm({
-    //   title: '是否退出登陆'
-       
-    // })
-    //   .then(() => {
-    //     // on confirm
-    //     this.$router.push("/user/login");
-    //     window.sessionStorage.clear("loginData");
-    //     this.$notify({ type: "primary", message: "注销登陆成功"});
-    //   })
-    //   .catch(() => {
-    //     // on cancel
-    //     this.$toast("取消成功");
-    //   });
-
     },
     // components: {
     //   [Dialog.name]: Dialog
     // }
-
   },
   mounted() {
     console.log(this.$store );

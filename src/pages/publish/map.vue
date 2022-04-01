@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-29 09:51:23
+ * @LastEditTime: 2022-04-01 19:32:41
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -167,7 +167,7 @@
 import { Checkbox, CheckboxGroup, Cell, CellGroup, ActionSheet } from "vant";
 import L from "leaflet";
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
-import { point } from "@turf/helpers";
+import { geometry, point } from "@turf/helpers";
 export default {
   name: "mapapp",
   components: {
@@ -395,8 +395,13 @@ export default {
         if(this.editplacesBool && this.placeitem) {
           this.$parent.getPosition.map(item => {
             if(item.id == this.placeitem.id) {
-              item.coordinates = [this.longitude, this.latitude];
+              item.geometry = {
+                coordinates: [this.longitude, this.latitude],
+                type: "point"
+              }
               item.radius = this.radius;
+              // item.coordinates = [this.longitude, this.latitude];
+              // item.radius = this.radius;
             }
           });
           this.$toast("位置修改成功");
@@ -407,11 +412,13 @@ export default {
         else {
         this.$parent.getPosition.push({
           id: Date.now(),
-          coordinates: [this.longitude, this.latitude],
-          type: "Point",
+          geometry: {
+            coordinates: [this.longitude, this.latitude],
+            type: "point"
+          },
           radius: this.radius,
         });
-                this.$toast(
+        this.$toast(
           "位置设置成功"
         );
         

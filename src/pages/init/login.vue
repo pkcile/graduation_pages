@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-26 18:50:24
+ * @LastEditTime: 2022-04-01 16:14:12
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -177,7 +177,6 @@ export default {
         password: this.pageData.items[1].value,
       };
 
-      // 缓冲登录
       if (!studynth || !password) {
         this.$notify({ type: "warning", message: "请输入完整参数" });
                     setTimeout(()=> {
@@ -198,7 +197,6 @@ export default {
           }
           
           this.loginStore(loginStoreData);
-          console.log(this.$store.state.User.login);
           
           if(returnData.data.status.mark == 1) {   
             // 快捷登录

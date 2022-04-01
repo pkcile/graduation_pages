@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-03-18 07:16:21
+ * @LastEditTime: 2022-04-01 16:12:27
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/components/user/login.vue
@@ -83,6 +83,7 @@
             opacity: returnData.placeinformation.length ? 0 : 1,
             color: '#017AFF',
           }"
+          v-show="returnData.placeinformation.length ? true : false"
         >
           <span @click="registerAccount">注册账号</span>
           <span>|</span>
@@ -170,8 +171,6 @@ export default {
         this.$notify({ type: "warning", message: "请输入完整参数" });
       } else {
         this.loginSendData({ studynth, password }).then((returnData) => {
-          // console.log(returnData.data);
-          // console.log(returnData);
           this.resolveLocationClock(returnData);
         });
       }
@@ -190,8 +189,7 @@ export default {
           });
       });
     },
-    resolveLocationClock(returnData) {
-      console.log(returnData.data);
+    resolveLocationClock() {
       if(returnData.data.status.mark == 1) {
         if(returnData.data.result?.tasks.length) {
         // 处理定位任务

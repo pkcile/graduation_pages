@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-29 11:53:59
+ * @LastEditTime: 2022-04-01 16:22:00
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/main.js
@@ -24,7 +24,7 @@ import * as uni from './utils/webview.js'
 
 document.addEventListener("UniAppJSBridgeReady", function() {  
     Vue.prototype.myUni = uni;
-    console.log(uni);
+    // console.log(uni);
 });
 
 // console.log(this.myUni);
