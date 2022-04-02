@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-04-01 16:14:12
+ * @LastEditTime: 2022-04-02 13:28:13
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -229,6 +229,7 @@ export default {
       }
     },
     loginSendData(paramsobj) {
+      const _this = this;
       return new Promise((resolve) => {
         axios
           .get(`${process.env.VUE_APP_POSITION_PATH}/user/login`, {
@@ -239,7 +240,10 @@ export default {
           })
           .then((returnData) => {
             resolve(returnData);
-          });
+          })
+          .catch(() => {
+            _this.$notify("服务器错误");
+          })
       });
     },
     resolveLocationClock(returnData) {

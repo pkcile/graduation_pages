@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-04-01 16:38:14
+ * @LastEditTime: 2022-04-02 14:57:00
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/router/index.js
@@ -50,6 +50,9 @@ const vueComponent = {
     },
     mine: {
       mine: () => import("@/pages/mine/mine.vue")
+    },
+    usercontrol: {
+      usercontrol: () => import("@/pages/usercontrol/usercontrol.vue")
     }
   },
   common: {
@@ -111,6 +114,10 @@ const routes = [
       {
         path: 'admin',
         component: vueComponent.pages.publish.publish
+      },
+      {
+        path: 'usercontrol',
+        component: vueComponent.pages.usercontrol.usercontrol
       }
     ]
   },

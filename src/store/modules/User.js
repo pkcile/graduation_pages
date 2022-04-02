@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-04-02 12:41:18
+ * @LastEditTime: 2022-04-02 15:47:02
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -9,7 +9,7 @@
 import * as turf from "@turf/turf";
 import axios from "axios";
 import { Notify } from 'vant';
-
+import { Toast } from 'vant';
 const state = {
   // 登陆数据
   login: {
@@ -80,11 +80,33 @@ const mutations = {
   // 
   taskSignStore(state, param) {
     this.state.User.taskSign.judgeArray = param.judgeArray;
-    this.state.User.taskSign.signResult = param.signResult;
+    this.state.User.taskSign.signResult = param?.signResult;
     console.log(this.state.User);
+
 
     sessionStorage.setItem("User", JSON.stringify(this.state.User));
     console.log(sessionStorage.getItem("User"));
+  },
+  oneMethod() {
+    console.log("one method");
+  },
+  updateStatus() {
+    const _this = this;
+    if(this.state.User.login.userinformation) {
+      console.log("无需更新");
+    }
+    else {
+      console.log("存储更新");
+      if(JSON.parse(sessionStorage.getItem("User"))) {
+        this.state.User = JSON.parse(sessionStorage.getItem("User"));
+      }
+      else {
+        // console.log("x");
+        Toast("需要重新登陆");
+      }
+      console.log(this.state.User);
+    }
+
   }
 };
 

@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-12-08 11:04:34
- * @LastEditTime: 2021-12-08 11:07:39
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-02 12:56:27
+ * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/components/admin/editTask/taskInfor.vue
 -->
@@ -223,6 +223,9 @@ export default {
     [Slider.name]: Slider,
     [Stepper.name]: Stepper,
     [Icon.name]: Icon
+  },
+  created() {
+    console.log(this.$store.state.User);
   },
   mounted() {
     // 打卡信息数据初始化

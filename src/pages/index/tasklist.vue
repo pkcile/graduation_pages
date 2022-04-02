@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 16:18:23
+ * @LastEditTime: 2022-04-02 14:39:07
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -46,8 +46,6 @@
       </van-pull-refresh>
       <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
       </indexmodal>
-
-
   </div>
 </template>
 
@@ -58,7 +56,7 @@ import axios from "axios";
 import { Empty } from "vant";
 import "@/assets/font/index.js";
 import eventbus from "@/utils/evenbus.js";
-import { mapState } from "vuex";
+import { mapState, mapMutations} from "vuex";
 import { convertDate } from "@/utils/date.js";
 import { TaskDealWith } from "@/utils/judgetasks.js";
 import indexmodal from './result.vue'
@@ -71,7 +69,7 @@ export default {
   props: {
     show: Boolean,
   },
-  name: "aabb",
+  name: "tasklist",
   data() {
     return {
       pageData: {
@@ -186,12 +184,18 @@ export default {
     },
     resultClose() {
       this.pageResult = false;
-    }
+    },
+    ...mapMutations('User', [
+      'oneMethod',
+      'updateStatus'
+    ]),
   },
   mounted() {
+    // console.log(this);
+     console.log(this.oneMethod);
   },
   created() {
-    this.pageData.tasklists = [];
+    this.$store.commit("User/updateStatus");
     
     const User1 = {
       login: {
@@ -349,7 +353,7 @@ export default {
         },
       },
     };
-    const User = this.$store.state.User;
+    let User = this.$store.state.User;
     // console.log(User);
     // console.log(JSON.stringify(this.$store.state.User));
     let tasklists = [];
@@ -372,6 +376,11 @@ export default {
     [Empty.name]: Empty,
     indexmodal: indexmodal
   },
+  computed: {
+  ...mapState({
+    // ...
+  })
+  }
 };
 </script>
 

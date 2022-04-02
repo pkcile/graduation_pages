@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-03-18 14:35:53
+ * @LastEditTime: 2022-04-02 12:55:25
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/views/Home.vue
@@ -73,6 +73,10 @@ export default {
   components: {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem,
+  },
+  created: function () {
+    // `this` 指向 vm 实例
+    console.log("Home created")
   },
   mounted() {
     // this.$store.commit("User/updataLloginIn");

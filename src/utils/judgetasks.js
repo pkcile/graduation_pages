@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 11:13:26
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-27 13:44:55
+ * @LastEditTime: 2022-04-02 14:02:04
  * @FilePath: /graduation-project-master/src/utils/judgetasks.js
  * @Description: 
  */
@@ -65,6 +65,10 @@ export class TaskDealWith {
     return this
   }
 
+  serverjudge() {
+
+  }
+  
   geometryjudge() {
     const { geometry } = this.forminitData;
 
