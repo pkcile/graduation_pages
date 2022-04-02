@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-10-11 17:08:29
- * @LastEditTime: 2021-10-17 10:55:55
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-02 09:50:27
+ * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/map/arcgis/AnalysePosition.js
  */
@@ -14,7 +14,7 @@ function AnalysePosition(map, view, locationCoords, queryParamConfig) {
     // 1.Graphic 点、线、面样式设置；geometry点、线、面设置
     // geometry点
     const geometryPoint = {
-      type: "point",
+      type: "Point",
       longitude: locationCoords[0],
       latitude: locationCoords[1],
     };

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:44:59
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 20:27:16
+ * @LastEditTime: 2022-04-02 12:29:00
  * @FilePath: /graduation-project-master/src/pages/publish/date.vue
  * @Description: 
 -->
@@ -62,10 +62,11 @@
             :style="{ height: '30%' }"
           >
             <van-datetime-picker
+              v-model="currentHour"
               type="time"
               title="选择完整时间"
               swipe-duration="0"
-              visible-item-count="4"
+              visible-item-count="3"
               @confirm="endtimeData"
               @cancel="onConcelHour"
             />
@@ -102,14 +103,11 @@ export default {
         {
           id: 1,
           currentHour: "8:00"
-        },
-        {
-          id: 2,
-          currentHour: "12:00"
         }
       ],
       getHoursIndex: null,
-      getDays: []
+      getDays: [],
+      currentHour: `${(new Date).getHours()}:${(new Date).getMinutes()}`
     };
   },
   mounted() {},
@@ -167,7 +165,7 @@ export default {
     },
     addHourTime() {
       this.getHours.push({
-        currentHour: "12:00",
+        currentHour: `${(new Date).getHours()}:${(new Date).getMinutes()}`,
         id: Date.now()
       })
     },

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 19:32:41
+ * @LastEditTime: 2022-04-02 09:48:50
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -397,7 +397,7 @@ export default {
             if(item.id == this.placeitem.id) {
               item.geometry = {
                 coordinates: [this.longitude, this.latitude],
-                type: "point"
+                type: "Point"
               }
               item.radius = this.radius;
               // item.coordinates = [this.longitude, this.latitude];
@@ -414,7 +414,7 @@ export default {
           id: Date.now(),
           geometry: {
             coordinates: [this.longitude, this.latitude],
-            type: "point"
+            type: "Point"
           },
           radius: this.radius,
         });

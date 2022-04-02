@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-03-26 10:14:49
+ * @LastEditTime: 2022-04-02 12:41:18
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -73,12 +73,18 @@ const mutations = {
     this.state.User.login.getGeometry = param.getGeometry;
     this.state.User.login.getGeometryInformation = param.getGeometryInformation;
     this.state.User.login.getWifis = param.getWifis;
+    
+    sessionStorage.setItem("User", JSON.stringify(this.state.User));
+    console.log(sessionStorage.getItem("User"));
   },
   // 
   taskSignStore(state, param) {
     this.state.User.taskSign.judgeArray = param.judgeArray;
     this.state.User.taskSign.signResult = param.signResult;
     console.log(this.state.User);
+
+    sessionStorage.setItem("User", JSON.stringify(this.state.User));
+    console.log(sessionStorage.getItem("User"));
   }
 };
 

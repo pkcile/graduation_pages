@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:46:04
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 19:34:22
+ * @LastEditTime: 2022-04-02 11:07:50
  * @FilePath: /graduation-project-master/src/pages/publish/place.vue
  * @Description: 
 -->
@@ -38,7 +38,7 @@
           <van-cell
             is-link
             title="打卡地点"
-            :value="placeservername"
+            :value="serverplacename"
             @click="show = true"
           />
           <van-action-sheet
@@ -113,7 +113,7 @@ export default {
         },
         {
           name: "整个服务",
-          value: "",
+          value: "all",
         },
         {
           name: "方荫楼",
@@ -124,7 +124,7 @@ export default {
           value: "惟义楼",
         }
       ],
-      placeservername: ""
+      serverplacename: ""
     };
   },
   mounted() {},
@@ -164,7 +164,11 @@ export default {
     },
     onSelect(item) {
       this.show = false;
-      this.placeservername = item.name;
+      this.serverplacename = item.name;
+      console.log(item.name);
+      
+      this.$parent.pageData.serverplacename = item.name;
+      console.log(this.$parent.pageData.serverplacename);
     }
   },
 };

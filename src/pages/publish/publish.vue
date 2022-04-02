@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 16:15:38
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 22:14:02
+ * @LastEditTime: 2022-04-02 12:30:47
  * @FilePath: /graduation-project-master/src/pages/publish/publish.vue
  * @Description: 
 -->
@@ -82,7 +82,7 @@
           <div>
             {{
               pageData.placecomponentData
-                ? "" + pageData.placecomponentData.length + "个地点节点"
+                ? "" + (pageData.placecomponentData.length + (pageData.serverplacename ? 1 : 0)) + "个地点节点"
                 : "未初始化"
             }}
           </div>
@@ -143,11 +143,16 @@
       v-show="wificomponentControl"
       :wificomponentData="pageData.wificomponentData"
     ></wificomoponent>
-    <studentcomoponent
+    <studentcomponent
       v-show="studentcomponentControl"
       :studentcomponentData="pageData.studentcomponentData"
       ref="studentcomponentControlRef"
-    ></studentcomoponent>
+    ></studentcomponent>
+    <resultcomponent
+      v-show="resultcomponentControl"
+      :resultcomponentData="pageData.resultcomponentData"
+      ref="resultcomponentControlRef"
+    ></resultcomponent>
   </div>
 </template>
 
@@ -158,7 +163,8 @@ import inputcomponent from "./input.vue";
 import datecomponent from "./date.vue";
 import placecomoponent from "./place.vue";
 import wificomoponent from "./wifi.vue";
-import studentcomoponent from "./student.vue";
+import studentcomponent from "./student.vue";
+import resultcomponent from "./result.vue";
 
 export default {
   data() {
@@ -192,6 +198,7 @@ export default {
         datecomponentData: null,
         wificomponentData: null,
         studentcomponentData: null,
+        resultcomponentData: null
 
       },
       inputcomponentControl: false,
@@ -199,6 +206,7 @@ export default {
       datecomponentControl: false,
       wificomponentControl: false,
       studentcomponentControl: false,
+      resultcomponentControl: false
     };
   },
   components: {
@@ -211,7 +219,8 @@ export default {
     datecomponent: datecomponent,
     placecomoponent: placecomoponent,
     wificomoponent: wificomoponent,
-    studentcomoponent: studentcomoponent,
+    studentcomponent: studentcomponent,
+    resultcomponent: resultcomponent
   },
   methods: {
     showStartTimePopup() {
@@ -271,15 +280,19 @@ export default {
       if (
         params?.Stamps?.length &&
         params?.Students?.length &&
-        params?.Places?.length &&
+        (this.pageData?.placecomponentData?.length + (this.pageData?.serverplacename ? 1 : 0)) &&
         params?.topic 
       ) {
         axios
           .get(
             `${process.env.VUE_APP_POSITION_PATH}/task/publishMain`,
-            { params: JSON.stringify(params) }
+            { params: params }
           )
           .then(function (returnData) {
+            if(returnData.data.status.mark == 1) {
+              _this.$refs["resultcomponentControlRef"].resultShow001(returnData.data.result);
+              // _this.$parent.pageData.resultcomponent = true;
+            }
             // _this.$notify("服务出现问题，或者你的网速过慢");
             console.log(returnData);
           })

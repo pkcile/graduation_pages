@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-01 16:36:02
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 16:36:02
+ * @LastEditTime: 2022-04-02 12:35:22
  * @FilePath: /graduation-project-master/src/pages/mine/mine.vue
  * @Description: 
 -->
@@ -10,7 +10,7 @@
   <div class="home-mine">
     <!-- 用户信息设置 -->
     <div class="mine-form-user-information">
-      <img :src="this.$store.state.User.login.userinformation ?this.$store.state.User.login.userinformation.imglink : `${require('@/assets/img/user/1.jpg')}`" alt="" />
+      <img :src="`${require('@/assets/img/user/1.jpg')}`" alt="" />
       <div class="user-main">
         <div>{{ this.$store.state.User.login.userinformation ? "昵称：" + this.$store.state.User.login.userinformation.username : "guest" }}</div>
         <div>{{ this.$store.state.User.login.userinformation ?  "学号：" + this.$store.state.User.login.userinformation.studynth : "000" }}</div>
