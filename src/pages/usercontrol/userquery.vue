@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-04 20:21:12
+ * @LastEditTime: 2022-04-04 21:18:21
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -33,7 +33,7 @@
         <div class="mine-double-line-date">
           <div class="title">
             <div>用户信息</div>
-            <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div>
+            <div style="color: #007aff" @click="useraddcomponentControlFun">用户添加</div>
           </div>
           <div
             class="main"
@@ -79,14 +79,14 @@
               v-bind:key="item.key"
             >
               <div>{{ item.name }}</div>
-              <div>{{ item.studynth }}</div>
+              <div >{{ item.studynth }}</div>
               <div><van-icon name="arrow" /></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <useraddcomponent  v-show="useraddcomponentControl"/>
+    <useraddcomponent  v-show="useraddcomponentControl" ref="useraddcomponentControlRef"/>
   </div>
 </template>
 
@@ -110,7 +110,7 @@ export default {
   data() {
     return {
       useraddcomponentControl: false,
-      classnames: [],
+      classname: [],
       itemsData: [],
       itemsDataAddNew: [],
     };
@@ -127,8 +127,8 @@ export default {
       console.log("queryusercomponentinfor");
       this.$parent.queryusercomponentControl = true;
       const _this = this;
-      console.log(this.classnames.length, this.itemsData.length);
-      if (this.classnames.length && this.itemsData.length) {
+      console.log(this.classname.length, this.itemsData.length);
+      if (this.classname.length && this.itemsData.length) {
       } else {
         axios
           .get(
@@ -164,7 +164,7 @@ export default {
             }
 
             _this.itemsData = studentData;
-            _this.classnames = newSetClassnameArray;
+            _this.classname = newSetClassnameArray;
             console.log(studentData);
           })
           .catch(function () {
@@ -172,6 +172,11 @@ export default {
           });
       }
     },
+    useraddcomponentControlFun() {
+      this.useraddcomponentControl = true;
+      this.$refs["useraddcomponentControlRef"].useraddcomponentControlRefFun(this.itemsData);
+
+    }
   },
   components: {
     [DropdownMenu.name]: DropdownMenu,

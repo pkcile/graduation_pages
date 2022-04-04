@@ -162,7 +162,7 @@ export default {
                 id: 225,
                 placesmark: false,
                 wifismark: false,
-                classnamesmark: false,
+                classnamemark: false,
                 timesmark: false,
                 topic: "暑假打卡主题",
                 createstamp: 1647619349211,
@@ -182,7 +182,7 @@ export default {
                     createstamp: 1647619349205
                   },
                 ],
-                Classnames: [{ classname: "admin", taskId: 225 }],
+                classname: [{ classname: "admin", taskId: 225 }],
                 Wifis: [],
                 Results: [
                   {
@@ -488,7 +488,7 @@ export default {
               placesmark: false,
               wifismark: false,
               timesmark: false,
-              classnamesmark: false,
+              classnamemark: false,
               topic: "暑假打卡主题",
               createstamp: 1647619349211,
               createuser: "pkcile",
@@ -508,7 +508,7 @@ export default {
                   taskId: 225,
                 },
               ],
-              Classnames: [{ classname: "admin", taskId: 225 }],
+              classname: [{ classname: "admin", taskId: 225 }],
               Wifis: [],
               Results: [
                 {

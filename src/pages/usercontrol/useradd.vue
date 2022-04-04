@@ -2,12 +2,12 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 17:08:58
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-04 20:20:50
+ * @LastEditTime: 2022-04-04 23:56:11
  * @FilePath: /graduation-project-master/src/pages/usercontrol/useradd.vue
  * @Description: 
 -->
 <template>
-    <div
+  <div
     class="social-page send-part-message"
     style="z-index: 2; background: #efeff3"
   >
@@ -22,26 +22,20 @@
       <div
         class="right"
         :style="{
-          'background-image': `url(${require('@/assets/font/save.svg')})`,
+          'background-image': `url(${require('@/assets/font/pressure3.svg')})`,
         }"
         @click="rightSure"
       ></div>
       <div class="text">学生信息</div>
     </div>
     <div class="main" style="background: #efeff3">
-      <div style="padding: 0 10px 10px 10px;">
+      <div style="padding: 0 10px 10px 10px">
         <div class="mine-double-line-date" style="display: none">
           <div class="title">
             <div style="color: #007aff" @click="useradd">用户添加</div>
             <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
           </div>
-          <div
-            class="main"
-            style="
-              background: #fff;
-              border-radius: 5px;
-            "
-          >
+          <div class="main" style="background: #fff; border-radius: 5px">
             <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
             <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
             <div
@@ -57,59 +51,12 @@
         </div>
         <div class="mine-double-line-date">
           <div class="title">
-            <div style="color: #007aff" @click="useradd">用户添加</div>
-            <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
-          </div>
-          <div
-            class="main inputmain"
-            style="
-              background: #fff;
-              border-radius: 5px;
-              margin-top: 0px;
-            "
-          >
-          <div>
-            <div class="mine-input-row-001">
-              <label>{{ "学号" }}</label>
-              <input type="text" v-model="writestatus.studynth" placeholder="请输入学生学号"/>
-              <!-- :placeholder="inputItem.inputplaceholder"
-                v-model="inputItem.value" -->
-            </div>
-            <div class="mine-input-line"></div>
-          </div>
-          <div>
-            <div class="mine-input-row">
-              <label>{{ "班级" }}</label>
-              <input type="text" v-model="writestatus.classnames" placeholder="请输入班级名称"/>
-              <!-- :placeholder="inputItem.inputplaceholder"
-                v-model="inputItem.value" -->
-            </div>
-            <div class="mine-input-line"></div>
-          </div>
-          <div>
-            <div class="mine-input-row-001">
-              <label>{{ "姓名" }}</label>
-              <input type="text" v-model="writestatus.name" placeholder="请输入学生姓名"/>
-              <!-- :placeholder="inputItem.inputplaceholder"
-                v-model="inputItem.value" -->
-            </div>
-          </div>
-          </div>
-        
-        
-        </div>
-        <div class="mine-double-line-date">
-          <div class="title">
             <div>用户信息</div>
             <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
           </div>
           <div
             class="main"
-            style="
-              background: #fff;
-              border-radius: 5px;
-              overflow-y: auto;
-            "
+            style="background: #fff; border-radius: 5px; overflow-y: auto"
           >
             <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
             <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
@@ -117,20 +64,81 @@
               class="mine-single-line-three-001"
               v-for="item in itemsData"
               v-bind:key="item.key"
-            > 
+            >
               <div>{{ item.name }}</div>
               <div>{{ item.studynth }}</div>
               <div @click="removeItem(item)"><van-icon name="cross" /></div>
             </div>
           </div>
         </div>
+        <div class="mine-double-line-date">
+          <div class="title">
+            <div style="color: #007aff" @click="useradd">用户添加</div>
+            <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
+          </div>
+          <div
+            class="main inputmain"
+            style="background: #fff; border-radius: 5px; margin-top: 0px"
+          >
+            <div>
+              <div class="mine-input-row-001">
+                <label>{{ "学号" }}</label>
+                <input
+                  type="text"
+                  v-model="writestatus.studynth"
+                  placeholder="请输入学生学号"
+                />
+                <!-- :placeholder="inputItem.inputplaceholder"
+                v-model="inputItem.value" -->
+              </div>
+              <div class="mine-input-line"></div>
+            </div>
+            <div>
+              <div class="mine-input-row">
+                <label>{{ "班级" }}</label>
+                <input
+                  type="text"
+                  v-model="writestatus.classname"
+                  placeholder="请输入班级名称"
+                />
+                <!-- :placeholder="inputItem.inputplaceholder"
+                v-model="inputItem.value" -->
+              </div>
+              <div class="mine-input-line"></div>
+            </div>
+            <div>
+              <div class="mine-input-row-001">
+                <label>{{ "姓名" }}</label>
+                <input
+                  type="text"
+                  v-model="writestatus.name"
+                  placeholder="请输入学生姓名"
+                />
+                <!-- :placeholder="inputItem.inputplaceholder"
+                v-model="inputItem.value" -->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      
+      <div
+        class="mine-link-center"
+        style="position: sticky; bottom: 20px; left: 0"
+      >
+        <div
+          class="mine-button-block"
+          style="margin-top: 18px"
+          @click="useradd"
+        >
+          学生信息添加
+        </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-
 import {
   RadioGroup,
   Radio,
@@ -142,11 +150,12 @@ import {
   Checkbox,
   Icon,
 } from "vant";
+import axios from "axios";
 
 export default {
   data() {
     return {
-      classnames: [],
+      classname: [],
       itemsData: [
         // {
         //   key: 1,
@@ -155,11 +164,12 @@ export default {
         // }
       ],
       writestatus: {
-      studynth: "",
-      classnames: "",
-      name: ""
-    }
-    }
+        studynth: "",
+        classname: "",
+        name: "",
+        studentsData: [],
+      },
+    };
   },
   methods: {
     backTo() {
@@ -167,48 +177,133 @@ export default {
     },
     rightSure() {
       console.log("2232");
-      this.$parent.useraddcomponentControl = false;
+
+      if (this.itemsData.length > 0) {
+        console.log(this.itemsData);
+        const _this = this;
+        // return;
+        axios
+          .get(`${process.env.VUE_APP_POSITION_PATH}/user/classAddServeral`, {
+            params: {
+              sendArray: _this.itemsData,
+            },
+          })
+          .then(function (returnData) {
+            console.log(returnData);
+            _this.$toast(returnData.data.status.infor);
+           
+            if (returnData.data.status.mark == 1) {
+              _this.$parent.useraddcomponentControl = false;
+              let itemsDataAddNew = [];
+              
+              _this.itemsData.forEach(item => {
+              itemsDataAddNew.push({
+                key: Date.now() + Math.random(),
+                classname: item.classname,
+                name: item.name,
+                studynth: item.studynth,
+                pageshow: true,
+              })
+              })
+
+               _this.itemsData = [];
+
+              console.log(itemsDataAddNew);
+
+                    // studentsData.push({
+      //   key: 23233223,
+      //   classname: "18级地理信息科学1班",
+      //   gender: "女",
+      //   name: "老五",
+      //   pageshow: false,
+      //   studynth: "201824803099"
+      // });
+              _this.$parent.itemsDataAddNew = itemsDataAddNew;
+              // _this.$parent.itemsData = _this.$parent.itemsData.concat(itemsDataAddNew);
+              _this.$parent.itemsData.push.apply(_this.$parent.itemsData, itemsDataAddNew);
+            }
+
+            // _this.$emit("open-person-choose-form", returnData.data.id);
+          })
+          .catch(function () {
+            _this.$notify("服务出现问题，或者你的网速过慢");
+          });
+      } else if (this.itemsData.length == 0) {
+        this.$toast("无数据保存，请添加学生数据");
+        // this.$parent.useraddcomponentControl = false;
+      }
+      // this.$parent.useraddcomponentControl = false;
     },
     removeItem(personitem) {
-      this.itemsData = this.itemsData.filter(item => {
+      this.itemsData = this.itemsData.filter((item) => {
         console.log(item, personitem);
-        return item.key != personitem.key; 
-      })
+        return item.key != personitem.key;
+      });
 
       console.log(this.itemsData);
     },
     useradd() {
       let addstatus = true;
       let samestatus = true;
-      
-     
-      samestatus = this.itemsData.every(personitem => {
+      let foramlstatus = true;
+      let rule = true;
+
+      rule = this.writestatus.studynth.length > 12 ? false : true;
+  
+
+      samestatus = this.itemsData.every((personitem) => {
         return personitem.studynth != this.writestatus.studynth;
       });
 
-      addstatus = (this.writestatus.studynth && this.writestatus.classnames && this.writestatus.name && samestatus) ? true : false;
+      foramlstatus = this.studentsData.every((studentsitem) => {
+        return studentsitem.studynth != this.writestatus.studynth;
+      });
+
+      addstatus =
+        this.writestatus.studynth &&
+        this.writestatus.classname &&
+        this.writestatus.name &&
+        samestatus &&
+        foramlstatus 
+        &&
+        rule
+    ;
 
       console.log(addstatus);
 
-      if(addstatus == true) {
+      if (addstatus == true) {
         this.itemsData.push({
           key: Date.now(),
-          name: this.writestatus.studynth,
+          name: this.writestatus.name,
           studynth: this.writestatus.studynth,
-          classnames: this.writestatus.classnames
-        })
-      }
-      else {
-        if(samestatus == false) {
+          classname: this.writestatus.classname,
+        });
+      } else {
+        if (samestatus == false) {
           this.$toast("请不要输入重复的信息");
-        }
+        } else if (foramlstatus == false) {
+          this.$toast("学号数据库已存在");
+        } 
+         else if(rule == false) {
+           this.$toast("学号请输入少于等于12位");
+         }
         else {
           this.$toast("请输入完整参数");
         }
-        
       }
     },
-
+    useraddcomponentControlRefFun(studentsData) {
+      console.log(this.studentsData);
+      this.studentsData = studentsData;
+      // studentsData.push({
+      //   key: 23233223,
+      //   classname: "18级地理信息科学1班",
+      //   gender: "女",
+      //   name: "老五",
+      //   pageshow: false,
+      //   studynth: "201824803099"
+      // });
+    },
   },
   components: {
     [DropdownMenu.name]: DropdownMenu,
@@ -221,7 +316,7 @@ export default {
     [Checkbox.name]: Checkbox,
     [Icon.name]: Icon,
   },
-}
+};
 </script>
 
 

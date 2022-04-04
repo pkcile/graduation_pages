@@ -216,7 +216,7 @@ export default {
             id: 243,
             placesmark: false,
             wifismark: false,
-            classnamesmark: false,
+            classnamemark: false,
             timesmark: false,
             topic: "暑假打卡主题",
             createstamp: 1648134253268,
@@ -237,7 +237,7 @@ export default {
                 taskId: 243,
               },
             ],
-            Classnames: [{ classname: "admin", taskId: 243 }],
+            classname: [{ classname: "admin", taskId: 243 }],
             Wifis: [],
             Results: [
               {

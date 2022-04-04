@@ -51,7 +51,7 @@
               border-bottom: #8080802e 1px solid;
             "
             @click="allSelectChoosed(item)"
-            v-for="item in classnames"
+            v-for="item in classname"
             v-bind:key="item.key"
           >
             <div>{{ item.classname }}</div>
@@ -208,25 +208,25 @@ export default {
   data() {
     return {
       checked: false,
-      classnames: [],
+      classname: [],
       allchecked: true,
       itemsData: [{}, {}],
     };
   },
   methods: {
-    allSelectChoosed(classnameselectitem) {
-      classnameselectitem.checked = !classnameselectitem.checked;
-      console.log(classnameselectitem);
-      if (classnameselectitem.checked) {
+    allSelectChoosed(classnameelectitem) {
+      classnameelectitem.checked = !classnameelectitem.checked;
+      console.log(classnameelectitem);
+      if (classnameelectitem.checked) {
         this.itemsData.map((item) => {
-          if (item.classname == classnameselectitem.classname) {
+          if (item.classname == classnameelectitem.classname) {
             item.pageshow = true;
             item.checked = true;
           }
         });
       } else {
         this.itemsData.map((item) => {
-          if (item.classname == classnameselectitem.classname) {
+          if (item.classname == classnameelectitem.classname) {
             item.pageshow = false;
             item.checked = false;
           }
@@ -244,7 +244,7 @@ export default {
     },
     refreshLists() {
       this.allchecked = !this.allchecked;
-      this.classnames.map((item) => {
+      this.classname.map((item) => {
         item.checked = this.allchecked;
         this.allSelectChoosed(item);
       });
@@ -269,8 +269,8 @@ export default {
     },
     refreshDatabase() {
       const _this = this;
-      console.log(this.classnames.length, this.itemsData.length);
-      if (this.classnames.length && this.itemsData.length) {
+      console.log(this.classname.length, this.itemsData.length);
+      if (this.classname.length && this.itemsData.length) {
       } else {
         axios
           .get(
@@ -306,7 +306,7 @@ export default {
             }
 
             _this.itemsData = studentData;
-            _this.classnames = newSetClassnameArray;
+            _this.classname = newSetClassnameArray;
             console.log(studentData);
           })
           .catch(function () {
