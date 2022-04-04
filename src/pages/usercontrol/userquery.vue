@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 17:37:57
+ * @LastEditTime: 2022-04-04 20:21:12
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -40,7 +40,7 @@
             style="
               background: #fff;
               border-radius: 5px;
-              height: 450px;
+              height: 250px;
               overflow-y: auto;
             "
           >
@@ -49,6 +49,33 @@
             <div
               class="mine-single-line-three-001"
               v-for="item in itemsData"
+              v-bind:key="item.key"
+            >
+              <div>{{ item.name }}</div>
+              <div>{{ item.studynth }}</div>
+              <div><van-icon name="arrow" /></div>
+            </div>
+          </div>
+        </div>
+        <div class="mine-double-line-date">
+          <div class="title">
+            <div>新添加信息</div>
+            <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
+          </div>
+          <div
+            class="main"
+            style="
+              background: #fff;
+              border-radius: 5px;
+
+              overflow-y: auto;
+            "
+          >
+            <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
+            <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
+            <div
+              class="mine-single-line-three-001"
+              v-for="item in itemsDataAddNew"
               v-bind:key="item.key"
             >
               <div>{{ item.name }}</div>
@@ -85,6 +112,7 @@ export default {
       useraddcomponentControl: false,
       classnames: [],
       itemsData: [],
+      itemsDataAddNew: [],
     };
   },
   methods: {

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 17:08:58
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 17:36:11
+ * @LastEditTime: 2022-04-04 20:20:50
  * @FilePath: /graduation-project-master/src/pages/usercontrol/useradd.vue
  * @Description: 
 -->
@@ -32,7 +32,7 @@
       <div style="padding: 0 10px 10px 10px;">
         <div class="mine-double-line-date" style="display: none">
           <div class="title">
-            <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div>
+            <div style="color: #007aff" @click="useradd">用户添加</div>
             <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
           </div>
           <div
@@ -55,9 +55,9 @@
             </div>
           </div>
         </div>
-          <div class="mine-double-line-date">
+        <div class="mine-double-line-date">
           <div class="title">
-            <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div>
+            <div style="color: #007aff" @click="useradd">用户添加</div>
             <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
           </div>
           <div
@@ -71,7 +71,7 @@
           <div>
             <div class="mine-input-row-001">
               <label>{{ "学号" }}</label>
-              <input type="text" />
+              <input type="text" v-model="writestatus.studynth" placeholder="请输入学生学号"/>
               <!-- :placeholder="inputItem.inputplaceholder"
                 v-model="inputItem.value" -->
             </div>
@@ -80,7 +80,7 @@
           <div>
             <div class="mine-input-row">
               <label>{{ "班级" }}</label>
-              <input type="text" />
+              <input type="text" v-model="writestatus.classnames" placeholder="请输入班级名称"/>
               <!-- :placeholder="inputItem.inputplaceholder"
                 v-model="inputItem.value" -->
             </div>
@@ -89,14 +89,41 @@
           <div>
             <div class="mine-input-row-001">
               <label>{{ "姓名" }}</label>
-              <input type="text" />
+              <input type="text" v-model="writestatus.name" placeholder="请输入学生姓名"/>
               <!-- :placeholder="inputItem.inputplaceholder"
                 v-model="inputItem.value" -->
             </div>
           </div>
           </div>
+        
+        
         </div>
-
+        <div class="mine-double-line-date">
+          <div class="title">
+            <div>用户信息</div>
+            <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
+          </div>
+          <div
+            class="main"
+            style="
+              background: #fff;
+              border-radius: 5px;
+              overflow-y: auto;
+            "
+          >
+            <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
+            <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
+            <div
+              class="mine-single-line-three-001"
+              v-for="item in itemsData"
+              v-bind:key="item.key"
+            > 
+              <div>{{ item.name }}</div>
+              <div>{{ item.studynth }}</div>
+              <div @click="removeItem(item)"><van-icon name="cross" /></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -104,12 +131,34 @@
 
 <script>
 
+import {
+  RadioGroup,
+  Radio,
+  DropdownMenu,
+  DropdownItem,
+  Picker,
+  Field,
+  Popup,
+  Checkbox,
+  Icon,
+} from "vant";
 
 export default {
   data() {
     return {
       classnames: [],
-      itemsData: [],
+      itemsData: [
+        // {
+        //   key: 1,
+        //   name: "王朋坤",
+        //   studynth: "201824803050"
+        // }
+      ],
+      writestatus: {
+      studynth: "",
+      classnames: "",
+      name: ""
+    }
     }
   },
   methods: {
@@ -119,8 +168,59 @@ export default {
     rightSure() {
       console.log("2232");
       this.$parent.useraddcomponentControl = false;
-    }
-  }
+    },
+    removeItem(personitem) {
+      this.itemsData = this.itemsData.filter(item => {
+        console.log(item, personitem);
+        return item.key != personitem.key; 
+      })
+
+      console.log(this.itemsData);
+    },
+    useradd() {
+      let addstatus = true;
+      let samestatus = true;
+      
+     
+      samestatus = this.itemsData.every(personitem => {
+        return personitem.studynth != this.writestatus.studynth;
+      });
+
+      addstatus = (this.writestatus.studynth && this.writestatus.classnames && this.writestatus.name && samestatus) ? true : false;
+
+      console.log(addstatus);
+
+      if(addstatus == true) {
+        this.itemsData.push({
+          key: Date.now(),
+          name: this.writestatus.studynth,
+          studynth: this.writestatus.studynth,
+          classnames: this.writestatus.classnames
+        })
+      }
+      else {
+        if(samestatus == false) {
+          this.$toast("请不要输入重复的信息");
+        }
+        else {
+          this.$toast("请输入完整参数");
+        }
+        
+      }
+    },
+
+  },
+  components: {
+    [DropdownMenu.name]: DropdownMenu,
+    [DropdownItem.name]: DropdownItem,
+    [RadioGroup.name]: RadioGroup,
+    [Radio.name]: Radio,
+    [Picker.name]: Picker,
+    [Field.name]: Field,
+    [Popup.name]: Popup,
+    [Checkbox.name]: Checkbox,
+    [Icon.name]: Icon,
+  },
 }
 </script>
 

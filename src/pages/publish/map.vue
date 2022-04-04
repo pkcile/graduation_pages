@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 09:48:50
+ * @LastEditTime: 2022-04-04 20:16:34
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -443,9 +443,9 @@ export default {
       console.log(placeitem);
       this.placeitem = placeitem;
       this.editplacesBool = true;
-      this.longitude = placeitem.coordinates[0];
-      this.latitude = placeitem.coordinates[1];
-      this.radius = placeitem.radius;
+      this.longitude = placeitem?.geometry?.coordinates[0];
+      this.latitude = placeitem?.geometry?.coordinates[1];
+      this.radius = placeitem?.radius;
       this.init();
       console.log(this.placeitem, this.editplacesBool);
     }

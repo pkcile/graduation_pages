@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-12 10:13:37
- * @LastEditTime: 2022-03-27 13:46:44
+ * @LastEditTime: 2022-04-04 12:39:25
  * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/utils/geolocation.js
@@ -63,13 +63,12 @@ function getCurrentLocation2() {
     const geoOption = {
       enableHighAccuracy: true,
       maximumAge: 30000,
-      // timeout: 5000
+      timeout: 5000
     };
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         function(data) {
-          // console.log(data);
           resolve({
             latitude: data.coords.latitude,
             longitude: data.coords.longitude,
@@ -82,21 +81,25 @@ function getCurrentLocation2() {
     } else {
     }
 
-    function geoError() {
+    function geoError(error) {
       // resolve("error")
       console.log("error");
-      // navigator.geolocation.getCurrentPosition(function(data) {
-      //   resolve({
-      //     latitude: data.coords.latitude,
-      //     longitude: data.coords.longitude,
-      //   });
-      // });
-      // setTimeout(function() {
-      //   resolve({
-      //     latitude: null,
-      //     longitude: null,
-      //   });
-      // }, 2000);
+        // Display error based on the error code.
+      const { code } = error;
+      switch (code) {
+        case GeolocationPositionError.TIMEOUT:
+          // Handle timeout.
+          console.log("timeout");
+          break;
+        case GeolocationPositionError.PERMISSION_DENIED:
+          console.log("denied");
+          // User denied the request.
+          break;
+        case GeolocationPositionError.POSITION_UNAVAILABLE:
+          // Position not available.
+          console.log("not available");
+          break;
+      }
     }
   });
 }

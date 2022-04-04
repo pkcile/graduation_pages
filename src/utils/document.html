@@ -1,0 +1,86 @@
+<!--
+ * @Author: 王朋坤
+ * @Date: 2022-04-04 12:40:09
+ * @LastEditors: 王朋坤
+ * @LastEditTime: 2022-04-04 12:58:09
+ * @FilePath: /graduation-project-master/src/utils/document.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>html5位置获取</title>
+</head>
+
+<body>
+  <script>
+    function getCurrentLocation() {
+      return new Promise((resolve) => {
+        const geoOption = {
+          enableHighAccuracy: true, // 开启高精度定位
+          maximumAge: 30000,        // 缓存位置的时间
+          timeout: 5000             // 位置获取的时间限制
+        };
+
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            function (data) { // 位置信息
+              resolve(data);
+            },
+            geoError,        // 错误信息
+            geoOption        // 位置获取配置
+          );
+        } else {
+        }
+
+        function geoError(error) {
+          // Display error based on the error code.
+          const { code } = error;
+          switch (code) {
+            case GeolocationPositionError.TIMEOUT:
+              // Handle timeout.
+              resolve("timeout");
+              break;
+            case GeolocationPositionError.PERMISSION_DENIED:
+              resolve("denied")
+              // User denied the request.
+              break;
+            case GeolocationPositionError.POSITION_UNAVAILABLE:
+              // Position not available.
+              resolve("not available")
+              break;
+          }
+        }
+      });
+    }
+
+    getCurrentLocation().then(geolocationDataFormal => {
+      function cloneAsObject(obj) {
+        if (obj === null || !(obj instanceof Object)) {
+          return obj;
+        }
+        var temp = (obj instanceof Array) ? [] : {};
+        for (var key in obj) {
+          temp[key] = cloneAsObject(obj[key]);
+        }
+        return temp;
+      }
+      var geolocationData = cloneAsObject(geolocationDataFormal);
+      console.log(JSON.stringify(geolocationData));
+      if (geolocationData?.coords) {
+        document.getElementsByTagName("html")[0].innerHTML = JSON.stringify(geolocationData);
+      }
+      else {
+        document.getElementsByTagName("html")[0].innerHTML = JSON.stringify(geolocationDataFormal);
+      }
+
+    })
+  
+  </script>
+</body>
+
+</html>
