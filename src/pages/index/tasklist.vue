@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 14:39:07
+ * @LastEditTime: 2022-04-05 22:49:29
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -17,28 +17,42 @@
       <!-- <p>刷新次数: {{ count }}</p> -->
       <div class="mine-form-notice">
         <van-notice-bar color="#1989fa" background="#fff" left-icon="back-top">
-          打卡提示信息
+           {{  this.$store.state.User.websocketnotice }} 
         </van-notice-bar>
       </div>
-
-      <ul class="mine-form-tasklist" style="" v-if="pageData.tasklists.length">
+      <!-- pageData.tasklists.length -->
+      <ul class="mine-form-tasklist" style="" v-if="1" >
+        <!-- 打卡任务状态 -->
         <li
           v-for="taskitem in pageData.tasklists"
           v-bind:key="taskitem.key"
           @click="taskitemjump(taskitem)"
         >
           <div class="title">
-            <span>{{ taskitem.status }}</span>
+            <span>{{ "" + taskitem.status }}</span>
             <!-- <img  :src="taskitem.img" alt="" style="color: blue"> -->
             <svg class="icon" aria-hidden="true">
               <use :xlink:href="taskitem.icon"></use>
             </svg>
           </div>
           <div class="main">
-            <div>主题：{{ taskitem.topic }}</div>
-            <div>时间：{{ taskitem.time }}</div>
+            <div>主题：{{  taskitem.topic }}</div>
+            <div>打卡时间：{{ taskitem.time }}</div>
           </div>
         </li>
+        <!-- 服务添加状态 -->
+        <!-- <li
+        >
+          <div class="title">
+            <span>{{ "选点任务" }}</span>
+            <svg class="icon" aria-hidden="true">
+              <use :xlink:href="`cross`"></use>
+            </svg>
+          </div>
+          <div class="main">
+            <div>主题：{{ "疫情在家选点任务" }}</div>
+          </div>
+        </li> -->
       </ul>
       <ul class="" v-else style="background: #fff; width: 100%; height: 100%">
         <van-empty description="无打卡任务" />
@@ -65,6 +79,8 @@ import {
   getLocationInformation,
 } from "@/utils/geolocation.js";
 
+import {io} from "socket.io-client"
+
 export default {
   props: {
     show: Boolean,
@@ -74,15 +90,15 @@ export default {
     return {
       pageData: {
         tasklists: [
-          // {
-          //   key: Date.now(),
-          //   status: "打卡失败",
-          //   img: require('@/assets/font/edit-false.svg'),
-          //   createuser: "admin",
-          //   time: "2022-03-21 12:00:00",
-          //   topic: "暑假实习打卡",
-          //   icon: "#icon-bianjiputong"
-          // },
+          {
+            key: Date.now(),
+            status: "打卡失败",
+            img: require('@/assets/font/edit-false.svg'),
+            createuser: "admin",
+            time: "2022-03-21 12:00:00",
+            topic: "暑假实习打卡",
+            icon: "#icon-bianjiputong"
+          },
           // {
           //   key: 2,
           //   status: "打卡成功",
@@ -191,181 +207,17 @@ export default {
     ]),
   },
   mounted() {
-    // console.log(this);
-     console.log(this.oneMethod);
   },
   created() {
-    this.$store.commit("User/updateStatus");
-    
-    const User1 = {
-      login: {
-        userinformation: {
-          username: "1",
-          name: "管理员1号",
-          studynth: "1",
-          register: "2022-03-18 07:25:08",
-          registertimestamp: 1647559508896,
-          logintimestamp: 1647559508896,
-          imglink:
-            "https://portrait.gitee.com/uploads/avatars/user/2511/7534207_pkcile_1616390370.png!avatar200",
-          showinfor: "默认签名",
-          role: "管理员",
-        },
-        tasks: [
-          {
-            id: 243,
-            placesmark: false,
-            wifismark: false,
-            classnamemark: false,
-            timesmark: false,
-            topic: "暑假打卡主题",
-            createstamp: 1648134253268,
-            createuser: "pkcile",
-            Places: [
-              {
-                taskid: 243,
-                placesnth: 65,
-                servermark: true,
-                serverplacename: "地点",
-                geometrymark: false,
-                geometry: {
-                  type: "Point",
-                  coordinates: [-76.984722, 39.807222],
-                },
-                radius: 100,
-                createstamp: 1648134253261,
-                taskId: 243,
-              },
-            ],
-            classname: [{ classname: "admin", taskId: 243 }],
-            Wifis: [],
-            Results: [
-              {
-                taskid: 243,
-                studynth: "1",
-                startstamp: 1648263107707,
-                previousstamp: 2000000,
-                afterstamp: 1800000,
-                status: "任务分发初始化",
-                statusmark: 0,
-                userwifimark: 0,
-                userplacemark: 0,
-                usertimemark: 0,
-                geometry: null,
-                taskId: 243,
-              },
-            ],
-          },
-        ],
-        getGeometry: { latitude: 36.110565, longitude: 115.304657 },
-        getGeometryInformation: {
-          data: {
-            result: {
-              formatted_address: "邯郸市大名县王小楼村西南约88米",
-              location: { lon: 115.304657, lat: 36.110565 },
-              addressComponent: {
-                address: "王小楼村",
-                city: "邯郸市",
-                county_code: "156130425",
-                nation: "中国",
-                poi_position: "西南",
-                county: "大名县",
-                city_code: "156130400",
-                address_position: "西南",
-                poi: "王小楼村",
-                province_code: "156130000",
-                province: "河北省",
-                road: "束北线",
-                road_distance: 2662,
-                poi_distance: 78,
-                address_distance: 78,
-              },
-            },
-            msg: "ok",
-            status: "0",
-          },
-          status: 200,
-          statusText: "OK",
-          headers: { "content-type": "text/html; charset=UTF-8" },
-          config: {
-            transitional: {
-              silentJSONParsing: true,
-              forcedJSONParsing: true,
-              clarifyTimeoutError: false,
-            },
-            transformRequest: [null],
-            transformResponse: [null],
-            timeout: 0,
-            xsrfCookieName: "XSRF-TOKEN",
-            xsrfHeaderName: "X-XSRF-TOKEN",
-            maxContentLength: -1,
-            maxBodyLength: -1,
-            headers: { Accept: "application/json, text/plain, */*" },
-            params: {
-              postStr: { lon: 115.304657, lat: 36.110565, ver: 1 },
-              tk: "c2eac0b552d848155c72b1d3f6aabf36",
-            },
-            method: "get",
-            url: "https://api.tianditu.gov.cn/geocoder?type=geocode",
-          },
-          request: {},
-        },
-        getWifis: null,
-      },
-      taskSign: {
-        judgeArray: [
-          {
-            id: 243,
-            topic: "暑假打卡主题",
-            Wifis: [],
-            Places: [
-              {
-                taskid: 243,
-                placesnth: 65,
-                servermark: true,
-                serverplacename: "地点",
-                geometrymark: false,
-                geometry: {
-                  type: "Point",
-                  coordinates: [-76.984722, 39.807222],
-                },
-                radius: 100,
-                createstamp: 1648134253261,
-                taskId: 243,
-              },
-            ],
-            key: 1648263117567,
-            startstamp: 1648263107707,
-            beginstamp: 1648261107707,
-            endstamp: 1648264907707,
-            status: "位置判断失败",
-            statusmark: -1,
-            studynth: "1",
-            geometry: { type: "Point", coordinates: [115.304657, 36.110565] },
-            userwifimark: 0,
-            userplacemark: 0,
-            usertimemark: 1,
-          },
-        ],
-        signResult: {
-          result: [[1]],
-          status: { mark: -1, infor: "位置判断失败" },
-        },
-      },
-    };
-    let User = this.$store.state.User;
-    // console.log(User);
-    // console.log(JSON.stringify(this.$store.state.User));
-    let tasklists = [];
-    let judgeArray = User.taskSign?.judgeArray;
-    let tasks = User.login?.tasks;
-    // 如果存在任务判断的数组
-    if (!judgeArray) {
-      this.pageData.tasklists = this.judgeArrayToTasklists(judgeArray);
-    } 
-    else if (tasks) {
-      this.pageData.tasklists = this.judgeArrayToTasklists(this.tasksToJudgeArray(tasks));
-    }
+    // 持久化保存
+    // this.$store.commit("User/updateStatus");
+
+    // 数据条目格式化处理
+    const User = this.$store.state.User;
+    const tasks = User.login?.tasks;
+    console.log(this.tasksToJudgeArray(tasks))
+
+    // this.pageData.tasklists = this.judgeArrayToTasklists();
   },
   destroyed() {
     // console.log("该组件可销毁 tasklist");
