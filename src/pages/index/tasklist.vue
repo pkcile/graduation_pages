@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-05 22:49:29
+ * @LastEditTime: 2022-04-06 11:39:51
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -73,6 +73,7 @@ import eventbus from "@/utils/evenbus.js";
 import { mapState, mapMutations} from "vuex";
 import { convertDate } from "@/utils/date.js";
 import { TaskDealWith } from "@/utils/judgetasks.js";
+import { getTaskLists, tasklistsToPagelist } from "@/utils/getTaskLists.js"
 import indexmodal from './result.vue'
 import {
   getCurrentLocation2,
@@ -90,33 +91,6 @@ export default {
     return {
       pageData: {
         tasklists: [
-          {
-            key: Date.now(),
-            status: "打卡失败",
-            img: require('@/assets/font/edit-false.svg'),
-            createuser: "admin",
-            time: "2022-03-21 12:00:00",
-            topic: "暑假实习打卡",
-            icon: "#icon-bianjiputong"
-          },
-          // {
-          //   key: 2,
-          //   status: "打卡成功",
-          //   img: require('@/assets/font/query.svg'),
-          //   createuser: "admin",
-          //   time: "2022-03-21 12:00:00",
-          //   topic: "暑假实习打卡",
-          //   icon: "#icon-chaxun"
-          // },
-          // {
-          //   key: 3,
-          //   status: "未打卡",
-          //   img: require('@/assets/font/start.svg'),
-          //   createuser: "admin",
-          //   time: "2022-03-21 12:00:00",
-          //   topic: "暑假实习打卡",
-          //   icon: "#icon-kaishibofang"
-          // },
         ],
         tasklistsSelectItem: {}
       },
@@ -130,12 +104,9 @@ export default {
   },
   methods: {
     onRefresh() {
-      this.isLoading = false;
-      // setTimeout(() => {
-      //   // this.$toast('刷新成功');
-      //   this.isLoading = false;
-      //   this.count++;
-      // }, 1000);
+      this.taskqueryRefresh().then(data => {
+        this.isLoading = false;
+      });
     },
     taskitemjump(jumpitem) {
       this.pageData.tasklistsSelectItem = jumpitem;
@@ -157,67 +128,64 @@ export default {
       })
 
     },
-    judgeArrayToTasklists(judgeArray) {
-      let tasklists = [];
-      let icon = "#icon-kaishibofang";
-      let status = "未打卡";
-      judgeArray.forEach((judgetaskitem) => {
-        if (judgetaskitem.statusmark === 1) {
-          icon = "#icon-chaxun";
-          status = "打卡成功";
-        } else if (judgetaskitem.statusmark == 0) {
-          icon = "#icon-kaishibofang";
-          status = "未打卡";
-        } else {
-          icon = "#icon-bianjiputong";
-          status = "已打卡";
-        }
-        // console.log(judgetaskitem, "judgetaskitem");
-        tasklists.push({
-          id: judgetaskitem.id,
-          key: Date.now() + Math.random(),
-          status,
-          createuser: judgetaskitem.createuser,
-          time: convertDate(judgetaskitem.startstamp),
-          startstamp: judgetaskitem.startstamp,
-          topic: judgetaskitem.topic,
-          icon,
-          endstamp: judgetaskitem.endstamp,
-          beginstamp: judgetaskitem.beginstamp,
-          geometry: judgetaskitem.geometry,
-          Places: judgetaskitem.Places,
-          Wifis: judgetaskitem.Wifis,
-          studynth: judgetaskitem.studynth,
-          taskid: judgetaskitem.id,
-          comment: ""
-        });
-      });
-      return tasklists;
-    },
-    tasksToJudgeArray(tasks) {
-      let taskDealWith = new TaskDealWith({tasks})
-      return taskDealWith.singlestamptaskArray;
-    },
     resultClose() {
       this.pageResult = false;
     },
+    taskqueryRefresh() {
+      const _this = this;
+      const User = this.$store.state.User;
+      return new Promise((resolve) => {
+      // 重新获取
+        axios
+          .get(`${process.env.VUE_APP_POSITION_PATH}/user/taskQuery`, {
+            params: {
+              studynth: User.login.userinformation.studynth
+            },
+          })
+          .then((returnData) => {
+            _this.taskQueryStore(returnData.data.result)
+
+            let getTaskListsData = getTaskLists(returnData.data.result.tasks);
+            let pagelistData = tasklistsToPagelist(getTaskListsData);
+            _this.pageData.tasklists = pagelistData;
+            // console.log("重新获取");
+            resolve("获取成功");
+          })
+          .catch(() => {
+            // _this.$notify("服务器错误");
+            resolve("服务器错误");
+          })
+      });
+
+    },
     ...mapMutations('User', [
       'oneMethod',
-      'updateStatus'
+      'updateStatus',
+      'taskQueryStore'
     ]),
   },
   mounted() {
   },
   created() {
-    // 持久化保存
-    // this.$store.commit("User/updateStatus");
+    const _this = this;
 
+    // 持久化保存
+    this.$store.commit("User/updateStatus");
     // 数据条目格式化处理
     const User = this.$store.state.User;
-    const tasks = User.login?.tasks;
-    console.log(this.tasksToJudgeArray(tasks))
-
-    // this.pageData.tasklists = this.judgeArrayToTasklists();
+    // 如果过期，则重新获取任务，3秒未获取重新获取
+    if(User.taskinforlasttimestamp && (Date.now() - User.taskinforlasttimestamp) < 10000) {
+      // 使用缓存，不变动
+      let getTaskListsData = getTaskLists(User.login.tasks);
+      let pagelistData = tasklistsToPagelist(getTaskListsData);
+      _this.pageData.tasklists = pagelistData;
+    }
+    else {
+      // 重新获取
+      this.taskqueryRefresh().then(data => {
+        console.log(data);
+      });
+    }
   },
   destroyed() {
     // console.log("该组件可销毁 tasklist");

@@ -2,14 +2,14 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-27 14:04:21
+ * @LastEditTime: 2022-04-06 12:09:19
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
 
 <template>
   <div
-    class="mine-send-part-absolute personDataSend"
+    class=""
     style="
       position: fixed;
       width: 100%;
@@ -20,6 +20,7 @@
     "
     v-bind:class="{ 'send-part-control': true }"
   >
+    <mapview> </mapview>
     <div class="send-title">
       打卡窗口
       <div
@@ -39,7 +40,7 @@
         </li>
         <li>
           <span>开始时间</span>
-          <span>{{ convertDate(tasklistsSelectItem.startstamp) }}</span>
+          <span>{{ convertDate(tasklistsSelectItem.beginstamp) }}</span>
         </li>
         <li>
           <span>结束时间</span>
@@ -97,6 +98,7 @@
         打卡/更新
       </div>
     </div>
+
   </div>
 </template>
 
@@ -105,6 +107,7 @@ import { convertDate } from "@/utils/date.js";
 import { flatearthDistance } from "@/utils/distance2.js";
 import { geometry } from "@turf/helpers";
 import axios from "axios";
+import mapview from './mapview.vue'
 
 export default {
   name: "indexmodal",
@@ -119,6 +122,9 @@ export default {
         comment: ""
       },
     };
+  },
+  components: {
+    mapview: mapview
   },
   methods: {
     displayResult() {},
@@ -260,7 +266,6 @@ export default {
         .updateresult().singlestamptaskArray[0];
     },
     convertDate,
-
     deepClone(source) {
       const targetObj = source.constructor === Array ? [] : {}; // 判断复制的目标是数组还是对象
       for (let keys in source) {

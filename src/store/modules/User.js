@@ -1,15 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-04-05 19:36:53
+ * @LastEditTime: 2022-04-06 11:24:19
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
  */
 import * as turf from "@turf/turf";
 import axios from "axios";
-import { Notify } from "vant";
-import { Toast } from "vant";
+// import {  } from "vant";
+import { Toast, Notify } from "vant";
 // const state = {
 //   // 登陆数据
 //   login: {
@@ -45,9 +45,9 @@ import { Toast } from "vant";
 const state = {
   login: {
     userinformation: {
-      username: "1",
+      username: "201824803050",
       name: "管理员1号",
-      studynth: "1",
+      studynth: "201824803050",
       register: "2022-03-18 07:25:08",
       registertimestamp: 1647559508896,
       logintimestamp: 1647559508896,
@@ -187,13 +187,11 @@ const state = {
       status: { mark: -1, infor: "位置判断失败" },
     },
   },
-  // 任务签到打卡数据
-  taskSign: {
-    judgeArray: [],
-    signResult: [],
-  },
   // websocket 通知
   websocketnotice: "打卡提示信息",
+  // 上次任务刷新时间
+  taskinforlasttimestamp: null
+
 };
 const getters = {
   positionPointGeoJSON: (state) => {
@@ -241,8 +239,19 @@ const mutations = {
     this.state.User.login.getWifis = param.getWifis;
 
     sessionStorage.setItem("User", JSON.stringify(this.state.User));
-    // console.log(sessionStorage.getItem("User"));
   },
+  // 任务信息查询选项
+  taskQueryStore(state, param) {
+      this.state.User.login.userinformation = param?.userinformation;
+      this.state.User.login.tasks = param?.tasks;
+
+      this.state.User.taskinforlasttimestamp = Date.now();
+      sessionStorage.setItem("User", JSON.stringify(this.state.User));
+      console.log(this.state.User);
+      // Notify({type: "success", message: "任务查询成功"});
+      // Toast("任务信息查询成功");
+      
+    },
   //
   taskSignStore(state, param) {
     this.state.User.taskSign.judgeArray = param.judgeArray;
@@ -250,6 +259,7 @@ const mutations = {
     // console.log(this.state.User);
 
     sessionStorage.setItem("User", JSON.stringify(this.state.User));
+
     // console.log(sessionStorage.getItem("User"));
   },
   oneMethod() {
@@ -258,9 +268,8 @@ const mutations = {
   updateStatus() {
     const _this = this;
     if (this.state.User.login.userinformation) {
-      // console.log("无需更新");
+      sessionStorage.setItem("User", JSON.stringify(this.state.User));
     } else {
-      // console.log("存储更新");
       if (JSON.parse(sessionStorage.getItem("User"))) {
         this.state.User = JSON.parse(sessionStorage.getItem("User"));
       } else {
