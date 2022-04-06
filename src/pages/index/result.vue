@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 12:09:19
+ * @LastEditTime: 2022-04-06 13:53:42
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -333,7 +333,9 @@ export default {
     },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.$parent.pageResult = true;
+  },
 };
 </script>
 
