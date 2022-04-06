@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 00:27:51
+ * @LastEditTime: 2022-04-07 00:52:51
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -206,6 +206,7 @@ import {
 } from "vant";
 import L from "leaflet";
 import { featureLayer, dynamicMapLayer } from "esri-leaflet";
+import  * as esriLeafletVector from "esri-leaflet-vector"
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
 import searchplaces from "@/components/search.vue";
@@ -240,6 +241,11 @@ export default {
           name: "遥感样式",
           type: "imagery",
         },
+        {
+          id: 3,
+          name: "酷黑样式",
+          type: "black"
+        }
       ],
       layersControllabel: "矢量样式",
       layersControlstart: 0,
@@ -434,6 +440,13 @@ export default {
           }
         ).addTo(map);
 
+        var black = esriLeafletVector.vectorBasemapLayer('OSM:DarkGray', {
+          apikey: "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A" // Replace with your API key - https://developers.arcgis.com
+        }).addTo(map);
+        map.removeControl(map.zoomControl);
+        map.removeControl(map.attributionControl);
+        
+        black.remove();
         cva.remove();
         image.remove();
         cva.addTo(map);
@@ -442,28 +455,9 @@ export default {
           image,
           vector,
           cva,
+          black
         };
 
-        // var fl = featureLayer({
-        //   url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/FeatureServer/0",
-        // }).addTo(map);
-
-        // console.log(fl);
-
-        // // listen for when all features have been retrieved from the server
-        // fl.once("load", function (evt) {
-        //   console.log(evt);
-        //   // create a new empty Leaflet bounds object
-        //   var bounds = L.latLngBounds([]);
-        //   // loop through the features returned by the server
-        //   fl.eachFeature(function (layer) {
-        //     // get the bounds of an individual feature
-        //     var layerBounds = layer.getBounds();
-        //     // extend the bounds of the collection to fit the bounds of the new feature
-        //     bounds.extend(layerBounds);
-        //   });
-        //   map.fitBounds(bounds);
-        // });
         let dy = dynamicMapLayer({
           url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/MapServer",
           opacity: 1
@@ -471,92 +465,10 @@ export default {
 
         dy.once("load", function (evt) {
           console.log(evt);
-          // create a new empty Leaflet bounds object
-          // var bounds = L.latLngBounds([]);
-          // // loop through the features returned by the server
-          // dy.eachFeature(function (layer) {
-          //   // get the bounds of an individual feature
-          //   var layerBounds = layer.getBounds();
-          //   // extend the bounds of the collection to fit the bounds of the new feature
-          //   bounds.extend(layerBounds);
-          // });
-          map.fitBounds(evt.bounds);
         })
         .addTo(map);
-
-
-        map.removeControl(map.zoomControl);
-        map.removeControl(map.attributionControl);
       }, 0);
-    },
-    checkoutLayer(item) {
-      const map = this.map;
-      const { cva, image, vector } = this.layer;
-
-      if (item.type == "location") {
-        if (item.checked) {
-          getCurrentLocation2().then((returnData) => {
-            var LeafIcon = L.Icon.extend({
-              options: {
-                shadowUrl:
-                  "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-                iconSize: [30, 30],
-                shadowSize: [0, 0],
-                iconAnchor: [-0, 0],
-                shadowAnchor: [0, 0],
-                popupAnchor: [0, 0],
-              },
-            });
-
-            var greenIcon = new LeafIcon({
-              iconUrl:
-                "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-            });
-
-            console.log(returnData);
-            var point = L.marker([returnData.latitude, returnData.longitude], {
-              icon: greenIcon,
-            }).addTo(map);
-
-            // console.log(returnData);
-            map.flyTo(
-              { lon: returnData.longitude, lat: returnData.latitude },
-              13,
-              { animate: false, duration: 0.5 }
-            );
-
-            this.geometry = {
-              coordinates: [returnData.longitude, returnData.latitude],
-              type: "Point",
-              accuracy: returnData.accuracy,
-            };
-
-            // [returnData.latitude, returnData.longitude],
-          });
-        } else {
-          map.flyTo({ lon: 115.304657, lat: 36.110565 }, 8, {
-            animate: false,
-            duration: 0.5,
-          });
-        }
-      } else if (item.type == "imagery") {
-        if (item.checked) {
-          vector.remove();
-          cva.remove();
-
-          image.addTo(map);
-          cva.addTo(map);
-        } else {
-          image.remove();
-          cva.remove();
-          vector.addTo(map);
-          cva.addTo(map);
-        }
-      } else if (item.type == "building") {
-        if (item.checked) {
-        } else {
-        }
-      }
+      
     },
     leftClose() {
       this.$parent.mapcomponentControl = false;
@@ -579,7 +491,7 @@ export default {
     },
     changebasemap() {
       const map = this.map;
-      const { cva, image, vector } = this.layer;
+      const { cva, image, vector, black } = this.layer;
 
       this.layersControlstart++;
       let start = this.layersControlstart % this.layersControl.length;
@@ -588,14 +500,23 @@ export default {
         this.layersControllabel = this.layersControl[start].name;
         image.remove();
         cva.remove();
+        black.remove();
         vector.addTo(map);
         cva.addTo(map);
       } else if (this.layersControl[start].type == "imagery") {
         this.layersControllabel = this.layersControl[start].name;
         vector.remove();
+        black.remove();
         cva.remove();
         image.addTo(map);
         cva.addTo(map);
+      }
+      else if(this.layersControl[start].type=="black") {
+        this.layersControllabel = this.layersControl[start].name;
+        black.addTo(map);
+        vector.remove();
+        image.remove(map);
+        cva.remove();
       }
     },
   },
