@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 20:32:48
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 20:43:32
+ * @LastEditTime: 2022-04-06 20:57:27
  * @FilePath: /graduation-project-master/src/components/search.vue
  * @Description: 
 -->
@@ -41,13 +41,13 @@ export default {
   },
   created() {},
   mounted() {
-    console.log("mounted");
+    // console.log("mounted");
   },
   watch: {
     // 如果 `question` 发生改变，这个函数就会运行
     inputsearch: function (newQuestion, oldQuestion) {
       const _this = this;
-      console.log("改变");
+      // console.log("改变");
       if(this.inputsearch) {
         // http://api.tianditu.gov.cn/v2/search
         this.placessearch({keyWord: this.inputsearch})
@@ -55,7 +55,7 @@ export default {
           .then(data => {
             _this.searchPoiData = [];
             // _this.inputsearchshow = false;
-            console.log(data);
+            // console.log(data);
              let searchPoiArray = [];
             if(data?.pois) {
               data.pois.forEach(element => {
@@ -95,7 +95,7 @@ export default {
       if(!this.inputsearchshow) {
         this.inputsearchshow = true;
       }
-      console.log("focussearch");
+      // console.log("focussearch");
     },
     bluesearch() {
     },
@@ -134,10 +134,11 @@ export default {
       })
     },
     searchPoiItem(item) {
-      console.log(item);
+      // console.log(item);
       this.inputsearch = item.name;
       this.searchPoiData = [];
       this.inputsearchshow = false;
+      this.$emit("changeviewmap", item);
     }
   
   },

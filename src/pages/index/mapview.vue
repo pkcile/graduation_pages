@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 20:46:08
+ * @LastEditTime: 2022-04-06 21:54:36
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -37,12 +37,12 @@
       </div>
     </div>
     <div id="tool-control" style="position:relative;">
-      <searchplaces> </searchplaces>
+      <searchplaces @changeviewmap="changeviewmapParent"> </searchplaces>
       <div
         class="mine-single-line-three-001"
       >
-        <div>{{ "地图设置" }}</div>
-        <div >{{ "遥感底图" }}</div>
+        <div>{{ "底图设置" }}</div>
+        <div @click="changebasemap">{{ layersControllabel }}</div>
         <div><van-icon name="arrow" /></div>
       </div>
       <div
@@ -212,10 +212,18 @@
 <script>
 import { Checkbox, CheckboxGroup, Cell, CellGroup, ActionSheet, Icon } from "vant";
 import L from "leaflet";
+import * as esriLeaflet from "esri-leaflet";
+import * as  esriLeafletVector from "esri-leaflet-vector";
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
 import searchplaces from "@/components/search.vue"
 import axios from 'axios';
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+
+
+
+
 export default {
   name: "mapapp",
   components: {
@@ -233,24 +241,17 @@ export default {
       layersControl: [
         {
           id: 1,
-          name: "遥感底图",
-          checked: false,
+          name: "矢量样式",
+          type: "vector",
+        },
+        {
+          id: 2,
+          name: "遥感样式",
           type: "imagery",
         },
-        // {
-        //   id: 2,
-        //   name: "校园建筑",
-        //   checked: true,
-        //   type: "building",
-        // },
-        {
-          id: 5,
-          name: "项目定位",
-          checked: false,
-          type: "location",
-          defaultLocation: [113.330962, 23.111983],
-        },
       ],
+      layersControllabel: "矢量样式",
+      layersControlstart: 0,
       map: null,
       layer: {
         image: null,
@@ -349,6 +350,13 @@ export default {
   },
   methods: {
     init() {
+      let DefaultIcon = L.icon({
+            iconUrl: icon,
+            shadowUrl: iconShadow
+        });
+      L.Marker.prototype.options.icon = DefaultIcon;
+      // new L.marker(//你marker的坐标位置).addTo(this.map); 
+
       const _this = this;
       setTimeout(() => {
         var map = L.map("viewDiv").setView([34, 115], 4);
@@ -384,6 +392,17 @@ export default {
           vector,
           cva,
         };
+        console.log(esriLeaflet);
+
+        //  esriLeaflet.Vector.vectorBasemapLayer('OSM:StandardRelief', {
+        //     apikey: "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A" // Replace with your API key - https://developers.arcgis.com
+        //   }).addTo(map);
+          
+        esriLeaflet.featureLayer({
+          url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Earthquakes_Since1970/MapServer/0'
+        }).addTo(map);
+
+ 
 
         map.removeControl(map.zoomControl);
         map.removeControl(map.attributionControl);
@@ -460,6 +479,46 @@ export default {
     },
     leftClose() {
       this.$parent.mapcomponentControl = false;
+    },
+    changeviewmapParent(item) {
+      // console.log(item.lonlat);
+      // console.log(item, "传递的值");
+      if(!item?.lonlat) {
+        console.log("不符合条件");
+        return;
+      }
+      
+      let pointarray = item?.lonlat?.split(",");
+      console.log(this.map);
+      console.log(pointarray);
+      this.map.flyTo(
+        { lon: pointarray[0], lat: pointarray[1] },
+        14,
+        { animate: true, duration: 2 }
+      );
+    },
+    changebasemap() {
+      const map = this.map;
+      const { cva, image, vector } = this.layer;
+
+      this.layersControlstart++;
+      let start = this.layersControlstart % this.layersControl.length;
+      console.log(start);
+      if(this.layersControl[start].type == "vector") {
+          this.layersControllabel = this.layersControl[start].name;
+          image.remove();
+          cva.remove();
+          vector.addTo(map);
+          cva.addTo(map);
+      }
+      else if(this.layersControl[start].type == "imagery") {
+        this.layersControllabel = this.layersControl[start].name;
+        vector.remove();
+        cva.remove();
+        image.addTo(map);
+        cva.addTo(map);
+      }
+
     }
   },
 };

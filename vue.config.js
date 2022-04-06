@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2022-03-29 12:01:54
+ * @LastEditTime: 2022-04-06 22:04:59
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/vue.config.js
@@ -56,6 +56,17 @@ module.exports = {
   //     }) 
   //   ]
   // },
+  // configureWebpack: {
+  //   resolve: {
+  //     alias: {
+  //         '@':path.resolve(__dirname, './src'),
+  //         leaflet_css: __dirname + "/node_modules/leaflet/dist/leaflet.css",
+  //         leaflet_marker: __dirname + "/node_modules/leaflet/dist/images/marker-icon.png",
+  //         leaflet_marker_2x: __dirname + "/node_modules/leaflet/dist/images/marker-icon-2x.png",
+  //         leaflet_marker_shadow: __dirname + "/node_modules/leaflet/dist/images/marker-shadow.png",
+  //     }
+  //   },
+  // },
   configureWebpack: config => {
     if (process.env.NODE_ENV === "production") {
       // config.externals = {
@@ -66,6 +77,7 @@ module.exports = {
       //   "@turf/turf": "turf",
       //   "leaflet": "L" 
       // };
+      
     }
   },
   chainWebpack: (config) => {
@@ -100,6 +112,9 @@ module.exports = {
       //   args[0].cdn = cdn;
       //   return args;
       // });
+
+      
     }
-  }
+  },
+  
 };
