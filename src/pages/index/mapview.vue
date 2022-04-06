@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 21:54:36
+ * @LastEditTime: 2022-04-07 00:27:51
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -36,30 +36,20 @@
         }}
       </div>
     </div>
-    <div id="tool-control" style="position:relative;">
+    <div id="tool-control" style="position: relative">
       <searchplaces @changeviewmap="changeviewmapParent"> </searchplaces>
-      <div
-        class="mine-single-line-three-001"
-      >
+      <div class="mine-single-line-three-001">
         <div>{{ "底图设置" }}</div>
         <div @click="changebasemap">{{ layersControllabel }}</div>
         <div><van-icon name="arrow" /></div>
       </div>
-      <div
-        class="mine-single-line-three-001"
-      >
+      <div class="mine-single-line-three-001">
         <div>{{ "目标点位" }}</div>
-        <div >{{ "预设点位" }}</div>
+        <div>{{ "预设点位" }}</div>
         <div><van-icon name="arrow" /></div>
       </div>
-
     </div>
-    <van-cell
-      class="vantcellforsure"
-      title=""
-      is-link
-      :value="'重新判断'"
-    />
+    <van-cell class="vantcellforsure" title="" is-link :value="'重新判断'" />
   </div>
 </template>
 
@@ -75,7 +65,7 @@
     height: 50px;
     width: 100%;
   }
-    .title {
+  .title {
     // position: relative;
     background: #f1f1f4;
     height: 50px;
@@ -127,23 +117,19 @@
     border-bottom: 0 solid rgb(212, 18, 18);
     border-bottom: 1px dotted #ddd;
   }
-
 }
 
 .searchtext {
   transition: 1000ms all;
   height: 200px;
-   overflow-y: auto;
+  overflow-y: auto;
   .searchtext-contain {
-   
-   
-   
   }
   .searchtext-contain > div {
-    background: #EDF3FF;
+    background: #edf3ff;
     line-height: 20px;
     border-bottom: 1px solid #aaa;
-    color: #0462FF;
+    color: #0462ff;
     padding: 10px;
   }
 
@@ -168,7 +154,7 @@
     color: #444;
   }
   & > div:nth-of-type(2) {
-    flex:  1 0 100px;
+    flex: 1 0 100px;
     // color: #444;
     color: #aaa;
     text-align: left;
@@ -179,13 +165,14 @@
   }
 }
 
-.mine-single-line-three-001:hover, .mine-single-line-three-001:active {
+.mine-single-line-three-001:hover,
+.mine-single-line-three-001:active {
   background-color: rgba(238, 238, 238, 0.377);
   transition: all 300ms;
 
   & > div:nth-of-type(2) {
-    flex:  1 100px;
-    color: #007AFF;
+    flex: 1 100px;
+    color: #007aff;
     text-align: left;
   }
 }
@@ -199,30 +186,34 @@
   bottom: 0;
   color: #000;
 }
- .vantcellforsure:active{
-  background: #007AFF;
+.vantcellforsure:active {
+  background: #007aff;
   color: #fff;
   .van-cell__value {
-  color: #fff;
+    color: #fff;
+  }
 }
-}
-
 </style>
 
 <script>
-import { Checkbox, CheckboxGroup, Cell, CellGroup, ActionSheet, Icon } from "vant";
+import {
+  Checkbox,
+  CheckboxGroup,
+  Cell,
+  CellGroup,
+  ActionSheet,
+  Icon,
+} from "vant";
 import L from "leaflet";
-import * as esriLeaflet from "esri-leaflet";
-import * as  esriLeafletVector from "esri-leaflet-vector";
+import { featureLayer, dynamicMapLayer } from "esri-leaflet";
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
-import searchplaces from "@/components/search.vue"
-import axios from 'axios';
+import searchplaces from "@/components/search.vue";
+import axios from "axios";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-
-
-
+import "@/map/leaflet/L.LabelTextCollision.js";
+import { data } from "@/map/leaflet/data.js";
 
 export default {
   name: "mapapp",
@@ -233,7 +224,7 @@ export default {
     [CellGroup.name]: CellGroup,
     [ActionSheet.name]: ActionSheet,
     [Icon.name]: Icon,
-    searchplaces: searchplaces
+    searchplaces: searchplaces,
   },
   data() {
     return {
@@ -293,73 +284,133 @@ export default {
       ],
       radius: 200,
       editplacesBool: false,
-      placeitem: null
+      placeitem: null,
     };
   },
   created() {},
   mounted() {
     console.log("mounted");
     this.init();
+    // setTimeout(() => {
+    //   this.init2();
+    // }, 1000);
+    
+  
   },
   watch: {
     // 如果 `question` 发生改变，这个函数就会运行
     inputsearch: function (newQuestion, oldQuestion) {
       const _this = this;
       console.log("改变");
-      if(this.inputsearch) {
+      if (this.inputsearch) {
         // http://api.tianditu.gov.cn/v2/search
-        this.placessearch({keyWord: this.inputsearch})
-     
-          .then(data => {
-            _this.searchPoiData = [];
-            // _this.inputsearchshow = false;
-            console.log(data);
-             let searchPoiArray = [];
-            if(data?.pois) {
-              data.pois.forEach(element => {
-                searchPoiArray.push({
-                  key: Date.now() + Math.random(),
-                  name: element.name + "," + element.address,
-                  lonlat: element.lonlat,
-                  address: element.address
-                })
-                _this.searchPoiData = searchPoiArray;
-              });
-            }
-            else if(data?.area) {
+        this.placessearch({ keyWord: this.inputsearch })
+        .then((data) => {
+          _this.searchPoiData = [];
+          // _this.inputsearchshow = false;
+          console.log(data);
+          let searchPoiArray = [];
+          if (data?.pois) {
+            data.pois.forEach((element) => {
               searchPoiArray.push({
                 key: Date.now() + Math.random(),
-                name: data.area.name,
-                lonlat: data.area.lonlat,
-              })
+                name: element.name + "," + element.address,
+                lonlat: element.lonlat,
+                address: element.address,
+              });
               _this.searchPoiData = searchPoiArray;
-            }
-          })
-        
-  
-        if(!this.inputsearchshow) {
+            });
+          } else if (data?.area) {
+            searchPoiArray.push({
+              key: Date.now() + Math.random(),
+              name: data.area.name,
+              lonlat: data.area.lonlat,
+            });
+            _this.searchPoiData = searchPoiArray;
+          }
+        });
+
+        if (!this.inputsearchshow) {
           this.inputsearchshow = true;
         }
       }
     },
-    searchPoiData: function() {
-      if(!this.searchPoiData.length) {
+    searchPoiData: function () {
+      if (!this.searchPoiData.length) {
         this.inputsearchshow = false;
       }
-    }
+    },
   },
   methods: {
+    init2() {
+      console.log("init2");
+        var osmUrl = "http://tile.openstreetmap.jp/{z}/{x}/{y}.png";
+    var osm = new L.TileLayer(osmUrl, {
+      maxZoom: 18,
+    });
+
+    var labelTextCollision = new L.LabelTextCollision({
+      collisionFlg: true,
+    });
+
+    var map = new L.Map("viewDiv", {
+      layers: [osm],
+      center: new L.LatLng(35.695786, 139.749213),
+      zoom: 10,
+      renderer: labelTextCollision,
+    });
+
+    var p = L.polyline(
+      [
+        [35.695786, 139.749213],
+        [35.696786, 139.748213],
+        [35.695786, 139.747213],
+      ],
+      {
+        weight: 12,
+        color: "#bfa",
+        text: "Leaflet.LabelTextCollision!!!!!!!!",
+      }
+    ).addTo(map);
+
+    var layers = L.featureGroup().addTo(map);
+
+    for (var index in data) {
+      var d = data[index];
+      var latlng = L.latLng(d[0], d[1]);
+      var c = L.circleMarker(latlng, {
+        radius: 5,
+        text: latlng.toString(),
+      });
+      layers.addLayer(c);
+      if (index == 3000) {
+        break;
+      }
+    }
+    var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
+    var polygon = L.polygon(latlngs, {color: 'red', text: "eeeeee"}).addTo(map);
+    
+
+    // zoom the map to the polygon
+    map.fitBounds(polygon.getBounds());
+
+    function setCollisionDetection(flg) {
+      labelTextCollision.options.collisionFlg = flg;
+      map.fitBounds(map.getBounds());
+    }
+    },
     init() {
       let DefaultIcon = L.icon({
-            iconUrl: icon,
-            shadowUrl: iconShadow
-        });
+        iconUrl: icon,
+        shadowUrl: iconShadow,
+      });
       L.Marker.prototype.options.icon = DefaultIcon;
-      // new L.marker(//你marker的坐标位置).addTo(this.map); 
 
       const _this = this;
       setTimeout(() => {
-        var map = L.map("viewDiv").setView([34, 115], 4);
+        // 116.020604', '28.684420
+        // var map = L.map("viewDiv").setView([34, 115], 4);
+        var map = L.map("viewDiv").setView([28.68442, 116.020604], 13);
         this.map = map;
 
         var image = L.tileLayer(
@@ -392,17 +443,47 @@ export default {
           vector,
           cva,
         };
-        console.log(esriLeaflet);
 
-        //  esriLeaflet.Vector.vectorBasemapLayer('OSM:StandardRelief', {
-        //     apikey: "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A" // Replace with your API key - https://developers.arcgis.com
-        //   }).addTo(map);
-          
-        esriLeaflet.featureLayer({
-          url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Earthquakes_Since1970/MapServer/0'
-        }).addTo(map);
+        // var fl = featureLayer({
+        //   url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/FeatureServer/0",
+        // }).addTo(map);
 
- 
+        // console.log(fl);
+
+        // // listen for when all features have been retrieved from the server
+        // fl.once("load", function (evt) {
+        //   console.log(evt);
+        //   // create a new empty Leaflet bounds object
+        //   var bounds = L.latLngBounds([]);
+        //   // loop through the features returned by the server
+        //   fl.eachFeature(function (layer) {
+        //     // get the bounds of an individual feature
+        //     var layerBounds = layer.getBounds();
+        //     // extend the bounds of the collection to fit the bounds of the new feature
+        //     bounds.extend(layerBounds);
+        //   });
+        //   map.fitBounds(bounds);
+        // });
+        let dy = dynamicMapLayer({
+          url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/MapServer",
+          opacity: 1
+        })
+
+        dy.once("load", function (evt) {
+          console.log(evt);
+          // create a new empty Leaflet bounds object
+          // var bounds = L.latLngBounds([]);
+          // // loop through the features returned by the server
+          // dy.eachFeature(function (layer) {
+          //   // get the bounds of an individual feature
+          //   var layerBounds = layer.getBounds();
+          //   // extend the bounds of the collection to fit the bounds of the new feature
+          //   bounds.extend(layerBounds);
+          // });
+          map.fitBounds(evt.bounds);
+        })
+        .addTo(map);
+
 
         map.removeControl(map.zoomControl);
         map.removeControl(map.attributionControl);
@@ -483,19 +564,18 @@ export default {
     changeviewmapParent(item) {
       // console.log(item.lonlat);
       // console.log(item, "传递的值");
-      if(!item?.lonlat) {
+      if (!item?.lonlat) {
         console.log("不符合条件");
         return;
       }
-      
+
       let pointarray = item?.lonlat?.split(",");
       console.log(this.map);
       console.log(pointarray);
-      this.map.flyTo(
-        { lon: pointarray[0], lat: pointarray[1] },
-        14,
-        { animate: true, duration: 2 }
-      );
+      this.map.flyTo({ lon: pointarray[0], lat: pointarray[1] }, 14, {
+        animate: true,
+        duration: 2,
+      });
     },
     changebasemap() {
       const map = this.map;
@@ -504,22 +584,20 @@ export default {
       this.layersControlstart++;
       let start = this.layersControlstart % this.layersControl.length;
       console.log(start);
-      if(this.layersControl[start].type == "vector") {
-          this.layersControllabel = this.layersControl[start].name;
-          image.remove();
-          cva.remove();
-          vector.addTo(map);
-          cva.addTo(map);
-      }
-      else if(this.layersControl[start].type == "imagery") {
+      if (this.layersControl[start].type == "vector") {
+        this.layersControllabel = this.layersControl[start].name;
+        image.remove();
+        cva.remove();
+        vector.addTo(map);
+        cva.addTo(map);
+      } else if (this.layersControl[start].type == "imagery") {
         this.layersControllabel = this.layersControl[start].name;
         vector.remove();
         cva.remove();
         image.addTo(map);
         cva.addTo(map);
       }
-
-    }
+    },
   },
 };
 </script>

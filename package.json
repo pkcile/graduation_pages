@@ -13,6 +13,7 @@
     "coordtransform": "^2.1.2",
     "core-js": "^3.6.5",
     "esri-leaflet": "^3.0.7",
+    "esri-leaflet-renderers": "2.1.1",
     "esri-leaflet-vector": "^3.1.2",
     "leaflet": "^1.7.1",
     "shp-write": "^0.3.2",
