@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 00:52:51
+ * @LastEditTime: 2022-04-07 10:19:53
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -237,6 +237,12 @@ export default {
           type: "vector",
         },
         {
+          id: 0,
+          name: "显示服务",
+          type: "common",
+        },
+
+        {
           id: 2,
           name: "遥感样式",
           type: "imagery",
@@ -254,6 +260,7 @@ export default {
         image: null,
         vector: null,
         cva: null,
+        dy: null
       },
       longitude: null,
       latitude: null,
@@ -416,7 +423,12 @@ export default {
       setTimeout(() => {
         // 116.020604', '28.684420
         // var map = L.map("viewDiv").setView([34, 115], 4);
-        var map = L.map("viewDiv").setView([28.68442, 116.020604], 13);
+        var labelTextCollision = new L.LabelTextCollision({
+          collisionFlg: true,
+        });
+        var map = L.map("viewDiv", {
+          renderer: labelTextCollision,
+        }).setView([28.68442, 116.020604], 13);
         this.map = map;
 
         var image = L.tileLayer(
@@ -443,6 +455,8 @@ export default {
         var black = esriLeafletVector.vectorBasemapLayer('OSM:DarkGray', {
           apikey: "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A" // Replace with your API key - https://developers.arcgis.com
         }).addTo(map);
+        
+       
         map.removeControl(map.zoomControl);
         map.removeControl(map.attributionControl);
         
@@ -451,22 +465,53 @@ export default {
         image.remove();
         cva.addTo(map);
 
-        this.layer = {
-          image,
-          vector,
-          cva,
-          black
-        };
+
+        // let dy = dynamicMapLayer({
+        //   url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/MapServer",
+        //   opacity: 1
+        // })
+        // var dy = featureLayer({
+        //     url: 'https://maps.pasda.psu.edu/arcgis/rest/services/pasda/CityPhillyPlanning/MapServer/2'
+        //   }).addTo(map);
 
         let dy = dynamicMapLayer({
           url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/MapServer",
           opacity: 1
         })
 
+       
         dy.once("load", function (evt) {
           console.log(evt);
+          
         })
         .addTo(map);
+
+        
+        dy.remove();
+
+        this.layer = {
+          image,
+          vector,
+          cva,
+          black,
+          dy
+        };
+
+      var myIcon = L.icon({
+          iconUrl: require('@/assets/img/home/clock.svg'),
+          iconSize: [38, 95],
+          iconAnchor: [22, 94],
+          popupAnchor: [-3, -76],
+          // shadowUrl: 'my-icon-shadow.png',
+          shadowSize: [68, 95],
+          shadowAnchor: [22, 94]
+      });
+
+
+        var positionLayer = L.circle([28.68442, 116.020604], { radius : 100, color: "#f00"}).addTo(map);
+        var positionLayer2 = L.circle([28.68442, 116.020604], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
+        positionLayer2.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+        // positionLayer.bringToFront();
       }, 0);
       
     },
@@ -491,7 +536,7 @@ export default {
     },
     changebasemap() {
       const map = this.map;
-      const { cva, image, vector, black } = this.layer;
+      const { cva, image, vector, black, dy } = this.layer;
 
       this.layersControlstart++;
       let start = this.layersControlstart % this.layersControl.length;
@@ -503,6 +548,7 @@ export default {
         black.remove();
         vector.addTo(map);
         cva.addTo(map);
+        dy.remove();
       } else if (this.layersControl[start].type == "imagery") {
         this.layersControllabel = this.layersControl[start].name;
         vector.remove();
@@ -510,6 +556,7 @@ export default {
         cva.remove();
         image.addTo(map);
         cva.addTo(map);
+        dy.remove();
       }
       else if(this.layersControl[start].type=="black") {
         this.layersControllabel = this.layersControl[start].name;
@@ -517,6 +564,15 @@ export default {
         vector.remove();
         image.remove(map);
         cva.remove();
+        dy.remove();
+      }
+      else if(this.layersControl[start].type=="common") {
+        this.layersControllabel = this.layersControl[start].name;
+        black.remove();
+        vector.remove();
+        cva.remove();
+        image.addTo(map);
+        dy.addTo(map);
       }
     },
   },
