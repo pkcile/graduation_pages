@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-12 10:13:37
- * @LastEditTime: 2022-04-05 17:55:15
+ * @LastEditTime: 2022-04-07 16:08:26
  * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/utils/geolocation.js
@@ -90,14 +90,17 @@ function getCurrentLocation2() {
         case GeolocationPositionError.TIMEOUT:
           // Handle timeout.
           console.log("timeout");
+          resolve("timeout")
           break;
         case GeolocationPositionError.PERMISSION_DENIED:
           console.log("denied");
+          resolve("denied")
           // User denied the request.
           break;
         case GeolocationPositionError.POSITION_UNAVAILABLE:
           // Position not available.
           console.log("not available");
+          resolve("not available")
           break;
       }
     }

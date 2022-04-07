@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-04 20:16:34
+ * @LastEditTime: 2022-04-07 16:10:39
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -428,7 +428,6 @@ export default {
         this.$emit("updateplaces", 123131)
 
         setTimeout(() => {
-          // this.
           this.$parent.mapcomponentControl = false;
           if (map && map.remove) {
           map.off();

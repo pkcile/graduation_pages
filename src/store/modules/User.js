@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-04-06 11:24:19
+ * @LastEditTime: 2022-04-07 23:48:17
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -63,6 +63,7 @@ const state = {
         createstamp: 1649155723974,
         createuser: "201824803050",
         serverplacename: "王小楼村",
+        serverplaceradius: 200,
         Places: [
           {
             taskid: 337,
@@ -174,6 +175,8 @@ const state = {
         endstamp: 1648264907707,
         studynth: "1",
         geometry: { type: "Point", coordinates: [115.304657, 36.110565] },
+        serverplacename: "王小楼村",
+        serverplaceradius: 200,
         userwifimark: 0,
         userplacemark: 0,
         userplaceserver: 0,
@@ -187,12 +190,21 @@ const state = {
       status: { mark: -1, infor: "位置判断失败" },
     },
   },
+  get: {
+    wifi: [],
+    geometry: {
+      coordinates: null,
+      type: "Point",
+      accuracy: null
+    }
+  },
   // websocket 通知
   websocketnotice: "打卡提示信息",
   // 上次任务刷新时间
   taskinforlasttimestamp: null
 
 };
+
 const getters = {
   positionPointGeoJSON: (state) => {
     return () => {
@@ -252,6 +264,18 @@ const mutations = {
       // Toast("任务信息查询成功");
       
     },
+  // wifi保存选项
+  wifiStore(state, param) {
+    console.log(param);
+    this.state.User.get.wifi = param;
+    sessionStorage.setItem("User", JSON.stringify(this.state.User));
+  },
+  // 位置保存选项
+  geometryStore(state, param) {
+    console.log(param);
+    this.state.User.get.geometry = param;
+    sessionStorage.setItem("User", JSON.stringify(this.state.User));
+  },
   //
   taskSignStore(state, param) {
     this.state.User.taskSign.judgeArray = param.judgeArray;

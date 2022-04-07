@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 11:39:51
+ * @LastEditTime: 2022-04-07 21:49:02
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -79,9 +79,8 @@ import {
   getCurrentLocation2,
   getLocationInformation,
 } from "@/utils/geolocation.js";
-
+import {GetWiFiAndLocation2} from "@/utils/DeviceInfor.js"
 import {io} from "socket.io-client"
-
 export default {
   props: {
     show: Boolean,
@@ -105,10 +104,12 @@ export default {
   methods: {
     onRefresh() {
       this.taskqueryRefresh().then(data => {
+        console.log(data);
         this.isLoading = false;
       });
     },
     taskitemjump(jumpitem) {
+      const _this = this; 
       this.pageData.tasklistsSelectItem = jumpitem;
       this.$toast.loading({
         message: '位置加载中...',
@@ -116,17 +117,85 @@ export default {
         duration: 0
       });
       getCurrentLocation2().then(returnData => {
+        if(!returnData?.longitude) {
+          this.$toast("位置获取失败");
+          this.pageResult = true;
+
+          const aabbcc = {
+            wifiList: [
+              {
+                bssid: "e8:65:d4:a9:e6:70",
+                ssid: "Tenda_A9E670",
+                level: -49,
+                checked: false,
+                id: 0,
+              },
+              { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
+              { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
+              { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
+            ],
+          };
+          const geometry = {
+            coordinates: [115.304657, 36.110565],
+            type: "Point",
+            accuracy: 99
+          }
+
+           // wifi保存
+            // console.log( );
+            _this.wifiStore(aabbcc.wifiList)
+            _this.geometryStore(geometry)
+            
+          this.$refs["tasklistsEvent"].tasklistsEventCall(this.pageData.tasklistsSelectItem);
+
+          return;
+        }
         this.pageData.tasklistsSelectItem.geometry = {
           coordinates: [returnData.longitude, returnData.latitude],
           type: "Point",
           accuracy: returnData.accuracy
         }
+
+        // 仅android环境下
+        if(window.plus) {
+          GetWiFiAndLocation2().then(data => {
+            console.log(data);
+             // wifi保存
+          })
+  
+        }
+        else {
+          const aabbcc = {
+            wifiList: [
+              {
+                bssid: "e8:65:d4:a9:e6:70",
+                ssid: "Tenda_A9E670",
+                level: -49,
+                checked: false,
+                id: 0,
+              },
+              { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
+              { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
+              { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
+            ],
+          };
+
+           // wifi保存
+            console.log("wifi", + _this.wifiStore);
+        }
+
+        // 位置保存
+
         this.$toast.clear();
         this.$toast.success('位置获取成功');
         this.pageResult = true;
         this.$refs["tasklistsEvent"].tasklistsEventCall(this.pageData.tasklistsSelectItem);
       })
 
+    },
+    tasksToJudgeArray(tasks) {
+      let taskDealWith = new TaskDealWith({tasks})
+      return taskDealWith.singlestamptaskArray;
     },
     resultClose() {
       this.pageResult = false;
@@ -160,15 +229,16 @@ export default {
     },
     ...mapMutations('User', [
       'oneMethod',
+      'taskQueryStore',
       'updateStatus',
-      'taskQueryStore'
+      'wifiStore',
+      'geometryStore'
     ]),
   },
   mounted() {
   },
   created() {
     const _this = this;
-
     // 持久化保存
     this.$store.commit("User/updateStatus");
     // 数据条目格式化处理

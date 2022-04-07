@@ -2,26 +2,26 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 13:53:42
+ * @LastEditTime: 2022-04-07 23:42:23
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
 
 <template>
   <div
-    class=""
+    class="mine-send-part-absolute personDataSend"
     style="
       position: fixed;
       width: 100%;
       height: 100%;
-      background: #efeff3;
+
       top: 0px;
       z-index: 100;
     "
     v-bind:class="{ 'send-part-control': true }"
   >
-    <mapview> </mapview>
-    <div class="send-title">
+    <mapview v-show="mapviewControl" ref="startmapview"> </mapview>
+    <div class="send-title" style="height:50px;line-height:50px;">
       打卡窗口
       <div
         class="send-control"
@@ -34,34 +34,34 @@
     <div class="send-main" style="height: calc(100% - 50px); overflow-y: auto">
       <!-- 表单 -->
       <ul class="mine-form-display" style="">
-        <li>
+        <li @click="judgetopic">
           <span>打卡主题</span>
           <span>{{ tasklistsSelectItem.topic }}</span>
+          <span style="flex: 0 0 50px;"  class="hidecontrol"><van-icon name="arrow-down" /></span>
+
         </li>
-        <li>
+        <li v-show="judgetopicserveral">
           <span>开始时间</span>
           <span>{{ convertDate(tasklistsSelectItem.beginstamp) }}</span>
         </li>
-        <li>
+        <li v-show="judgetopicserveral">
           <span>结束时间</span>
           <span>{{ convertDate(tasklistsSelectItem.endstamp) }}</span>
         </li>
-        <li>
+        <li v-show="judgetopicserveral">
           <span>创建人员</span>
           <span>{{ tasklistsSelectItem.createuser }}</span>
         </li>
-        <li>
-          <span>判断状态</span>
+        <li @click="mapviewJudge">
+          <span>打卡状态</span>
           <span style="position: relative"
             >{{
-              tasklistsSelectItem.status +
-              "，" +
-              (singletask ? singletask.status : "")
+              tasklistsSelectItem.status
             }}
             <span
               :style="{
                 position: 'absolute',
-                width: '150px',
+                width: '60px',
                 height: '0',
                 bottom: '-4px',
                 left: 0,
@@ -69,7 +69,21 @@
                 'border-bottom': '1px dotted blue',
               }"
             ></span>
+
           </span>
+          <span style="flex: 0 0 50px;" @click="judgestatus" class="hidecontrol"><van-icon name="arrow-down" /></span>
+        </li>
+        <li v-show="judgestatusserveral">
+          <span>服务判断</span>
+          <span>{{ "判断成功" }}</span>
+        </li >
+        <li  v-show="judgestatusserveral">
+          <span>位置判断</span>
+          <span>{{ "判断成功" }}</span>
+        </li>
+        <li  v-show="judgestatusserveral">
+          <span>WIFI判断</span>
+          <span>{{ "判断成功" }}</span>
         </li>
         <!-- <li>
           <span>打卡地点</span>
@@ -108,6 +122,16 @@ import { flatearthDistance } from "@/utils/distance2.js";
 import { geometry } from "@turf/helpers";
 import axios from "axios";
 import mapview from './mapview.vue'
+import * as turf from "@turf/turf";
+import {
+  Checkbox,
+  CheckboxGroup,
+  Cell,
+  CellGroup,
+  ActionSheet,
+  Icon,
+} from "vant";
+import { mapState, mapMutations} from "vuex";
 
 export default {
   name: "indexmodal",
@@ -116,15 +140,37 @@ export default {
   },
   data() {
     return {
+      mapviewControl: false,
       sendStudentData: [],
       taskId: null,
       singletask: {
         comment: ""
       },
+      judgestatusserveral: false,
+      judgetopicserveral: true,
+      // tasklistsSelectItem: {
+      //   topic: null,
+      //   createuser: null,
+      //   id: null,
+      //   key: Date.now() + Math.random(),
+      //   status: null,
+      //   time: null,
+      //   startstamp: null,
+      //   icon: null,
+      //   endstamp: null,
+      //   beginstamp: null,
+      //   geometry: null,
+      //   Places: null,
+      //   Wifis: null,
+      //   studynth: null,
+      //   taskid: null,
+      //   comment: ""
+      // }
     };
   },
   components: {
-    mapview: mapview
+    mapview: mapview,
+    [Icon.name]: Icon
   },
   methods: {
     displayResult() {},
@@ -134,136 +180,144 @@ export default {
       // this.$emit("fun0001", "data");
     },
     tasklistsEventCall(tasklistitem) {
+      this.tasklistsSelectItem.status = "打卡情况未知"
       class TaskDealWith {
-        forminitData;
-        singlestamptaskArray;
-        wifijudgemark;
-        timejudgemark;
-        geometryjudgemark;
+        singleTask;
+        geometry;
+        wifi;
 
         constructor(data) {
           this.forminitData = data;
-          this.singlestamptaskArray = data.tasks;
+          this.singleTask = data.task;
+          this.geometry = data.geometry;
+          this.wifi = data.wifi;
+          // console.log(data);
+          this.forminit().timejudge().geometryjudge().wifijudge().placeserverjudge();
         }
 
         forminit() {
-          this.singlestamptaskArray.map((taskitem) => {
-            taskitem.userplacemark = 0;
-            taskitem.userwifimark = 0;
-            taskitem.usertimemark = 0;
-          });
+          this.singleTask.userplacemark = 0;
+          this.singleTask.userwifimark = 0;
+          this.singleTask.usertimemark = 0;
+          this.singleTask.userplaceserver = 0;
 
           return this;
         }
 
         wifijudge() {
-          this.wifijudge = 1;
+          const { wifi } = this.forminitData;
+
+          this.singleTask.Wifis = this.singleTask?.Wifis.length ? this.singleTask.Wifis : [];
+
+            this.singleTask.Wifis.forEach(wifiitem => {
+              let findresult = wifi.find((item) => {
+                console.log(item.bssid == wifiitem.bssid);
+                return item.bssid == wifiitem.bssid;
+              });
+
+              this.singleTask.userwifimark = (this.singleTask.userwifimark || findresult) ? 1 : -1; 
+              console.log(this.singleTask); 
+            });      
+
+          return this;
         }
 
         geometryjudge() {
-          const singlestamptaskArray = this.singlestamptaskArray;
           const { geometry } = this.forminitData;
-
-          singlestamptaskArray.map((singlestamptaskArrayitem) => {
-            singlestamptaskArrayitem.Places.forEach((placesitem) => {
-              let distance = flatearthDistance(
-                {
-                  latitude: geometry?.latitude,
-                  longitude: geometry?.longitude,
-                },
-                {
-                  latitude: placesitem.geometry.coordinates[1],
-                  longitude: placesitem.geometry.coordinates[0],
-                }
-              );
-              if (distance < placesitem.radius) {
-                singlestamptaskArrayitem.userplacemark = 1;
-              } else {
-                if (singlestamptaskArrayitem.userplacemark != 1) {
-                  singlestamptaskArrayitem.userplacemark = -1;
-                }
+    
+          this.singleTask.Places = this.singleTask?.Places.length ? this.singleTask.Places : [];
+          let findresult = this.singleTask?.Places.find((placesitem) => {
+            let distance = flatearthDistance(
+              {
+                latitude: geometry?.coordinates[1],
+                longitude: geometry?.coordinates[0],
+              },
+              {
+                latitude: placesitem.geometry.coordinates[1],
+                longitude: placesitem.geometry.coordinates[0],
               }
-            });
+            );
+
+            console.log(distance);
+            return placesitem.radius > distance;
           });
 
-          this.geometryjudgemark = 1;
+          this.singleTask.userplacemark = findresult ? 1 : -1;        
+          console.log(this.singleTask);
+
           return this;
+        }
+
+        placeserverjudge() {  
+          // var point = turf.point([this.geometry.coordinates[0], this.geometry.coordinates[1]]);
+          var point = turf.point([116.02497,28.68723])
+          var buffered = turf.buffer(point, 200 / 1000.0);
+          console.log(buffered);
+          var geometry001 = {
+            "rings": buffered.geometry.coordinates,
+            "spatialReference": {
+              "wkid": 4326
+            }
+          }
+
+          axios.get("http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/FeatureServer/0/query", {params: {
+            geometry: JSON.stringify(geometry001),
+
+          }})
+            .then(data => {
+              console.log(data)
+            })
+
+        console.log(JSON.stringify(geometry));
+
+  // {
+  //   "rings": [
+  //     [
+  //       [116.031933,28.68915],
+  //       [116.043629,28.682116],
+  //       [116.024962,28.682718],
+  //       [116.031933,28.68915]
+  //     ]
+  //   ],
+  //   "spatialReference": {
+  //     "wkid": 4326
+  //   }
+  // }
         }
 
         timejudge() {
-          this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
-            if (Date.now() > singlestamptaskArrayitem) {
-              // 迟到了
-              singlestamptaskArrayitem.usertimemark = -1;
-            } else {
-              // 打卡正常
-              singlestamptaskArrayitem.usertimemark = 1;
-            }
-          });
-
-          this.timejudgemark = 1;
+          if (Date.now() > this.singleTask.startstamp) {
+            // 迟到了
+            this.singleTask.usertimemark = -1;
+          } else {
+            // 打卡正常
+            this.singleTask.usertimemark = 1;
+          }
           return this;
-        }
-
-        updateresult() {
-          const _this = this;
-          const wifijudgemark = this.wifijudgemark;
-          const timejudgemark = this.timejudgemark;
-          const geometryjudgemark = this.geometryjudgemark;
-
-          this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
-            // 只使用位置、时间来显示打卡情况
-            if (timejudgemark && geometryjudgemark && !wifijudgemark) {
-              if (
-                singlestamptaskArrayitem.usertimemark == 1 &&
-                singlestamptaskArrayitem.userplacemark > 0
-              ) {
-                singlestamptaskArrayitem.statusmark = 1;
-                singlestamptaskArrayitem.status = "判断成功";
-              } else if (
-                singlestamptaskArrayitem.usertimemark == -1 &&
-                singlestamptaskArrayitem.userplacemark > 0
-              ) {
-                singlestamptaskArrayitem.statusmark = -1;
-                singlestamptaskArrayitem.status = "迟到了";
-              } else if (
-                singlestamptaskArrayitem.usertimemark == -1 &&
-                singlestamptaskArrayitem.userplacemark == -1
-              ) {
-                singlestamptaskArrayitem.statusmark = -1;
-                singlestamptaskArrayitem.status = "迟到了，位置判断失败";
-              } else if (
-                singlestamptaskArrayitem.usertimemark == 1 &&
-                singlestamptaskArrayitem.userplacemark == -1
-              ) {
-                singlestamptaskArrayitem.statusmark = -1;
-                singlestamptaskArrayitem.status = "位置判断失败";
-              }
-            } else {
-            }
-          });
-
-          return this;
-        }
-
-        showresult() {
-          return this;
-        }
+        } 
       }
 
       const task = new TaskDealWith({
-        tasks: [this.deepClone(this.tasklistsSelectItem)],
-        geometry: {
-          longitude: tasklistitem.geometry.coordinates[0],
-          latitude: tasklistitem.geometry.coordinates[1],
-        },
+        task: this.deepClone(this.tasklistsSelectItem),
+        wifi: this.$store.state.User.get.wifi,
+        geometry: this.$store.state.User.get.geometry
       });
 
-      this.singletask = task
-        .forminit()
-        .geometryjudge()
-        .timejudge()
-        .updateresult().singlestamptaskArray[0];
+      // this.singletask = task
+      //   .forminit()
+      //   .geometryjudge()
+      //   .timejudge()
+      //   .updateresult().singlestamptaskArray[0];
+    },
+    judgestatus(e) {
+      console.log("作用");
+      this.judgestatusserveral = !this.judgestatusserveral;
+      window.event? window.event.cancelBubble = true : e.stopPropagation();
+    },
+    judgetopic(e) {
+      console.log("作用222");
+      this.judgetopicserveral = !this.judgetopicserveral;
+      // window.event? window.event.cancelBubble = true : e.stopPropagation();
     },
     convertDate,
     deepClone(source) {
@@ -331,13 +385,30 @@ export default {
           });
       });
     },
+    mapviewJudge() {
+      const tasklistsSelectItem = this.tasklistsSelectItem;
+      console.log(this.tasklistsSelectItem);
+      this.mapviewControl = true;
+      this.$refs["startmapview"].startmapview({tasklistsSelectItem});
+    },
+    ...mapMutations('User', [
+      'updateStatus',
+      'wifiStore',
+      'geometryStore'
+    ]),
   },
   created() {},
   mounted() {
-    this.$parent.pageResult = true;
+    this.$parent.pageResult = false;
   },
 };
 </script>
 
 <style lang="scss">
+// .hidecontrol {
+//   transition: 1000ms all;
+// }
+// .hidecontrol:hover, .hidecontrol:active {
+//   background: #ddd;
+// }
 </style>

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 10:19:53
+ * @LastEditTime: 2022-04-07 17:06:43
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -45,7 +45,7 @@
       </div>
       <div class="mine-single-line-three-001">
         <div>{{ "目标点位" }}</div>
-        <div>{{ "预设点位" }}</div>
+        <div>{{ "点位跳转" }}</div>
         <div><van-icon name="arrow" /></div>
       </div>
     </div>
@@ -216,6 +216,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import "@/map/leaflet/L.LabelTextCollision.js";
 import { data } from "@/map/leaflet/data.js";
 
+
 export default {
   name: "mapapp",
   components: {
@@ -303,7 +304,7 @@ export default {
   created() {},
   mounted() {
     console.log("mounted");
-    this.init();
+    // this.init();
     // setTimeout(() => {
     //   this.init2();
     // }, 1000);
@@ -516,7 +517,13 @@ export default {
       
     },
     leftClose() {
-      this.$parent.mapcomponentControl = false;
+      const map = this.map;
+      if (map && map.remove) {
+          map.off();
+          map.remove();
+      }
+      this.$parent.mapviewControl = false;
+
     },
     changeviewmapParent(item) {
       // console.log(item.lonlat);
@@ -575,6 +582,9 @@ export default {
         dy.addTo(map);
       }
     },
+    startmapview() {
+      this.init();
+    }
   },
 };
 </script>

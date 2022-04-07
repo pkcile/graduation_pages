@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-05 19:42:45
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 10:49:01
+ * @LastEditTime: 2022-04-07 23:54:13
  * @FilePath: /graduation-project-master/src/utils/getTaskLists.js
  * @Description: 
  */
@@ -20,11 +20,11 @@ export function getTaskLists(tasks, userinformation) {
         topic: taskitem.topic,
         Wifis: taskitem.Wifis,
         Places: taskitem.Places,
-        serverplacename: "",
+        serverplacename: taskitem.serverplacename,
+        serverplaceradius: 100,
         key: Date.now(),
         startstamp: taskitemperson.startstamp,
-        beginstamp:
-          taskitemperson.startstamp - taskitemperson.previousstamp,
+        beginstamp: taskitemperson.startstamp - taskitemperson.previousstamp,
         endstamp: taskitemperson.startstamp + taskitemperson.afterstamp,
         status: taskitemperson.status,
         statusmark: taskitemperson.statusmark,
@@ -42,6 +42,7 @@ export function getTaskLists(tasks, userinformation) {
     });
   });
 
+  console.log(singlestamptaskArray);
   return singlestamptaskArray;
 }
 
@@ -75,6 +76,8 @@ export function tasklistsToPagelist(judgeArray) {
       geometry: judgetaskitem.geometry,
       Places: judgetaskitem.Places,
       Wifis: judgetaskitem.Wifis,
+      serverplacename: judgetaskitem.serverplacename,
+      serverplaceradius: judgetaskitem.serverplaceradius,
       studynth: judgetaskitem.studynth,
       taskid: judgetaskitem.id,
       comment: ""
