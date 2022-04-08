@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-31 20:28:35
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 16:57:45
+ * @LastEditTime: 2022-04-08 09:07:14
  * @FilePath: /graduation-project-master/src/pages/publish/student.vue
  * @Description: 
 -->
@@ -194,6 +194,7 @@
 
 <script>
 import axios from "axios";
+import {studentQuery} from "@/api/publish/index.js";
 import {
   Checkbox,
   CheckboxGroup,
@@ -272,14 +273,8 @@ export default {
       console.log(this.classname.length, this.itemsData.length);
       if (this.classname.length && this.itemsData.length) {
       } else {
-        axios
-          .get(
-            `${process.env.VUE_APP_POSITION_PATH}/user/registerStudynthQuery`,
-            {}
-          )
-          .then(function (returnData) {
-            console.log(_this);
-
+        studentQuery().then((returnData) => {
+          
             console.log(returnData.data.result);
             let studentData = [];
             let newSet = new Set();
@@ -307,11 +302,52 @@ export default {
 
             _this.itemsData = studentData;
             _this.classname = newSetClassnameArray;
-            console.log(studentData);
-          })
-          .catch(function () {
-            _this.$notify("服务出现问题，或者你的网速过慢");
-          });
+        })
+        .catch(data => {
+          // console.log(data);
+          _this.$toast("请求超时或数据库错误");
+        })
+        // axios
+        //   .get(
+        //     `${process.env.VUE_APP_POSITION_PATH}/user/registerStudynthQuery`,
+        //     {}
+        //   )
+        //   .then(function (returnData) {
+        //     console.log(_this);
+
+        //     console.log(returnData.data.result);
+        //     let studentData = [];
+        //     let newSet = new Set();
+        //     let newSetClassnameArray = [];
+        //     returnData.data.result.forEach((item, index) => {
+        //       newSet.add(item.classname);
+        //       studentData.push({
+        //         key: index + Math.random() + "",
+        //         checked: false,
+        //         classname: item.classname,
+        //         name: item.name,
+        //         studynth: item.studynth.trim(),
+        //         gender: item.gender,
+        //         pageshow: false,
+        //       });
+        //     });
+
+        //     for (const item of newSet) {
+        //       newSetClassnameArray.push({
+        //         classname: item,
+        //         checked: false,
+        //         key: Date.now() + Math.random(),
+        //       });
+        //     }
+
+        //     _this.itemsData = studentData;
+        //     _this.classname = newSetClassnameArray;
+        //     console.log(studentData);
+        //   })
+        //   .catch(function () {
+
+        //     _this.$notify("服务出现问题，或者你的网速过慢");
+        //   });
       }
     },
   },

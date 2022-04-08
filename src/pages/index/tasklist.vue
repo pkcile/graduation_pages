@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 21:49:02
+ * @LastEditTime: 2022-04-08 16:41:39
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -136,7 +136,7 @@ export default {
             ],
           };
           const geometry = {
-            coordinates: [115.304657, 36.110565],
+            coordinates: [0, 0],
             type: "Point",
             accuracy: 99
           }
@@ -160,6 +160,8 @@ export default {
         if(window.plus) {
           GetWiFiAndLocation2().then(data => {
             console.log(data);
+            _this.wifiStore(data.wifiList)
+            _this.geometryStore(_this.pageData.tasklistsSelectItem.geometry)
              // wifi保存
           })
   
@@ -182,6 +184,8 @@ export default {
 
            // wifi保存
             console.log("wifi", + _this.wifiStore);
+            _this.wifiStore(aabbcc.wifiList)
+            _this.geometryStore(_this.pageData.tasklistsSelectItem.geometry)
         }
 
         // 位置保存

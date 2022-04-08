@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 16:10:39
+ * @LastEditTime: 2022-04-08 22:09:48
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -56,6 +56,7 @@
       </div>
     </div>
     <div id="tool-control">
+      <searchview @changeviewmap="changeviewmapFun"></searchview>
       <van-checkbox
         class="layer-item"
         v-model="item.checked"
@@ -65,6 +66,7 @@
         @click="checkoutLayer(item)"
         >{{ item.name }}
       </van-checkbox>
+
       <van-cell
         is-link
         title="打卡范围"
@@ -93,7 +95,7 @@
     height: 50px;
     width: 100%;
   }
-    .title {
+  .title {
     // position: relative;
     background: #f1f1f4;
     height: 50px;
@@ -145,7 +147,6 @@
     border-bottom: 0 solid rgb(212, 18, 18);
     border-bottom: 1px dotted #ddd;
   }
-
 }
 
 .van-popup--bottom.van-popup--round {
@@ -168,6 +169,7 @@ import { Checkbox, CheckboxGroup, Cell, CellGroup, ActionSheet } from "vant";
 import L from "leaflet";
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
+import searchview from "@/components/search.vue";
 export default {
   name: "mapapp",
   components: {
@@ -176,6 +178,7 @@ export default {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
     [ActionSheet.name]: ActionSheet,
+    searchview: searchview,
   },
   data() {
     return {
@@ -187,12 +190,6 @@ export default {
           checked: false,
           type: "imagery",
         },
-        // {
-        //   id: 2,
-        //   name: "校园建筑",
-        //   checked: true,
-        //   type: "building",
-        // },
         {
           id: 5,
           name: "项目定位",
@@ -242,7 +239,7 @@ export default {
       ],
       radius: 200,
       editplacesBool: false,
-      placeitem: null
+      placeitem: null,
     };
   },
   created() {},
@@ -288,6 +285,9 @@ export default {
           cva,
         };
 
+        map.removeControl(map.zoomControl);
+        map.removeControl(map.attributionControl);
+
         map.on("move", function (ev) {
           // console.log(map.getCenter());
           _this.longitude = map.getCenter().lng;
@@ -321,30 +321,37 @@ export default {
                 "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
             });
 
-            console.log(returnData);
-            var point = L.marker([returnData.latitude, returnData.longitude], {
-              icon: greenIcon,
-            }).addTo(map);
+            if (returnData?.latitude) {
+              var point = L.marker(
+                [returnData.latitude, returnData.longitude],
+                {
+                  icon: greenIcon,
+                }
+              ).addTo(map);
 
-            // console.log(returnData);
-            map.flyTo(
-              { lon: returnData.longitude, lat: returnData.latitude },
-              13,
-              { animate: false, duration: 0.5 }
-            );
+              // console.log(returnData);
+              map.flyTo(
+                { lon: returnData.longitude, lat: returnData.latitude },
+                13,
+                { animate: true, duration: 1 }
+              );
 
-            this.geometry = {
-              coordinates: [returnData.longitude, returnData.latitude],
-              type: "Point",
-              accuracy: returnData.accuracy,
-            };
+              this.geometry = {
+                coordinates: [returnData.longitude, returnData.latitude],
+                type: "Point",
+                accuracy: returnData.accuracy,
+              };
+            } else {
+              this.$toast("位置获取失败");
+              console.log(returnData);
+            }
 
             // [returnData.latitude, returnData.longitude],
           });
         } else {
-          map.flyTo({ lon: 115.304657, lat: 36.110565 }, 8, {
-            animate: false,
-            duration: 0.5,
+          map.flyTo({ lon: 115.304657, lat: 36.110565 }, 4, {
+            animate: true,
+            duration: 1,
           });
         }
       } else if (item.type == "imagery") {
@@ -378,7 +385,7 @@ export default {
     },
     rightSure() {
       console.log(this.editplacesBool, this.placeitem);
-      
+
       const map = this.map;
 
       // map.remove();
@@ -389,16 +396,16 @@ export default {
       //       accuracy: returnData.accuracy,
       // }
       // this.map.de
-      
+
       if (this.longitude && this.latitude && this.radius) {
         // 修改
-        if(this.editplacesBool && this.placeitem) {
-          this.$parent.getPosition.map(item => {
-            if(item.id == this.placeitem.id) {
+        if (this.editplacesBool && this.placeitem) {
+          this.$parent.getPosition.map((item) => {
+            if (item.id == this.placeitem.id) {
               item.geometry = {
                 coordinates: [this.longitude, this.latitude],
-                type: "Point"
-              }
+                type: "Point",
+              };
               item.radius = this.radius;
               // item.coordinates = [this.longitude, this.latitude];
               // item.radius = this.radius;
@@ -410,29 +417,26 @@ export default {
         }
         // 添加
         else {
-        this.$parent.getPosition.push({
-          id: Date.now(),
-          geometry: {
-            coordinates: [this.longitude, this.latitude],
-            type: "Point"
-          },
-          radius: this.radius,
-        });
-        this.$toast(
-          "位置设置成功"
-        );
-        
+          this.$parent.getPosition.push({
+            id: Date.now(),
+            geometry: {
+              coordinates: [this.longitude, this.latitude],
+              type: "Point",
+            },
+            radius: this.radius,
+          });
+          this.$toast("位置设置成功");
         }
 
         // 更新通知
-        this.$emit("updateplaces", 123131)
+        this.$emit("updateplaces", 123131);
 
         setTimeout(() => {
           this.$parent.mapcomponentControl = false;
           if (map && map.remove) {
-          map.off();
-          map.remove();
-      }
+            map.off();
+            map.remove();
+          }
         }, 200);
       } else {
         this.$toast("请设置位置和范围");
@@ -447,7 +451,31 @@ export default {
       this.radius = placeitem?.radius;
       this.init();
       console.log(this.placeitem, this.editplacesBool);
-    }
+    },
+    changeviewmapFun(item) {
+      const map = this.map;
+      console.log(item);
+      if (!item?.lonlat) {
+        console.log("不符合条件");
+        return;
+      }
+
+      let pointarray = item?.lonlat?.split(",");
+      console.log(this.map);
+      console.log(pointarray);
+      this.map.flyTo({ lon: pointarray[0], lat: pointarray[1] }, 14, {
+        animate: true,
+        duration: 2,
+      });
+
+      setTimeout(() => {
+        var positionLayer = L.circle([pointarray[1], pointarray[0]], { radius : 200, color: "#f00"}).addTo(map);
+        var positionLayer2 = L.circle([pointarray[1], pointarray[0]], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
+        positionLayer2.bindPopup(item.name).openPopup();
+        positionLayer.bringToFront();
+      }, 2000);
+
+    },
   },
 };
 </script>

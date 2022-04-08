@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-05 19:42:45
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 23:54:13
+ * @LastEditTime: 2022-04-08 11:33:57
  * @FilePath: /graduation-project-master/src/utils/getTaskLists.js
  * @Description: 
  */
@@ -59,13 +59,14 @@ export function tasklistsToPagelist(judgeArray) {
       status = "未打卡";
     } else {
       icon = "#icon-bianjiputong";
-      status = "打卡失败";
+      status = judgetaskitem.status;
     }
     // console.log(judgetaskitem, "judgetaskitem");
     tasklists.push({
       id: judgetaskitem.id,
       key: Date.now() + Math.random(),
       status,
+      statusmark: judgetaskitem.statusmark,
       createuser: judgetaskitem.createuser,
       time: convertDate(judgetaskitem.startstamp),
       startstamp: judgetaskitem.startstamp,

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-04-07 23:48:17
+ * @LastEditTime: 2022-04-08 17:42:48
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -71,6 +71,7 @@ const state = {
             geometry: {
               type: "Point",
               coordinates: [115.30551949177608, 36.11029686922546],
+              // coordinates: [0, 0]
             },
             radius: 10000,
             createstamp: 1649151110614,
@@ -179,7 +180,7 @@ const state = {
         serverplaceradius: 200,
         userwifimark: 0,
         userplacemark: 0,
-        userplaceserver: 0,
+        userplaceservermark: 0,
         usertimemark: 1,
         status: "位置判断失败",
         statusmark: -1,
@@ -286,10 +287,22 @@ const mutations = {
 
     // console.log(sessionStorage.getItem("User"));
   },
+  // 更新打卡结果
+  taskSignResultStore(state, param) {
+    // const {taskid, statusmark} = param;
+    // this.state.User.login.tasks
+    // const _this = this;
+    // this.state.User.login.tasks.Result.map((item, index) => {
+    //   if (item.taskid == taskid) {
+    //     item.statusmark
+    //   }
+    // });
+  },
   oneMethod() {
     // console.log("one method");
   },
   updateStatus() {
+    // 更新请求
     const _this = this;
     if (this.state.User.login.userinformation) {
       sessionStorage.setItem("User", JSON.stringify(this.state.User));

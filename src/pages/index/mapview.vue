@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 17:06:43
+ * @LastEditTime: 2022-04-08 18:03:53
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -413,7 +413,7 @@ export default {
       map.fitBounds(map.getBounds());
     }
     },
-    init() {
+    init(params) {
       let DefaultIcon = L.icon({
         iconUrl: icon,
         shadowUrl: iconShadow,
@@ -458,7 +458,7 @@ export default {
         }).addTo(map);
         
        
-        map.removeControl(map.zoomControl);
+        // map.removeControl(map.zoomControl);
         map.removeControl(map.attributionControl);
         
         black.remove();
@@ -508,10 +508,13 @@ export default {
           shadowAnchor: [22, 94]
       });
 
-
-        var positionLayer = L.circle([28.68442, 116.020604], { radius : 100, color: "#f00"}).addTo(map);
-        var positionLayer2 = L.circle([28.68442, 116.020604], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
-        positionLayer2.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+      
+      
+      console.log(this.$store.state.User.get.geometry);
+      console.log(params)
+      // var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 200, color: "#f00"}).addTo(map);
+      // var positionLayer2 = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
+      // positionLayer2.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
         // positionLayer.bringToFront();
       }, 0);
       
@@ -582,8 +585,8 @@ export default {
         dy.addTo(map);
       }
     },
-    startmapview() {
-      this.init();
+    startmapview(params) {
+      this.init(params);
     }
   },
 };
