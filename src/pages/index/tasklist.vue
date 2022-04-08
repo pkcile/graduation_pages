@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 16:41:39
+ * @LastEditTime: 2022-04-08 23:26:04
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -58,8 +58,11 @@
         <van-empty description="无打卡任务" />
       </ul>
       </van-pull-refresh>
-      <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
+    <transition name="component-fade" mode="out-in">
+          <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
       </indexmodal>
+  </transition>
+  
   </div>
 </template>
 

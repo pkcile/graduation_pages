@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-03-26 18:48:57
+ * @LastEditTime: 2022-04-08 23:38:48
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -457,6 +457,7 @@ export default {
     },
     changesize(){
       eventbus.$emit('add',this.arg)
+      this.$toast("进入到主页");
       this.$router.push("/home/main");
     },
      ...mapMutations('User', [

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-04 21:18:21
+ * @LastEditTime: 2022-04-09 00:48:03
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -19,17 +19,18 @@
         }"
         @click="backTo"
       ></div>
-      <div
+      <!-- <div
         class="right"
         :style="{
           'background-image': `url(${require('@/assets/font/save.svg')})`,
         }"
         @click="rightSure"
-      ></div>
+      ></div> -->
       <div class="text">学生信息</div>
     </div>
     <div class="main" style="background: #efeff3">
       <div style="padding: 0 10px 10px 10px; box-sizing: border-radius">
+        <searchcomponet ref="searchDataChangeRef"></searchcomponet>
         <div class="mine-double-line-date">
           <div class="title">
             <div>用户信息</div>
@@ -40,7 +41,7 @@
             style="
               background: #fff;
               border-radius: 5px;
-              height: 250px;
+              height: 350px;
               overflow-y: auto;
             "
           >
@@ -50,6 +51,7 @@
               class="mine-single-line-three-001"
               v-for="item in itemsData"
               v-bind:key="item.key"
+              v-show="item.show"
             >
               <div>{{ item.name }}</div>
               <div>{{ item.studynth }}</div>
@@ -105,6 +107,7 @@ import {
 import axios from "axios";
 
 import useraddcomponent from "./useradd.vue";
+import searchcomponet from "@/components/searchStudent.vue"
 
 export default {
   data() {
@@ -152,6 +155,7 @@ export default {
                 studynth: item.studynth.trim(),
                 gender: item.gender,
                 pageshow: false,
+                show: true
               });
             });
 
@@ -165,17 +169,17 @@ export default {
 
             _this.itemsData = studentData;
             _this.classname = newSetClassnameArray;
+
+            _this.$refs["searchDataChangeRef"].searchPoiItem(_this.itemsData);
             console.log(studentData);
           })
-          .catch(function () {
-            _this.$notify("服务出现问题，或者你的网速过慢");
-          });
+          // .catch(function () {
+          //   _this.$notify("服务出现问题，或者你的网速过慢");
+          // });
       }
     },
     useraddcomponentControlFun() {
       this.useraddcomponentControl = true;
-      this.$refs["useraddcomponentControlRef"].useraddcomponentControlRefFun(this.itemsData);
-
     }
   },
   components: {
@@ -188,13 +192,19 @@ export default {
     [Popup.name]: Popup,
     [Checkbox.name]: Checkbox,
     [Icon.name]: Icon,
-    useraddcomponent: useraddcomponent
+    useraddcomponent: useraddcomponent,
+    searchcomponet: searchcomponet
   },
-  mounted() {},
+  mounted() {
+
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.van-search {
+  background: rgba(255, 255, 255, 0) !important;
+}
 .inputmain {
   /* 输入框 */
   .mine-input-row-001 {

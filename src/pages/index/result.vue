@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 17:49:09
+ * @LastEditTime: 2022-04-08 23:31:58
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -19,7 +19,9 @@
     "
     v-bind:class="{ 'send-part-control': true }"
   >
-    <mapview v-show="mapviewControl" ref="startmapview"> </mapview>
+  <transition name="component-fade" mode="out-in">
+       <mapview v-show="mapviewControl" ref="startmapview"> </mapview>
+  </transition>
     <div class="send-title" style="height: 50px; line-height: 50px">
       打卡窗口
       <div

@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-03-18 22:12:26
+ * @LastEditTime: 2022-04-08 23:44:28
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/register.vue
@@ -100,7 +100,7 @@ export default {
       };
 
       if (!params.studynth) {
-        this.$notify({ type: "warning", message: "请输入学号" });
+        this.$notify({ type: "warning", message: "请输入学号", duration: "800" });
       } else {
         this.userRegisterRequest(params).then((returnData) => {
           console.log(returnData);
@@ -109,6 +109,7 @@ export default {
             this.$notify({
               type: "success",
               message: returnData.data.status.infor + "密码：1234",
+              duration: "800"
             });
             console.log(returnData.data.result);
 
@@ -144,6 +145,7 @@ export default {
             this.$notify({
               type: "danger",
               message: returnData.data.status.infor,
+              duration: "800"
             });
             console.log(returnData.data.result);
             // 结果 status.infor

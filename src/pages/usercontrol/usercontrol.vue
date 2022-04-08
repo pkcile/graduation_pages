@@ -28,7 +28,7 @@
          
           </div>
         </div>
-        <div class="mine-double-line-date">
+        <div class="mine-double-line-date" style="display: none">
           <div class="title">
             <div>权限操作</div>
              <!-- <div style="color: #007aff" >时间段添加</div> -->

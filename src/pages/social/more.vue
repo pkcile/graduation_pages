@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 15:14:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 14:56:10
+ * @LastEditTime: 2022-04-08 23:06:33
  * @FilePath: /graduation-project-master/src/pages/social/more.vue
  * @Description: 
 -->
@@ -164,7 +164,7 @@ export default {
               router: "/edit",
               key: "002",
               backgroundimg: require("@/assets/font/clock.svg"),
-              show: true
+              show: false
             },
             {
               name: "打卡统计",

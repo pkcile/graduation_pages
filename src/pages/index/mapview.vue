@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 18:03:53
+ * @LastEditTime: 2022-04-08 23:34:46
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -586,7 +586,13 @@ export default {
       }
     },
     startmapview(params) {
-      this.init(params);
+      setTimeout(
+        ()=> {
+          this.init(params);
+        },
+        0
+      )
+      
     }
   },
 };

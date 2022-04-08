@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 17:08:58
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-04 23:56:11
+ * @LastEditTime: 2022-04-09 00:19:16
  * @FilePath: /graduation-project-master/src/pages/usercontrol/useradd.vue
  * @Description: 
 -->
@@ -30,25 +30,7 @@
     </div>
     <div class="main" style="background: #efeff3">
       <div style="padding: 0 10px 10px 10px">
-        <div class="mine-double-line-date" style="display: none">
-          <div class="title">
-            <div style="color: #007aff" @click="useradd">用户添加</div>
-            <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
-          </div>
-          <div class="main" style="background: #fff; border-radius: 5px">
-            <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
-            <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
-            <div
-              class="mine-single-line-three-001"
-              v-for="item in itemsData"
-              v-bind:key="item.key"
-            >
-              <div>{{ item.name }}</div>
-              <div>{{ item.studynth }}</div>
-              <div><van-icon name="arrow" /></div>
-            </div>
-          </div>
-        </div>
+
         <div class="mine-double-line-date">
           <div class="title">
             <div>用户信息</div>
@@ -129,11 +111,11 @@
         <div
           class="mine-button-block"
           style="margin-top: 18px"
-          @click="useradd"
+          @click="rightSure"
         >
-          学生信息添加
+          批量添加
         </div>
-        </div>
+      </div>
     </div>
   </div>
 </template>

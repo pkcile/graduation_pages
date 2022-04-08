@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-04-02 13:28:13
+ * @LastEditTime: 2022-04-08 23:47:29
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -90,7 +90,7 @@
           <span @click="forgetAccount">忘记密码</span>
         </div>
       </div>
-      <button id="show-modal" @click="showModal001">Show Modal</button>
+      <!-- <button id="show-modal" @click="showModal001">Show Modal</button> -->
       <modal v-show="showModal" ref="showModal">
       </modal>
     </main>
@@ -201,7 +201,7 @@ export default {
           if(returnData.data.status.mark == 1) {   
             // 快捷登录
             if(this.returnData.geometry.latitude) {
-              this.$notify({ type: "success", message: "快捷登录成功" });
+              this.$notify({ type: "success", message: "快捷登录成功", duration: "800" });
               this.$refs["showModal"]?.openopen({
                 geometry: _this.returnData.geometry,
                 userinformation: returnData.data.result.userinformation,
@@ -223,7 +223,7 @@ export default {
 
           }
           else {
-            this.$notify({ type: "danger", message: "账号密码错误" });
+            this.$notify({ type: "danger", message: "账号密码错误" , duration: "800"});
           }
         });
       }
@@ -373,7 +373,7 @@ export default {
     },
     forgetAccount() {
       // this.$toast("不要忘记密码，找不回来了 :)");
-      this.$notify("默认密码：1234");
+      this.$notify({message: "默认密码：1234", duration: "800"});
     },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
