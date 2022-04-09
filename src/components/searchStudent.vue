@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-09 00:26:58
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 00:58:56
+ * @LastEditTime: 2022-04-09 09:18:55
  * @FilePath: /graduation-project-master/src/components/searchStudent.vue
  * @Description: 
 -->
@@ -37,10 +37,12 @@ export default {
       const _this = this;
       if(this.inputsearch != "") {
         if(this.studentitem.length) {
-          console.log("过滤搜索");
+          // console.log("过滤搜索");
           this.studentitem.map(item => {
-            console.log(item.name, this.inputsearch, item.studynth);
-            if(item.name == this.inputsearch || item.studynth == this.inputsearch || item.classname == this.inputsearch) {
+            // console.log(item.name, this.inputsearch, item.studynth);
+            const regex = new RegExp(this.inputsearch.trim());
+
+            if(regex.test(item.name) || regex.test(item.studynth) || regex.test(item.classname)) {
               item.show = true;
             }
             else {
@@ -71,7 +73,8 @@ export default {
     bluesearch() {
     },
     inputclear() {
-
+      // console.log("clear");
+      this.inputsearch = ""
     },
     searchPoiItem(item) {
       this.studentitem = item;
