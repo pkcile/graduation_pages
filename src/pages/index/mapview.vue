@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 23:34:46
+ * @LastEditTime: 2022-04-09 17:47:16
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -45,11 +45,11 @@
       </div>
       <div class="mine-single-line-three-001">
         <div>{{ "目标点位" }}</div>
-        <div>{{ "点位跳转" }}</div>
+        <div @click="changepoint">{{ "点位跳转" }}</div>
         <div><van-icon name="arrow" /></div>
       </div>
     </div>
-    <van-cell class="vantcellforsure" title="" is-link :value="'重新判断'" />
+    <van-cell class="vantcellforsure" title="" is-link :value="'重新判断'" @click="judgeAgain" />
   </div>
 </template>
 
@@ -215,7 +215,9 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import "@/map/leaflet/L.LabelTextCollision.js";
 import { data } from "@/map/leaflet/data.js";
-
+import { flatearthDistance } from "@/utils/distance2.js";
+import * as turf from "@turf/turf";
+import { placeserverjudgeapi } from "@/api/index/index.js";
 
 export default {
   name: "mapapp",
@@ -299,6 +301,7 @@ export default {
       radius: 200,
       editplacesBool: false,
       placeitem: null,
+      pointstart: 0,
     };
   },
   created() {},
@@ -429,7 +432,7 @@ export default {
         });
         var map = L.map("viewDiv", {
           renderer: labelTextCollision,
-        }).setView([28.68442, 116.020604], 13);
+        }).setView([this.latitude, this.longitude], 16);
         this.map = map;
 
         var image = L.tileLayer(
@@ -511,9 +514,28 @@ export default {
       
       
       console.log(this.$store.state.User.get.geometry);
-      console.log(params)
-      // var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 200, color: "#f00"}).addTo(map);
+      console.log(params);
+      let placeArrayPoints = [];
+      params.tasklistsSelectItem.Places.forEach(placeitem => {
+        var markplaceobj = L.circle([placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]], { radius : placeitem.radius, color: "#00f"}).addTo(map);
+        // let markplaceobj =  L.marker([placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]]).addTo(map);
+        markplaceobj.bindPopup("打卡预设点位，缓存半径：" + placeitem.radius + "米");
+        placeArrayPoints.push(
+          markplaceobj
+        )
+      })
+
+      this.placeArrayPoints = placeArrayPoints;
+      if(params.tasklistsSelectItem.userplacemark == 1 || params.tasklistsSelectItem.userplaceservermark == 1) {
+        var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 10, color: "#008400"}).addTo(map).bindPopup("位置判断成功").openPopup();
+        this.placeArrayPoints.push(positionLayer)
       // var positionLayer2 = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
+      }
+      else {
+        var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 10, color: "#f00"}).addTo(map).bindPopup("位置判断失败").openPopup();
+
+      }
+     
       // positionLayer2.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
         // positionLayer.bringToFront();
       }, 0);
@@ -541,7 +563,7 @@ export default {
       console.log(pointarray);
       this.map.flyTo({ lon: pointarray[0], lat: pointarray[1] }, 14, {
         animate: true,
-        duration: 2,
+        duration: 1,
       });
     },
     changebasemap() {
@@ -586,6 +608,10 @@ export default {
       }
     },
     startmapview(params) {
+      this.longitude = this.$store.state.User.get.geometry.coordinates[0];
+      this.latitude = this.$store.state.User.get.geometry.coordinates[1];
+      this.tasklistsSelectItem = params.tasklistsSelectItem;
+
       setTimeout(
         ()=> {
           this.init(params);
@@ -593,7 +619,236 @@ export default {
         0
       )
       
-    }
+    },
+    changepoint() {
+      console.log(this.placeArrayPoints);
+      console.log("aabbcc");
+      const map = this.map;
+      console.log(this.placeArrayPoints[0]);
+      // this.pointstart
+      
+      console.log(this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]);
+     
+      this.map.flyTo({ lon: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lng, lat: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lat }, 16, {
+        animate: true,
+        duration: 1,
+      })
+
+      console.log();
+      this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)].openPopup();
+       this.pointstart += 1;
+    },
+    judgeAgain() {
+      this.tasklistsSelectItem.status = "打卡情况未知";
+      class TaskDealWith {
+        singleTask;
+        geometry;
+        wifi;
+
+        constructor(data) {
+          this.forminitData = data;
+          this.singleTask = data.task;
+          this.geometry = data.geometry;
+          this.wifi = data.wifi;
+          // console.log(data);
+          this.forminit().timejudge().geometryjudge().wifijudge();
+        }
+
+        forminit() {
+          this.singleTask.userplacemark = 0;
+          this.singleTask.userwifimark = 0;
+          this.singleTask.usertimemark = 0;
+          this.singleTask.userplaceservermark = 0;
+
+          return this;
+        }
+
+        wifijudge() {
+          const { wifi } = this.forminitData;
+
+          this.singleTask.Wifis = this.singleTask?.Wifis.length
+            ? this.singleTask.Wifis
+            : [];
+
+          this.singleTask.Wifis.forEach((wifiitem) => {
+            let findresult = wifi.find((item) => {
+              console.log(item.bssid == wifiitem.bssid);
+              return item.bssid == wifiitem.bssid;
+            });
+
+            this.singleTask.userwifimark = this.singleTask.userwifimark || findresult ? 1 : -1;
+          });
+
+          return this;
+        }
+
+        geometryjudge() {
+          const { geometry } = this.forminitData;
+
+          this.singleTask.Places = this.singleTask?.Places.length
+            ? this.singleTask.Places
+            : [];
+          let findresult = this.singleTask?.Places.find((placesitem) => {
+            let distance = flatearthDistance(
+              {
+                latitude: geometry?.coordinates[1],
+                longitude: geometry?.coordinates[0],
+              },
+              {
+                latitude: placesitem.geometry.coordinates[1],
+                longitude: placesitem.geometry.coordinates[0],
+              }
+            );
+
+            console.log(distance);
+            return placesitem.radius > distance;
+          });
+
+          this.singleTask.userplacemark = findresult ? 1 : -1;
+
+          return this;
+        }
+
+        placeserverjudge() {
+          return new Promise((resovle) => {
+            const { geometry } = this.forminitData;
+            // var point = turf.point([geometry.coordinates[0], geometry.coordinates[1]]);
+            var point = turf.point([116.02497, 28.68723]);
+            var buffered = turf.buffer(point, 200 / 1000.0);
+            console.log(buffered);
+            var geometry001 = {
+              rings: buffered.geometry.coordinates,
+              spatialReference: {
+                wkid: 4326,
+              },
+            };
+
+            placeserverjudgeapi({
+              geometry: JSON.stringify(geometry001),
+              geometryType: "esriGeometryPolygon",
+              f: "json",
+              returnGeometry: true,
+            })
+              .then((returnData) => {
+                if(returnData.data.features.length) {
+                  this.singleTask.userplaceservermark = 1;
+                }
+                else {
+                  this.singleTask.userplaceservermark = -1;
+                }
+                
+                resovle({
+                  singleTask: this.singleTask,
+                  features: returnData.data?.features,
+                });
+              })
+              .catch((data) => {
+                this.singleTask.userplaceservermark = -1;
+    
+                resovle({ singleTask: this.singleTask, features: [] });
+                console.log(data);
+              });
+          });
+        }
+
+        timejudge() {
+          if (Date.now() > this.singleTask.startstamp) {
+            // 迟到了
+            this.singleTask.usertimemark = -1;
+          } else {
+            // 打卡正常
+            this.singleTask.usertimemark = 1;
+          }
+
+          return this;
+        }
+      }
+
+      const task = new TaskDealWith({
+        task: this.tasklistsSelectItem,
+        wifi: this.$store.state.User.get.wifi,
+        geometry: this.$store.state.User.get.geometry,
+      });
+
+      task.placeserverjudge().then((data) => {
+        console.log(this.tasklistsSelectItem);
+        if((this.tasklistsSelectItem.userplacemark == 1 || this.tasklistsSelectItem.userwifimark == 1 || this.tasklistsSelectItem.userplacemark == 1)) {
+          console.log("时间判断成功");
+          if(this.tasklistsSelectItem.usertimemark == 1) {
+            this.tasklistsSelectItem.statusmark = 1;
+            this.tasklistsSelectItem.status = "打卡成功";
+            this.tasklistsSelectItem.icon = "#icon-chaxun";
+            this.$toast("打卡成功");
+          }
+          else {
+            console.log(this.tasklistsSelectItem.userplacemark , this.tasklistsSelectItem.userwifimark ,this.tasklistsSelectItem.userplacemark);
+            this.tasklistsSelectItem.statusmark = -1;
+            this.tasklistsSelectItem.status = "迟到了";
+            this.tasklistsSelectItem.icon = "#icon-bianjiputong";
+            this.$toast("迟到了");
+          }
+        }
+        else {
+          this.tasklistsSelectItem.statusmark = -1;
+          this.tasklistsSelectItem.status = "打卡失败"
+          this.tasklistsSelectItem.icon = "#icon-bianjiputong";
+          this.$toast("打卡失败");
+        }
+
+      
+      // 数据库中打卡信息保存
+      this.updateSingleTaskApi(this.tasklistsSelectItem).then((returnData) => {
+        if (returnData.status.mark == 0) {
+            this.tasklistsSelectItem.statusmark = 0;
+            this.tasklistsSelectItem.status = "保存失败";
+        }
+         // 更新vuex vuex内存中任务信息保存
+        // this.taskSignResultStore({taskid: this.tasklistsSelectItem.taskid, statusmark: this.tasklistsSelectItem.statusmark})
+      });
+
+      // 显示跳转
+      // this.mapviewControl = true;
+    
+      
+      });
+    },
+    updateSingleTaskApi(singletask) {
+      return new Promise((resolve) => {
+        let singlestamptaskArraySend = [];
+        singlestamptaskArraySend.push(singletask);
+        axios
+          .get(`${process.env.VUE_APP_POSITION_PATH}/result/taskSignSingle`, {
+            params: { sendArray: singlestamptaskArraySend },
+          })
+          .then((returnData) => {
+            let signResult = {
+              result: null,
+              status: {
+                mark: 0,
+                info: "保存失败",
+              },
+            };
+
+            signResult.result = returnData.data.result
+              ? returnData.data.result
+              : signResult.result;
+            signResult.status = returnData.data.status
+              ? returnData.data.status
+              : signResult.status;
+
+            resolve(signResult);
+          })
+          .catch((data) => {
+            resolve({
+              result: null,
+              status: {
+                mark: 0,
+                info: "保存失败",
+              },
+            })
+          })
+      });
+    },
   },
 };
 </script>

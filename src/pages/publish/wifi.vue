@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-29 09:39:33
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-01 16:48:59
+ * @LastEditTime: 2022-04-09 13:22:06
  * @FilePath: /graduation-project-master/src/pages/publish/wifi.vue
  * @Description: 
 -->
@@ -283,19 +283,10 @@ export default {
           this.itemsData = wifis;
         });
       } else {
-        this.$notify("请在android客户端操作");
+        this.$toast("请在android客户端操作");
         const aabbcc = {
           wifiList: [
-            {
-              bssid: "e8:65:d4:a9:e6:70",
-              ssid: "Tenda_A9E670",
-              level: -49,
-              checked: false,
-              id: 0,
-            },
-            { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
-            { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
-            { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
+            { bssid: "c2:65:c7:d9:ad:7c", ssid: "测试", level: -83, id: 2 },
           ],
         };
 

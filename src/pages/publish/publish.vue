@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 16:15:38
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 12:30:47
+ * @LastEditTime: 2022-04-09 13:29:01
  * @FilePath: /graduation-project-master/src/pages/publish/publish.vue
  * @Description: 
 -->
@@ -290,17 +290,22 @@ export default {
           )
           .then(function (returnData) {
             if(returnData.data.status.mark == 1) {
-              _this.$refs["resultcomponentControlRef"].resultShow001(returnData.data.result);
+              _this.$notify({message: "任务创建成功", duration: 0, type: "success"})
+              setTimeout(() => {
+                 _this.$notify.clear();
+                _this.$refs["resultcomponentControlRef"].resultShow001(returnData.data.result);
+              }, 500);
+              
               // _this.$parent.pageData.resultcomponent = true;
             }
             // _this.$notify("服务出现问题，或者你的网速过慢");
             console.log(returnData);
           })
           .catch(function () {
-            _this.$notify("服务出现问题，或者你的网速过慢");
+            _this.$notify( {message: "服务出现问题，或者你的网速过慢", duration: 1000});
           });
       } else {
-        this.$notify("请设置完整参数");
+        this.$notify({message: "请设置完整参数", duration: 800});
       }
     },
     backTo() {

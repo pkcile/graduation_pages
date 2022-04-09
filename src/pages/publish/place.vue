@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:46:04
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 11:07:50
+ * @LastEditTime: 2022-04-09 11:34:24
  * @FilePath: /graduation-project-master/src/pages/publish/place.vue
  * @Description: 
 -->
@@ -109,19 +109,11 @@ export default {
       actions: [
         {
           name: "选择为空",
-          value: "",
+          value: null,
         },
         {
           name: "整个服务",
-          value: "all",
-        },
-        {
-          name: "方荫楼",
-          value: "方荫楼",
-        },
-        {
-          name: "惟义楼",
-          value: "惟义楼",
+          value: "整个服务",
         }
       ],
       serverplacename: ""
@@ -164,10 +156,9 @@ export default {
     },
     onSelect(item) {
       this.show = false;
-      this.serverplacename = item.name;
-      console.log(item.name);
+      this.serverplacename = item.value;
       
-      this.$parent.pageData.serverplacename = item.name;
+      this.$parent.pageData.serverplacename = item.value;
       console.log(this.$parent.pageData.serverplacename);
     }
   },

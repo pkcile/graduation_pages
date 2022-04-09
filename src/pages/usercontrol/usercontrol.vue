@@ -8,51 +8,46 @@
         }"
         @click="backTo"
       ></div>
-      <div class="text">注册管理</div>
+      <div class="text">信息管理</div>
     </div>
     <div class="main" style="background:#efeff3">
       <div style="padding: 0 10px 10px 10px;box-sizing:border-radius;">
         <div class="mine-double-line-date">
           <div class="title">
             <div>用户操作</div>
-             <!-- <div style="color: #007aff" >时间段添加</div> -->
           </div>
           <div class="main" style="background:#fff;border-radius:5px;">
-            <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
-            <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
-          <div class="mine-single-line-three-001"  @click="userquery" >
-            <div>查询设置</div>
+            <div class="mine-single-line-three-001"  @click="userquery" >
+              <div>用户信息</div>
+              <div>{{ "" }}</div>
+              <div><van-icon name="arrow" /></div>
+            </div>
+            <div class="mine-single-line-three-001"  @click="userquery" >
+            <div>打卡记录</div>
             <div>{{ "" }}</div>
             <div><van-icon name="arrow" /></div>
           </div>
          
           </div>
         </div>
-        <div class="mine-double-line-date" style="display: none">
+        <div class="mine-double-line-date" >
           <div class="title">
-            <div>权限操作</div>
+            <div>任务管理</div>
              <!-- <div style="color: #007aff" >时间段添加</div> -->
           </div>
           <div class="main" style="background:#fff;border-radius:5px;">
             <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
             <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
           <div class="mine-single-line-three-001"   >
-            <div>用户查询</div>
+            <div>任务查看</div>
             <div>{{ "" }}</div>
             <div><van-icon name="arrow" /></div>
-          </div>
+          </div>  
           <div class="mine-single-line-three-001"   >
-            <div>用户修改</div>
+            <div>通知发布</div>
             <div>{{ "" }}</div>
             <div><van-icon name="arrow" /></div>
-          </div>
-          <div class="mine-single-line-three-001"   >
-            <div>用户添加</div>
-            <div>{{ "" }}</div>
-            <div><van-icon name="arrow" /></div>
-          </div>
-
-          
+          </div> 
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 22:09:48
+ * @LastEditTime: 2022-04-09 11:50:20
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -204,8 +204,8 @@ export default {
         vector: null,
         cva: null,
       },
-      longitude: null,
-      latitude: null,
+      longitude: 115.9968,
+      latitude: 28.5636,
       show: false,
       actions: [
         {
@@ -249,9 +249,14 @@ export default {
   },
   methods: {
     init() {
+      // const map = this.map;
+      // if (map && map.remove) {
+      //   map.off();
+      //   map.remove();
+      // }
       const _this = this;
       setTimeout(() => {
-        var map = L.map("viewDiv").setView([34, 115], 4);
+        var map = L.map("viewDiv").setView([this.latitude, this.longitude], 4);
         this.map = map;
 
         var image = L.tileLayer(
@@ -329,6 +334,8 @@ export default {
                 }
               ).addTo(map);
 
+              this.point = point;
+
               // console.log(returnData);
               map.flyTo(
                 { lon: returnData.longitude, lat: returnData.latitude },
@@ -349,10 +356,12 @@ export default {
             // [returnData.latitude, returnData.longitude],
           });
         } else {
-          map.flyTo({ lon: 115.304657, lat: 36.110565 }, 4, {
+          map.flyTo({ lon: this.longitude, lat: this.latitude }, 3, {
             animate: true,
             duration: 1,
           });
+
+          this.point.remove();
         }
       } else if (item.type == "imagery") {
         if (item.checked) {
@@ -469,10 +478,14 @@ export default {
       });
 
       setTimeout(() => {
+        this?.positionLayer?.remove();
+        this?.positionLayer2?.remove();
         var positionLayer = L.circle([pointarray[1], pointarray[0]], { radius : 200, color: "#f00"}).addTo(map);
         var positionLayer2 = L.circle([pointarray[1], pointarray[0]], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
         positionLayer2.bindPopup(item.name).openPopup();
         positionLayer.bringToFront();
+        this.positionLayer = positionLayer;
+        this.positionLayer2 = positionLayer2;
       }, 2000);
 
     },

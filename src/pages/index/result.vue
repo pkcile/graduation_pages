@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 23:31:58
+ * @LastEditTime: 2022-04-09 16:48:14
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -261,6 +261,8 @@ export default {
 
         placeserverjudge() {
           return new Promise((resovle) => {
+            const { geometry } = this.forminitData;
+            // var point = turf.point([geometry.coordinates[0], geometry.coordinates[1]]);
             var point = turf.point([116.02497, 28.68723]);
             var buffered = turf.buffer(point, 200 / 1000.0);
             console.log(buffered);
@@ -278,7 +280,13 @@ export default {
               returnGeometry: true,
             })
               .then((returnData) => {
-                this.singleTask.userplaceservermark = 1;
+                if(returnData.data.features.length) {
+                  this.singleTask.userplaceservermark = 1;
+                }
+                else {
+                  this.singleTask.userplaceservermark = -1;
+                }
+                
                 resovle({
                   singleTask: this.singleTask,
                   features: returnData.data?.features,
@@ -314,7 +322,7 @@ export default {
 
       task.placeserverjudge().then((data) => {
         console.log(this.tasklistsSelectItem);
-        if((this.tasklistsSelectItem.userplacemark || this.tasklistsSelectItem.userwifimark || this.tasklistsSelectItem.userplacemark)) {
+        if((this.tasklistsSelectItem.userplacemark == 1 || this.tasklistsSelectItem.userwifimark == 1 || this.tasklistsSelectItem.userplacemark == 1)) {
           console.log("时间判断成功");
           if(this.tasklistsSelectItem.usertimemark == 1) {
             this.tasklistsSelectItem.statusmark = 1;
@@ -323,6 +331,7 @@ export default {
             this.$toast("打卡成功");
           }
           else {
+            console.log(this.tasklistsSelectItem.userplacemark , this.tasklistsSelectItem.userwifimark ,this.tasklistsSelectItem.userplacemark);
             this.tasklistsSelectItem.statusmark = -1;
             this.tasklistsSelectItem.status = "迟到了";
             this.tasklistsSelectItem.icon = "#icon-bianjiputong";
@@ -349,7 +358,10 @@ export default {
 
       // 显示跳转
       // this.mapviewControl = true;
-      this.mapviewJudge(data);
+      
+      setTimeout(() => {
+        this.mapviewJudge(data);
+      }, 1500);
 
       
       });
@@ -442,11 +454,10 @@ export default {
       });
     },
     mapviewJudge(features) {
-      console.log(features);
       const tasklistsSelectItem = this.tasklistsSelectItem;
-      console.log(this.tasklistsSelectItem);
       this.mapviewControl = true;
       this.$refs["startmapview"].startmapview({ tasklistsSelectItem, features: features });
+      
     },
     ...mapMutations("User", ["updateStatus", "wifiStore", "geometryStore", "taskSignResultStore"]),
   },

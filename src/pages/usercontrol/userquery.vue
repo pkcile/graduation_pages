@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 00:48:03
+ * @LastEditTime: 2022-04-09 10:58:52
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -33,7 +33,7 @@
         <searchcomponet ref="searchDataChangeRef"></searchcomponet>
         <div class="mine-double-line-date">
           <div class="title">
-            <div>用户信息</div>
+            <div style="color: #f00" @click="editestatusfun">编辑删除</div>
             <div style="color: #007aff" @click="useraddcomponentControlFun">用户添加</div>
           </div>
           <div
@@ -41,7 +41,7 @@
             style="
               background: #fff;
               border-radius: 5px;
-              height: 350px;
+              height: 390px;
               overflow-y: auto;
             "
           >
@@ -54,12 +54,12 @@
               v-show="item.show"
             >
               <div>{{ item.name }}</div>
-              <div>{{ item.studynth }}</div>
-              <div><van-icon name="arrow" /></div>
+              <div>{{ item.classname.slice(item.classname.length-2) + "," + item.studynth }}</div>
+              <div @click="deleteitemfun(item)"><van-icon :name="icon" /></div>
             </div>
           </div>
         </div>
-        <div class="mine-double-line-date">
+        <div class="mine-double-line-date" v-show="itemsDataAddNew.length">
           <div class="title">
             <div>新添加信息</div>
             <!-- <div style="color: #007aff" @click="useraddcomponentControl=true">用户添加</div> -->
@@ -69,7 +69,7 @@
             style="
               background: #fff;
               border-radius: 5px;
-
+              height: 40px;
               overflow-y: auto;
             "
           >
@@ -82,7 +82,7 @@
             >
               <div>{{ item.name }}</div>
               <div >{{ item.studynth }}</div>
-              <div><van-icon name="arrow" /></div>
+              <div ><van-icon name="arrow" /></div>
             </div>
           </div>
         </div>
@@ -108,6 +108,7 @@ import axios from "axios";
 
 import useraddcomponent from "./useradd.vue";
 import searchcomponet from "@/components/searchStudent.vue"
+import {registerStudynthQuery, registerStudynthDelete} from "@/api/usercontrol/index.js"
 
 export default {
   data() {
@@ -116,6 +117,8 @@ export default {
       classname: [],
       itemsData: [],
       itemsDataAddNew: [],
+      icon: "arrow",
+      editestatus: false
     };
   },
   methods: {
@@ -171,6 +174,7 @@ export default {
             _this.classname = newSetClassnameArray;
 
             _this.$refs["searchDataChangeRef"].searchPoiItem(_this.itemsData);
+
             console.log(studentData);
           })
           // .catch(function () {
@@ -179,7 +183,40 @@ export default {
       }
     },
     useraddcomponentControlFun() {
+
       this.useraddcomponentControl = true;
+      this.$refs["useraddcomponentControlRef"].useraddcomponentControlRefFun(this.itemsData);
+    },
+    deleteitemfun(item) {
+      // console.log(arguments)
+      // console.log("aaa");
+      console.log(item);
+      if(this.editestatus) {
+        registerStudynthDelete({studynth: item.studynth}).then(returnData => {
+          console.log(returnData);
+          this.$toast("删除成功");
+          this.itemsData.splice(this.itemsData.findIndex(itemstudent => {
+            return itemstudent.studynth == item.studynth;
+          }), 1)
+          // this.$toast("移除成功");
+          window.event? window.event.cancelBubble = true : e.stopPropagation();
+        })
+        .catch(data => {
+          this.$toast("删除失败");
+        }) 
+      }
+
+
+    },
+    editestatusfun() {
+      this.editestatus = !this.editestatus;
+      console.log(this.editestatus);
+      if(this.editestatus) {
+        this.icon = "cross"
+      }
+      else {
+        this.icon = "arrow"
+      }
     }
   },
   components: {
@@ -451,6 +488,37 @@ export default {
   }
 
   & > .main {
+    & > div:last-of-type {
+      border-bottom: solid 0px #aaa !important;
+    }
+  }
+
+  .van-cell {
+    // border-radius: 5px;
+  }
+}
+
+.mine-double-line-date-order {
+  display: flex;
+  flex-direction: column;
+  & > .title {
+    order: 1;
+    margin: 15px auto 5px auto;
+    padding: 7px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    & > div:nth-of-type(1) {
+      flex: 1 0 100px;
+    }
+    & > div:nth-of-type(2) {
+      flex: 0 0 100px;
+      text-align: right;
+    }
+  }
+
+  & > .main {
+    order: 0;
     & > div:last-of-type {
       border-bottom: solid 0px #aaa !important;
     }

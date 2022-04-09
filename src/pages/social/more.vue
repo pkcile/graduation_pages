@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 15:14:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 23:06:33
+ * @LastEditTime: 2022-04-09 09:45:34
  * @FilePath: /graduation-project-master/src/pages/social/more.vue
  * @Description: 
 -->
@@ -146,7 +146,7 @@ export default {
           title: "管理员功能",
           items: [
             {
-              name: "注册管理",
+              name: "信息管理",
               router: "/home/usercontrol",
               key: "004",
               backgroundimg: require("@/assets/font/clock.svg"),
