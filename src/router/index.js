@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 20:36:47
- * @LastEditTime: 2022-04-02 14:57:00
+ * @LastEditTime: 2022-04-10 08:01:07
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/router/index.js
@@ -238,17 +238,17 @@ const router = new VueRouter({
   mode: 'hash'
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("loginData")) {
-//     if(window.sessionStorage.getItem("registerMark") == "1") {
-//       next({ name: 'Register' });
-//     }
-//     else {
-//       next({ name: 'Login' });
-//     }
-//   }
-//   else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("User")) {
+    if(window.sessionStorage.getItem("registerMark") == "1") {
+      next({ name: 'Register' });
+    }
+    else {
+      next({ name: 'Login' });
+    }
+  }
+  else {
+    next()
+  }
+})
 export default router;

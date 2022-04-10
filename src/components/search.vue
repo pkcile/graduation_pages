@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 20:32:48
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-06 20:57:27
+ * @LastEditTime: 2022-04-10 14:59:43
  * @FilePath: /graduation-project-master/src/components/search.vue
  * @Description: 
 -->
@@ -95,9 +95,31 @@ export default {
       if(!this.inputsearchshow) {
         this.inputsearchshow = true;
       }
+
+      if(window.plus) {
+        var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        
+        plus.webview.currentWebview().setStyle({
+          height: originalHeight - 220
+        });
+        console.log("height - 220")
+      }
+ 
       // console.log("focussearch");
     },
     bluesearch() {
+      // bluesearch
+      if(window.plus) {
+        var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        
+        console.log(plus.android.invoke(plus.android.currentWebview(),"getHeight") / plus.screen.scale );
+        console.log(plus.screen.resolutionHeight);
+        console.log(originalHeight);
+        plus.webview.currentWebview().setStyle({
+          height: originalHeight + 220
+        });
+        console.log("height + 220")
+      }
     },
     inputclear() {
       this.searchPoiData = [];  

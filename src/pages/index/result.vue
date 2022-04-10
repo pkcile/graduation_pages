@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 16:48:14
+ * @LastEditTime: 2022-04-10 15:02:55
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -216,9 +216,13 @@ export default {
         wifijudge() {
           const { wifi } = this.forminitData;
 
+
           this.singleTask.Wifis = this.singleTask?.Wifis.length
             ? this.singleTask.Wifis
             : [];
+
+          console.log(wifi);
+          console.log(this.singleTask.Wifis);
 
           this.singleTask.Wifis.forEach((wifiitem) => {
             let findresult = wifi.find((item) => {
@@ -322,7 +326,7 @@ export default {
 
       task.placeserverjudge().then((data) => {
         console.log(this.tasklistsSelectItem);
-        if((this.tasklistsSelectItem.userplacemark == 1 || this.tasklistsSelectItem.userwifimark == 1 || this.tasklistsSelectItem.userplacemark == 1)) {
+        if((this.tasklistsSelectItem.userplacemark == 1 || this.tasklistsSelectItem.userwifimark == 1 || this.tasklistsSelectItem.userplacemark == 1 || this.tasklistsSelectItem.userplaceservermark == 1)) {
           console.log("时间判断成功");
           if(this.tasklistsSelectItem.usertimemark == 1) {
             this.tasklistsSelectItem.statusmark = 1;

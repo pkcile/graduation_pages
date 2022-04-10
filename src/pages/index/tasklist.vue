@@ -163,6 +163,11 @@ export default {
         if(window.plus) {
           GetWiFiAndLocation2().then(data => {
             console.log(data);
+          this.pageData.tasklistsSelectItem.geometry = {
+          coordinates: [data.positionList.coords.longitude, data.positionList.coords.latitude],
+          type: "Point",
+          accuracy: returnData.accuracy
+        }
             _this.wifiStore(data.wifiList)
             _this.geometryStore(_this.pageData.tasklistsSelectItem.geometry)
              // wifi保存
@@ -184,6 +189,7 @@ export default {
               { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
             ],
           };
+
 
            // wifi保存
             console.log("wifi", + _this.wifiStore);

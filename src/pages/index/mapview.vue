@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 17:47:16
+ * @LastEditTime: 2022-04-10 15:41:01
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -533,7 +533,7 @@ export default {
       }
       else {
         var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 10, color: "#f00"}).addTo(map).bindPopup("位置判断失败").openPopup();
-
+        this.placeArrayPoints.push(positionLayer)
       }
      
       // positionLayer2.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();

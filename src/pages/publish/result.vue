@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 10:21:07
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 11:47:54
+ * @LastEditTime: 2022-04-10 13:03:26
  * @FilePath: /graduation-project-master/src/pages/publish/result.vue
  * @Description: 
 -->
@@ -223,20 +223,20 @@ export default {
   },
   mounted() {
     // 打卡信息数据初始化
-    const initPositionData = JSON.parse(
-      window.localStorage.getItem("initPositionData")
-    );
-    const initItems = initPositionData.features.filter((item) => {
-      return item.properties.Name && item.properties.Name != " ";
-    });
-    let initItemsName = [];
-    initItems.map((item) => {
-      initItemsName.push({
-        key: item.properties.Name,
-        name: item.properties.Name,
-      });
-    });
-    this.publishTask.formData.placename = initItemsName;
+    // const initPositionData = JSON.parse(
+    //   window.localStorage.getItem("initPositionData")
+    // );
+    // const initItems = initPositionData.features.filter((item) => {
+    //   return item.properties.Name && item.properties.Name != " ";
+    // });
+    // let initItemsName = [];
+    // initItems.map((item) => {
+    //   initItemsName.push({
+    //     key: item.properties.Name,
+    //     name: item.properties.Name,
+    //   });
+    // });
+    // this.publishTask.formData.placename = initItemsName;
 
     // 数据
     // console.log(this.publishTask.param);

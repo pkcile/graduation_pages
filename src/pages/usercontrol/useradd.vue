@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 17:08:58
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 09:33:33
+ * @LastEditTime: 2022-04-10 19:29:24
  * @FilePath: /graduation-project-master/src/pages/usercontrol/useradd.vue
  * @Description: 
 -->
@@ -217,8 +217,8 @@ export default {
       //   studynth: "201824803099"
       // });
               _this.$parent.itemsDataAddNew = itemsDataAddNew;
-              // _this.$parent.itemsData = _this.$parent.itemsData.concat(itemsDataAddNew);
-              _this.$parent.itemsData.push.apply(_this.$parent.itemsData, itemsDataAddNew);
+              _this.$parent.itemsData = _this.$parent.itemsData.concat(itemsDataAddNew);
+              // _this.$parent.itemsData.push.apply(_this.$parent.itemsData, itemsDataAddNew);
             }
 
             // _this.$emit("open-person-choose-form", returnData.data.id);

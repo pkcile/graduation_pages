@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-29 09:39:33
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 13:22:06
+ * @LastEditTime: 2022-04-10 16:10:17
  * @FilePath: /graduation-project-master/src/pages/publish/wifi.vue
  * @Description: 
 -->
@@ -68,9 +68,10 @@
                   border: #8080802e 0px solid;
                   border-bottom: #8080802e 1px solid;
                 "
-                @click="itemCheckedControl(item)"
+                
                 v-for="item in itemsData"
                 v-bind:key="item.key"
+                @click="itemCheckedControl(item)"
               >
                 <div>
                   <div>
@@ -247,6 +248,7 @@ export default {
       // console.log(_this.studentData);
     },
     itemCheckedControl(item) {
+      console.log(item.checked);
       item.checked =  !item.checked;
     },
     backTo() {
@@ -276,13 +278,17 @@ export default {
               bssid: wifiitem.bssid,
               ssid: wifiitem.ssid,
               level: wifiitem.level,
-              key: Date.now(),
+              key: Date.now() + Math.random() + "",
+              id: wifiitem.id,
+              checked: false,
             });
           });
           this.itemsData.length = 0;
           this.itemsData = wifis;
+          console.log(JSON.stringify(this.itemsData))
         });
-      } else {
+      } 
+      else {
         this.$toast("请在android客户端操作");
         const aabbcc = {
           wifiList: [
@@ -304,6 +310,7 @@ export default {
 
         this.itemsData.length = 0;
         this.itemsData = wifis;
+        console.log(JSON.stringify(this.itemsData))
       }
     },
     GetWiFiAndLocation() {
@@ -313,9 +320,6 @@ export default {
       return new Promise(function (resolve) {
         plus.geolocation.getCurrentPosition(
           function (positionList) {
-            // alert('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords
-            // 	.longitude + '\nAltitude:' + p.coords.altitude);
-            // #ifdef APP-PLUS
             const mainActivity = plus.android.runtimeMainActivity();
             const Settings = plus.android.importClass(
               "android.provider.Settings"
@@ -339,19 +343,16 @@ export default {
             }
             // 如果获取成功
             else {
-              console.log(resultList.size());
               for (let i = 0; i < resultList.size(); i++) {
                 //	 ssid名称、bssidbssid地址、level信号强弱
                 wifiList.push({
                   bssid: resultList.get(i).plusGetAttribute("BSSID"),
                   ssid: resultList.get(i).plusGetAttribute("SSID"),
                   level: resultList.get(i).plusGetAttribute("level"),
-                  id: i,
-                  key: Date.now() + Math.random(),
+                  id: i
                 });
               }
             }
-            // #endif
 
             resolve({
               wifiList,

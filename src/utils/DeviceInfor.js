@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-02-19 21:31:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-07 17:05:09
+ * @LastEditTime: 2022-04-10 15:58:56
  * @FilePath: /graduation-project-master/src/utils/DeviceInfor.js
  * @Description: 
  */
@@ -98,6 +98,8 @@ export function GetWiFiAndLocation2() {
               key: Date.now() + Math.random(),
             });
           }
+
+          JSON.stringify(wifiList);
         }
         // #endif
 

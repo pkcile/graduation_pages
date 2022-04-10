@@ -1,10 +1,10 @@
 <!--
  * @Author: pkcile
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2022-02-28 22:41:01
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-04-09 17:55:19
+ * @LastEditors: 王朋坤
  * @Description: 
- * @FilePath: /graduation-project-master/src/components/social/social.vue
+ * @FilePath: /graduation-project-master/src/components/user/social/social.vue
 -->
 
 <template>
@@ -117,7 +117,7 @@ export default {
               router: "/social",
               key: "001",
               backgroundimg: require("@/assets/font/social-reddit.svg"),
-              show: false
+              show: true
             },
             {
               name: "位置签到",

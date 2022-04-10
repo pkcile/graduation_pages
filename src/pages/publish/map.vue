@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 11:50:20
+ * @LastEditTime: 2022-04-10 18:06:08
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -327,14 +327,6 @@ export default {
             });
 
             if (returnData?.latitude) {
-              var point = L.marker(
-                [returnData.latitude, returnData.longitude],
-                {
-                  icon: greenIcon,
-                }
-              ).addTo(map);
-
-              this.point = point;
 
               // console.log(returnData);
               map.flyTo(
@@ -343,13 +335,47 @@ export default {
                 { animate: true, duration: 1 }
               );
 
+              setTimeout(() => {
+                
+                console.log(returnData);
+                this.point1 = L.circle([returnData.latitude, returnData.longitude], { radius : 200, color: "#f00"}).addTo(map);
+                this.point2 = L.circle([returnData.latitude, returnData.longitude], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
+              }, 1000);
+
               this.geometry = {
                 coordinates: [returnData.longitude, returnData.latitude],
                 type: "Point",
                 accuracy: returnData.accuracy,
               };
             } else {
-              this.$toast("位置获取失败");
+              if(window.plus) {
+                plus.geolocation.getCurrentPosition(
+                function (position) {
+                 let returnData = position.coords;
+                  map.flyTo(
+                    { lon: returnData.longitude, lat: returnData.latitude },
+                    13,
+                    { animate: true, duration: 1 }
+                  );
+
+                  setTimeout(() => {
+                     console.log(this.point1);
+                      console.log(returnData);
+                      this.point1 = L.circle([returnData.latitude, returnData.longitude], { radius : 200, color: "#f00"}).addTo(map);
+                      this.point2 = L.circle([returnData.latitude, returnData.longitude], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
+                  }, 1000);
+
+                  this.geometry = {
+                    coordinates: [returnData.longitude, returnData.latitude],
+                    type: "Point",
+                    // accuracy: returnData.accuracy,
+                  };
+                })
+              }
+              else {
+                this.$toast("位置获取失败，请检查是否开启定位权限");
+              }
+     
               console.log(returnData);
             }
 
@@ -361,7 +387,8 @@ export default {
             duration: 1,
           });
 
-          this.point.remove();
+          this.point1.remove();
+          this.point2.remove();
         }
       } else if (item.type == "imagery") {
         if (item.checked) {
