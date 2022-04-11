@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2022-04-06 22:04:59
+ * @LastEditTime: 2022-04-11 10:03:36
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/vue.config.js
@@ -18,7 +18,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 module.exports = {
   productionSourceMap: process.env.NODE_ENV == "development" ? true: false,
   publicPath: "./",
-  outputDir: "dist",
+  outputDir: "docs",
   assetsDir: "./static",
   css: {
     loaderOptions: {
