@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-04-08 23:44:28
+ * @LastEditTime: 2022-04-11 14:25:39
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/register.vue
@@ -40,7 +40,9 @@
             <transition-group name="list" tag="p">
               <li v-for="item in returnData" :key="item.key">
                 <span>{{ item.key }}</span>
-                <span :class="{redColor: item.red, blueColor: item.blue}" >{{ item.value }}</span>
+                <span :class="{ redColor: item.red, blueColor: item.blue }">{{
+                  item.value
+                }}</span>
               </li>
             </transition-group>
           </ul>
@@ -62,8 +64,8 @@
 
 <script>
 import { NavBar } from "vant";
-import axios from "axios";
 import { convertDate } from "@/utils/date.js";
+import { userRegisterApi } from "@/api/init/index.js";
 
 export default {
   data() {
@@ -89,7 +91,7 @@ export default {
     // 如果 `question` 发生改变，这个函数就会运行
     returnData: function (newQuestion, oldQuestion) {
       console.log(this.returnData);
-    }
+    },
   },
   methods: {
     userRegister() {
@@ -100,84 +102,97 @@ export default {
       };
 
       if (!params.studynth) {
-        this.$notify({ type: "warning", message: "请输入学号", duration: "800" });
-      } else {
-        this.userRegisterRequest(params).then((returnData) => {
-          console.log(returnData);
-          if (returnData.data.status.mark == 1) {
-            // 成功提示
-            this.$notify({
-              type: "success",
-              message: returnData.data.status.infor + "密码：1234",
-              duration: "800"
-            });
-            console.log(returnData.data.result);
+        this.$notify({
+          type: "warning",
+          message: "请输入学号",
+          duration: "800",
+        });
+      } 
+      else {
+        userRegisterApi(params).then((returnData) => {
+          if (returnData?.data) {
+            if (returnData.data.status.mark == 1) {
+              // 成功提示
+              this.$notify({
+                type: "success",
+                message: returnData.data.status.infor + "密码：1234",
+                duration: "800",
+              });
+              console.log(returnData.data.result);
 
-            const returnDataReference = [
-              {
-                key: "结果",
-                value: "注册成功，密码1234",
-                blue: true,
-                red: false
-              },
-              {
-                key: "姓名",
-                value: returnData.data.result?.name,
-              },
-              {
-                key: "身份",
-                value: returnData.data.result?.role,
-              },
-              {
-                key: "注册时间",
-                value: returnData.data.result?.registertimestamp
-                  ? convertDate(returnData.data.result?.registertimestamp)
-                  : returnData.data.result?.registertimestamp,
-              },
-            ];
+              const returnDataReference = [
+                {
+                  key: "结果",
+                  value: "注册成功，密码1234",
+                  blue: true,
+                  red: false,
+                },
+                {
+                  key: "姓名",
+                  value: returnData.data.result?.name,
+                },
+                {
+                  key: "身份",
+                  value: returnData.data.result?.role,
+                },
+                {
+                  key: "注册时间",
+                  value: returnData.data.result?.registertimestamp
+                    ? convertDate(returnData.data.result?.registertimestamp)
+                    : returnData.data.result?.registertimestamp,
+                },
+              ];
 
-            this.returnData = returnDataReference.filter((item) => item.value);
-          
-            console.log(this.returnData, returnDataReference);
-          } 
-          else {
-            // 错误提示
+              this.returnData = returnDataReference.filter(
+                (item) => item.value
+              );
+
+              console.log(this.returnData, returnDataReference);
+            } else {
+              // 错误提示
+              this.$notify({
+                type: "danger",
+                message: returnData.data.status.infor,
+                duration: "800",
+              });
+              console.log(returnData.data.result);
+              // 结果 status.infor
+              // 姓名 result.name
+              // 注册时间 result.registertimestamp
+              // 身份 result.role
+
+              this.returnData = [
+                {
+                  key: "结果",
+                  value: returnData.data.status.infor,
+                  red: true,
+                  blue: false,
+                },
+                {
+                  key: "姓名",
+                  value: returnData.data.result?.name,
+                },
+                {
+                  key: "身份",
+                  value: returnData.data.result?.role,
+                },
+                {
+                  key: "注册时间",
+                  value: returnData.data.result?.registertimestamp
+                    ? convertDate(returnData.data.result?.registertimestamp)
+                    : returnData.data.result?.registertimestamp,
+                },
+              ];
+              this.returnData = this.returnData.filter((item) => item.value);
+              console.log(this.returnData);
+              console.log(convertDate(undefined));
+            }
+          } else {
             this.$notify({
               type: "danger",
-              message: returnData.data.status.infor,
-              duration: "800"
+              message: "服务器错误，请稍后访问",
+              duration: "800",
             });
-            console.log(returnData.data.result);
-            // 结果 status.infor
-            // 姓名 result.name
-            // 注册时间 result.registertimestamp
-            // 身份 result.role
-
-            this.returnData = [
-              {
-                key: "结果",
-                value: returnData.data.status.infor,
-                red: true,
-                blue: false
-              },
-              {
-                key: "姓名",
-                value: returnData.data.result?.name,
-              },
-              {
-                key: "身份",
-                value: returnData.data.result?.role,
-              },
-              {
-                key: "注册时间",
-                value: returnData.data.result?.registertimestamp
-                  ? convertDate(returnData.data.result?.registertimestamp)
-                  : returnData.data.result?.registertimestamp,
-              },
-            ];
-            this.returnData = this.returnData.filter((item) => item.value);
-            console.log(this.returnData);
-            console.log(convertDate(undefined));
           }
         });
       }
@@ -186,20 +201,6 @@ export default {
       return {
         studynth: this.pageData.items[0].value,
       };
-    },
-    userRegisterRequest(paramsobj) {
-      return new Promise((resolve) => {
-        axios
-          .get(`${process.env.VUE_APP_POSITION_PATH}/user/register`, {
-            params: {
-              studynth: paramsobj.studynth,
-            },
-          })
-          .then((returnData) => {
-            console.log(returnData.data);
-            resolve(returnData);
-          });
-      });
     },
     goBack() {
       this.$router.push("/user/login");
@@ -265,10 +266,10 @@ export default {
 .list-leave-active {
   transition: all 1s;
 }
-.list-enter, .list-leave-to {
+.list-enter,
+.list-leave-to {
   opacity: 0;
   transform: translate(0px);
-  // translate
 }
 
 .redColor {

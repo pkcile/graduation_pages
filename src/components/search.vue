@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 20:32:48
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-10 14:59:43
+ * @LastEditTime: 2022-04-11 14:00:53
  * @FilePath: /graduation-project-master/src/components/search.vue
  * @Description: 
 -->
@@ -20,7 +20,7 @@
 
 <script>
 import { Search } from "vant"
-import axios from 'axios';
+import { tianSearchApi } from "@/api/other/index.js"
 
 export default {
   components: {
@@ -137,22 +137,36 @@ export default {
         }
         
       return new Promise(resolve => {
-        axios
-        // http://api.tianditu.gov.cn/search?postStr={%22keyWord%22:%22%E6%B2%B3%E5%8C%97%E7%9C%81%E7%8E%8B%E5%B0%8F%E6%A5%BC%E6%9D%91%22,%22level%22:%2211%22,%22mapBound%22:%22116.04577,39.70307,116.77361,40.09583%22,%22queryType%22:%221%22,%22count%22:%2220%22,%22start%22:%220%22}&type=query&tk=c2eac0b552d848155c72b1d3f6aabf36
-          .get(`http://api.tianditu.gov.cn/v2/search`, {
-            params: {
-              postStr: JSON.stringify(postStr),
-              type: "query",
-              tk: "c2eac0b552d848155c72b1d3f6aabf36"
-            },
-          })
-          .then((returnData) => {
-            resolve(returnData?.data);
-          })
-          .catch(() => {
-            // _this.$notify("服务器错误");
-            resolve("服务器错误");
-          })
+        tianSearchApi({
+          postStr: JSON.stringify(postStr),
+          type: "query",
+          tk: "c2eac0b552d848155c72b1d3f6aabf36"
+        })
+        .then((returnData) => {
+          resolve(returnData?.data);
+        })
+        .catch(() => {
+          // _this.$notify("服务器错误");
+          resolve("服务器错误");
+        })
+        
+
+        // axios
+        // // http://api.tianditu.gov.cn/search?postStr={%22keyWord%22:%22%E6%B2%B3%E5%8C%97%E7%9C%81%E7%8E%8B%E5%B0%8F%E6%A5%BC%E6%9D%91%22,%22level%22:%2211%22,%22mapBound%22:%22116.04577,39.70307,116.77361,40.09583%22,%22queryType%22:%221%22,%22count%22:%2220%22,%22start%22:%220%22}&type=query&tk=c2eac0b552d848155c72b1d3f6aabf36
+        //   .get(`http://api.tianditu.gov.cn/v2/search`, {
+        //     params: {
+        //       postStr: JSON.stringify(postStr),
+        //       type: "query",
+        //       tk: "c2eac0b552d848155c72b1d3f6aabf36"
+        //     },
+        //   })
+        //   .then((returnData) => {
+        //     resolve(returnData?.data);
+        //   })
+        //   .catch(() => {
+        //     // _this.$notify("服务器错误");
+        //     resolve("服务器错误");
+        //   })
       })
     },
     searchPoiItem(item) {

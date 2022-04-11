@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-10 15:41:01
+ * @LastEditTime: 2022-04-11 14:24:36
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -207,17 +207,15 @@ import {
 import L from "leaflet";
 import { featureLayer, dynamicMapLayer } from "esri-leaflet";
 import  * as esriLeafletVector from "esri-leaflet-vector"
-import { getCurrentLocation2 } from "@/utils/geolocation.js";
-import { geometry, point } from "@turf/helpers";
 import searchplaces from "@/components/search.vue";
-import axios from "axios";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import "@/map/leaflet/L.LabelTextCollision.js";
-import { data } from "@/map/leaflet/data.js";
 import { flatearthDistance } from "@/utils/distance2.js";
 import * as turf from "@turf/turf";
-import { placeserverjudgeapi } from "@/api/index/index.js";
+import { placeserverjudgeapi, updateSingleTaskApi} from "@/api/index/index.js";
+
+import "@/map/leaflet/L.LabelTextCollision.js";
+import { data } from "@/map/leaflet/data.js";
 
 export default {
   name: "mapapp",
@@ -308,11 +306,6 @@ export default {
   mounted() {
     console.log("mounted");
     // this.init();
-    // setTimeout(() => {
-    //   this.init2();
-    // }, 1000);
-    
-  
   },
   watch: {
     // 如果 `question` 发生改变，这个函数就会运行
@@ -359,63 +352,63 @@ export default {
     },
   },
   methods: {
-    init2() {
-      console.log("init2");
-        var osmUrl = "http://tile.openstreetmap.jp/{z}/{x}/{y}.png";
-    var osm = new L.TileLayer(osmUrl, {
-      maxZoom: 18,
-    });
+    // init2() {
+    //   console.log("init2");
+    //     var osmUrl = "http://tile.openstreetmap.jp/{z}/{x}/{y}.png";
+    // var osm = new L.TileLayer(osmUrl, {
+    //   maxZoom: 18,
+    // });
 
-    var labelTextCollision = new L.LabelTextCollision({
-      collisionFlg: true,
-    });
+    // var labelTextCollision = new L.LabelTextCollision({
+    //   collisionFlg: true,
+    // });
 
-    var map = new L.Map("viewDiv", {
-      layers: [osm],
-      center: new L.LatLng(35.695786, 139.749213),
-      zoom: 10,
-      renderer: labelTextCollision,
-    });
+    // var map = new L.Map("viewDiv", {
+    //   layers: [osm],
+    //   center: new L.LatLng(35.695786, 139.749213),
+    //   zoom: 10,
+    //   renderer: labelTextCollision,
+    // });
 
-    var p = L.polyline(
-      [
-        [35.695786, 139.749213],
-        [35.696786, 139.748213],
-        [35.695786, 139.747213],
-      ],
-      {
-        weight: 12,
-        color: "#bfa",
-        text: "Leaflet.LabelTextCollision!!!!!!!!",
-      }
-    ).addTo(map);
+    // var p = L.polyline(
+    //   [
+    //     [35.695786, 139.749213],
+    //     [35.696786, 139.748213],
+    //     [35.695786, 139.747213],
+    //   ],
+    //   {
+    //     weight: 12,
+    //     color: "#bfa",
+    //     text: "Leaflet.LabelTextCollision!!!!!!!!",
+    //   }
+    // ).addTo(map);
 
-    var layers = L.featureGroup().addTo(map);
+    // var layers = L.featureGroup().addTo(map);
 
-    for (var index in data) {
-      var d = data[index];
-      var latlng = L.latLng(d[0], d[1]);
-      var c = L.circleMarker(latlng, {
-        radius: 5,
-        text: latlng.toString(),
-      });
-      layers.addLayer(c);
-      if (index == 3000) {
-        break;
-      }
-    }
-    var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
-    var polygon = L.polygon(latlngs, {color: 'red', text: "eeeeee"}).addTo(map);
+    // for (var index in data) {
+    //   var d = data[index];
+    //   var latlng = L.latLng(d[0], d[1]);
+    //   var c = L.circleMarker(latlng, {
+    //     radius: 5,
+    //     text: latlng.toString(),
+    //   });
+    //   layers.addLayer(c);
+    //   if (index == 3000) {
+    //     break;
+    //   }
+    // }
+    // var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
+    // var polygon = L.polygon(latlngs, {color: 'red', text: "eeeeee"}).addTo(map);
     
 
-    // zoom the map to the polygon
-    map.fitBounds(polygon.getBounds());
+    // // zoom the map to the polygon
+    // map.fitBounds(polygon.getBounds());
 
-    function setCollisionDetection(flg) {
-      labelTextCollision.options.collisionFlg = flg;
-      map.fitBounds(map.getBounds());
-    }
-    },
+    // function setCollisionDetection(flg) {
+    //   labelTextCollision.options.collisionFlg = flg;
+    //   map.fitBounds(map.getBounds());
+    // }
+    // },
     init(params) {
       let DefaultIcon = L.icon({
         iconUrl: icon,
@@ -423,10 +416,7 @@ export default {
       });
       L.Marker.prototype.options.icon = DefaultIcon;
 
-      const _this = this;
       setTimeout(() => {
-        // 116.020604', '28.684420
-        // var map = L.map("viewDiv").setView([34, 115], 4);
         var labelTextCollision = new L.LabelTextCollision({
           collisionFlg: true,
         });
@@ -460,8 +450,7 @@ export default {
           apikey: "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A" // Replace with your API key - https://developers.arcgis.com
         }).addTo(map);
         
-       
-        // map.removeControl(map.zoomControl);
+        map.removeControl(map.zoomControl);
         map.removeControl(map.attributionControl);
         
         black.remove();
@@ -469,28 +458,16 @@ export default {
         image.remove();
         cva.addTo(map);
 
-
-        // let dy = dynamicMapLayer({
-        //   url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/MapServer",
-        //   opacity: 1
-        // })
-        // var dy = featureLayer({
-        //     url: 'https://maps.pasda.psu.edu/arcgis/rest/services/pasda/CityPhillyPlanning/MapServer/2'
-        //   }).addTo(map);
-
         let dy = dynamicMapLayer({
           url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/MapServer",
           opacity: 1
         })
 
-       
         dy.once("load", function (evt) {
-          console.log(evt);
-          
+          console.log(evt);     
         })
         .addTo(map);
-
-        
+ 
         dy.remove();
 
         this.layer = {
@@ -511,14 +488,9 @@ export default {
           shadowAnchor: [22, 94]
       });
 
-      
-      
-      console.log(this.$store.state.User.get.geometry);
-      console.log(params);
       let placeArrayPoints = [];
       params.tasklistsSelectItem.Places.forEach(placeitem => {
         var markplaceobj = L.circle([placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]], { radius : placeitem.radius, color: "#00f"}).addTo(map);
-        // let markplaceobj =  L.marker([placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]]).addTo(map);
         markplaceobj.bindPopup("打卡预设点位，缓存半径：" + placeitem.radius + "米");
         placeArrayPoints.push(
           markplaceobj
@@ -529,15 +501,11 @@ export default {
       if(params.tasklistsSelectItem.userplacemark == 1 || params.tasklistsSelectItem.userplaceservermark == 1) {
         var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 10, color: "#008400"}).addTo(map).bindPopup("位置判断成功").openPopup();
         this.placeArrayPoints.push(positionLayer)
-      // var positionLayer2 = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
       }
       else {
         var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 10, color: "#f00"}).addTo(map).bindPopup("位置判断失败").openPopup();
         this.placeArrayPoints.push(positionLayer)
       }
-     
-      // positionLayer2.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-        // positionLayer.bringToFront();
       }, 0);
       
     },
@@ -606,19 +574,6 @@ export default {
         image.addTo(map);
         dy.addTo(map);
       }
-    },
-    startmapview(params) {
-      this.longitude = this.$store.state.User.get.geometry.coordinates[0];
-      this.latitude = this.$store.state.User.get.geometry.coordinates[1];
-      this.tasklistsSelectItem = params.tasklistsSelectItem;
-
-      setTimeout(
-        ()=> {
-          this.init(params);
-        },
-        0
-      )
-      
     },
     changepoint() {
       console.log(this.placeArrayPoints);
@@ -795,59 +750,31 @@ export default {
           this.$toast("打卡失败");
         }
 
-      
       // 数据库中打卡信息保存
-      this.updateSingleTaskApi(this.tasklistsSelectItem).then((returnData) => {
+      updateSingleTaskApi(this.tasklistsSelectItem).then((returnData) => {
         if (returnData.status.mark == 0) {
             this.tasklistsSelectItem.statusmark = 0;
             this.tasklistsSelectItem.status = "保存失败";
         }
-         // 更新vuex vuex内存中任务信息保存
-        // this.taskSignResultStore({taskid: this.tasklistsSelectItem.taskid, statusmark: this.tasklistsSelectItem.statusmark})
       });
 
       // 显示跳转
-      // this.mapviewControl = true;
-    
-      
+      // this.mapviewControl = true;  
       });
     },
-    updateSingleTaskApi(singletask) {
-      return new Promise((resolve) => {
-        let singlestamptaskArraySend = [];
-        singlestamptaskArraySend.push(singletask);
-        axios
-          .get(`${process.env.VUE_APP_POSITION_PATH}/result/taskSignSingle`, {
-            params: { sendArray: singlestamptaskArraySend },
-          })
-          .then((returnData) => {
-            let signResult = {
-              result: null,
-              status: {
-                mark: 0,
-                info: "保存失败",
-              },
-            };
+    // 父组件调用
+    startmapview(params) {
+      this.longitude = this.$store.state.User.get.geometry.coordinates[0];
+      this.latitude = this.$store.state.User.get.geometry.coordinates[1];
+      this.tasklistsSelectItem = params.tasklistsSelectItem;
 
-            signResult.result = returnData.data.result
-              ? returnData.data.result
-              : signResult.result;
-            signResult.status = returnData.data.status
-              ? returnData.data.status
-              : signResult.status;
-
-            resolve(signResult);
-          })
-          .catch((data) => {
-            resolve({
-              result: null,
-              status: {
-                mark: 0,
-                info: "保存失败",
-              },
-            })
-          })
-      });
+      setTimeout(
+        ()=> {
+          this.init(params);
+        },
+        0
+      )
+      
     },
   },
 };

@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-04-11 09:56:52
+ * @LastEditTime: 2022-04-11 13:51:20
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -100,15 +100,14 @@
 </template>
 
 <script>
-import axios from "axios";
 import { NavBar, Cell, CellGroup, Checkbox, CheckboxGroup } from "vant";
 import {
-  getCurrentLocation2,
-  getLocationInformation,
+  getCurrentLocation2
 } from "@/utils/geolocation.js";
 import { mapMutations } from 'vuex'
 
-
+import { tianSearchApi, getLocationInformation } from "@/api/other/index.js"
+import { loginSendDataApi } from "@/api/init/index.js"
 import {
   flatearthDistance,
   acosDistance,
@@ -187,7 +186,8 @@ export default {
         return;
       } 
       else {
-        this.loginSendData({ studynth, password }).then((returnData) => {
+        loginSendDataApi({ studynth, password }).then((returnData) => {
+          if(returnData?.data) {
           this.returnData.tasks = returnData;
           // 登陆成功
           const loginStoreData = {
@@ -227,39 +227,19 @@ export default {
           else {
             this.$notify({ type: "danger", message: "账号密码错误" , duration: "800"});
           }
+          }
+          else {
+            this.$notify({ type: "danger", message: returnData , duration: "800"});
+          }
+       
         });
       }
-    },
-    loginSendData(paramsobj) {
-      const _this = this;
-      return new Promise((resolve) => {
-        axios
-          .get(`${process.env.VUE_APP_POSITION_PATH}/user/login`, {
-            params: {
-              studynth: paramsobj.studynth,
-              password: paramsobj.password,
-            },
-            timeout: 3000,
-          })
-          .then((returnData) => {
-            resolve(returnData);
-          })
-          .catch(() => {
-            _this.$notify("服务器错误，请稍后访问");
-          })
-      });
     },
     resolveLocationClock(returnData) {
       console.log(returnData.data);
       if(returnData.data.status.mark == 1) {
         if(returnData.data.result?.tasks.length) {
         // 处理定位任务
-        // if(this.returnData.placeinformation.length) {
-          // this.returnData.placeinformation.push({
-          //   key: "任务",
-          //   value: "获取了" + returnData.data.result.tasks.length + "个任务点"
-          // })
-
           // 一维数组
           const placetaskidstamp = [
             {
@@ -357,18 +337,7 @@ export default {
       else {
 
       }
-      // return new Promise((resolve) => {
-      //     axios
-      //     .get(`${process.env.VUE_APP_POSITION_PATH}/user/login`, {
-      //       params: {
-      //         studynth: paramsobj.studynth,
-      //         password: paramsobj.password,
-      //       },
-      //     })
-      //     .then((returnData) => {
-      //       resolve(returnData);
-      //     });
-      // });
+
     },
     registerAccount() {
       window.sessionStorage.setItem("registerMark", "1");

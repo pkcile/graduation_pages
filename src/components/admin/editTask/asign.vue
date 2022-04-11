@@ -95,7 +95,6 @@ export default {
     axios
       .get(`${process.env.VUE_APP_POSITION_PATH}/api/position/queryStudent`)
       .then(function (returnData) {
-        // console.log(returnData.data);
         returnData.data.queryStudent.map((item) => {
           _this.studentData.push({name: item.name , username: item.username, checked: false, id: item.username});
         })

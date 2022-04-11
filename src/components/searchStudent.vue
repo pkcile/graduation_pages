@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-09 00:26:58
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 09:18:55
+ * @LastEditTime: 2022-04-11 14:01:01
  * @FilePath: /graduation-project-master/src/components/searchStudent.vue
  * @Description: 
 -->
@@ -15,7 +15,6 @@
 
 <script>
 import { Search } from "vant"
-import axios from 'axios';
 
 export default {
   components: {
