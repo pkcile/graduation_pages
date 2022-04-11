@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-04-08 23:47:29
+ * @LastEditTime: 2022-04-11 09:56:52
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -126,13 +126,15 @@ export default {
           {
             key: 1,
             title: "账号",
-            inputplaceholder: "用户名或学号",
+            // inputplaceholder: "用户名或学号",
+            inputplaceholder: "测试账号：1",
             value: "",
           },
           {
             key: 2,
             title: "密码",
-            inputplaceholder: "请输入密码",
+            // inputplaceholder: "请输入密码",
+            inputplaceholder: "测试密码：1234",
             value: "",
           },
         ],
@@ -237,12 +239,13 @@ export default {
               studynth: paramsobj.studynth,
               password: paramsobj.password,
             },
+            timeout: 3000,
           })
           .then((returnData) => {
             resolve(returnData);
           })
           .catch(() => {
-            _this.$notify("服务器错误");
+            _this.$notify("服务器错误，请稍后访问");
           })
       });
     },
