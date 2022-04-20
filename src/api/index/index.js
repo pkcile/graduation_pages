@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-08 10:23:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-11 14:11:51
+ * @LastEditTime: 2022-04-11 15:35:25
  * @FilePath: /graduation-project-master/src/api/index/index.js
  * @Description: 
  */
@@ -16,7 +16,7 @@ export function updateSingleTaskApi(singletask) {
   return new Promise((resolve) => {
     let singlestamptaskArraySend = [];
     singlestamptaskArraySend.push(singletask);
-    axios
+    request
       .get(`${process.env.VUE_APP_POSITION_PATH}/result/taskSignSingle`, {
         params: { sendArray: singlestamptaskArraySend },
       })

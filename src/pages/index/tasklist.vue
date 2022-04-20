@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 23:26:04
+ * @LastEditTime: 2022-04-13 22:50:35
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -21,7 +21,9 @@
         </van-notice-bar>
       </div>
       <!-- pageData.tasklists.length -->
-      <ul class="mine-form-tasklist" style="" v-if="1" >
+
+
+      <ul class="mine-form-tasklist" style=""       v-if="1" >
         <!-- 打卡任务状态 -->
         <li
           v-for="taskitem in pageData.tasklists"
@@ -54,10 +56,12 @@
           </div>
         </li> -->
       </ul>
+  
+     
       <ul class="" v-else style="background: #fff; width: 100%; height: 100%">
         <van-empty description="无打卡任务" />
       </ul>
-      </van-pull-refresh>
+    </van-pull-refresh>
     <transition name="component-fade" mode="out-in">
           <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
       </indexmodal>
@@ -325,7 +329,7 @@ export default {
   padding: 0 5px 0 5px;
   margin: 0 auto;
   cursor: pointer;
-  & > li {
+  &  li {
     background: #fff;
     margin: 8px 0;
     padding: 10px 15px 10px 15px;
@@ -355,31 +359,31 @@ export default {
       }
     }
   }
-  & > li {
+  &  li {
     transition: 0.1s all;
   }
-  & > li:active {
+  & li:active {
     // background: #eee;
     // transition: 1s all;
     border: 1px dotted #1989fa;
   }
 
-  & > li:hover {
+  &  li:hover {
     border: 1px dotted #1989fa;
   }
 
-  & > li .icon {
+  &  li .icon {
     transition: 0.1s all;
     //  fill: #1989FA !important;
   }
 
-  & > li:hover .icon {
+  &  li:hover .icon {
     fill: #1989fa !important;
     // width: 1.7em;
     // height: 1.7em;
   }
 
-  & > li:active .icon {
+  &  li:active .icon {
     // width: 1.7em;
     // height: 1.7em;
     fill: #1989fa !important;

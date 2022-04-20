@@ -14,7 +14,6 @@ export function GetWiFiAndLocation() {
 		uni.getLocation({
 			type: 'wgs84',
 			success: function(positionList) {
-				// #ifdef APP-PLUS
 				const mainActivity = plus.android.runtimeMainActivity();
 				const Settings = plus.android.importClass("android.provider.Settings");
 				const MainActivity = plus.android.runtimeMainActivity();
@@ -45,8 +44,7 @@ export function GetWiFiAndLocation() {
 						});
 					}
 				}
-				// #endif
-
+				
 				resolve({
 					wifiList,
 					positionList
@@ -63,7 +61,6 @@ export function GetWiFiAndLocation2() {
   return new Promise(function (resolve) {
     plus.geolocation.getCurrentPosition(
       function (positionList) {
-        // #ifdef APP-PLUS
         const mainActivity = plus.android.runtimeMainActivity();
         const Settings = plus.android.importClass(
           "android.provider.Settings"
@@ -101,7 +98,6 @@ export function GetWiFiAndLocation2() {
 
           JSON.stringify(wifiList);
         }
-        // #endif
 
         resolve({
           wifiList,

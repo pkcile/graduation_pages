@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-04-11 13:51:20
+ * @LastEditTime: 2022-04-17 16:02:25
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -406,7 +406,9 @@ export default {
     //   loginStore2: 'loginStore' // 将 `this.add()` 映射为 `this.$store.commit('increment')`
     // })
   },
-  created() {},
+  created() {
+    window.localStorage.getItem("");
+  },
   components: {
     [NavBar.name]: NavBar,
     [Checkbox.name]: Checkbox,

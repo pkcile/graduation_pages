@@ -2,12 +2,13 @@
  * @Author: 王朋坤
  * @Date: 2022-04-01 16:36:02
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 15:43:29
+ * @LastEditTime: 2022-04-20 22:08:30
  * @FilePath: /graduation-project-master/src/pages/mine/mine.vue
  * @Description: 
 -->
 <template>
   <div class="home-mine">
+    <logcomponent></logcomponent>
     <!-- 用户信息设置 -->
     <div class="mine-form-user-information">
       <img :src="`${require('@/assets/img/user/1.jpg')}`" alt="" />
@@ -42,10 +43,12 @@ import "@/assets/style/common/mobile-form.scss"
 import { Dialog } from 'vant';
 import { mapState, mapMutations} from "vuex";
 import { TaskDealWith } from "@/utils/judgetasks.js";
+import  logcomponent from "./log.vue"
 
 export default {
   components: {
     [Dialog.Component.name]: Dialog.Component.name,
+    logcomponent: logcomponent
   },
   methods: {
     loginOut() {

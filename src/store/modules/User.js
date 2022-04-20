@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-14 22:54:00
- * @LastEditTime: 2022-04-08 17:42:48
+ * @LastEditTime: 2022-04-13 02:14:40
  * @LastEditors: 王朋坤
  * @Description: 用户登陆信息
  * @FilePath: /graduation-project-master/src/store/modules/User.js
@@ -44,109 +44,111 @@ import { Toast, Notify } from "vant";
 
 const state = {
   login: {
-    userinformation: {
-      username: "201824803050",
-      name: "管理员1号",
-      studynth: "201824803050",
-      register: "2022-03-18 07:25:08",
-      registertimestamp: 1647559508896,
-      logintimestamp: 1647559508896,
-      imglink:
-        "https://portrait.gitee.com/uploads/avatars/user/2511/7534207_pkcile_1616390370.png!avatar200",
-      showinfor: "默认签名",
-      role: "管理员",
-    },
-    tasks: [
-      {
-        id: 337,
-        topic: "2022-疫情核酸检测",
-        createstamp: 1649155723974,
-        createuser: "201824803050",
-        serverplacename: "王小楼村",
-        serverplaceradius: 200,
-        Places: [
-          {
-            taskid: 337,
-            placesnth: 110,
-            geometry: {
-              type: "Point",
-              coordinates: [115.30551949177608, 36.11029686922546],
-              // coordinates: [0, 0]
-            },
-            radius: 10000,
-            createstamp: 1649151110614,
-            createuser: "wpk"
-          },
-        ],
-        Wifis: [
-          {
-            wifisnth: 104,
-            ssid: "Tenda_A9E670",
-            level: -49,
-            bssid: "e8:65:d4:a9:e6:70",
-            collectstamp: 1649151110615,
-            collectuser: "pkcile",
-            version: 0,
-            wifistopic: "",
-            geometry: null,
-            taskId: 337,
-          },
-          {
-            wifisnth: 105,
-            ssid: "pkcile",
-            level: -67,
-            bssid: "c2:65:c7:d9:ad:78",
-            collectstamp: 1649151110615,
-            collectuser: "pkcile",
-            version: 0,
-            wifistopic: "",
-            geometry: null,
-            taskId: 337,
-          },
-          {
-            wifisnth: 106,
-            ssid: "pkcile",
-            level: -83,
-            bssid: "c2:65:c7:d9:ad:7c",
-            collectstamp: 1649151110615,
-            collectuser: "pkcile",
-            version: 0,
-            wifistopic: "",
-            geometry: null,
-            taskId: 337,
-          },
-          {
-            wifisnth: 107,
-            ssid: "金豆豆",
-            level: -74,
-            bssid: "04:95:e6:77:d6:71",
-            collectstamp: 1649151110615,
-            collectuser: "pkcile",
-            version: 0,
-            wifistopic: "",
-            geometry: null,
-            taskId: 337,
-          },
-        ],
-        Results: [
-          {
-            taskid: 337,
-            studynth: "201824803050",
-            startstamp: 1649155680000,
-            previousstamp: 3000000,
-            afterstamp: 1800000,
-            status: "任务分发初始化",
-            statusmark: 0,
-            userwifimark: 0,
-            userplacemark: 0,
-            usertimemark: 0,
-            geometry: null,
-            comment: "",
-            taskId: 337,
-          },
-        ],
-      },
-    ],
+    userinformation: null,
+    // {
+    //   username: "201824803050",
+    //   name: "管理员1号",
+    //   studynth: "201824803050",
+    //   register: "2022-03-18 07:25:08",
+    //   registertimestamp: 1647559508896,
+    //   logintimestamp: 1647559508896,
+    //   imglink:
+    //     "https://portrait.gitee.com/uploads/avatars/user/2511/7534207_pkcile_1616390370.png!avatar200",
+    //   showinfor: "默认签名",
+    //   role: "管理员",
+    // },
+    tasks: null,
+    // [
+    //   {
+    //     id: 337,
+    //     topic: "2022-疫情核酸检测",
+    //     createstamp: 1649155723974,
+    //     createuser: "201824803050",
+    //     serverplacename: "王小楼村",
+    //     serverplaceradius: 200,
+    //     Places: [
+    //       {
+    //         taskid: 337,
+    //         placesnth: 110,
+    //         geometry: {
+    //           type: "Point",
+    //           coordinates: [115.30551949177608, 36.11029686922546],
+    //           // coordinates: [0, 0]
+    //         },
+    //         radius: 10000,
+    //         createstamp: 1649151110614,
+    //         createuser: "wpk"
+    //       },
+    //     ],
+    //     Wifis: [
+    //       {
+    //         wifisnth: 104,
+    //         ssid: "Tenda_A9E670",
+    //         level: -49,
+    //         bssid: "e8:65:d4:a9:e6:70",
+    //         collectstamp: 1649151110615,
+    //         collectuser: "pkcile",
+    //         version: 0,
+    //         wifistopic: "",
+    //         geometry: null,
+    //         taskId: 337,
+    //       },
+    //       {
+    //         wifisnth: 105,
+    //         ssid: "pkcile",
+    //         level: -67,
+    //         bssid: "c2:65:c7:d9:ad:78",
+    //         collectstamp: 1649151110615,
+    //         collectuser: "pkcile",
+    //         version: 0,
+    //         wifistopic: "",
+    //         geometry: null,
+    //         taskId: 337,
+    //       },
+    //       {
+    //         wifisnth: 106,
+    //         ssid: "pkcile",
+    //         level: -83,
+    //         bssid: "c2:65:c7:d9:ad:7c",
+    //         collectstamp: 1649151110615,
+    //         collectuser: "pkcile",
+    //         version: 0,
+    //         wifistopic: "",
+    //         geometry: null,
+    //         taskId: 337,
+    //       },
+    //       {
+    //         wifisnth: 107,
+    //         ssid: "金豆豆",
+    //         level: -74,
+    //         bssid: "04:95:e6:77:d6:71",
+    //         collectstamp: 1649151110615,
+    //         collectuser: "pkcile",
+    //         version: 0,
+    //         wifistopic: "",
+    //         geometry: null,
+    //         taskId: 337,
+    //       },
+    //     ],
+    //     Results: [
+    //       {
+    //         taskid: 337,
+    //         studynth: "201824803050",
+    //         startstamp: 1649155680000,
+    //         previousstamp: 3000000,
+    //         afterstamp: 1800000,
+    //         status: "任务分发初始化",
+    //         statusmark: 0,
+    //         userwifimark: 0,
+    //         userplacemark: 0,
+    //         usertimemark: 0,
+    //         geometry: null,
+    //         comment: "",
+    //         taskId: 337,
+    //       },
+    //     ],
+    //   },
+    // ],
   },
   taskSign: {
     judgeArray: [

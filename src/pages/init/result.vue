@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-18 08:15:01
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 23:38:48
+ * @LastEditTime: 2022-04-13 02:02:53
  * @FilePath: /graduation-project-master/src/pages/init/result.vue
  * @Description: 
 -->
@@ -252,9 +252,9 @@ export default {
                   type: "Point",
                   coordinates: [geometry?.longitude, geometry?.latitude],
                 },
-                userwifimark: 0,
-                userplacemark: 0,
-                usertimemark: 0,
+                userwifimark: taskitemperson.userwifimark,
+                userplacemark: taskitemperson.userplacemark,
+                usertimemark: taskitemperson.usertimemark,
                 createuser: taskitem.createuser
               });
             });
@@ -288,7 +288,7 @@ export default {
                 }
               );
               if (distance < placesitem.radius) {
-                singlestamptaskArrayitem.userplacemark += 1;
+                singlestamptaskArrayitem.userplacemark = 1;
               } else {
                 console.log("距离过大");
               }
@@ -303,7 +303,7 @@ export default {
 
         timejudge() {
           this.singlestamptaskArray.map((singlestamptaskArrayitem) => {
-            if (Date.now() > singlestamptaskArrayitem) {
+            if (Date.now() > singlestamptaskArrayitem.startstamp) {
               // 迟到了
               singlestamptaskArrayitem.usertimemark = -1;
             } else {

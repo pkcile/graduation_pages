@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 10:58:52
+ * @LastEditTime: 2022-04-13 22:54:08
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -69,7 +69,7 @@
             style="
               background: #fff;
               border-radius: 5px;
-              height: 40px;
+              height: 80px;
               overflow-y: auto;
             "
           >

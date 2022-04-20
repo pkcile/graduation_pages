@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-10 15:02:55
+ * @LastEditTime: 2022-04-17 16:00:52
  * @FilePath: /graduation-project-master/src/pages/index/result.vue
  * @Description: 
 -->
@@ -98,10 +98,6 @@
           <span>打卡地点</span>
           <span>{{ tasklistsSelectItem.topic }}</span>
         </li> -->
-        <!-- <li>
-          <span>签到误差</span>
-          <span>{{ tasklistsSelectItem.geometry ? tasklistsSelectItem.geometry.accuracy + "米" : "" }}</span>
-        </li> -->
 
         <li style="background: #efeff3"><span>备注</span></li>
         <textarea
@@ -118,7 +114,7 @@
         style="position: sticky; bottom: 20px; left: 0; margin-top: 15px"
         @click="updateSingleTask"
       >
-        打卡/更新
+        备注信息提交更新
       </div>
     </div>
   </div>
