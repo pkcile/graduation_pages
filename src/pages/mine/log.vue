@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-20 22:04:29
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-20 23:25:59
+ * @LastEditTime: 2022-04-21 09:08:16
  * @FilePath: /graduation-project-master/src/pages/mine/log.vue
  * @Description: 日志
 -->
@@ -27,8 +27,8 @@
     </div>
     <div class="main" >
       <div class="log-title">
-        <div>2022年04月</div>
-        <div>icon</div>
+        <div @click="openDate">2022年04月</div>
+        <div @click="openDate">icon</div>
         <div>统计</div>
       </div>
       <div class="log-main">
@@ -42,14 +42,15 @@
         </div>
 
 
-    <van-popup v-model="showpopup" position="bottom" :style="{ height: '30%' }" > 
+    <van-popup v-model="showpopup" position="bottom" :style="{ height: '45%' }" > 
       <van-datetime-picker
       v-model="currentDate"
       type="year-month"
       title="选择年月"
       :min-date="minDate"
-      :max-date="maxDate"
       :formatter="formatter"
+      visible-item-count="6"
+      @confirm="dateMonthConfirm"
     />
     </van-popup>
     </div>
@@ -67,7 +68,9 @@
   height: 50px;
   border-bottom: 1px solid #eee;
   background: #fff;
-    & > div:nth-of-type(1) {
+  border-radius: 5px;
+  padding: 5px;
+  & > div:nth-of-type(1) {
     flex: 0 1 100px;
   }
   & > div:nth-of-type(2) {
@@ -80,9 +83,14 @@
 
 }
 
+.log-title:hover {
+  background: #eee;
+}
+
 .log-main {
   height: calc(100% - 50px);
   overflow: auto;
+  padding: 5px;
 }
 .log-item {
   display: flex;
@@ -99,6 +107,10 @@
   }
 
 }
+
+// .log-item:last-of-type {
+//     border-bottom: 1px solid #f00;
+// }
 .page-absolute {
   width: 100%;
   height: 100%;
@@ -171,11 +183,11 @@ export default {
   },
   data() {
     return {
-      minDate: new Date(2020, 0, 1),
+      minDate: new Date(2018, 8, 30),
       maxDate: new Date(2025, 10, 1),
       currentDate: new Date(),
       result: [],
-      showpopup: true,
+      showpopup: false,
       layersControl: [
         {
           id: 1,
@@ -248,6 +260,14 @@ export default {
       }
       return val;
     },
+    dateMonthConfirm(data) {
+
+      console.log("confirm", data);
+      this.showpopup = false;
+    },
+    openDate() {
+      this.showpopup = true;
+    }
   },
 };
 </script>
