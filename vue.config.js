@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-24 21:27:50
- * @LastEditTime: 2022-04-11 10:03:36
+ * @LastEditTime: 2022-04-22 22:21:23
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/vue.config.js
@@ -39,6 +39,10 @@ module.exports = {
         changeOrigin: true, 
       },
       "/task": {
+        target: "http://localhost:9000/",
+        changeOrigin: true, 
+      },
+      "/result": {
         target: "http://localhost:9000/",
         changeOrigin: true, 
       },

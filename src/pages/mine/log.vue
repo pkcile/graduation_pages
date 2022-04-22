@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-20 22:04:29
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-21 09:08:16
+ * @LastEditTime: 2022-04-22 23:44:36
  * @FilePath: /graduation-project-master/src/pages/mine/log.vue
  * @Description: 日志
 -->
@@ -21,40 +21,50 @@
         class="right"
         :style="{
           'background-image': `url(${require('@/assets/font/save.svg')})`,
-          'display': 'none'
+          display: 'none',
         }"
       ></div>
     </div>
-    <div class="main" >
+    <div class="main">
       <div class="log-title">
-        <div @click="openDate">2022年04月</div>
+        <div @click="openDate">{{ pageData.titleDate }}</div>
         <div @click="openDate">icon</div>
         <div>统计</div>
       </div>
       <div class="log-main">
-        <div class="log-item">
-          <div>4-20 12:00</div>
-          <div>打卡成功</div>
+        <div
+          class="log-item"
+          v-for="item in pageData.maintaskitems"
+          v-bind:key="item.key"
+        >
+          <div>{{ item.dateHourText }}</div>
+          <div
+            v-bind:class="{
+              red: item.statusmark == -1,
+              blue: item.statusmark == 1,
+              yellow: item.statusmark == 0,
+            }"
+          >
+            {{ item.statusText }}
+          </div>
         </div>
-        <div class="log-item">
-          <div>4-20 12:00</div>
-          <div>打卡失败</div>
-        </div>
-
-
-    <van-popup v-model="showpopup" position="bottom" :style="{ height: '45%' }" > 
-      <van-datetime-picker
-      v-model="currentDate"
-      type="year-month"
-      title="选择年月"
-      :min-date="minDate"
-      :formatter="formatter"
-      visible-item-count="6"
-      @confirm="dateMonthConfirm"
-    />
-    </van-popup>
-    </div>
-
+        <van-popup
+          v-model="showpopup"
+          position="bottom"
+          :style="{ height: '50%' }"
+        >
+          <van-datetime-picker
+            v-model="currentDate"
+            type="year-month"
+            title="选择年月"
+            :min-date="minDate"
+            :formatter="formatter"
+            visible-item-count="6"
+            @confirm="dateMonthConfirm"
+            @cancel="dateMonthCancel"
+          />
+        </van-popup>
+      </div>
     </div>
   </div>
 </template>
@@ -69,7 +79,7 @@
   border-bottom: 1px solid #eee;
   background: #fff;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 15px;
   & > div:nth-of-type(1) {
     flex: 0 1 100px;
   }
@@ -81,6 +91,10 @@
     flex: 0 0 70px;
   }
 
+  & > div:nth-of-type(1):hover,
+  & > div:nth-of-type(2):hover {
+    color: #00f;
+  }
 }
 
 .log-title:hover {
@@ -90,7 +104,7 @@
 .log-main {
   height: calc(100% - 50px);
   overflow: auto;
-  padding: 5px;
+  // padding: 5px 15px;
 }
 .log-item {
   display: flex;
@@ -99,6 +113,7 @@
   align-items: center;
   height: 50px;
   border-bottom: 1px solid #eee;
+  padding: 5px 15px;
   & > div:nth-of-type(1) {
     flex: 1 1 100px;
   }
@@ -106,6 +121,22 @@
     flex: 0 0 100px;
   }
 
+  .red {
+    color: #f00;
+    cursor: pointer;
+  }
+  .yellow {
+    color: #000;
+    cursor: pointer;
+  }
+  .blue {
+    color: #00f;
+    cursor: pointer;
+  }
+}
+.log-item:hover,
+.log-item:active {
+  background: #eee;
 }
 
 // .log-item:last-of-type {
@@ -156,19 +187,33 @@
     width: 100%;
     height: calc(100% - 50px);
     box-sizing: border-box;
-    padding: 10px;
+    // padding: 10px;
     position: relative;
   }
 }
-
 </style>
 
 <script>
-import { Checkbox, CheckboxGroup, Cell, CellGroup, ActionSheet, DatetimePicker, Popup} from "vant";
+import {
+  Checkbox,
+  CheckboxGroup,
+  Cell,
+  CellGroup,
+  ActionSheet,
+  DatetimePicker,
+  Popup,
+} from "vant";
 import L from "leaflet";
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
 import searchview from "@/components/search.vue";
+import {
+  convertDate,
+  convertMonthDate,
+  convertDateHour,
+  getMonthDay,
+} from "@/utils/date.js";
+import { getResultClockLog } from "@/api/mine/index.js";
 export default {
   name: "mapapp",
   components: {
@@ -188,86 +233,119 @@ export default {
       currentDate: new Date(),
       result: [],
       showpopup: false,
-      layersControl: [
-        {
-          id: 1,
-          name: "遥感底图",
-          checked: false,
-          type: "imagery",
-        },
-        {
-          id: 5,
-          name: "项目定位",
-          checked: false,
-          type: "location",
-          defaultLocation: [113.330962, 23.111983],
-        },
-      ],
-      map: null,
-      layer: {
-        image: null,
-        vector: null,
-        cva: null,
+      pageData: {
+        titleDate: null,
+        maintaskitems: [],
       },
-      longitude: 115.9968,
-      latitude: 28.5636,
-      show: false,
-      actions: [
-        {
-          name: "100m",
-          value: 100,
-        },
-        {
-          name: "200m",
-          value: 200,
-        },
-        {
-          name: "500m",
-          value: 500,
-        },
-        {
-          name: "1000m",
-          value: 1000,
-        },
-        {
-          name: "2000m",
-          value: 20000,
-        },
-        {
-          name: "5000m",
-          value: 50000,
-        },
-        {
-          name: "10000m",
-          value: 10000,
-        },
-      ],
-      radius: 200,
-      editplacesBool: false,
-      placeitem: null,
     };
   },
-  created() {},
-  mounted() {
-    console.log("mounted");
+  created() {
+    this.pageData.titleDate = convertMonthDate();
+    this.dateMonthQuery(new Date());
+    // getResultClockLog({
+    //   studynth: this.$store.state.User.login.userinformation.studynth,
+    //   currentStamp: new Date(),
+    // }).then((returnData) => {
+    //   if (returnData?.data?.result?.length) {
+    //     this.$toast("共计" + returnData?.data?.result?.length + "条打卡数据");
+    //     function preprocessingDatalogs(datalogs) {
+    //       // 排序
+    //       datalogs.sort((a, b) => {
+    //         return b.startstamp - a.startstamp;
+    //       });
+    //       // 预处理时间显示
+    //       datalogs.map((item) => {
+    //         item.dateHourText = convertDateHour(item.startstamp);
+    //         item.key = Math.random() + Date.now() + "";
+    //       });
+    //       // 预处理结果显示
+    //       datalogs.map((item) => {
+    //         if (item.statusmark === 0) {
+    //           item.statusText = "未打卡";
+    //         } else if (item.statusmark == 1) {
+    //           item.statusText = "打卡成功";
+    //         } else if (item.statusmark == -1) {
+    //           item.statusText = "打卡失败";
+    //         } else {
+    //           item.statusText = "未知情况";
+    //         }
+    //       });
+
+    //       return datalogs;
+    //     }
+
+    //     let datalogs = returnData.data.result;
+
+    //     this.pageData.maintaskitems = preprocessingDatalogs(datalogs);
+    //   } else {
+    //     this.$toast("无查询结果");
+    //   }
+    // });
   },
+  mounted() {},
   methods: {
     formatter(type, val) {
-      if (type === 'year') {
+      if (type === "year") {
         return `${val}年`;
-      } else if (type === 'month') {
+      } else if (type === "month") {
         return `${val}月`;
       }
       return val;
     },
-    dateMonthConfirm(data) {
-
-      console.log("confirm", data);
+    dateMonthConfirm(dateObject) {
+      console.log("confirm", dateObject);
+      this.showpopup = false;
+      this.pageData.titleDate = convertMonthDate(dateObject);
+      this.dateMonthQuery(dateObject);
+    },
+    dateMonthCancel() {
       this.showpopup = false;
     },
     openDate() {
       this.showpopup = true;
-    }
+    },
+    dateMonthQuery(dateobj) {
+      getResultClockLog({
+        studynth: this.$store.state.User.login.userinformation.studynth,
+        currentStamp: dateobj,
+      }).then((returnData) => {
+        if (returnData?.data?.result?.length) {
+          this.$toast("共计" + returnData?.data?.result?.length + "条打卡数据");
+          function preprocessingDatalogs(datalogs) {
+            // 排序
+            datalogs.sort((a, b) => {
+              return b.startstamp - a.startstamp;
+            });
+            // 预处理时间显示
+            datalogs.map((item) => {
+              item.dateHourText = convertDateHour(item.startstamp);
+              item.key = Math.random() + Date.now() + "";
+            });
+            // 预处理结果显示
+            datalogs.map((item) => {
+              if (item.statusmark === 0) {
+                item.statusText = "未打卡";
+              } else if (item.statusmark == 1) {
+                item.statusText = "打卡成功";
+              } else if (item.statusmark == -1) {
+                item.statusText = "打卡失败";
+              } else {
+                item.statusText = "未知情况";
+              }
+            });
+
+            return datalogs;
+          }
+
+          let datalogs = returnData.data.result;
+
+          this.pageData.maintaskitems = preprocessingDatalogs(datalogs);
+        } else {
+          this.$toast("无查询结果");
+          this.pageData.maintaskitems = [];
+        }
+      });
+    },
   },
 };
 </script>

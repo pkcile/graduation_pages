@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:44:59
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-02 12:29:00
+ * @LastEditTime: 2022-04-21 14:58:14
  * @FilePath: /graduation-project-master/src/pages/publish/date.vue
  * @Description: 
 -->
@@ -29,7 +29,14 @@
       ></div>
     </div>
 
-    <div style="background: #efeff3; padding: 0 10px 10px 10px; height: calc(100% - 50px);overflow-y:auto;">
+    <div
+      style="
+        background: #efeff3;
+        padding: 0 10px 10px 10px;
+        height: calc(100% - 50px);
+        overflow-y: auto;
+      "
+    >
       <div class="mine-double-line-date">
         <div class="title">
           <div>日期选择</div>
@@ -45,11 +52,25 @@
           <div>时间段选择</div>
           <div style="color: #007aff" @click="addHourTime">时间段添加</div>
         </div>
-        <div class="main" style="background:#fff;border-radius:5px;overflow-y:auto;">
-          <div class="mine-single-line-three" @click="showEndTimePopup(getHourItem)" style="border: #8080802e 0px solid;border-bottom: #8080802e 1px solid;" v-for="getHourItem in getHours" v-bind:key="getHourItem.id">
+        <div
+          class="main"
+          style="background: #fff; border-radius: 5px; overflow-y: auto"
+        >
+          <div
+            class="mine-single-line-three"
+            @click="showEndTimePopup(getHourItem)"
+            style="
+              border: #8080802e 0px solid;
+              border-bottom: #8080802e 1px solid;
+            "
+            v-for="getHourItem in getHours"
+            v-bind:key="getHourItem.id"
+          >
             <div>时间点</div>
             <div>{{ getHourItem.currentHour }}</div>
-            <div><van-icon name="cross"  @click="removeHourItem(getHourItem)"/></div>
+            <div>
+              <van-icon name="cross" @click="removeHourItem(getHourItem)" />
+            </div>
           </div>
           <!-- <div class="mine-single-line-three" @click="showEndTimePopup" >
             <div>时间</div>
@@ -88,7 +109,7 @@ export default {
     [CellGroup.name]: CellGroup,
     [DatetimePicker.name]: DatetimePicker,
     [Popup.name]: Popup,
-    [Icon.name]: Icon
+    [Icon.name]: Icon,
   },
   props: {
     inputcomponentData: String,
@@ -102,12 +123,12 @@ export default {
       getHours: [
         {
           id: 1,
-          currentHour: "8:00"
-        }
+          currentHour: "8:00",
+        },
       ],
       getHoursIndex: null,
       getDays: [],
-      currentHour: `${(new Date).getHours()}:${(new Date).getMinutes()}`
+      currentHour: `${new Date().getHours()}:${new Date().getMinutes()}`,
     };
   },
   mounted() {},
@@ -117,24 +138,22 @@ export default {
     },
     initSendMessage() {
       const getHoursSet = new Set();
-      this.getHours.forEach(item => {
+      this.getHours.forEach((item) => {
         getHoursSet.add(item.currentHour);
       });
 
       let dateStamps = [];
       for (const getHoursitem of getHoursSet) {
         let hm = String(getHoursitem).split(":");
-        this.getDays.forEach(dayitem => {
+        this.getDays.forEach((dayitem) => {
           dayitem.setHours(parseInt(hm[0]));
           dayitem.setMinutes(parseInt(hm[1]));
           dayitem.setSeconds(0);
-      
+
           dateStamps.push({
-            startstamp: Date.parse(dayitem)
-          }
-    
-            );
-        })
+            startstamp: Date.parse(dayitem),
+          });
+        });
       }
       this.$parent.pageData.datecomponentData = dateStamps;
       console.log(this.$parent.pageData.datecomponentData);
@@ -149,10 +168,10 @@ export default {
     endtimeData(time) {
       console.log(time);
       this.getHours.map((item, index) => {
-        if(item.id == this.getHoursIndex) {
+        if (item.id == this.getHoursIndex) {
           item.currentHour = time;
         }
-      })
+      });
       this.showDate = false;
     },
     showEndTimePopup(hourItem) {
@@ -165,19 +184,19 @@ export default {
     },
     addHourTime() {
       this.getHours.push({
-        currentHour: `${(new Date).getHours()}:${(new Date).getMinutes()}`,
-        id: Date.now()
-      })
+        currentHour: `${new Date().getHours()}:${new Date().getMinutes()}`,
+        id: Date.now(),
+      });
     },
     removeHourItem(hourItem) {
       console.log(hourItem);
       console.log(hourItem.id);
       this.getHours = this.getHours.filter((item, index) => {
-        return item.id != hourItem.id
-      })
+        return item.id != hourItem.id;
+      });
 
-      window.event? window.event.cancelBubble = true : e.stopPropagation();
-    }
+      window.event ? (window.event.cancelBubble = true) : e.stopPropagation();
+    },
   },
 };
 </script>
