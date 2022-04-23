@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-20 22:04:29
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-24 00:35:15
+ * @LastEditTime: 2022-04-24 00:49:10
  * @FilePath: /graduation-project-master/src/pages/mine/log.vue
  * @Description: 日志
 -->
@@ -313,6 +313,10 @@ export default {
         if (returnData?.data?.result?.length) {
           this.$toast(convertMonthDate(dateobj) + "共计" + returnData?.data?.result?.length + "条打卡数据");
           function preprocessingDatalogs(datalogs) {
+            // statusmark
+            // startstamp
+            // taskid
+            
             // 排序
             datalogs.sort((a, b) => {
               return b.startstamp - a.startstamp;
