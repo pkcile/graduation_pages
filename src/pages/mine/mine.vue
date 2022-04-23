@@ -2,13 +2,13 @@
  * @Author: 王朋坤
  * @Date: 2022-04-01 16:36:02
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-20 22:08:30
+ * @LastEditTime: 2022-04-24 00:28:35
  * @FilePath: /graduation-project-master/src/pages/mine/mine.vue
  * @Description: 
 -->
 <template>
   <div class="home-mine">
-    <logcomponent></logcomponent>
+    <logcomponent v-show="logcomponentControl" ref="logcomponentRef"></logcomponent>
     <!-- 用户信息设置 -->
     <div class="mine-form-user-information">
       <img :src="`${require('@/assets/img/user/1.jpg')}`" alt="" />
@@ -28,9 +28,9 @@
         <span>注册时间</span>
         <span>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.register : "2018-09-10 09:00"  }}</span>
       </li>
-      <li>
+      <li @click="logDisplay">
         <span>打卡日志</span>
-        <span></span>
+        <span>共计{{ logCount }}条</span>
       </li>
     </ul>
     <!-- 用户功能设置 -->
@@ -44,6 +44,7 @@ import { Dialog } from 'vant';
 import { mapState, mapMutations} from "vuex";
 import { TaskDealWith } from "@/utils/judgetasks.js";
 import  logcomponent from "./log.vue"
+import { getResultClockLogCount } from "@/api/mine/index.js";
 
 export default {
   components: {
@@ -56,19 +57,32 @@ export default {
       window.sessionStorage.clear("loginData");
       this.$toast("注销登陆成功");
     },
-    // components: {
-    //   [Dialog.name]: Dialog
-    // }
+    logDisplay() {
+      // this.logcomponentControl = true;
+      this.$refs["logcomponentRef"].initCurrentTime();
+    },
     ...mapMutations('User', [
       'updateStatus'
     ]),
   },
+  data() {
+    return {
+      logcomponentControl: false,
+      logCount: null
+    }
+  },
   created: function() {
     // this.$store.commit("User/updateStatus");
     this.updateStatus();
+    getResultClockLogCount({
+        studynth: this.$store.state.User.login.userinformation.studynth,
+        // currentStamp: dateobj
+      }).then(returnData => {
+      this.logCount = returnData.data.result;
+      console.log(this.logCount);
+    })
     
-    
-    console.log("mine created");
+    // console.log("mine created");
   },
   mounted() {
     console.log(this.$store );

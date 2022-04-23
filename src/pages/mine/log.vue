@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-20 22:04:29
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-22 23:44:36
+ * @LastEditTime: 2022-04-24 00:35:15
  * @FilePath: /graduation-project-master/src/pages/mine/log.vue
  * @Description: 日志
 -->
@@ -15,6 +15,7 @@
         :style="{
           'background-image': `url(${require('@/assets/font/arrow-left.svg')})`,
         }"
+        @click="controlback"
       ></div>
       <div class="text">打卡日志</div>
       <div
@@ -240,8 +241,8 @@ export default {
     };
   },
   created() {
-    this.pageData.titleDate = convertMonthDate();
-    this.dateMonthQuery(new Date());
+    // this.pageData.titleDate = convertMonthDate();
+    // this.dateMonthQuery(new Date());
     // getResultClockLog({
     //   studynth: this.$store.state.User.login.userinformation.studynth,
     //   currentStamp: new Date(),
@@ -310,16 +311,16 @@ export default {
         currentStamp: dateobj,
       }).then((returnData) => {
         if (returnData?.data?.result?.length) {
-          this.$toast("共计" + returnData?.data?.result?.length + "条打卡数据");
+          this.$toast(convertMonthDate(dateobj) + "共计" + returnData?.data?.result?.length + "条打卡数据");
           function preprocessingDatalogs(datalogs) {
             // 排序
             datalogs.sort((a, b) => {
               return b.startstamp - a.startstamp;
             });
             // 预处理时间显示
-            datalogs.map((item) => {
+            datalogs.map((item, index) => {
               item.dateHourText = convertDateHour(item.startstamp);
-              item.key = Math.random() + Date.now() + "";
+              item.key = Math.random() + index + "";
             });
             // 预处理结果显示
             datalogs.map((item) => {
@@ -346,6 +347,14 @@ export default {
         }
       });
     },
+    initCurrentTime() {
+      this.pageData.titleDate = convertMonthDate();
+      this.dateMonthQuery(new Date());
+      this.$parent.logcomponentControl = true;
+    },
+    controlback() {
+      this.$parent.logcomponentControl = false;
+    }
   },
 };
 </script>
