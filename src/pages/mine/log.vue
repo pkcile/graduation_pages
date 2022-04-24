@@ -2,13 +2,14 @@
  * @Author: 王朋坤
  * @Date: 2022-04-20 22:04:29
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-24 00:49:10
+ * @LastEditTime: 2022-04-24 17:25:27
  * @FilePath: /graduation-project-master/src/pages/mine/log.vue
  * @Description: 日志
 -->
 
 <template>
   <div class="page-absolute">
+    <listcomponent v-show="listcomponentControl" ref="listcomponentRef"></listcomponent>
     <div class="title">
       <div
         class="control"
@@ -37,6 +38,7 @@
           class="log-item"
           v-for="item in pageData.maintaskitems"
           v-bind:key="item.key"
+          @click="jumptoList(item)"
         >
           <div>{{ item.dateHourText }}</div>
           <div
@@ -193,7 +195,7 @@
   }
 }
 </style>
-
+ 
 <script>
 import {
   Checkbox,
@@ -208,6 +210,7 @@ import L from "leaflet";
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
 import searchview from "@/components/search.vue";
+import listcomponent from "@/components/mapList/list.vue"
 import {
   convertDate,
   convertMonthDate,
@@ -215,6 +218,7 @@ import {
   getMonthDay,
 } from "@/utils/date.js";
 import { getResultClockLog } from "@/api/mine/index.js";
+
 export default {
   name: "mapapp",
   components: {
@@ -226,6 +230,7 @@ export default {
     [DatetimePicker.name]: DatetimePicker,
     [Popup.name]: Popup,
     searchview: searchview,
+    listcomponent: listcomponent
   },
   data() {
     return {
@@ -238,50 +243,12 @@ export default {
         titleDate: null,
         maintaskitems: [],
       },
+      listcomponentControl: false
     };
   },
   created() {
     // this.pageData.titleDate = convertMonthDate();
     // this.dateMonthQuery(new Date());
-    // getResultClockLog({
-    //   studynth: this.$store.state.User.login.userinformation.studynth,
-    //   currentStamp: new Date(),
-    // }).then((returnData) => {
-    //   if (returnData?.data?.result?.length) {
-    //     this.$toast("共计" + returnData?.data?.result?.length + "条打卡数据");
-    //     function preprocessingDatalogs(datalogs) {
-    //       // 排序
-    //       datalogs.sort((a, b) => {
-    //         return b.startstamp - a.startstamp;
-    //       });
-    //       // 预处理时间显示
-    //       datalogs.map((item) => {
-    //         item.dateHourText = convertDateHour(item.startstamp);
-    //         item.key = Math.random() + Date.now() + "";
-    //       });
-    //       // 预处理结果显示
-    //       datalogs.map((item) => {
-    //         if (item.statusmark === 0) {
-    //           item.statusText = "未打卡";
-    //         } else if (item.statusmark == 1) {
-    //           item.statusText = "打卡成功";
-    //         } else if (item.statusmark == -1) {
-    //           item.statusText = "打卡失败";
-    //         } else {
-    //           item.statusText = "未知情况";
-    //         }
-    //       });
-
-    //       return datalogs;
-    //     }
-
-    //     let datalogs = returnData.data.result;
-
-    //     this.pageData.maintaskitems = preprocessingDatalogs(datalogs);
-    //   } else {
-    //     this.$toast("无查询结果");
-    //   }
-    // });
   },
   mounted() {},
   methods: {
@@ -358,6 +325,11 @@ export default {
     },
     controlback() {
       this.$parent.logcomponentControl = false;
+    },
+    jumptoList(item) {
+      // this.listcomponentControl = true;
+      // console.log("aabbccdd");
+      this.$refs["listcomponentRef"].listcomponentRefFun(item);
     }
   },
 };

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-21 15:59:53
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-24 00:27:03
+ * @LastEditTime: 2022-04-24 17:37:06
  * @FilePath: /graduation-project-master/src/api/mine/index.js
  * @Description: 
  */
@@ -39,6 +39,26 @@ export function getResultClockLogCount(personalData) {
       .get(`${process.env.VUE_APP_POSITION_PATH}/result/personalLogCount`, {
         params: {
           studynth: personalData.studynth
+        },
+        
+      })
+      .then((returnData) => {
+        resolve(returnData);
+      })
+      .catch(data => {
+        resolve("服务器错误，请稍后访问");
+      })
+  });
+}
+
+export function getResultClockLogItem(personalData) {
+  return new Promise((resolve) => {
+    request
+      .get(`${process.env.VUE_APP_POSITION_PATH}/result/personalLogItem`, {
+        params: {
+          studynth: personalData.studynth,
+          startstamp: personalData.startstamp,
+          taskid: personalData.taskid,
         },
         
       })

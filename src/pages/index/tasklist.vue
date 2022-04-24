@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-13 22:50:35
+ * @LastEditTime: 2022-04-24 10:09:39
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -63,7 +63,7 @@
       </ul>
     </van-pull-refresh>
     <transition name="component-fade" mode="out-in">
-          <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
+      <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
       </indexmodal>
   </transition>
   
@@ -81,7 +81,7 @@ import { mapState, mapMutations} from "vuex";
 import { convertDate } from "@/utils/date.js";
 import { TaskDealWith } from "@/utils/judgetasks.js";
 import { getTaskLists, tasklistsToPagelist } from "@/utils/getTaskLists.js"
-import indexmodal from './result.vue'
+import indexmodal from './listitem.vue'
 import {
   getCurrentLocation2,
   getLocationInformation,
