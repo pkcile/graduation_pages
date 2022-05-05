@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-11 13:39:43
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-11 13:59:18
+ * @LastEditTime: 2022-05-05 22:41:08
  * @FilePath: /graduation-project-master/src/api/init/index.js
  * @Description: 
  */
@@ -33,6 +33,8 @@ export function userRegisterApi(paramsobj) {
       .get(`${process.env.VUE_APP_POSITION_PATH}/user/register`, {
         params: {
           studynth: paramsobj.studynth,
+          username: paramsobj.username,
+          password: paramsobj.password
         },
       })
       .then((returnData) => {

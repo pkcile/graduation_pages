@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-01 16:36:02
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-24 16:54:19
+ * @LastEditTime: 2022-05-06 00:11:49
  * @FilePath: /graduation-project-master/src/pages/mine/mine.vue
  * @Description: 
 -->
@@ -13,24 +13,32 @@
     <div class="mine-form-user-information">
       <img :src="`${require('@/assets/img/user/1.jpg')}`" alt="" />
       <div class="user-main">
-        <div>{{ this.$store.state.User.login.userinformation ? "昵称：" + this.$store.state.User.login.userinformation.username : "guest" }}</div>
-        <div>{{ this.$store.state.User.login.userinformation ?  "学号：" + this.$store.state.User.login.userinformation.studynth : "000" }}</div>
+        <!-- <div>{{ this.$store.state.User.login.userinformation ? "姓名：" + this.$store.state.User.login.userinformation.name : "guest" }}</div> -->
+        <div>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.username : "000" }}</div>
       </div>
       <div class="user-jump"  :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
     </div>
     <!-- 用户信息查看 -->
     <ul class="mine-form-display-infor" style="">
       <li>
+        <span>{{ "学号"}}</span>
+        <span>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.studynth : "00" }}</span>
+      </li>
+      <li>
+        <span>{{ "身份"}}</span>
+        <span>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.role : "学生" }}</span>
+      </li>
+      <!-- <li>
         <span>{{ "个人说明"}}</span>
         <span>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.showinfor : "默认签名" }}</span>
+      </li> -->
+      <li @click="logDisplay">
+        <span>打卡日志</span>
+        <span>共计{{ logCount }}条</span>
       </li>
       <li>  
         <span>注册时间</span>
         <span>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.register : "2018-09-10 09:00"  }}</span>
-      </li>
-      <li @click="logDisplay">
-        <span>打卡日志</span>
-        <span>共计{{ logCount }}条</span>
       </li>
     </ul>
     <!-- 用户功能设置 -->

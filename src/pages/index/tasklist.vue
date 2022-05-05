@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-24 10:09:39
+ * @LastEditTime: 2022-04-25 13:07:14
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -130,16 +130,16 @@ export default {
 
           const aabbcc = {
             wifiList: [
-              {
-                bssid: "e8:65:d4:a9:e6:70",
-                ssid: "Tenda_A9E670",
-                level: -49,
-                checked: false,
-                id: 0,
-              },
-              { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
-              { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
-              { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
+              // {
+              //   bssid: "e8:65:d4:a9:e6:70",
+              //   ssid: "Tenda_A9E670",
+              //   level: -49,
+              //   checked: false,
+              //   id: 0,
+              // },
+              // { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
+              // { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
+              // { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
             ],
           };
           const geometry = {
@@ -181,16 +181,16 @@ export default {
         else {
           const aabbcc = {
             wifiList: [
-              {
-                bssid: "e8:65:d4:a9:e6:70",
-                ssid: "Tenda_A9E670",
-                level: -49,
-                checked: false,
-                id: 0,
-              },
-              { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
-              { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
-              { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
+              // {
+              //   bssid: "e8:65:d4:a9:e6:70",
+              //   ssid: "Tenda_A9E670",
+              //   level: -49,
+              //   checked: false,
+              //   id: 0,
+              // },
+              // { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
+              // { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
+              // { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
             ],
           };
 

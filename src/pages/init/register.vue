@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-25 23:08:53
- * @LastEditTime: 2022-04-11 14:25:39
+ * @LastEditTime: 2022-05-05 23:23:49
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/register.vue
@@ -35,8 +35,17 @@
             </div>
             <div class="mine-input-line" :style="{}"></div>
           </div>
-          <!-- 提示框 -->
-          <ul class="mine-form-display-infor" style="color: #017afebf">
+
+          <!-- 注册按钮 -->
+          <div
+            class="mine-button-block"
+            @click="userRegister"
+            style="margin-top: 18px; position: sticky; bottom: 20px; left: 0"
+          >
+            {{ pageData.register.title }}
+          </div>
+                    <!-- 提示框 -->
+          <ul class="mine-form-display-infor" style="color: #017afebf;">
             <transition-group name="list" tag="p">
               <li v-for="item in returnData" :key="item.key">
                 <span>{{ item.key }}</span>
@@ -46,14 +55,6 @@
               </li>
             </transition-group>
           </ul>
-          <!-- 注册按钮 -->
-          <div
-            class="mine-button-block"
-            @click="userRegister"
-            style="margin-top: 18px; position: sticky; bottom: 20px; left: 0"
-          >
-            {{ pageData.register.title }}
-          </div>
         </form>
       </div>
     </main>
@@ -72,10 +73,25 @@ export default {
     return {
       pageData: {
         items: [
+
           {
             key: 1,
+            title: "昵称",
+            inputplaceholder: "请填写昵称",
+            value: "",
+            greydispaly: true,
+          },
+          {
+            key: 2,
             title: "学号",
             inputplaceholder: "请输入学号",
+            value: "",
+            greydispaly: true,
+          },
+          {
+            key: 3,
+            title: "密码",
+            inputplaceholder: "请设置密码",
             value: "",
             greydispaly: true,
           },
@@ -98,49 +114,57 @@ export default {
       this.returnData = [];
 
       const params = {
-        studynth: this.pageData.items[0].value,
+        studynth: this.pageData.items[1].value,
+        username: this.pageData.items[0].value,
+        password: this.pageData.items[2].value
       };
-
-      if (!params.studynth) {
+      
+      if (!params.username) {
         this.$notify({
           type: "warning",
-          message: "请输入学号",
+          message: "请输入用户昵称",
           duration: "800",
         });
+        return;
       } 
-      else {
+
+
         userRegisterApi(params).then((returnData) => {
           if (returnData?.data) {
             if (returnData.data.status.mark == 1) {
               // 成功提示
               this.$notify({
                 type: "success",
-                message: returnData.data.status.infor + "密码：1234",
+                message: returnData.data.status.infor + "",
                 duration: "800",
               });
               console.log(returnData.data.result);
 
               const returnDataReference = [
-                {
-                  key: "结果",
-                  value: "注册成功，密码1234",
-                  blue: true,
-                  red: false,
-                },
-                {
-                  key: "姓名",
-                  value: returnData.data.result?.name,
-                },
-                {
-                  key: "身份",
-                  value: returnData.data.result?.role,
-                },
-                {
-                  key: "注册时间",
-                  value: returnData.data.result?.registertimestamp
-                    ? convertDate(returnData.data.result?.registertimestamp)
-                    : returnData.data.result?.registertimestamp,
-                },
+                // {
+                //   key: "结果",
+                //   value: "注册成功，密码1234",
+                //   blue: true,
+                //   red: false,
+                // },
+                // {
+                //   key: "姓名",
+                //   value: returnData.data.result?.name,
+                // },
+                // {
+                //   key: "昵称",
+                //   value: returnData.data.result?.username,
+                // },
+                // {
+                //   key: "身份",
+                //   value: returnData.data.result?.role,
+                // },
+                // {
+                //   key: "注册时间",
+                //   value: returnData.data.result?.registertimestamp
+                //     ? convertDate(returnData.data.result?.registertimestamp)
+                //     : returnData.data.result?.registertimestamp,
+                // },
               ];
 
               this.returnData = returnDataReference.filter(
@@ -148,7 +172,18 @@ export default {
               );
 
               console.log(this.returnData, returnDataReference);
-            } else {
+            } 
+            if (returnData.data.status.mark == 2) {
+              // this.$notify({
+              //   type: "success",
+              //   message: "该用户已存在",
+              //   duration: "800",
+              // });
+              this.$toast({
+                message: "该用户昵称已存在"
+              })
+            }
+            else {
               // 错误提示
               this.$notify({
                 type: "danger",
@@ -163,7 +198,7 @@ export default {
 
               this.returnData = [
                 {
-                  key: "结果",
+                  key: "提示",
                   value: returnData.data.status.infor,
                   red: true,
                   blue: false,
@@ -171,17 +206,7 @@ export default {
                 {
                   key: "姓名",
                   value: returnData.data.result?.name,
-                },
-                {
-                  key: "身份",
-                  value: returnData.data.result?.role,
-                },
-                {
-                  key: "注册时间",
-                  value: returnData.data.result?.registertimestamp
-                    ? convertDate(returnData.data.result?.registertimestamp)
-                    : returnData.data.result?.registertimestamp,
-                },
+                }
               ];
               this.returnData = this.returnData.filter((item) => item.value);
               console.log(this.returnData);
@@ -195,7 +220,6 @@ export default {
             });
           }
         });
-      }
     },
     userRegisterParams() {
       return {

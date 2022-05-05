@@ -2,8 +2,8 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-17 16:00:52
- * @FilePath: /graduation-project-master/src/pages/index/result.vue
+ * @LastEditTime: 2022-04-25 13:08:25
+ * @FilePath: /graduation-project-master/src/pages/index/listitem.vue
  * @Description: 
 -->
 
@@ -262,8 +262,8 @@ export default {
         placeserverjudge() {
           return new Promise((resovle) => {
             const { geometry } = this.forminitData;
-            // var point = turf.point([geometry.coordinates[0], geometry.coordinates[1]]);
-            var point = turf.point([116.02497, 28.68723]);
+            var point = turf.point([geometry.coordinates[0], geometry.coordinates[1]]);
+            // var point = turf.point([116.02497, 28.68723]);
             var buffered = turf.buffer(point, 200 / 1000.0);
             console.log(buffered);
             var geometry001 = {

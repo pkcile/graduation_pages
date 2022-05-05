@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-12 10:13:37
- * @LastEditTime: 2022-04-16 16:36:58
+ * @LastEditTime: 2022-04-25 10:25:39
  * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/utils/geolocation.js
@@ -59,6 +59,9 @@ function getCurrentLocation(resolve) {
 // new Promise(getCurrentLocation).then(function(data) {
 //   console.log(data);
 // })
+
+
+
 function getCurrentLocation2() {
   return new Promise((resolve) => {
     const geoOption = {
@@ -105,6 +108,8 @@ function getCurrentLocation2() {
     }
   });
 }
+
+
 
 function getLocationInformation(geometry) {
   return new Promise((resolve) => {

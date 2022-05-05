@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-04-17 16:02:25
+ * @LastEditTime: 2022-05-06 00:12:58
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -126,14 +126,14 @@ export default {
             key: 1,
             title: "账号",
             // inputplaceholder: "用户名或学号",
-            inputplaceholder: "测试账号：1",
+            inputplaceholder: "用户昵称",
             value: "",
           },
           {
             key: 2,
             title: "密码",
             // inputplaceholder: "请输入密码",
-            inputplaceholder: "测试密码：1234",
+            inputplaceholder: "用户密码",
             value: "",
           },
         ],
@@ -218,7 +218,7 @@ export default {
             else {
               this.$notify({ type: "success", message: "常规登录成功" });
               setTimeout(()=> {
-                this.$router.push("/home/main");
+                this.$router.push("/home/mine");
                 this.$notify.clear();
               }, 1000)
             }
@@ -407,7 +407,10 @@ export default {
     // })
   },
   created() {
-    window.localStorage.getItem("");
+    console.log(window.sessionStorage.getItem("User"));
+    if(window.sessionStorage.getItem("User")) {
+      this.$router.push("/home/main")
+    }
   },
   components: {
     [NavBar.name]: NavBar,
