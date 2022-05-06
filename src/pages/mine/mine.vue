@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-01 16:36:02
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 00:11:49
+ * @LastEditTime: 2022-05-06 08:42:55
  * @FilePath: /graduation-project-master/src/pages/mine/mine.vue
  * @Description: 
 -->
@@ -83,7 +83,7 @@ export default {
     // this.$store.commit("User/updateStatus");
     this.updateStatus();
     getResultClockLogCount({
-        studynth: this.$store.state.User.login.userinformation.studynth,
+        studynth: this.$store.state.User.login.userinformation?.studynth,
         // currentStamp: dateobj
       }).then(returnData => {
       this.logCount = returnData.data.result;

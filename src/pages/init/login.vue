@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-05-06 00:12:58
+ * @LastEditTime: 2022-05-06 10:13:06
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -40,8 +40,8 @@
             >
             <!--  -->
               <span style="color: #555"  @click="spanclickmap"
-                >{{ returnData.geometry.longitude }}
-                {{ returnData.geometry.latitude }}</span
+                >{{ Number(returnData.geometry.longitude).toFixed(4) != 0 ?  Number(returnData.geometry.longitude).toFixed(4) : "" }}
+                {{  Number(returnData.geometry.latitude).toFixed(4) != 0 ?   Number(returnData.geometry.latitude).toFixed(4) : "" }}</span
               >
               <template #right-icon>
                 <van-checkbox :name="item.value" ref="checkboxes" />
@@ -51,15 +51,16 @@
         </van-checkbox-group>
         
         <!-- 提示框 -->
+
         <ul
-          class="mine-form-display-infor"
+          class="mine-form-display-infor-edit"
           style="margin: -5px 0;color:#555;"
         >
         <!-- color: #017afebf;  -->
           <transition-group name="list" tag="p">
             <li v-for="item in returnData.placeinformation" :key="item.key">
               <span>{{ item.key }}</span>
-              <span :class="{ redColor: item.red, blueColor: item.blue }">{{
+              <span :class="{ redColor: item.red, blueColor: item.blue }" style="">{{
                 item.value
               }}</span>
             </li>
@@ -124,7 +125,7 @@ export default {
         items: [
           {
             key: 1,
-            title: "账号",
+            title: "昵称",
             // inputplaceholder: "用户名或学号",
             inputplaceholder: "用户昵称",
             value: "",
@@ -371,7 +372,7 @@ export default {
             (returnData) => {
               const returnDataReference = [
                 {
-                  key: "地址",
+                  key: "位置查看",
                   value: returnData.data.result.formatted_address,
                 }
               ];
@@ -470,5 +471,54 @@ export default {
 .blueColor {
   // color: #00f;
 }
+
+
+/* 表单样式-信息2 */
+.mine-form-display-infor-edit {
+  cursor: pointer;
+  background: #fff;
+  margin: 10px 5px;
+  li {
+    display: flex;
+    padding: 0px 15px;
+    height: 50px;
+    box-sizing: border-box;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid #efeff3;
+    & > span {
+      display: flex;
+      /* justify-content: flex-start; */
+      align-items: center;
+      height: 100%;
+    }
+    & > span:nth-child(1) {
+      flex: 0 0 100px;
+      /* background: #bfa; */
+    }
+    & > span:nth-child(2) {
+      flex: 2 0 200px;
+      // flex: 0 0 241px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      height: auto;
+    }
+    & > textarea {
+      border-width: 0;
+      width: 90%;
+      padding: 10px;
+    }
+  }
+
+}
+
+.mine-form-display-infor-edit li:active {
+  background-color: #eee;
+}
+
 </style>
 

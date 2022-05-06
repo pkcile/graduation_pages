@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-13 22:54:08
+ * @LastEditTime: 2022-05-06 09:35:02
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -86,9 +86,12 @@
             </div>
           </div>
         </div>
+
       </div>
+  
     </div>
     <useraddcomponent  v-show="useraddcomponentControl" ref="useraddcomponentControlRef"/>
+    <usereditcomponent  v-show="true" />
   </div>
 </template>
 
@@ -107,6 +110,7 @@ import {
 import axios from "axios";
 
 import useraddcomponent from "./useradd.vue";
+import usereditcomponent from "./useredit.vue"
 import searchcomponet from "@/components/searchStudent.vue"
 import {registerStudynthQuery, registerStudynthDelete} from "@/api/usercontrol/index.js"
 
@@ -230,7 +234,8 @@ export default {
     [Checkbox.name]: Checkbox,
     [Icon.name]: Icon,
     useraddcomponent: useraddcomponent,
-    searchcomponet: searchcomponet
+    searchcomponet: searchcomponet,
+    usereditcomponent: usereditcomponent
   },
   mounted() {
 

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-25 13:07:14
+ * @LastEditTime: 2022-05-06 08:45:19
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -225,7 +225,7 @@ export default {
         axios
           .get(`${process.env.VUE_APP_POSITION_PATH}/user/taskQuery`, {
             params: {
-              studynth: User.login.userinformation.studynth
+              studynth: User.login.userinformation?.studynth ? User.login.userinformation.studynth : 1 
             },
           })
           .then((returnData) => {
