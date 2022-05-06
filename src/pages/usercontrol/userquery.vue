@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 17:48:43
+ * @LastEditTime: 2022-05-06 21:28:13
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -120,7 +120,7 @@ export default {
   data() {
     return {
       useraddcomponentControl: false,
-      usereditcomponentControl: true,
+      usereditcomponentControl: false,
       classname: [],
       itemsData: [],
       itemsDataAddNew: [],

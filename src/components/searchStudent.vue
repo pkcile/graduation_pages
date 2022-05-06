@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-09 00:26:58
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-11 14:01:01
+ * @LastEditTime: 2022-05-06 21:27:06
  * @FilePath: /graduation-project-master/src/components/searchStudent.vue
  * @Description: 
 -->
@@ -41,7 +41,7 @@ export default {
             // console.log(item.name, this.inputsearch, item.studynth);
             const regex = new RegExp(this.inputsearch.trim());
 
-            if(regex.test(item.name) || regex.test(item.studynth) || regex.test(item.classname)) {
+            if(regex.test(item.name) || regex.test(item.studynth) || regex.test(item.classname) || regex.test(item.role)) {
               item.show = true;
             }
             else {
