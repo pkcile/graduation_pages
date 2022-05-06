@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-08 10:23:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-11 15:35:25
+ * @LastEditTime: 2022-05-06 14:59:42
  * @FilePath: /graduation-project-master/src/api/index/index.js
  * @Description: 
  */
@@ -49,4 +49,23 @@ export function updateSingleTaskApi(singletask) {
         // resolve("服务器错误，请稍后访问");
       })
   });
+}
+
+export function taskQueryApi(params) {
+  return new Promise((resolve) => {
+    // 重新获取
+    request
+        .get(`${process.env.VUE_APP_POSITION_PATH}/user/taskQuery`, {
+          params: {
+            studynth: params?.studynth,
+            username: params?.username,
+          },
+        })
+        .then((returnData) => {
+          resolve(returnData);
+        })
+        .catch(() => {
+          resolve("服务器错误");
+        })
+    });
 }

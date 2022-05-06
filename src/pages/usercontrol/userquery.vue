@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 09:35:02
+ * @LastEditTime: 2022-05-06 14:12:47
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -91,7 +91,7 @@
   
     </div>
     <useraddcomponent  v-show="useraddcomponentControl" ref="useraddcomponentControlRef"/>
-    <usereditcomponent  v-show="true" />
+    <usereditcomponent  v-show="false" />
   </div>
 </template>
 
@@ -262,11 +262,13 @@ export default {
       flex: 0 0 80px;
       display: flex;
       justify-content: center;
+      color: #555;
     }
     input {
       flex: 1 1 80px;
       display: flex;
       /* justify-content: center; */
+      color: #555;
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-05-06 09:18:08
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 09:55:34
+ * @LastEditTime: 2022-05-06 10:32:59
  * @FilePath: /graduation-project-master/src/pages/usercontrol/useredit.vue
  * @Description: 
 -->
@@ -27,16 +27,37 @@
       <!-- 表单 -->
       <ul class="" style="">
         <li class="mine-single-line-three-002">
-          <div>{{ "底图设置" }}</div>
-          <div >{{ "aabb" }}</div>
-          <div><van-icon name="arrow" /></div>
+          <div>{{ "学号" }}</div>
+          <div >{{ "201824803050" }}</div>
+          <!-- <div><van-icon name="arrow" /></div> -->
         </li>
-        <div class="mine-input-row-edit">
+        <li class="mine-input-row-edit">
           <label>{{ "姓名" }}</label>
           <input
             type="text"
+            placeholder="王朋坤"
+            value="wp"
           />
-        </div>
+        </li>
+        <li class="mine-input-row-edit">
+          <label>{{ "昵称" }}</label>
+          <input
+            type="text"
+            placeholder="昵称"
+            value="wp"
+          />
+        </li>
+        <li class="mine-single-line-three-002">
+          <div>{{ "班级" }}</div>
+          <div >{{ "18级地理信息科学1班" }}</div>
+          <div><van-icon name="arrow" /></div>
+        </li>
+
+        <li class="mine-single-line-three-002">
+          <div>{{ "身份" }}</div>
+          <div >{{ "学生" }}</div>
+          <div><van-icon name="arrow" /></div>
+        </li>
       </ul>
       <div
         class="mine-button-block bottom-fix"
@@ -174,14 +195,17 @@ export default {
   // padding: 15px;
   padding: 10px 8px;
   background: #fff;
+  border-bottom: 1px solid #8080802e;
   label {
     flex: 0 0 100px;
     display: flex;
     padding-left: 10px;
+    color: #444;
   }
   input {
     flex: 1 1 80px;
     display: flex;
+    color: #888;
   }
 }
 
@@ -203,13 +227,13 @@ export default {
   }
   & > div:nth-of-type(2) {
     flex: 1 0 100px;
-    // color: #444;
-    color: #aaa;
+    color: #444;
+    // color: #aaa;
     text-align: left;
   }
   & > div:nth-of-type(3) {
     flex: 0 0 50px;
-    color: #555;
+    color: #444;
   }
 }
 
@@ -219,7 +243,7 @@ export default {
 
   & > div:nth-of-type(2) {
     flex: 1 100px;
-    color: #007aff;
+    // color: #007aff;
     text-align: left;
   }
 }

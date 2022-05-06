@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 08:45:19
+ * @LastEditTime: 2022-05-06 15:02:05
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -17,13 +17,12 @@
       <!-- <p>刷新次数: {{ count }}</p> -->
       <div class="mine-form-notice">
         <van-notice-bar color="#1989fa" background="#fff" left-icon="back-top">
-           {{  this.$store.state.User.websocketnotice }} 
+          {{ this.$store.state.User.websocketnotice }}
         </van-notice-bar>
       </div>
       <!-- pageData.tasklists.length -->
 
-
-      <ul class="mine-form-tasklist" style=""       v-if="1" >
+      <ul class="mine-form-tasklist" style="" v-if="1">
         <!-- 打卡任务状态 -->
         <li
           v-for="taskitem in pageData.tasklists"
@@ -38,7 +37,7 @@
             </svg>
           </div>
           <div class="main">
-            <div>主题：{{  taskitem.topic }}</div>
+            <div>主题：{{ taskitem.topic }}</div>
             <div>打卡时间：{{ taskitem.time }}</div>
           </div>
         </li>
@@ -56,38 +55,41 @@
           </div>
         </li> -->
       </ul>
-  
-     
+
       <ul class="" v-else style="background: #fff; width: 100%; height: 100%">
         <van-empty description="无打卡任务" />
       </ul>
     </van-pull-refresh>
     <transition name="component-fade" mode="out-in">
-      <indexmodal v-show="pageResult" @fun0001="resultClose" :tasklistsSelectItem="pageData.tasklistsSelectItem" ref="tasklistsEvent">
+      <indexmodal
+        v-show="pageResult"
+        @fun0001="resultClose"
+        :tasklistsSelectItem="pageData.tasklistsSelectItem"
+        ref="tasklistsEvent"
+      >
       </indexmodal>
-  </transition>
-  
+    </transition>
   </div>
 </template>
 
 <script>
 import { PullRefresh, NoticeBar } from "vant";
-import { flatearthDistance } from "@/utils/distance2.js";
-import axios from "axios";
 import { Empty } from "vant";
 import "@/assets/font/index.js";
-import eventbus from "@/utils/evenbus.js";
-import { mapState, mapMutations} from "vuex";
-import { convertDate } from "@/utils/date.js";
+import { mapState, mapMutations } from "vuex";
 import { TaskDealWith } from "@/utils/judgetasks.js";
-import { getTaskLists, tasklistsToPagelist } from "@/utils/getTaskLists.js"
-import indexmodal from './listitem.vue'
+import { getTaskLists, tasklistsToPagelist } from "@/utils/getTaskLists.js";
+import indexmodal from "./listitem.vue";
 import {
   getCurrentLocation2,
-  getLocationInformation,
 } from "@/utils/geolocation.js";
-import {GetWiFiAndLocation2} from "@/utils/DeviceInfor.js"
-import {io} from "socket.io-client"
+import { GetWiFiAndLocation2 } from "@/utils/DeviceInfor.js";
+import { taskQueryApi } from "@/api/index/index.js";
+// import { io } from "socket.io-client";
+// import { flatearthDistance } from "@/utils/distance2.js";
+// import eventbus from "@/utils/evenbus.js";
+// import { convertDate } from "@/utils/date.js";
+
 export default {
   props: {
     show: Boolean,
@@ -96,9 +98,8 @@ export default {
   data() {
     return {
       pageData: {
-        tasklists: [
-        ],
-        tasklistsSelectItem: {}
+        tasklists: [],
+        tasklistsSelectItem: {},
       },
       pageResult: false,
       returnData: {},
@@ -110,33 +111,26 @@ export default {
   },
   methods: {
     onRefresh() {
-      this.taskqueryRefresh().then(data => {
+      this.taskqueryRefresh().then((data) => {
         console.log(data);
         this.isLoading = false;
       });
     },
     taskitemjump(jumpitem) {
-      const _this = this; 
+      const _this = this;
       this.pageData.tasklistsSelectItem = jumpitem;
       this.$toast.loading({
-        message: '位置加载中...',
+        message: "位置加载中...",
         forbidClick: true,
-        duration: 0
+        duration: 0,
       });
-      getCurrentLocation2().then(returnData => {
-        if(!returnData?.longitude) {
+      getCurrentLocation2().then((returnData) => {
+        if (!returnData?.longitude) {
           this.$toast("位置获取失败");
           this.pageResult = true;
 
           const aabbcc = {
             wifiList: [
-              // {
-              //   bssid: "e8:65:d4:a9:e6:70",
-              //   ssid: "Tenda_A9E670",
-              //   level: -49,
-              //   checked: false,
-              //   id: 0,
-              // },
               // { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
               // { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
               // { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
@@ -145,131 +139,120 @@ export default {
           const geometry = {
             coordinates: [0, 0],
             type: "Point",
-            accuracy: 99
-          }
+            accuracy: 99,
+          };
 
-           // wifi保存
-            // console.log( );
-            _this.wifiStore(aabbcc.wifiList)
-            _this.geometryStore(geometry)
-            
-          this.$refs["tasklistsEvent"].tasklistsEventCall(this.pageData.tasklistsSelectItem);
+          // wifi保存
+          // console.log( );
+          _this.wifiStore(aabbcc.wifiList);
+          _this.geometryStore(geometry);
+
+          this.$refs["tasklistsEvent"].tasklistsEventCall(
+            this.pageData.tasklistsSelectItem
+          );
 
           return;
         }
         this.pageData.tasklistsSelectItem.geometry = {
           coordinates: [returnData.longitude, returnData.latitude],
           type: "Point",
-          accuracy: returnData.accuracy
-        }
+          accuracy: returnData.accuracy,
+        };
 
         // 仅android环境下
-        if(window.plus) {
-          GetWiFiAndLocation2().then(data => {
+        if (window.plus) {
+          GetWiFiAndLocation2().then((data) => {
             console.log(data);
-          this.pageData.tasklistsSelectItem.geometry = {
-          coordinates: [data.positionList.coords.longitude, data.positionList.coords.latitude],
-          type: "Point",
-          accuracy: returnData.accuracy
-        }
-            _this.wifiStore(data.wifiList)
-            _this.geometryStore(_this.pageData.tasklistsSelectItem.geometry)
-             // wifi保存
-          })
-  
-        }
-        else {
+            this.pageData.tasklistsSelectItem.geometry = {
+              coordinates: [
+                data.positionList.coords.longitude,
+                data.positionList.coords.latitude,
+              ],
+              type: "Point",
+              accuracy: returnData.accuracy,
+            };
+            _this.wifiStore(data.wifiList);
+            _this.geometryStore(_this.pageData.tasklistsSelectItem.geometry);
+            // wifi保存
+          });
+        } else {
           const aabbcc = {
             wifiList: [
-              // {
-              //   bssid: "e8:65:d4:a9:e6:70",
-              //   ssid: "Tenda_A9E670",
-              //   level: -49,
-              //   checked: false,
-              //   id: 0,
-              // },
               // { bssid: "c2:65:c7:d9:ad:78", ssid: "pkcile", level: -67, id: 1 },
               // { bssid: "c2:65:c7:d9:ad:7c", ssid: "pkcile", level: -83, id: 2 },
               // { bssid: "04:95:e6:77:d6:71", ssid: "金豆豆", level: -74, id: 3 },
             ],
           };
 
-
-           // wifi保存
-            console.log("wifi", + _this.wifiStore);
-            _this.wifiStore(aabbcc.wifiList)
-            _this.geometryStore(_this.pageData.tasklistsSelectItem.geometry)
+          // wifi保存
+          console.log("wifi", +_this.wifiStore);
+          _this.wifiStore(aabbcc.wifiList);
+          _this.geometryStore(_this.pageData.tasklistsSelectItem.geometry);
         }
 
         // 位置保存
-
         this.$toast.clear();
-        this.$toast.success('位置获取成功');
+        this.$toast.success("位置获取成功");
         this.pageResult = true;
-        this.$refs["tasklistsEvent"].tasklistsEventCall(this.pageData.tasklistsSelectItem);
-      })
-
+        this.$refs["tasklistsEvent"].tasklistsEventCall(
+          this.pageData.tasklistsSelectItem
+        );
+      });
     },
     tasksToJudgeArray(tasks) {
-      let taskDealWith = new TaskDealWith({tasks})
+      let taskDealWith = new TaskDealWith({ tasks });
       return taskDealWith.singlestamptaskArray;
     },
     resultClose() {
       this.pageResult = false;
     },
     taskqueryRefresh() {
-      const _this = this;
       const User = this.$store.state.User;
       return new Promise((resolve) => {
-      // 重新获取
-        axios
-          .get(`${process.env.VUE_APP_POSITION_PATH}/user/taskQuery`, {
-            params: {
-              studynth: User.login.userinformation?.studynth ? User.login.userinformation.studynth : 1 
-            },
-          })
-          .then((returnData) => {
-            _this.taskQueryStore(returnData.data.result)
+        taskQueryApi({
+          studynth: User.login.userinformation?.studynth,
+          username: User.login.userinformation?.username,
+        }).then((returnData) => {
+          if (returnData?.data.result) {
+            this.taskQueryStore(returnData.data.result);
 
             let getTaskListsData = getTaskLists(returnData.data.result.tasks);
             let pagelistData = tasklistsToPagelist(getTaskListsData);
-            _this.pageData.tasklists = pagelistData;
-            // console.log("重新获取");
+            this.pageData.tasklists = pagelistData;
             resolve("获取成功");
-          })
-          .catch(() => {
-            // _this.$notify("服务器错误");
-            resolve("服务器错误");
-          })
+          } else {
+            this.$toast("服务器错误");
+            resolve("获取失败");
+          }
+        });
       });
-
     },
-    ...mapMutations('User', [
-      'oneMethod',
-      'taskQueryStore',
-      'updateStatus',
-      'wifiStore',
-      'geometryStore'
+    ...mapMutations("User", [
+      "oneMethod",
+      "taskQueryStore",
+      "updateStatus",
+      "wifiStore",
+      "geometryStore",
     ]),
   },
-  mounted() {
-  },
+  mounted() {},
   created() {
-    const _this = this;
     // 持久化保存
     this.$store.commit("User/updateStatus");
     // 数据条目格式化处理
     const User = this.$store.state.User;
     // 如果过期，则重新获取任务，3秒未获取重新获取
-    if(User.taskinforlasttimestamp && (Date.now() - User.taskinforlasttimestamp) < 10000) {
+    if (
+      User.taskinforlasttimestamp &&
+      Date.now() - User.taskinforlasttimestamp < 10000
+    ) {
       // 使用缓存，不变动
       let getTaskListsData = getTaskLists(User.login.tasks);
       let pagelistData = tasklistsToPagelist(getTaskListsData);
-      _this.pageData.tasklists = pagelistData;
-    }
-    else {
+      this.pageData.tasklists = pagelistData;
+    } else {
       // 重新获取
-      this.taskqueryRefresh().then(data => {
+      this.taskqueryRefresh().then((data) => {
         console.log(data);
       });
     }
@@ -281,13 +264,13 @@ export default {
     [PullRefresh.name]: PullRefresh,
     [NoticeBar.name]: NoticeBar,
     [Empty.name]: Empty,
-    indexmodal: indexmodal
+    indexmodal: indexmodal,
   },
   computed: {
-  ...mapState({
-    // ...
-  })
-  }
+    ...mapState({
+      // ...
+    }),
+  },
 };
 </script>
 
@@ -316,10 +299,6 @@ export default {
   height: 40px;
   box-sizing: border-box;
   padding: 0 0 0 0px;
-  // margin: 5px;
-
-  // margin-bottom: -10px;
-  // backg
 }
 .mine-form-tasklist {
   height: calc(100% - 40px);
@@ -329,7 +308,7 @@ export default {
   padding: 0 5px 0 5px;
   margin: 0 auto;
   cursor: pointer;
-  &  li {
+  & li {
     background: #fff;
     margin: 8px 0;
     padding: 10px 15px 10px 15px;
@@ -359,7 +338,7 @@ export default {
       }
     }
   }
-  &  li {
+  & li {
     transition: 0.1s all;
   }
   & li:active {
@@ -368,22 +347,22 @@ export default {
     border: 1px dotted #1989fa;
   }
 
-  &  li:hover {
+  & li:hover {
     border: 1px dotted #1989fa;
   }
 
-  &  li .icon {
+  & li .icon {
     transition: 0.1s all;
     //  fill: #1989FA !important;
   }
 
-  &  li:hover .icon {
+  & li:hover .icon {
     fill: #1989fa !important;
     // width: 1.7em;
     // height: 1.7em;
   }
 
-  &  li:active .icon {
+  & li:active .icon {
     // width: 1.7em;
     // height: 1.7em;
     fill: #1989fa !important;

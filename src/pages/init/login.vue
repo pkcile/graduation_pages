@@ -1,7 +1,7 @@
 <!--
  * @Author: 王朋坤
  * @Date: 2021-10-24 22:44:46
- * @LastEditTime: 2022-05-06 10:13:06
+ * @LastEditTime: 2022-05-06 10:52:57
  * @LastEditors: 王朋坤
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/src/pages/init/login.vue
@@ -18,9 +18,10 @@
           <div class="mine-input-row">
             <label>{{ inputItem.title }}</label>
             <input
-              type="text"
+              :type="inputItem.type"
               :placeholder="inputItem.inputplaceholder"
               v-model="inputItem.value"
+              style="padding-right: 20px;"
             />
           </div>
           <div class="mine-input-line"></div>
@@ -129,6 +130,7 @@ export default {
             // inputplaceholder: "用户名或学号",
             inputplaceholder: "用户昵称",
             value: "",
+            type: "text"
           },
           {
             key: 2,
@@ -136,6 +138,7 @@ export default {
             // inputplaceholder: "请输入密码",
             inputplaceholder: "用户密码",
             value: "",
+            type: "password"
           },
         ],
         register: {
