@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-02 15:11:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 14:12:47
+ * @LastEditTime: 2022-05-06 17:48:43
  * @FilePath: /graduation-project-master/src/pages/usercontrol/userquery.vue
  * @Description: 
 -->
@@ -52,6 +52,7 @@
               v-for="item in itemsData"
               v-bind:key="item.key"
               v-show="item.show"
+              @click="jumptoeditpage(item)"
             >
               <div>{{ item.name }}</div>
               <div>{{ item.classname.slice(item.classname.length-2) + "," + item.studynth }}</div>
@@ -91,7 +92,7 @@
   
     </div>
     <useraddcomponent  v-show="useraddcomponentControl" ref="useraddcomponentControlRef"/>
-    <usereditcomponent  v-show="false" />
+    <usereditcomponent  v-show="usereditcomponentControl" ref="usereditcomponentRef" />
   </div>
 </template>
 
@@ -106,6 +107,7 @@ import {
   Popup,
   Checkbox,
   Icon,
+  ActionSheet
 } from "vant";
 import axios from "axios";
 
@@ -118,6 +120,7 @@ export default {
   data() {
     return {
       useraddcomponentControl: false,
+      usereditcomponentControl: true,
       classname: [],
       itemsData: [],
       itemsDataAddNew: [],
@@ -154,6 +157,7 @@ export default {
             let newSetClassnameArray = [];
             returnData.data.result.forEach((item, index) => {
               newSet.add(item.classname);
+              console.log(item);
               studentData.push({
                 key: index + Math.random() + "",
                 checked: false,
@@ -162,7 +166,8 @@ export default {
                 studynth: item.studynth.trim(),
                 gender: item.gender,
                 pageshow: false,
-                show: true
+                show: true,
+                role: item.role
               });
             });
 
@@ -194,6 +199,7 @@ export default {
     deleteitemfun(item) {
       // console.log(arguments)
       // console.log("aaa");
+      window.event? window.event.cancelBubble = true : e.stopPropagation();
       console.log(item);
       if(this.editestatus) {
         registerStudynthDelete({studynth: item.studynth}).then(returnData => {
@@ -221,6 +227,10 @@ export default {
       else {
         this.icon = "arrow"
       }
+    },
+    jumptoeditpage(item) {
+      console.log("jumpto edit page");
+      this.$refs["usereditcomponentRef"].usereditcomponentRefFun(item);
     }
   },
   components: {
@@ -233,6 +243,7 @@ export default {
     [Popup.name]: Popup,
     [Checkbox.name]: Checkbox,
     [Icon.name]: Icon,
+    [ActionSheet.name]: ActionSheet,
     useraddcomponent: useraddcomponent,
     searchcomponet: searchcomponet,
     usereditcomponent: usereditcomponent

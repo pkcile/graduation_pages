@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 15:02:05
+ * @LastEditTime: 2022-05-06 16:23:03
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -241,7 +241,7 @@ export default {
     this.$store.commit("User/updateStatus");
     // 数据条目格式化处理
     const User = this.$store.state.User;
-    // 如果过期，则重新获取任务，3秒未获取重新获取
+    // 如果过期，则重新获取任务，10秒未获取重新获取
     if (
       User.taskinforlasttimestamp &&
       Date.now() - User.taskinforlasttimestamp < 10000

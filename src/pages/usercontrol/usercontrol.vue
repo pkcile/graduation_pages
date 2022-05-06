@@ -1,5 +1,8 @@
 <template>
-  <div class="social-page send-part-message" style="z-index: 2;background:#EFEFF3" >
+  <div
+    class="social-page send-part-message"
+    style="z-index: 2; background: #efeff3"
+  >
     <div class="title">
       <div
         class="control"
@@ -10,50 +13,61 @@
       ></div>
       <div class="text">信息管理</div>
     </div>
-    <div class="main" style="background:#efeff3">
-      <div style="padding: 0 10px 10px 10px;box-sizing:border-radius;">
+    <div class="main" style="background: #efeff3">
+      <div style="padding: 0 10px 10px 10px; box-sizing: border-radius">
         <div class="mine-double-line-date">
           <div class="title">
             <div>用户操作</div>
           </div>
-          <div class="main" style="background:#fff;border-radius:5px;">
-            <div class="mine-single-line-three-001"  @click="userquery" >
+          <div class="main" style="background: #fff; border-radius: 5px">
+            <div class="mine-single-line-three-001" @click="userquery">
               <div>用户信息</div>
               <div>{{ "" }}</div>
               <div><van-icon name="arrow" /></div>
             </div>
-            <div class="mine-single-line-three-001"  @click="userquery" >
-            <div>打卡记录</div>
-            <div>{{ "" }}</div>
-            <div><van-icon name="arrow" /></div>
-          </div>
-         
+            <div class="mine-single-line-three-001" @click="userquery">
+              <div>打卡记录</div>
+              <div>{{ "" }}</div>
+              <div><van-icon name="arrow" /></div>
+            </div>
           </div>
         </div>
-        <div class="mine-double-line-date" >
+        <div class="mine-double-line-date">
           <div class="title">
             <div>任务管理</div>
-             <!-- <div style="color: #007aff" >时间段添加</div> -->
+            <!-- <div style="color: #007aff" >时间段添加</div> -->
           </div>
-          <div class="main" style="background:#fff;border-radius:5px;">
+          <div class="main" style="background: #fff; border-radius: 5px">
             <!-- <van-cell title="可选择多个" :value="323" @click="show = true" /> -->
             <!-- v-for="getHourItem in getHours" v-bind:key="getHourItem.id" -->
-          <div class="mine-single-line-three-001"   >
-            <div>任务查看</div>
-            <div>{{ "" }}</div>
-            <div><van-icon name="arrow" /></div>
-          </div>  
-          <div class="mine-single-line-three-001"   >
-            <div>通知发布</div>
-            <div>{{ "" }}</div>
-            <div><van-icon name="arrow" /></div>
-          </div> 
+            <div class="mine-single-line-three-001">
+              <div>任务查看</div>
+              <div>{{ "" }}</div>
+              <div><van-icon name="arrow" /></div>
+            </div>
+            <div class="mine-single-line-three-001">
+              <div>通知发布</div>
+              <div>{{ "" }}</div>
+              <div><van-icon name="arrow" /></div>
+            </div>
+            <div class="mine-single-line-three-001">
+              <div>服务修改</div>
+              <div>{{ "" }}</div>
+              <div><van-icon name="arrow" /></div>
+            </div>
+            <div class="mine-single-line-three-001">
+              <div>在线打卡</div>
+              <div>{{ "" }}</div>
+              <div><van-icon name="arrow" /></div>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
-    <queryusercomponent  v-show="queryusercomponentControl" ref="queryusercomponentref"  />
+    <queryusercomponent
+      v-show="queryusercomponentControl"
+      ref="queryusercomponentref"
+    />
   </div>
 </template>
 
@@ -67,7 +81,7 @@ import {
   Field,
   Popup,
   Checkbox,
-  Icon
+  Icon,
 } from "vant";
 import axios from "axios";
 import queryusercomponent from "./userquery.vue";
@@ -83,21 +97,18 @@ export default {
     [Popup.name]: Popup,
     [Checkbox.name]: Checkbox,
     [Icon.name]: Icon,
-    queryusercomponent: queryusercomponent
-
+    queryusercomponent: queryusercomponent,
   },
   props: {
-    inputcomponentData: String
+    inputcomponentData: String,
   },
   data() {
     return {
       inputData: "",
-      queryusercomponentControl: false
+      queryusercomponentControl: false,
     };
   },
-  mounted() {
-  
-  },
+  mounted() {},
   methods: {
     backTo() {
       this.$router.push("/home/more");
@@ -105,7 +116,7 @@ export default {
     userquery() {
       // console.log("userquery");
       this.$refs["queryusercomponentref"].queryusercomponentinfor();
-    }
+    },
   },
 };
 </script>
@@ -211,7 +222,7 @@ export default {
   // border-bottom: #8080802e 1px solid;
   & > .title {
     position: relative;
-    background: #F7F7F7;
+    background: #f7f7f7;
     height: 50px;
     top: 0;
     // z-index: 1;

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-05-06 09:18:08
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 10:32:59
+ * @LastEditTime: 2022-05-06 17:49:59
  * @FilePath: /graduation-project-master/src/pages/usercontrol/useredit.vue
  * @Description: 
 -->
@@ -28,41 +28,37 @@
       <ul class="" style="">
         <li class="mine-single-line-three-002">
           <div>{{ "学号" }}</div>
-          <div >{{ "201824803050" }}</div>
+          <div>{{ personitemData.studynth }}</div>
           <!-- <div><van-icon name="arrow" /></div> -->
         </li>
         <li class="mine-input-row-edit">
           <label>{{ "姓名" }}</label>
-          <input
-            type="text"
-            placeholder="王朋坤"
-            value="wp"
-          />
+          <input type="text" :placeholder="personitemData.name" :value="personitemData.name" />
         </li>
-        <li class="mine-input-row-edit">
-          <label>{{ "昵称" }}</label>
-          <input
-            type="text"
-            placeholder="昵称"
-            value="wp"
-          />
-        </li>
-        <li class="mine-single-line-three-002">
+        <li class="mine-single-line-three-002" @click="actionSheet.classroom.display=true">
           <div>{{ "班级" }}</div>
-          <div >{{ "18级地理信息科学1班" }}</div>
+          <div>{{ personitemData.classroom }}</div>
           <div><van-icon name="arrow" /></div>
         </li>
-
-        <li class="mine-single-line-three-002">
+        <li class="mine-single-line-three-002" @click="actionSheet.role.display=true"> 
           <div>{{ "身份" }}</div>
-          <div >{{ "学生" }}</div>
+          <div>{{ personitemData.role }}</div>
           <div><van-icon name="arrow" /></div>
         </li>
+        <van-action-sheet
+          v-model="actionSheet.classroom.display"
+          :actions="actionSheet.classroom.data"
+          @select="changeclass"
+        />
+        <van-action-sheet
+          v-model="actionSheet.role.display"
+          :actions="actionSheet.role.data"
+          @select="changerole"
+        />
       </ul>
       <div
         class="mine-button-block bottom-fix"
         style="position: sticky; bottom: 20px; left: 0; margin-top: 15px"
-       
       >
         更新修改
       </div>
@@ -135,17 +131,46 @@ export default {
           },
         ],
       },
+      actionSheet: {
+        classroom: {
+          display: false,
+          data: [
+            { name: "18级地理信息科学1班" }, 
+            { name: "18级地理信息科学2班" },
+            { name: "18级003班" }, 
+            { name: "18级004班" },
+            { name: "18级004班" },
+            { name: "18级004班" },
+            { name: "18级004班" },
+            ],
+        },
+        role: {
+          display: false,
+          data: [
+            { name: "管理员" }, 
+            { name: "学生" }, 
+            ],
+        },
+      },
+      personitemData: {
+        studynth: "201824803050",
+        role: "管理员",
+        classroom: "18级地理信息科学2班",
+        name: "王朋坤",
+
+      }
     };
   },
   components: {
     // mapview: mapview,
     [Icon.name]: Icon,
+    [ActionSheet.name]: ActionSheet,
   },
   methods: {
     displayResult() {},
     sendDdata() {},
     backTo() {
-      this.$parent.listcomponentControl = false;
+      this.$parent.usereditcomponentControl = false;
       // console.log(this.$parent.logcomponentControl);
     },
     convertDate,
@@ -153,22 +178,35 @@ export default {
       const tasklistsSelectItem = this.tasklistsSelectItem;
       this.mapviewControl = true;
       this.$refs["startmapview"].startmapview({
-        tasklistsSelectItem
+        tasklistsSelectItem,
       });
+    },
+    changeclass(data) {
+      console.log("改变班级", data.name);
+      this.actionSheet.classroom.display = false;
+      this.personitemData.classroom = data.name;
+      
+    },
+    changerole(data) {
+      console.log("改变班级",data.name);
+      this.actionSheet.role.display = false;
+      this.personitemData.role = data.name;
     },
     listcomponentRefFun(params) {
       console.log(params);
-      getResultClockLogItem(params).then(returnData => {
+      getResultClockLogItem(params).then((returnData) => {
         console.log(returnData);
-        if(returnData?.data?.result) {
+        if (returnData?.data?.result) {
           this.tasklistsSelectItem = returnData.data.result;
-        }
-        else {
+        } else {
           this.$toast("查询错误");
         }
-      })
+      });
       this.$parent.listcomponentControl = true;
-
+    },
+    usereditcomponentRefFun(params) {
+      this.$parent.usereditcomponentControl = true;
+      console.log(params);
     },
     ...mapMutations("User", [
       "updateStatus",
@@ -247,5 +285,4 @@ export default {
     text-align: left;
   }
 }
-
 </style>
