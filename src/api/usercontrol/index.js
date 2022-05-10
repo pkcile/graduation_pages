@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-09 10:42:07
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 21:17:28
+ * @LastEditTime: 2022-05-07 15:50:55
  * @FilePath: /graduation-project-master/src/api/usercontrol/index.js
  * @Description: 
  */
@@ -26,6 +26,26 @@ export function registerStudynthUpdate(params) {
           name: params.name,
           classname: params.classname,
           role: params.role,
+        },
+        
+      })
+      .then((returnData) => {
+        resolve(returnData);
+      })
+      .catch(data => {
+        resolve("服务器错误，请稍后访问");
+      })
+  });
+}
+
+export function registerStudynthQueryItem(params) {
+  return new Promise((resolve) => {
+    request
+    // http://localhost:9000/user/registerStudynthUpdate?studynth=201824803002&role=%E7%AE%A1%E7%90%86%E5%91%98
+      .get(`${process.env.VUE_APP_POSITION_PATH}/user/registerStudynthQueryItem`, {
+        params: {
+          studynth: params.studynth,
+          username: params.username,
         },
         
       })

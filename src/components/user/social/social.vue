@@ -1,7 +1,7 @@
 <!--
  * @Author: pkcile
  * @Date: 2021-10-14 19:46:07
- * @LastEditTime: 2022-04-09 17:55:19
+ * @LastEditTime: 2022-05-07 09:45:29
  * @LastEditors: 王朋坤
  * @Description: 
  * @FilePath: /graduation-project-master/src/components/user/social/social.vue
@@ -113,7 +113,7 @@ export default {
           title: "用户功能",
           items: [
             {
-              name: "动态显示",
+              name: "留言发布",
               router: "/social",
               key: "001",
               backgroundimg: require("@/assets/font/social-reddit.svg"),

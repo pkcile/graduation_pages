@@ -1,0 +1,26 @@
+<!--
+ * @Author: 王朋坤
+ * @Date: 2022-05-08 00:20:00
+ * @LastEditors: 王朋坤
+ * @LastEditTime: 2022-05-08 00:21:22
+ * @FilePath: /graduation-project-master/doc/temp/geolocation002.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const watchId = navigator.geolocation.watchPosition(position => {
+      console.log(position);
+      const { latitude, longitude } = position.coords;
+      // Show a map centered at latitude / longitude.
+    });
+  </script>
+</body>
+</html>

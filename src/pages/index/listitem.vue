@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-25 13:08:25
+ * @LastEditTime: 2022-05-10 16:04:15
  * @FilePath: /graduation-project-master/src/pages/index/listitem.vue
  * @Description: 
 -->
@@ -228,6 +228,10 @@ export default {
 
             this.singleTask.userwifimark = this.singleTask.userwifimark || findresult ? 1 : -1;
           });
+
+          if(!window.plus) {
+             this.singleTask.userwifimark = -1;
+          }
 
           return this;
         }

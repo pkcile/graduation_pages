@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-21 15:59:53
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-24 17:37:06
+ * @LastEditTime: 2022-05-07 15:54:32
  * @FilePath: /graduation-project-master/src/api/mine/index.js
  * @Description: 
  */
@@ -59,6 +59,26 @@ export function getResultClockLogItem(personalData) {
           studynth: personalData.studynth,
           startstamp: personalData.startstamp,
           taskid: personalData.taskid,
+        },
+        
+      })
+      .then((returnData) => {
+        resolve(returnData);
+      })
+      .catch(data => {
+        resolve("服务器错误，请稍后访问");
+      })
+  });
+}
+
+export function registerStudynthQueryItem(params) {
+  return new Promise((resolve) => {
+    request
+    // http://localhost:9000/user/registerStudynthUpdate?studynth=201824803002&role=%E7%AE%A1%E7%90%86%E5%91%98
+      .get(`${process.env.VUE_APP_POSITION_PATH}/user/registerStudynthQueryItem`, {
+        params: {
+          studynth: params.studynth,
+          username: params.username,
         },
         
       })

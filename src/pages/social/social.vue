@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2022-02-28 07:13:32
- * @LastEditTime: 2022-02-28 07:15:19
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-07 09:41:55
+ * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/pages/social/social.vue
 -->
@@ -29,12 +29,11 @@
       <div
         class="background-img"
         :style="{
-          'background-image': `url('https://wx1.sinaimg.cn/large/6c942574ly1gwzvc23zr5g20hs0dckjl.gif')`,
+          'background-image': `url(${require('@/assets/img/bg.webp')})`,
         }"
       >
-        <!-- https://photo.weibo.com/1821648244/wbphotos/large/mid/4710088767701407/pid/6c942574ly1gwzvc23zr5g20hs0dckjl -->
         <div class="user-infor">
-          <div class="name">wpkqq qq qq</div>
+          <div class="name">王朋坤</div>
           <div
             class="img"
             :style="{
@@ -267,7 +266,10 @@ export default {
           }
         });
         console.log(_this.studentData);
-      });
+      })
+      .catch(data => {
+        this.$toast("错误提示");
+      })
   },
   methods: {
     backToSocial() {
@@ -404,7 +406,7 @@ export default {
     .user-infor {
       position: absolute;
       right: 0;
-      bottom: -25px;
+      bottom: -39px;
       width: 120px;
       height: 50px;
       // border: 1px solid red;

@@ -2,19 +2,20 @@
  * @Author: 王朋坤
  * @Date: 2022-04-01 16:36:02
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 08:42:55
+ * @LastEditTime: 2022-05-07 15:38:29
  * @FilePath: /graduation-project-master/src/pages/mine/mine.vue
  * @Description: 
 -->
 <template>
   <div class="home-mine">
     <logcomponent v-show="logcomponentControl" ref="logcomponentRef"></logcomponent>
+    <inforquerycomponent v-show="inforquerycomponentControl" ref="inforquerycomponentRef"> </inforquerycomponent>
     <!-- 用户信息设置 -->
-    <div class="mine-form-user-information">
-      <img :src="`${require('@/assets/img/user/1.jpg')}`" alt="" />
+    <div class="mine-form-user-information"  @click="openuserinfor()">
+      <img :src="userimg" alt="" />
       <div class="user-main">
         <!-- <div>{{ this.$store.state.User.login.userinformation ? "姓名：" + this.$store.state.User.login.userinformation.name : "guest" }}</div> -->
-        <div>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.username : "000" }}</div>
+        <div style="color:#007AFF;">{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.username : "000" }}</div>
       </div>
       <div class="user-jump"  :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`}"></div>
     </div>
@@ -28,13 +29,11 @@
         <span>{{ "身份"}}</span>
         <span>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.role : "学生" }}</span>
       </li>
-      <!-- <li>
-        <span>{{ "个人说明"}}</span>
-        <span>{{ this.$store.state.User.login.userinformation ?  "" + this.$store.state.User.login.userinformation.showinfor : "默认签名" }}</span>
-      </li> -->
       <li @click="logDisplay">
         <span>打卡日志</span>
         <span>共计{{ logCount }}条</span>
+         <span class="user-jump"  :style="{'background-image': `url(${require('@/assets/font/arrow.svg')})`, backgroundSize: '22px',backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center', flex: '1 0 50px'}"></span>
       </li>
       <li>  
         <span>注册时间</span>
@@ -52,12 +51,14 @@ import { Dialog } from 'vant';
 import { mapState, mapMutations} from "vuex";
 import { TaskDealWith } from "@/utils/judgetasks.js";
 import  logcomponent from "./log.vue"
+import inforquerycomponent from "./inforquery.vue"
 import { getResultClockLogCount } from "@/api/mine/index.js";
 
 export default {
   components: {
     [Dialog.Component.name]: Dialog.Component.name,
-    logcomponent: logcomponent
+    logcomponent: logcomponent,
+    inforquerycomponent: inforquerycomponent
   },
   methods: {
     loginOut() {
@@ -69,6 +70,10 @@ export default {
       // this.logcomponentControl = true;
       this.$refs["logcomponentRef"].initCurrentTime();
     },
+    openuserinfor() {
+      this.$refs["inforquerycomponentRef"].usereditcomponentRefFun(this.$store.state.User.login.userinformation);
+      // this.userimg = require('@/assets/img/user/1.jpg');
+    },
     ...mapMutations('User', [
       'updateStatus'
     ]),
@@ -76,7 +81,9 @@ export default {
   data() {
     return {
       logcomponentControl: false,
-      logCount: null
+      inforquerycomponentControl: false,
+      logCount: null,
+      userimg:  require('@/assets/img/user/1.jpg')
     }
   },
   created: function() {
@@ -87,13 +94,12 @@ export default {
         // currentStamp: dateobj
       }).then(returnData => {
       this.logCount = returnData.data.result;
-      console.log(this.logCount);
+  
     })
-    
-    // console.log("mine created");
+
+    this.userimg =  require('@/assets/img/user/' + this.$store.state.User.login.userinformation.imglink + '') ? require('@/assets/img/user/' + this.$store.state.User.login.userinformation.imglink + ''): this.userimg;
   },
   mounted() {
-    console.log(this.$store );
     // this.$notify({type: "primary", message: "欢迎来到个人中心"});
   }
 }

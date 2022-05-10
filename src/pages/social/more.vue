@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 15:14:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 09:45:34
+ * @LastEditTime: 2022-05-10 12:49:06
  * @FilePath: /graduation-project-master/src/pages/social/more.vue
  * @Description: 
 -->
@@ -112,18 +112,18 @@ export default {
           title: "用户功能",
           items: [
             {
-              name: "动态显示",
+              name: "留言发布",
               router: "/social",
               key: "001",
               backgroundimg: require("@/assets/font/social-reddit.svg"),
-              show: false
+              show: true
             },
             {
               name: "位置签到",
               router: "/sign",
               key: "002",
               backgroundimg: require("@/assets/font/position.svg"),
-              show: false
+              show: true
             },
             {
               name: "运动轨迹",
@@ -146,17 +146,17 @@ export default {
           title: "管理员功能",
           items: [
             {
-              name: "信息管理",
-              router: "/home/usercontrol",
-              key: "004",
-              backgroundimg: require("@/assets/font/clock.svg"),
-              show: true
-            },
-            {
               name: "任务发布",
               router: "/home/admin",
               key: "001",
               backgroundimg: require("@/assets/font/clock.svg"),
+              show: true
+            },
+            {
+              name: "更多设置",
+              router: "/home/usercontrol",
+              key: "004",
+              backgroundimg: require("@/assets/font/empoty.svg"),
               show: true
             },
             {

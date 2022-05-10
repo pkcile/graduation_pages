@@ -2,14 +2,14 @@
  * @Author: 王朋坤
  * @Date: 2022-04-11 13:04:59
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-13 23:30:59
+ * @LastEditTime: 2022-05-10 16:43:47
  * @FilePath: /graduation-project-master/src/api/other/index.js
  * @Description: 
  */
 import request from "@/api/request.js";
 
 export function tianSearchApi(params){
-  return request.get(`//api.tianditu.gov.cn/v2/search`, {params});
+  return request.get(`https://api.tianditu.gov.cn/v2/search`, {params});
 }
 
 export function getLocationInformation(geometry) {

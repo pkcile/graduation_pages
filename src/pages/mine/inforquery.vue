@@ -1,9 +1,9 @@
 <!--
  * @Author: 王朋坤
- * @Date: 2022-05-06 09:18:08
+ * @Date: 2022-05-07 14:04:03
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-07 14:07:06
- * @FilePath: /graduation-project-master/src/pages/usercontrol/useredit.vue
+ * @LastEditTime: 2022-05-07 15:57:50
+ * @FilePath: /graduation-project-master/src/pages/mine/inforquery.vue
  * @Description: 
 -->
 <template>
@@ -29,36 +29,44 @@
         <li class="mine-single-line-three-002">
           <div>{{ "学号" }}</div>
           <div>{{ personitemData.studynth }}</div>
+        </li>
+        <li class="mine-single-line-three-002">
+          <div>{{ "姓名" }}</div>
+          <div>{{ personitemData.name }}</div>
+          <!-- <div><van-icon name="arrow" /></div> -->
+        </li>
+        <li class="mine-single-line-three-002">
+          <div>{{ "班级" }}</div>
+          <div>{{ personitemData.classname }}</div>
+          <!-- <div><van-icon name="arrow" /></div> -->
+        </li>
+        <li class="mine-single-line-three-002"> 
+          <div>{{ "身份" }}</div>
+          <div>{{ personitemData.role }}</div>
           <!-- <div><van-icon name="arrow" /></div> -->
         </li>
         <li class="mine-input-row-edit">
-          <label>{{ "姓名" }}</label>
-          <input type="text" :placeholder="personitemData.name"  v-model="personitemData.name"/>
+          <label>{{ "昵称" }}</label>
+          <input type="text" :placeholder="personitemData.username"  v-model="personitemData.username"/>
         </li>
-        <li class="mine-single-line-three-002" @click="actionSheet.classname.display=true">
-          <div>{{ "班级" }}</div>
-          <div>{{ personitemData.classname }}</div>
-          <div><van-icon name="arrow" /></div>
+        <li class="mine-input-row-edit">
+          <label>{{ "签名" }}</label>
+          <input type="text" :placeholder="personitemData.showinfor"  v-model="personitemData.showinfor"/>
         </li>
-        <li class="mine-single-line-three-002" @click="actionSheet.role.display=true"> 
-          <div>{{ "身份" }}</div>
-          <div>{{ personitemData.role }}</div>
+        <li class="mine-single-line-three-002" @click="actionSheet.imglink.display=true"> 
+          <div>{{ "头像" }}</div>
+          <div>{{ personitemData.imglinkSpeak }}</div>
           <div><van-icon name="arrow" /></div>
         </li>
         <van-action-sheet
-          v-model="actionSheet.classname.display"
-          :actions="actionSheet.classname.data"
-          @select="changeclass"
-        />
-        <van-action-sheet
-          v-model="actionSheet.role.display"
-          :actions="actionSheet.role.data"
-          @select="changerole"
+          v-model="actionSheet.imglink.display"
+          :actions="actionSheet.imglink.data"
+          @select="changImglink"
         />
       </ul>
       <div
         class="mine-button-block bottom-fix"
-        style="position: sticky; bottom: 20px; left: 0; margin-top: 15px"
+        style="position: sticky; bottom: 20px; left: 0; margin-top: 15px; background:#0DC160;"
         @click="updateinformation"
       >
         更新修改
@@ -80,7 +88,7 @@ import {
 } from "vant";
 import { mapState, mapMutations } from "vuex";
 import { placeserverjudgeapi } from "@/api/index/index.js";
-import { getResultClockLogItem } from "@/api/mine/index.js";
+import { getResultClockLogItem , registerStudynthQueryItem} from "@/api/mine/index.js";
 import {registerStudynthUpdate} from "@/api/usercontrol/index.js"
 
 export default {
@@ -88,64 +96,7 @@ export default {
   data() {
     return {
       mapviewControl: false,
-      sendStudentData: [],
-      taskId: null,
-      singletask: {
-        comment: "",
-      },
-      tasklistsSelectItem: {
-        taskid: 225,
-        studynth: "1",
-        startstamp: 1647659664862,
-        previousstamp: 2000000,
-        afterstamp: 1800000,
-        status: "未迟到，位置判断失败",
-        statusmark: -1,
-        userwifimark: 0,
-        userplacemark: 0,
-        usertimemark: 1,
-        geometry: {
-          type: "Point",
-          coordinates: [-76.984722, 39.807222],
-        },
-        comment: "",
-        taskId: 225,
-        taskinfor: {
-          topic: "暑假打卡主题",
-          createstamp: 1647619349211,
-          createuser: "pkcile",
-          serverplacename: null,
-        },
-        setgeometry: [
-          {
-            taskid: 225,
-            placesnth: 47,
-            servermark: true,
-            serverplacename: "地点",
-            geometrymark: false,
-            geometry: {
-              type: "Point",
-              coordinates: [-76.984722, 39.807222],
-            },
-            radius: 100,
-            createstamp: 1647619349205,
-            taskId: 225,
-          },
-        ],
-      },
       actionSheet: {
-        classname: {
-          display: false,
-          data: [
-            { name: "18级地理信息科学1班" }, 
-            { name: "18级地理信息科学2班" },
-            { name: "18级003班" }, 
-            { name: "18级004班" },
-            { name: "18级004班" },
-            { name: "18级004班" },
-            { name: "18级004班" },
-            ],
-        },
         role: {
           display: false,
           data: [
@@ -153,12 +104,30 @@ export default {
             { name: "学生" }, 
             ],
         },
+        imglink: {
+          display: false,
+          data: [
+            {
+              name: "头像001",
+              value: "1.jpg"
+            },
+            {
+              name: "头像002",
+              value: "2.jpg"
+            }
+          ]
+        }
       },
       personitemData: {
         studynth: "201824803050",
         role: "管理员",
         classname: "18级地理信息科学2班",
         name: "王朋坤",
+        imglink: "4.gif",
+        imglinkSpeak: "",
+        showinfor: "默认签名",
+        username: "abc"
+
       },
       personitemDataCopy: null
 
@@ -171,29 +140,35 @@ export default {
   },
   methods: {
     backTo() {
-      this.$parent.usereditcomponentControl = false;
+      this.$parent.inforquerycomponentControl = false;
       // console.log(this.$parent.logcomponentControl);
     },
-    changeclass(data) {
-      console.log("改变班级", data.name);
-      this.actionSheet.classname.display = false;
-      this.personitemData.classname = data.name;
-      
-    },
-    changerole(data) {
+    changImglink(data) {
       console.log("改变班级",data.name);
-      this.actionSheet.role.display = false;
-      this.personitemData.role = data.name;
+      this.actionSheet.imglink.display = false;
+      this.personitemData.imglink = data.value;
+      this.personitemData.imglinkSpeak = data.name;
     },
     usereditcomponentRefFun(params) {
-      this.$parent.usereditcomponentControl = true;
       console.log(params);
+      this.$parent.inforquerycomponentControl = true;
       this.personitemDataCopy = params;
-      this.personitemData.studynth = params.studynth
-      this.personitemData.role = params.role
-      this.personitemData.classname = params.classname
-      this.personitemData.name = params.name
-      
+      this.personitemData.studynth = params.studynth;
+      this.personitemData.role = params.role;
+      this.personitemData.classname = params.classname;
+      this.personitemData.name = params.name;
+      this.personitemData.imglink = params.imglink;
+      this.personitemData.imglinkSpeak = params.imglinkSpeak;
+      this.personitemData.username = params.username;
+      if(!params.classname) {
+        registerStudynthQueryItem({studynth: params.studynth, username: params.username})
+          .then(returnData => {
+            if(returnData.data?.result) {
+              this.personitemData.classname = returnData.data.result.classname;
+            }
+          })
+      }
+
     },
     updateinformation() {
       registerStudynthUpdate({studynth: this.personitemData.studynth, role: this.personitemData.role,classname: this.personitemData.classname, name: this.personitemData.name })
