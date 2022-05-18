@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-11 14:24:36
+ * @LastEditTime: 2022-05-19 00:39:03
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -352,63 +352,6 @@ export default {
     },
   },
   methods: {
-    // init2() {
-    //   console.log("init2");
-    //     var osmUrl = "http://tile.openstreetmap.jp/{z}/{x}/{y}.png";
-    // var osm = new L.TileLayer(osmUrl, {
-    //   maxZoom: 18,
-    // });
-
-    // var labelTextCollision = new L.LabelTextCollision({
-    //   collisionFlg: true,
-    // });
-
-    // var map = new L.Map("viewDiv", {
-    //   layers: [osm],
-    //   center: new L.LatLng(35.695786, 139.749213),
-    //   zoom: 10,
-    //   renderer: labelTextCollision,
-    // });
-
-    // var p = L.polyline(
-    //   [
-    //     [35.695786, 139.749213],
-    //     [35.696786, 139.748213],
-    //     [35.695786, 139.747213],
-    //   ],
-    //   {
-    //     weight: 12,
-    //     color: "#bfa",
-    //     text: "Leaflet.LabelTextCollision!!!!!!!!",
-    //   }
-    // ).addTo(map);
-
-    // var layers = L.featureGroup().addTo(map);
-
-    // for (var index in data) {
-    //   var d = data[index];
-    //   var latlng = L.latLng(d[0], d[1]);
-    //   var c = L.circleMarker(latlng, {
-    //     radius: 5,
-    //     text: latlng.toString(),
-    //   });
-    //   layers.addLayer(c);
-    //   if (index == 3000) {
-    //     break;
-    //   }
-    // }
-    // var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
-    // var polygon = L.polygon(latlngs, {color: 'red', text: "eeeeee"}).addTo(map);
-    
-
-    // // zoom the map to the polygon
-    // map.fitBounds(polygon.getBounds());
-
-    // function setCollisionDetection(flg) {
-    //   labelTextCollision.options.collisionFlg = flg;
-    //   map.fitBounds(map.getBounds());
-    // }
-    // },
     init(params) {
       let DefaultIcon = L.icon({
         iconUrl: icon,
@@ -422,9 +365,11 @@ export default {
         });
         var map = L.map("viewDiv", {
           renderer: labelTextCollision,
-        }).setView([this.latitude, this.longitude], 16);
+        }).setView([this.latitude, this.longitude], 18);
         this.map = map;
 
+       let placeArrayPoints = [];
+        this.placeArrayPoints = placeArrayPoints;
         var image = L.tileLayer(
           "http://t{s}.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=tiles&tk=11c1c39e8539023ec9a601dfc23ccad8",
           {
@@ -470,6 +415,15 @@ export default {
  
         dy.remove();
 
+        var positionServerLayer = L.circle([28.68222, 116.02651], {
+          radius: 0,
+          color: "rgba(0,0,0,0)",
+        })
+          .addTo(map)
+          .bindPopup("地图服务图层");
+
+        this.placeArrayPoints.push(positionServerLayer);
+
         this.layer = {
           image,
           vector,
@@ -488,22 +442,45 @@ export default {
           shadowAnchor: [22, 94]
       });
 
-      let placeArrayPoints = [];
       params.tasklistsSelectItem.Places.forEach(placeitem => {
-        var markplaceobj = L.circle([placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]], { radius : placeitem.radius, color: "#00f"}).addTo(map);
+        var markplaceobjpoint = L.circle([placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]], { radius : 5, color: "#000", fill: true, fillColor: "#000", fillOpacity: 0.5}).addTo(map);
+        var markplaceobj = L.circle([placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]], { radius : placeitem.radius}).addTo(map);
         markplaceobj.bindPopup("打卡预设点位，缓存半径：" + placeitem.radius + "米");
+
+        var latlngs = [
+            [placeitem.geometry.coordinates[1], placeitem.geometry.coordinates[0]],
+           [this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]]
+        ];
+
+        var polyline001 = L.polyline(latlngs, {color: 'purple'}).addTo(map);
+
+      // zoom the map to the polyline
+      // map.fitBounds(polyline001.getBounds());
         placeArrayPoints.push(
           markplaceobj
         )
+
+        // placeitemLines.push(
+        //   polyline001
+        // )
       })
 
-      this.placeArrayPoints = placeArrayPoints;
+
+
       if(params.tasklistsSelectItem.userplacemark == 1 || params.tasklistsSelectItem.userplaceservermark == 1) {
-        var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 10, color: "#008400"}).addTo(map).bindPopup("位置判断成功").openPopup();
+        var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 5, color: "#00f"}).addTo(map).bindPopup("位置判断成功").openPopup();
+        
+        if(params.tasklistsSelectItem.userplacemark == 0 && params.tasklistsSelectItem.userplaceservermark == 1) {
+          positionLayer.bindPopup("服务判断成功");
+        }
+        else {
+          positionLayer.bindPopup("位置判断成功");
+        }
         this.placeArrayPoints.push(positionLayer)
       }
       else {
-        var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 10, color: "#f00"}).addTo(map).bindPopup("位置判断失败").openPopup();
+        var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 5, color: "#f00"}).addTo(map).bindPopup("位置判断失败").openPopup();
+        positionLayer.bindPopup("位置判断失败");
         this.placeArrayPoints.push(positionLayer)
       }
       }, 0);
@@ -576,21 +553,55 @@ export default {
       }
     },
     changepoint() {
+       const { cva, image, vector, black, dy } = this.layer;
+
       console.log(this.placeArrayPoints);
       console.log("aabbcc");
       const map = this.map;
       console.log(this.placeArrayPoints[0]);
+      dy.remove();
       // this.pointstart
-      
-      console.log(this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]);
-     
-      this.map.flyTo({ lon: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lng, lat: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lat }, 16, {
+      for (let index = 0; index < this.placeArrayPoints.length; index++) {
+        this.placeArrayPoints[index].remove();
+        
+      }
+
+      if (
+        this.placeArrayPoints[this.pointstart % this.placeArrayPoints.length]
+          .options.radius == 0
+      ) {
+        this.pointJumplabel = "服务跳转";
+        this.map.flyTo(
+          {
+            lon: this.placeArrayPoints[
+              this.pointstart % this.placeArrayPoints.length
+            ]._latlng.lng,
+            lat: this.placeArrayPoints[
+              this.pointstart % this.placeArrayPoints.length
+            ]._latlng.lat,
+          },
+          15,
+          {
+            animate: true,
+            duration: 1,
+          }
+        );
+        dy.addTo(map);
+     } 
+
+     else {
+      this.map.flyTo({ lon: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lng, lat: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lat }, 18, {
         animate: true,
         duration: 1,
       })
 
       console.log();
+      this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)].addTo(map);
       this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)].openPopup();
+     }
+
+     
+
        this.pointstart += 1;
     },
     judgeAgain() {

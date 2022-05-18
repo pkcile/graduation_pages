@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-06 16:23:03
+ * @LastEditTime: 2022-05-18 23:37:29
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -22,7 +22,7 @@
       </div>
       <!-- pageData.tasklists.length -->
 
-      <ul class="mine-form-tasklist" style="" v-if="1">
+      <ul class="mine-form-tasklist" style="" v-if="pageData.tasklists != 0">
         <!-- 打卡任务状态 -->
         <li
           v-for="taskitem in pageData.tasklists"
