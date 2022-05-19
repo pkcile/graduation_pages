@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-28 10:26:00
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-10 13:28:05
+ * @LastEditTime: 2022-05-19 08:49:10
  * @FilePath: /graduation-project-master/src/pages/publish/map.vue
  * @Description: 
 -->
@@ -38,6 +38,10 @@
           top: calc(50% - 20px);
           background-image: url('http://xguaita.github.io/Leaflet.MapCenterCoord/dist/icons/MapCenterCoordIcon1.svg');
         "
+
+          :style="{
+          'background-image': `url(${require('@/assets/img/mapcenter.svg')})`,
+        }"
       ></div>
       <div
         style="
@@ -57,7 +61,7 @@
     </div>
     <div id="tool-control">
       <searchview @changeviewmap="changeviewmapFun"></searchview>
-  
+
       <div class="mine-single-line-three-001">
         <div>{{ "底图设置" }}</div>
         <div @click="changebasemap">{{ layersControllabel }}</div>
@@ -65,11 +69,10 @@
       </div>
       <div class="mine-single-line-three-001" @click="geolocation001">
         <div>{{ "目标点位" }}</div>
-        <div >{{ "位置获取" }}</div>
+        <div>{{ "位置获取" }}</div>
         <div><van-icon name="arrow" /></div>
       </div>
-
-      <van-icon
+      <van-cell
         is-link
         title="打卡范围"
         :value="radius + '米'"
@@ -80,7 +83,7 @@
         :actions="actions"
         @select="onSelect"
         style=""
-      /> 
+      />
     </div>
   </div>
 </template>
@@ -203,11 +206,17 @@
     text-align: left;
   }
 }
-
 </style>
 
 <script>
-import { Checkbox, CheckboxGroup, Cell, CellGroup, ActionSheet, Icon } from "vant";
+import {
+  Checkbox,
+  CheckboxGroup,
+  Cell,
+  CellGroup,
+  ActionSheet,
+  Icon,
+} from "vant";
 import L from "leaflet";
 import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
@@ -320,7 +329,6 @@ export default {
   },
   methods: {
     init() {
-      // const map = this.map;
       // if (map && map.remove) {
       //   map.off();
       //   map.remove();
@@ -402,7 +410,6 @@ export default {
 
       if (item.type == "location") {
         if (item.checked) {
-
         } else {
           map.flyTo({ lon: this.longitude, lat: this.latitude }, 3, {
             animate: true,
@@ -432,102 +439,118 @@ export default {
       }
     },
     geolocation001() {
-
-          const map = this.map;
-          if(window.plus) {
-            this.$toast("移动端位置获取中");
-            plus.geolocation.getCurrentPosition(
-            function (position) {
-              let returnData = position.coords;
-           var LeafIcon = L.Icon.extend({
-              options: {
-                shadowUrl:
-                  "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-                iconSize: [30, 30],
-                shadowSize: [0, 0],
-                iconAnchor: [-0, 0],
-                shadowAnchor: [0, 0],
-                popupAnchor: [0, 0],
-              },
-            });
-
-            var greenIcon = new LeafIcon({
-              iconUrl:
+      const map = this.map;
+      if (window.plus) {
+        this.$toast("移动端位置获取中");
+        plus.geolocation.getCurrentPosition(function (position) {
+          let returnData = position.coords;
+          var LeafIcon = L.Icon.extend({
+            options: {
+              shadowUrl:
                 "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-            });
-
-            if (returnData?.latitude) {
-
-              // console.log(returnData);
-              map.flyTo(
-                { lon: returnData.longitude, lat: returnData.latitude },
-                18,
-                { animate: true, duration: 1 }
-              );
-
-              setTimeout(() => {
-                
-                console.log(returnData);
-                this.point1 = L.circle([returnData.latitude, returnData.longitude], { radius : 5, color: "#f00"}).addTo(map);
-                this.point2 = L.circle([returnData.latitude, returnData.longitude], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
-              }, 1000);
-
-              this.geometry = {
-                coordinates: [returnData.longitude, returnData.latitude],
-                type: "Point",
-                accuracy: returnData.accuracy,
-              };
-            } 
-            })
-          
-          }
-          else {
-             this.$toast("浏览器位置获取中");
-            // this.$toast("位置获取失败，请检查是否开启定位权限");
-            getCurrentLocation2().then((returnData) => {
-            var LeafIcon = L.Icon.extend({
-              options: {
-                shadowUrl:
-                  "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-                iconSize: [30, 30],
-                shadowSize: [0, 0],
-                iconAnchor: [-0, 0],
-                shadowAnchor: [0, 0],
-                popupAnchor: [0, 0],
-              },
-            });
-
-            var greenIcon = new LeafIcon({
-              iconUrl:
-                "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-            });
-
-            if (returnData?.latitude) {
-
-              // console.log(returnData);
-              map.flyTo(
-                { lon: returnData.longitude, lat: returnData.latitude },
-                18,
-                { animate: true, duration: 1 }
-              );
-
-              setTimeout(() => {
-                
-                console.log(returnData);
-                this.point1 = L.circle([returnData.latitude, returnData.longitude], { radius : 200, color: "#f00"}).addTo(map);
-                this.point2 = L.circle([returnData.latitude, returnData.longitude], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
-              }, 1000);
-
-              this.geometry = {
-                coordinates: [returnData.longitude, returnData.latitude],
-                type: "Point",
-                accuracy: returnData.accuracy,
-              };
-            } 
+              iconSize: [30, 30],
+              shadowSize: [0, 0],
+              iconAnchor: [-0, 0],
+              shadowAnchor: [0, 0],
+              popupAnchor: [0, 0],
+            },
           });
-    
-          }
 
+          var greenIcon = new LeafIcon({
+            iconUrl:
+              "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+          });
+
+          if (returnData?.latitude) {
+            // console.log(returnData);
+            map.flyTo(
+              { lon: returnData.longitude, lat: returnData.latitude },
+              18,
+              { animate: true, duration: 1 }
+            );
+
+            setTimeout(() => {
+              console.log(returnData);
+              this.point1 = L.circle(
+                [returnData.latitude, returnData.longitude],
+                { radius: 5, color: "#f00" }
+              ).addTo(map);
+              this.point2 = L.circle(
+                [returnData.latitude, returnData.longitude],
+                {
+                  radius: 5,
+                  color: "#00f",
+                  stroke: true,
+                  fill: true,
+                  fillColor: "#00f",
+                  fillOpacity: 1,
+                }
+              ).addTo(map);
+            }, 1000);
+
+            this.geometry = {
+              coordinates: [returnData.longitude, returnData.latitude],
+              type: "Point",
+              accuracy: returnData.accuracy,
+            };
+          }
+        });
+      } else {
+        this.$toast("浏览器位置获取中");
+        // this.$toast("位置获取失败，请检查是否开启定位权限");
+        getCurrentLocation2().then((returnData) => {
+          var LeafIcon = L.Icon.extend({
+            options: {
+              shadowUrl:
+                "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+              iconSize: [30, 30],
+              shadowSize: [0, 0],
+              iconAnchor: [-0, 0],
+              shadowAnchor: [0, 0],
+              popupAnchor: [0, 0],
+            },
+          });
+
+          var greenIcon = new LeafIcon({
+            iconUrl:
+              "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+          });
+
+          if (returnData?.latitude) {
+            // console.log(returnData);
+            map.flyTo(
+              { lon: returnData.longitude, lat: returnData.latitude },
+              18,
+              { animate: true, duration: 1 }
+            );
+
+            setTimeout(() => {
+              console.log(returnData);
+              this.point1 = L.circle(
+                [returnData.latitude, returnData.longitude],
+                { radius: 5, color: "#f00" }
+              ).addTo(map);
+              this.point2 = L.circle(
+                [returnData.latitude, returnData.longitude],
+                {
+                  radius: 5,
+                  color: "#00f",
+                  stroke: true,
+                  fill: true,
+                  fillColor: "#00f",
+                  fillOpacity: 1,
+                }
+              ).addTo(map);
+            }, 1000);
+
+            this.geometry = {
+              coordinates: [returnData.longitude, returnData.latitude],
+              type: "Point",
+              accuracy: returnData.accuracy,
+            };
+          }
+        });
+      }
     },
     onSelect(item) {
       // 默认情况下点击选项时不会自动收起
@@ -627,14 +650,23 @@ export default {
       setTimeout(() => {
         this?.positionLayer?.remove();
         this?.positionLayer2?.remove();
-        var positionLayer = L.circle([pointarray[1], pointarray[0]], { radius : 200, color: "#f00"}).addTo(map);
-        var positionLayer2 = L.circle([pointarray[1], pointarray[0]], { radius : 5, color: "#00f", stroke: true, fill: true, fillColor: "#00f", fillOpacity: 1}).addTo(map);
+        var positionLayer = L.circle([pointarray[1], pointarray[0]], {
+          radius: 200,
+          color: "#f00",
+        }).addTo(map);
+        var positionLayer2 = L.circle([pointarray[1], pointarray[0]], {
+          radius: 5,
+          color: "#00f",
+          stroke: true,
+          fill: true,
+          fillColor: "#00f",
+          fillOpacity: 1,
+        }).addTo(map);
         positionLayer2.bindPopup(item.name).openPopup();
         positionLayer.bringToFront();
         this.positionLayer = positionLayer;
         this.positionLayer2 = positionLayer2;
       }, 2000);
-
     },
     changebasemap() {
       const map = this.map;

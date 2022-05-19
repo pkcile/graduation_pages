@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-12 10:13:37
- * @LastEditTime: 2022-04-25 10:25:39
+ * @LastEditTime: 2022-05-19 07:07:03
  * @LastEditors: 王朋坤
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /graduation-project-master/src/utils/geolocation.js
@@ -65,9 +65,9 @@ function getCurrentLocation(resolve) {
 function getCurrentLocation2() {
   return new Promise((resolve) => {
     const geoOption = {
-      enableHighAccuracy: true, // 开启高精度定位
-      maximumAge: 30000,        // 使用最长缓存时间
-      timeout: 8000 			// 位置获取超时时间
+      // enableHighAccuracy: true, // 开启高精度定位
+      // maximumAge: 30000,        // 使用最长缓存时间
+      // timeout: 12000 			// 位置获取超时时间
     };
 
     if ("geolocation" in navigator) {

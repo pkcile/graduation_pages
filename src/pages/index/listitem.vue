@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-26 15:57:41
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-10 16:04:15
+ * @LastEditTime: 2022-05-19 09:18:17
  * @FilePath: /graduation-project-master/src/pages/index/listitem.vue
  * @Description: 
 -->
@@ -196,22 +196,24 @@ export default {
           this.singleTask = data.task;
           this.geometry = data.geometry;
           this.wifi = data.wifi;
+          console.log(data.task);
           // console.log(data);
           this.forminit().timejudge().geometryjudge().wifijudge();
         }
 
         forminit() {
-          this.singleTask.userplacemark = 0;
-          this.singleTask.userwifimark = 0;
-          this.singleTask.usertimemark = 0;
-          this.singleTask.userplaceservermark = 0;
+          // this.singleTask.userplacemark = 0;
+          // this.singleTask.userwifimark = 0;
+          // this.singleTask.usertimemark = 0;
+          // this.singleTask.userplaceservermark = 0;
+          console.log(this.singleTask);
+          console.log(this.singleTask.topic, this.singleTask.userplacemark, this.singleTask.usertimemark, this.singleTask.userplaceservermark)
 
           return this;
         }
 
         wifijudge() {
           const { wifi } = this.forminitData;
-
 
           this.singleTask.Wifis = this.singleTask?.Wifis.length
             ? this.singleTask.Wifis
@@ -258,7 +260,7 @@ export default {
             return placesitem.radius > distance;
           });
 
-          this.singleTask.userplacemark = findresult ? 1 : -1;
+          this.singleTask.userplacemark = findresult || this.singleTask.userplacemark == 1 ? 1 : -1;
 
           return this;
         }
@@ -268,7 +270,7 @@ export default {
             const { geometry } = this.forminitData;
             var point = turf.point([geometry.coordinates[0], geometry.coordinates[1]]);
             // var point = turf.point([116.02497, 28.68723]);
-            var buffered = turf.buffer(point, 200 / 1000.0);
+            var buffered = turf.buffer(point, 50 / 1000.0);
             console.log(buffered);
             var geometry001 = {
               rings: buffered.geometry.coordinates,
@@ -288,7 +290,7 @@ export default {
                   this.singleTask.userplaceservermark = 1;
                 }
                 else {
-                  this.singleTask.userplaceservermark = -1;
+                  this.singleTask.userplaceservermark = this.singleTask.userplaceservermark ? this.singleTask.userplaceservermark : -1;
                 }
                 
                 resovle({
@@ -297,7 +299,7 @@ export default {
                 });
               })
               .catch((data) => {
-                this.singleTask.userplaceservermark = -1;
+                this.singleTask.userplaceservermark = this.singleTask.userplaceservermark ? this.singleTask.userplaceservermark : -1;
     
                 resovle({ singleTask: this.singleTask, features: [] });
                 console.log(data);
@@ -306,12 +308,13 @@ export default {
         }
 
         timejudge() {
-          if (Date.now() > this.singleTask.startstamp) {
-            // 迟到了
-            this.singleTask.usertimemark = -1;
-          } else {
+          console.log("时间标识" + this.singleTask.usertimemark);
+          if (Date.now() <= this.singleTask.startstamp || this.singleTask.usertimemark == 1) {
             // 打卡正常
             this.singleTask.usertimemark = 1;
+          } else {
+            // 迟到了
+            this.singleTask.usertimemark = -1;
           }
 
           return this;

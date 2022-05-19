@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-06 11:53:36
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-19 00:39:03
+ * @LastEditTime: 2022-05-19 12:32:15
  * @FilePath: /graduation-project-master/src/pages/index/mapview.vue
  * @Description: 
 -->
@@ -45,7 +45,7 @@
       </div>
       <div class="mine-single-line-three-001">
         <div>{{ "目标点位" }}</div>
-        <div @click="changepoint">{{ "点位跳转" }}</div>
+        <div @click="changepoint">{{ pointJumplabel }}</div>
         <div><van-icon name="arrow" /></div>
       </div>
     </div>
@@ -263,6 +263,7 @@ export default {
         cva: null,
         dy: null
       },
+      pointJumplabel: "点位跳转",
       longitude: null,
       latitude: null,
       show: false,
@@ -469,6 +470,7 @@ export default {
 
       if(params.tasklistsSelectItem.userplacemark == 1 || params.tasklistsSelectItem.userplaceservermark == 1) {
         var positionLayer = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 5, color: "#00f"}).addTo(map).bindPopup("位置判断成功").openPopup();
+        var positionLayerCircle = L.circle([this.$store.state.User.get.geometry.coordinates[1], this.$store.state.User.get.geometry.coordinates[0]], { radius : 50, color: "#f0f", fillOpacity: 0.5}).addTo(map).bindPopup("位置判断成功").openPopup();
         
         if(params.tasklistsSelectItem.userplacemark == 0 && params.tasklistsSelectItem.userplaceservermark == 1) {
           positionLayer.bindPopup("服务判断成功");
@@ -587,9 +589,13 @@ export default {
           }
         );
         dy.addTo(map);
+        this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)].addTo(map);
+        this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)].openPopup();
+        // .bindPopup("校园地图服务").openPopup();
      } 
 
      else {
+       this.pointJumplabel = "点位跳转";
       this.map.flyTo({ lon: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lng, lat: this.placeArrayPoints[(this.pointstart % this.placeArrayPoints.length)]._latlng.lat }, 18, {
         animate: true,
         duration: 1,
@@ -606,7 +612,7 @@ export default {
     },
     judgeAgain() {
       this.tasklistsSelectItem.status = "打卡情况未知";
-      class TaskDealWith {
+       class TaskDealWith {
         singleTask;
         geometry;
         wifi;
@@ -616,15 +622,18 @@ export default {
           this.singleTask = data.task;
           this.geometry = data.geometry;
           this.wifi = data.wifi;
+          console.log(data.task);
           // console.log(data);
           this.forminit().timejudge().geometryjudge().wifijudge();
         }
 
         forminit() {
-          this.singleTask.userplacemark = 0;
-          this.singleTask.userwifimark = 0;
-          this.singleTask.usertimemark = 0;
-          this.singleTask.userplaceservermark = 0;
+          // this.singleTask.userplacemark = 0;
+          // this.singleTask.userwifimark = 0;
+          // this.singleTask.usertimemark = 0;
+          // this.singleTask.userplaceservermark = 0;
+          console.log(this.singleTask);
+          console.log(this.singleTask.topic, this.singleTask.userplacemark, this.singleTask.usertimemark, this.singleTask.userplaceservermark)
 
           return this;
         }
@@ -636,6 +645,9 @@ export default {
             ? this.singleTask.Wifis
             : [];
 
+          console.log(wifi);
+          console.log(this.singleTask.Wifis);
+
           this.singleTask.Wifis.forEach((wifiitem) => {
             let findresult = wifi.find((item) => {
               console.log(item.bssid == wifiitem.bssid);
@@ -644,6 +656,10 @@ export default {
 
             this.singleTask.userwifimark = this.singleTask.userwifimark || findresult ? 1 : -1;
           });
+
+          if(!window.plus) {
+             this.singleTask.userwifimark = -1;
+          }
 
           return this;
         }
@@ -670,7 +686,7 @@ export default {
             return placesitem.radius > distance;
           });
 
-          this.singleTask.userplacemark = findresult ? 1 : -1;
+          this.singleTask.userplacemark = findresult || this.singleTask.userplacemark == 1 ? 1 : -1;
 
           return this;
         }
@@ -678,9 +694,9 @@ export default {
         placeserverjudge() {
           return new Promise((resovle) => {
             const { geometry } = this.forminitData;
-            // var point = turf.point([geometry.coordinates[0], geometry.coordinates[1]]);
-            var point = turf.point([116.02497, 28.68723]);
-            var buffered = turf.buffer(point, 200 / 1000.0);
+            var point = turf.point([geometry.coordinates[0], geometry.coordinates[1]]);
+            // var point = turf.point([116.02497, 28.68723]);
+            var buffered = turf.buffer(point, 50 / 1000.0);
             console.log(buffered);
             var geometry001 = {
               rings: buffered.geometry.coordinates,
@@ -700,7 +716,7 @@ export default {
                   this.singleTask.userplaceservermark = 1;
                 }
                 else {
-                  this.singleTask.userplaceservermark = -1;
+                  this.singleTask.userplaceservermark = this.singleTask.userplaceservermark ? this.singleTask.userplaceservermark : -1;
                 }
                 
                 resovle({
@@ -709,7 +725,7 @@ export default {
                 });
               })
               .catch((data) => {
-                this.singleTask.userplaceservermark = -1;
+                this.singleTask.userplaceservermark = this.singleTask.userplaceservermark ? this.singleTask.userplaceservermark : -1;
     
                 resovle({ singleTask: this.singleTask, features: [] });
                 console.log(data);
@@ -718,12 +734,13 @@ export default {
         }
 
         timejudge() {
-          if (Date.now() > this.singleTask.startstamp) {
-            // 迟到了
-            this.singleTask.usertimemark = -1;
-          } else {
+          console.log("时间标识" + this.singleTask.usertimemark);
+          if (Date.now() <= this.singleTask.startstamp || this.singleTask.usertimemark == 1) {
             // 打卡正常
             this.singleTask.usertimemark = 1;
+          } else {
+            // 迟到了
+            this.singleTask.usertimemark = -1;
           }
 
           return this;

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-21 15:20:55
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-05-18 23:37:29
+ * @LastEditTime: 2022-05-19 11:52:26
  * @FilePath: /graduation-project-master/src/pages/index/tasklist.vue
  * @Description: 
 -->
@@ -219,6 +219,7 @@ export default {
             let getTaskListsData = getTaskLists(returnData.data.result.tasks);
             let pagelistData = tasklistsToPagelist(getTaskListsData);
             this.pageData.tasklists = pagelistData;
+            console.log("mark: ", pagelistData);
             resolve("获取成功");
           } else {
             this.$toast("服务器错误");

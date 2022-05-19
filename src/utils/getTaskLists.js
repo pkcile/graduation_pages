@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-04-05 19:42:45
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 11:33:57
+ * @LastEditTime: 2022-05-19 11:59:16
  * @FilePath: /graduation-project-master/src/utils/getTaskLists.js
  * @Description: 
  */
@@ -15,6 +15,7 @@ export function getTaskLists(tasks, userinformation) {
   ];
   tasks.forEach((taskitem) => {
     taskitem.Results.forEach((taskitemperson) => {
+      console.log();
       singlestamptaskArray.push({
         id: taskitem.id,
         topic: taskitem.topic,
@@ -33,10 +34,10 @@ export function getTaskLists(tasks, userinformation) {
           type: "Point",
           coordinates: [0, 0],
         },
-        userwifimark: 0,
-        userplacemark: 0,
-        usertimemark: 0,
-        userserverplacenamemark: 0,
+        userwifimark: taskitemperson.userwifimark,
+        userplacemark: taskitemperson.userplacemark,
+        usertimemark: taskitemperson.usertimemark,
+        userserverplacenamemark: taskitemperson.userserverplacenamemark,
         createuser: taskitem.createuser
       });
     });
@@ -81,7 +82,11 @@ export function tasklistsToPagelist(judgeArray) {
       serverplaceradius: judgetaskitem.serverplaceradius,
       studynth: judgetaskitem.studynth,
       taskid: judgetaskitem.id,
-      comment: ""
+      comment: "",
+      userwifimark: judgetaskitem.userwifimark,
+      userplacemark: judgetaskitem.userplacemark,
+      usertimemark: judgetaskitem.usertimemark,
+      userserverplacenamemark: judgetaskitem.userserverplacenamemark,
     });
   });
   return tasklists;
