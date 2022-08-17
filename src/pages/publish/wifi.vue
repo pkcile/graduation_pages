@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-29 09:39:33
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-10 16:10:17
+ * @LastEditTime: 2022-05-22 08:40:47
  * @FilePath: /graduation-project-master/src/pages/publish/wifi.vue
  * @Description: 
 -->
@@ -20,7 +20,7 @@
         }"
         @click="backTo"
       ></div>
-      <div class="text">位置拾取</div>
+      <div class="text">wifi获取</div>
       <div
         class="right"
         :style="{

@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:44:59
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-21 14:58:14
+ * @LastEditTime: 2022-05-22 08:40:18
  * @FilePath: /graduation-project-master/src/pages/publish/date.vue
  * @Description: 
 -->
@@ -19,7 +19,7 @@
         }"
         @click="backTo"
       ></div>
-      <div class="text">打卡主题</div>
+      <div class="text">打卡时间</div>
       <div
         class="right"
         :style="{

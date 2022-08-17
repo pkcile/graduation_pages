@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-31 20:28:35
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-08 09:07:14
+ * @LastEditTime: 2022-05-22 08:41:00
  * @FilePath: /graduation-project-master/src/pages/publish/student.vue
  * @Description: 
 -->
@@ -20,7 +20,7 @@
         }"
         @click="backTo"
       ></div>
-      <div class="text">位置拾取</div>
+      <div class="text">学生关联</div>
       <div
         class="right"
         :style="{

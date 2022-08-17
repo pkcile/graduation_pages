@@ -2,7 +2,7 @@
  * @Author: 王朋坤
  * @Date: 2022-03-27 20:46:04
  * @LastEditors: 王朋坤
- * @LastEditTime: 2022-04-09 11:34:24
+ * @LastEditTime: 2022-05-22 08:42:03
  * @FilePath: /graduation-project-master/src/pages/publish/place.vue
  * @Description: 
 -->
@@ -20,7 +20,7 @@
         }"
         @click="backTo"
       ></div>
-      <div class="text">打卡主题</div>
+      <div class="text">打卡地点</div>
       <div
         class="right"
         :style="{
