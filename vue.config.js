@@ -168,7 +168,7 @@ module.exports = {
         ],
       };
 
-      config.plugin("webpack-bundle-analyzer").use(BundleAnalyzerPlugin);
+      // config.plugin("webpack-bundle-analyzer").use(BundleAnalyzerPlugin);
 
       config.plugin("chunkPlugin").use(webpack.optimize.LimitChunkCountPlugin, [
         {
