@@ -22,6 +22,8 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "imagemin-gifsicle": "^7.0.0",
+    "mozjpeg": "^8.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
