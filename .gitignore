@@ -26,7 +26,6 @@ pnpm-debug.log*
 *.sw?
 
 production__/
-docs
 
 # yarn.lock
 # package-lock.json
