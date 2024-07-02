@@ -240,12 +240,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.name !== 'Login' && to.name != 'Register' && !window.sessionStorage.getItem("User")) {
-    if(window.sessionStorage.getItem("registerMark") == "1") {
-      next({ name: 'Register' });
-    }
-    else {
-      next({ name: 'Login' });
-    }
+    // if(window.sessionStorage.getItem("registerMark") == "1") {
+    //   next({ name: 'Register' });
+    // }
+    // else {
+    //   next({ name: 'Login' });
+    // }
+    next()
   }
   else {
     next()

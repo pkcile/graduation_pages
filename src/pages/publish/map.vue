@@ -222,7 +222,7 @@ import { getCurrentLocation2 } from "@/utils/geolocation.js";
 import { geometry, point } from "@turf/helpers";
 import searchview from "@/components/search.vue";
 import { featureLayer, dynamicMapLayer } from "esri-leaflet";
-import * as esriLeafletVector from "esri-leaflet-vector";
+// import * as esriLeafletVector from "esri-leaflet-vector";
 
 export default {
   name: "mapapp",
@@ -311,11 +311,11 @@ export default {
           name: "遥感样式",
           type: "imagery",
         },
-        {
-          id: 3,
-          name: "酷黑样式",
-          type: "black",
-        },
+        // {
+        //   id: 3,
+        //   name: "酷黑样式",
+        //   type: "black",
+        // },
       ],
       layersControllabel: "矢量样式",
       pointJumplabel: "点位跳转",
@@ -359,12 +359,12 @@ export default {
           }
         ).addTo(map);
 
-        var black = esriLeafletVector
-          .vectorBasemapLayer("OSM:DarkGray", {
-            apikey:
-              "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A", // Replace with your API key - https://developers.arcgis.com
-          })
-          .addTo(map);
+        // var black = esriLeafletVector
+        //   .vectorBasemapLayer("OSM:DarkGray", {
+        //     apikey:
+        //       "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A", // Replace with your API key - https://developers.arcgis.com
+        //   })
+        //   .addTo(map);
 
         var dy = dynamicMapLayer({
           url: "http://123.56.80.80:6080/arcgis/rest/services/schoolLocation/MapServer",
@@ -378,7 +378,7 @@ export default {
           console.log(evt);
         }).addTo(map);
 
-        black.remove();
+        // black.remove();
         cva.remove();
         image.remove();
         dy.remove();
@@ -388,7 +388,7 @@ export default {
           image,
           vector,
           cva,
-          black,
+          // black,
           dy,
         };
 
@@ -670,7 +670,7 @@ export default {
     },
     changebasemap() {
       const map = this.map;
-      const { cva, image, vector, black, dy } = this.layer;
+      const { cva, image, vector, dy } = this.layer;
 
       this.layersControlstart++;
       let start = this.layersControlstart % this.layersControl.length;
@@ -679,28 +679,28 @@ export default {
         this.layersControllabel = this.layersControl[start].name;
         image.remove();
         cva.remove();
-        black.remove();
+        // black.remove();
         vector.addTo(map);
         cva.addTo(map);
         // dy.remove();
       } else if (this.layersControl[start].type == "imagery") {
         this.layersControllabel = this.layersControl[start].name;
         vector.remove();
-        black.remove();
+        // black.remove();
         cva.remove();
         image.addTo(map);
         cva.addTo(map);
         // dy.remove();
       } else if (this.layersControl[start].type == "black") {
         this.layersControllabel = this.layersControl[start].name;
-        black.addTo(map);
+        // black.addTo(map);
         vector.remove();
         image.remove(map);
         cva.remove();
         // dy.remove();
       } else if (this.layersControl[start].type == "common") {
         this.layersControllabel = this.layersControl[start].name;
-        black.remove();
+        // black.remove();
         vector.remove();
         cva.remove();
         image.addTo(map);

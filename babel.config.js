@@ -6,6 +6,12 @@
  * @Description: In User Settings Edit
  * @FilePath: /江西师大学生位置签到管理系统/graduation-project/page-view/babel.config.js
  */
+const proPlugins = [];
+// 判断环境
+if (process.env.NODE_ENV === 'production') {
+  proPlugins.push('transform-remove-console');
+}
+
 module.exports = {
   presets: [
     '@vue/cli-plugin-babel/preset'
@@ -15,6 +21,7 @@ module.exports = {
       libraryName: 'vant',
       libraryDirectory: 'es',
       style: (name) => `${name}/style/less`,
-    }, 'vant']
+    }, 'vant'],
+    ...proPlugins
   ]
 }

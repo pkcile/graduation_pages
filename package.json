@@ -3,22 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "serve18": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "start": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "build18": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
+    "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
   },
   "dependencies": {
-    "@dcloudio/uni-webview-js": "^0.0.1",
     "@turf/turf": "^6.5.0",
     "axios": "^0.23.0",
     "coordtransform": "^2.1.2",
-    "core-js": "^3.6.5",
     "esri-leaflet": "^3.0.7",
-    "esri-leaflet-vector": "^3.1.2",
     "leaflet": "^1.7.1",
-    "shp-write": "^0.3.2",
-    "socket.io": "^4.4.1",
-    "socket.io-client": "^4.4.1",
     "vant": "^2.12.29",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
@@ -30,10 +27,16 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-plugin-import": "^1.13.3",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "compression-webpack-plugin": "6.1",
+    "cross-env": "^6.0",
+    "image-webpack-loader": "^8.1.0",
+    "increase-memory-limit": "^1.0.7",
     "less": "^3.0.0",
     "less-loader": "^5.0.0",
     "sass": "^1.44.0",
     "sass-loader": "^8.0.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^4.5.0"
   }

@@ -6,17 +6,22 @@
  * @Description: In User Settings Edit
  * @FilePath: /graduation-project-master/vue.config.js
  */
-const webpack = require('webpack');
+const webpack = require("webpack");
+const HashedModuleIdsPlugin = webpack.HashedModuleIdsPlugin;
 const path = require("path");
 const myTheme = path.resolve(
   __dirname,
   "./src/assets/style/reset/vantChange.less"
 );
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
+
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
-  productionSourceMap: process.env.NODE_ENV == "development" ? true: false,
+  productionSourceMap: process.env.NODE_ENV == "development" ? true : false,
   publicPath: "./",
   outputDir: "docs",
   assetsDir: "./static",
@@ -35,16 +40,16 @@ module.exports = {
   devServer: {
     proxy: {
       "/user": {
-        target: "http://localhost:9000/",
-        changeOrigin: true, 
+        target: "https://temp.pkcile.cn/",
+        changeOrigin: true,
       },
       "/task": {
-        target: "http://localhost:9000/",
-        changeOrigin: true, 
+        target: "https://temp.pkcile.cn/",
+        changeOrigin: true,
       },
       "/result": {
-        target: "http://localhost:9000/",
-        changeOrigin: true, 
+        target: "https://temp.pkcile.cn/",
+        changeOrigin: true,
       },
     },
   },
@@ -57,7 +62,7 @@ module.exports = {
   //   plugins:[
   //     new webpack.optimize.LimitChunkCountPlugin({
   //       maxChunks: 1
-  //     }) 
+  //     })
   //   ]
   // },
   // configureWebpack: {
@@ -71,54 +76,122 @@ module.exports = {
   //     }
   //   },
   // },
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     if (process.env.NODE_ENV === "production") {
-      // config.externals = {
-      //   vue: "Vue",
-      //   "vue-router": "VueRouter",
-      //   vuex: "Vuex",
-      //   axios: "axios",
-      //   "@turf/turf": "turf",
-      //   "leaflet": "L" 
-      // };
+      config.externals = {
+        "@turf/turf": "turf",
+        // leaflet: "L",
+        // vue: "Vue",
+        // "vue-router": "VueRouter",
+        // vuex: "Vuex",
+        // axios: "axios",
+      };
+
+
+      config.plugins = [
+        ...config.plugins,
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            output: {
+              comments: false, // 去掉注释
+            },
+            warnings: false,
+            compress: {
+              drop_console: true,
+              drop_debugger: false,
+              pure_funcs: ['console.log']//移除console
+            }
+          },
+        }),
+        new HashedModuleIdsPlugin()
+        // new CompressionPlugin({
+        //   test: /\.js$|\.html$|\.css/, // 匹配文件
+        //   threshold: 10240, // 对大于此值的文件进行压缩
+        //   deleteOriginalAssets: false, // 是否删除原始文件资源
+        //   // ...
+        // }),
+      ];
+
       
+      // config.optimization = {
+      //   splitChunks: {
+      //     // 分割代码块
+      //     cacheGroups: {
+      //       vendor: {
+      //         //第三方库抽离
+      //         chunks: "all",
+      //         test: /node_modules/,
+      //         name: "vendor",
+      //         minChunks: 1, //在分割之前，这个代码块最小应该被引用的次数
+      //         maxInitialRequests: 5,
+      //         minSize: 0, //大于0个字节
+      //         priority: 100, //权重
+      //       },
+      //       common: {
+      //         //公用模块抽离
+      //         chunks: "all",
+      //         test: /[\\/]src[\\/]js[\\/]/,
+      //         name: "common",
+      //         minChunks: 2, //在分割之前，这个代码块最小应该被引用的次数
+      //         maxInitialRequests: 5,
+      //         minSize: 0, //大于0个字节
+      //         priority: 60,
+      //       },
+      //       styles: {
+      //         //样式抽离
+      //         name: "styles",
+      //         test: /\.(sa|sc|c)ss$/,
+      //         chunks: "all",
+      //         enforce: true,
+      //       },
+      //       runtimeChunk: {
+      //         name: "manifest",
+      //       },
+      //     },
+      //   },
+      // };
     }
   },
   chainWebpack: (config) => {
     if (process.env.NODE_ENV === "production") {
       const cdn = {
         css: [
-          "//lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/leaflet/1.7.1/leaflet.min.css"
+          // "//lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/leaflet/1.7.1/leaflet.min.css"
         ],
         js: [
-          "//lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.14/vue.min.js", 
-          "//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js",
-          "//unpkg.com/vuex@3.1.1/dist/vuex.min.js",
-          "//unpkg.com/axios@0.19.0/dist/axios.min.js",
-          "//unpkg.com/leaflet@1.7.1/dist/leaflet.js",
-          "//unpkg.com/@turf/turf"
-        ]
+          // "//lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.14/vue.min.js",
+          // "//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js",
+          // "//unpkg.com/vuex@3.1.1/dist/vuex.min.js",
+          // "//unpkg.com/axios@0.19.0/dist/axios.min.js",
+          // "//unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+          "//lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/Turf.js/6.5.0/turf.min.js",
+        ],
       };
-      
-      // config
-      //   .plugin('webpack-bundle-analyzer')
-      //   .use(BundleAnalyzerPlugin);
 
-      config
-        .plugin('chunkPlugin')
-        .use(webpack.optimize.LimitChunkCountPlugin,[{
-          maxChunks: 2, 
+      config.plugin("webpack-bundle-analyzer").use(BundleAnalyzerPlugin);
+
+      config.plugin("chunkPlugin").use(webpack.optimize.LimitChunkCountPlugin, [
+        {
+          maxChunks: 5,
           // minChunkSize: 2000
-        }]);
-      
-      // config.plugin("html").tap(args => {
-      //   // html中添加cdn
-      //   args[0].cdn = cdn;
-      //   return args;
-      // });
+        },
+      ]);
 
-      
+
+      config.plugin("html").tap((args) => {
+        // html中添加cdn
+        args[0].cdn = cdn;
+        return args;
+      });
+
+      config.module
+      .rule('images')
+      .use('image-webpack-loader')
+      .loader('image-webpack-loader')
+      .options({
+        bypassOnDebug: true
+      })
+      .end()
     }
   },
-  
 };

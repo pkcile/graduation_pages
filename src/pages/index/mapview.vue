@@ -206,7 +206,7 @@ import {
 } from "vant";
 import L from "leaflet";
 import { featureLayer, dynamicMapLayer } from "esri-leaflet";
-import  * as esriLeafletVector from "esri-leaflet-vector"
+// import  * as esriLeafletVector from "esri-leaflet-vector"
 import searchplaces from "@/components/search.vue";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
@@ -248,11 +248,11 @@ export default {
           name: "遥感样式",
           type: "imagery",
         },
-        {
-          id: 3,
-          name: "酷黑样式",
-          type: "black"
-        }
+        // {
+        //   id: 3,
+        //   name: "酷黑样式",
+        //   type: "black"
+        // }
       ],
       layersControllabel: "矢量样式",
       layersControlstart: 0,
@@ -392,14 +392,14 @@ export default {
           }
         ).addTo(map);
 
-        var black = esriLeafletVector.vectorBasemapLayer('OSM:DarkGray', {
-          apikey: "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A" // Replace with your API key - https://developers.arcgis.com
-        }).addTo(map);
+        // var black = esriLeafletVector.vectorBasemapLayer('OSM:DarkGray', {
+        //   apikey: "AAPKa98807cea895417f85529b82dc345541eO67fp-eYPxYVFyIntFC3ZJTLXOl3rWzuxMXvJyVLKg9Wub325yHmArNXrVauz1A" // Replace with your API key - https://developers.arcgis.com
+        // }).addTo(map);
         
         map.removeControl(map.zoomControl);
         map.removeControl(map.attributionControl);
         
-        black.remove();
+        // black.remove();
         cva.remove();
         image.remove();
         cva.addTo(map);
@@ -429,7 +429,7 @@ export default {
           image,
           vector,
           cva,
-          black,
+          // black,
           dy
         };
 
@@ -515,7 +515,7 @@ export default {
     },
     changebasemap() {
       const map = this.map;
-      const { cva, image, vector, black, dy } = this.layer;
+      const { cva, image, vector, dy } = this.layer;
 
       this.layersControlstart++;
       let start = this.layersControlstart % this.layersControl.length;
@@ -524,14 +524,14 @@ export default {
         this.layersControllabel = this.layersControl[start].name;
         image.remove();
         cva.remove();
-        black.remove();
+        // black.remove();
         vector.addTo(map);
         cva.addTo(map);
         dy.remove();
       } else if (this.layersControl[start].type == "imagery") {
         this.layersControllabel = this.layersControl[start].name;
         vector.remove();
-        black.remove();
+        // black.remove();
         cva.remove();
         image.addTo(map);
         cva.addTo(map);
@@ -539,7 +539,7 @@ export default {
       }
       else if(this.layersControl[start].type=="black") {
         this.layersControllabel = this.layersControl[start].name;
-        black.addTo(map);
+        // black.addTo(map);
         vector.remove();
         image.remove(map);
         cva.remove();
@@ -547,7 +547,7 @@ export default {
       }
       else if(this.layersControl[start].type=="common") {
         this.layersControllabel = this.layersControl[start].name;
-        black.remove();
+        // black.remove();
         vector.remove();
         cva.remove();
         image.addTo(map);
@@ -555,7 +555,7 @@ export default {
       }
     },
     changepoint() {
-       const { cva, image, vector, black, dy } = this.layer;
+       const { cva, image, vector, dy } = this.layer;
 
       console.log(this.placeArrayPoints);
       console.log("aabbcc");
