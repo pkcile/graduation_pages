@@ -1,3 +1,4 @@
+[![Pages](https://github.com/pkcile/graduation_pages/actions/workflows/static.yml/badge.svg)](https://github.com/pkcile/graduation_pages/actions/workflows/static.yml)
 ### 1.使用
 #### 常见vscode问题
 yarn : 无法加载文件 C:\Users\admin\AppData\Roaming\npm\yarn.ps1，因为在此系统上禁止运行脚本。有关详细信息，请参阅 https:/go.microsoft.com/fwlink/?LinkID=135170 中的 about_Execution_Policies。
